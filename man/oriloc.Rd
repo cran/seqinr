@@ -84,8 +84,8 @@ one or two peaks. Positive peak means origin, and negative means terminus.
 In the case of only one peak, the sequence starts at the origin or terminus 
 site. }
 \examples{
-   \dontrun{ out <- oriloc()}
-    \dontrun{ plot(out$st, out$sk, type="l", xlab="Map position in Kb",
+  \dontrun{  out <- oriloc() }
+  \dontrun{  plot(out$st, out$sk, type="l", xlab="Map position in Kb",
     ylab = "Cumulated composite skew", 
     main=expression(italic(Chlamydia~~trachomatis)~~complete~~genome))}
 }

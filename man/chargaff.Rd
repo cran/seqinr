@@ -76,7 +76,7 @@ par(mfrow=c(4,4))
 xlim <- c(0,100)
 ylim <- xlim
 par(mai=rep(0,4))
-par(omd=rep(0.01,4))
+par(c(0.01, 0.99, 0.01, 0.99))
 par(xaxs="i")
 par(yaxs="i")
 

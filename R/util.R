@@ -11,9 +11,14 @@ c2s <- function( chars = c("m","e","r","g","e","d") )
 # string to char
 ############################
 
-s2c <- function(string){
-	return(.Call("s2c",string,PACKAGE="seqinr"))
+s2c = function (string) 
+{
+  if(is.character(string) & is.vector(string)){
+  return(.Call("s2c", string, PACKAGE = "seqinr"))
 }
+  else stop("non-character argument in s2c()")
+}
+
 
 
 ###########################
@@ -130,7 +135,7 @@ comp<-function(seq){
 ######################
 
 GC3 = function(seq){
-	sequence <- splitseq( seq, 3)
+	sequence <- splitseq( seq )
 	codons <- words(length = 3, alphabet = s2c("acgt"))	
 	eff=table(factor( sequence , levels=codons))
 	f =round(eff/(floor(length(seq)/3)),4)
@@ -143,7 +148,7 @@ GC3 = function(seq){
 
 
 GC2 = function(seq){
-	sequence <- splitseq( seq, 3)
+	sequence <- splitseq( seq )
 	codons <- words(length = 3, alphabet = s2c("acgt"))	
 	eff=table(factor( sequence , levels=codons))
 	f =round(eff/(floor(length(seq)/3)),4)
