@@ -1,6 +1,6 @@
 read.fasta <- function(File = system.file("sequences/ct.fasta", package = "seqinr"), seqtype="DNA")
 {
-  seq <- scan(File,what=character(),sep="\t") 
+  seq <- readLines(File) 
   ind <- c(grep(">",seq),length(seq)+1)
   nomseq <- as.list(c(rep(0,(length(ind)-1))))
   sequences <- as.list(rep(0,length(ind)-1))
