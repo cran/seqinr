@@ -1,18 +1,24 @@
 \name{query}
 \alias{query}
 \alias{print.qaw}
+\alias{simon}
 \title{To get a list of sequence names from an ACNUC data base located on the web}
 \description{
 This is a major command of the package. It executes all sequence retrievals using any selection criteria the data base allows.  The sequences are coming from ACNUC data base located on the web and they are transfered by socket. The command produces the list of all sequence names that fit the required criteria. The sequence names belong to the class of sequence \code{SeqAcnucWeb}.
 }
 \usage{
-query(socket,listname,query, invisible = FALSE)
+query(listname, query, socket = "auto", invisible = TRUE, verbose = FALSE, virtual = FALSE)
 }
 \arguments{
-  \item{socket}{a socket of class connection returned by \code{choosebank}. }
   \item{listname}{The name of the list as a quoted string of chars}
   \item{query}{A quoted string of chars containing the request with the syntax given in the details section}
-  \item{invisible}{if \code{TRUE}, the result of the query will be invisible but assigned is the environment}
+  \item{socket}{a socket of class connection and sockconn returned by \code{choosebank}.Default value (auto) means
+   that the socket will be set to to the socket component of the banknameSocket variable. }
+  \item{invisible}{if \code{FALSE}, the result is returned visibly.}
+  \item{verbose}{if \code{TRUE}, verbose mode is on}
+  \item{virtual}{if \code{TRUE}, no attempt is made to retrieve the information about
+    all the elements of the list. In this case, the \code{req} component of the list is set to 
+    \code{NA}.}
 }
 \details{
 Each selection criterion is written using the following syntax:
@@ -139,7 +145,11 @@ URNA   \tab Sequenced molecule is snRNA \tab (GenBank, Hovergen)
   \item{bank}{the name of the bank that has been choosen by \code{choosebank.socket}}	
   \item{call}{original call}
   \item{name}{list name}
-  \item{req}{a list of sequence names  that fit the required criteria}
+  \item{nelem}{number of elements in the list on the server}
+  \item{typelist}{the type of the elemnts of the list. Could be SQ for a list of
+    sequence names, KW for a list of keywords, SP for a list of species names.}
+  \item{req}{a list of sequence names that fit the required criteria or \code{NA} when
+    called with parameter \code{virtual} is \code{TRUE}}
 }
 \references{ 
 To get the release date and content of all the databases located at the pbil, please look at the following url: \url{http://pbil.univ-lyon1.fr/search/releases.php}\cr
@@ -161,7 +171,7 @@ computing devoted to biological sequences retrieval and analysis. Springer Verla
 files written by Manolo Gouy}
 \seealso{ \code{\link{choosebank}}, \code{\link{getSequence}}, \code{\link{plot.SeqAcnucWeb}} }
 \examples{
- \dontrun{s = choosebank("genbank")}
+ \dontrun{s <- choosebank("genbank")}
  \dontrun{query(s$socket,"ecoli","sp=escherichia coli@")}
  \dontrun{ecoli}
  # To have the 4 first names of the sequence

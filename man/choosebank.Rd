@@ -1,32 +1,56 @@
 \name{choosebank}
 \alias{choosebank}
+\alias{removeTrailingSpaces}
 \title{To select a database structured under ACNUC and located on the web}
 \description{
-  This function allows to select one of the databases structured under ACNUC and located on the web. Then, you can use \code{query} to compose your query and get a list of sequence names. Remote access to ACNUC databases work
-by opening a socket on a port (as an example on port number 5558 of pbil.univ-lyon1.fr) and by communicating on this socket following the protocol described in the section \code{references}.   
+  This function allows to select one of the databases structured under ACNUC and located on the web. 
+  Called without arguments, \code{choosebank()}, will return the list of available databases.
+  Then, you can use \code{\link{query}} to make your query and get a list of sequence names. 
+  Remote access to ACNUC databases works by opening a socket connection on a port (for example 
+  on port number 5558 at pbil.univ-lyon1.fr) and by communicating on this socket following the protocol 
+  described in the section \code{references}.   
 }
 \usage{
-choosebank(bank = NA, host = "pbil.univ-lyon1.fr", port = 5558))
+choosebank(bank = NA, host = "pbil.univ-lyon1.fr", port = 5558, verbose = FALSE,
+              timeout = 5, infobank = FALSE, tagbank = NA)
 }
 \arguments{
-  \item{bank}{ The name of the bank. If NA, it returns the name of all database known by the server.}
-  \item{host}{ Host name for port}
-  \item{port}{ integer. The TCP port number}
+  \item{bank}{ String. The name of the bank. If NA, \code{choosebank} will return the names of all database known by the server.}
+  \item{host}{ String. Host name for port}
+  \item{port}{ Integer. The TCP port number}
+  \item{verbose}{ Logical. If TRUE, verbose mode is on}
+  \item{timeout}{ Integer. The timeout in seconds for \code{socketConnection}. Default 5 seconds.}
+  \item{infobank}{ Logical. If \code{infobank} is TRUE and \code{bank} is \code{NA}, a data.frame 
+                   with all database informations will be returned}
+  \item{tagbank}{ String. If \code{bank} is \code{NA} and \code{tagbank} is documented, the names
+                  of special purposes databases are returned. Current allowed values are TP
+                  for frozen databases and TEST for test databases. }
 }
 \details{
-  \code{choosebank()} returns a list of all the databases located at the Pbil. See the reference section for more details. 
-  ACNUC databases are made of a series of flat text files (called divisions) containing annotations and sequences and a series of index files allowing efficient access to sequence data. 
+  When called without arguments, \code{choosebank()} returns a list of all the databases names known 
+  by the server, as a vector of string. When called with \code{choosebank(infobank = TRUE)}, a data.frame
+  with more information is returned.
 }
 \value{
-A list with five components
+\item{When called with a regular bank name, an (invisible) list with five components}
+  \describe{
   \item{socket}{ an object of class \code{socket} }
   \item{bankname}{ the name of the bank }
   \item{totseqs}{ the total number of sequences present in the opened database }
   \item{totspecs}{ the total number of species present in the opened database }
   \item{totkeys}{ the total number of keywords present in the opened database }	
+  }
+\item{When called with bank = NA}
+  \describe{\item{ }{ A vector of all available bank names.}}
+\item{When called with bank = NA and infobank = TRUE, a data.frame with three columns}
+  \describe{
+  \item{bank}{ The name of the bank. }
+  \item{status}{ The bank status (on/of). }
+  \item{info}{ Short description of bank with last release date. } 
+  }
 }
 \references{ 
-For further information about socket, please see \code{connection} function. For more information about the socket communication protocol with ACNUC please get at \url{http://pbil.univ-lyon1.fr/databases/acnuc/remote_acnuc.html}.
+For more information about the socket communication protocol with ACNUC please get at \url{http://pbil.univ-lyon1.fr/databases/acnuc/remote_acnuc.html}.
 To get the release date and content of all the databases located at the pbil, please look at the following url: \url{http://pbil.univ-lyon1.fr/search/releases.php}\cr
 Gouy, M., Milleret, F., Mugnier, C., Jacobzone, M., Gautier,C. (1984) ACNUC: a nucleic acid sequence data base and analysis system. 
 \emph{Nucl. Acids Res.}, \bold{12}:121-127.\cr
@@ -39,13 +63,14 @@ Gouy, M., Gautier, C., Milleret, F. (1985) System analysis and nucleic acid sequ
 
 To have an overview of the seqinR's functionnality, please consult this vignette: 
 Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
-computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
+computing devoted to biological sequences retrieval and analysis. 
+Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in press.\cr
 }
 \note{ The object of class \code{socket} will be the first argument of the \code{query} function.}
 \author{ D. Charif }
-\seealso{ \code{\link{query}}, \code{\link{connection}} }
+\seealso{ \code{\link{query}}, \code{\link{connection}}, \code{\link{socketConnection}} }
 \examples{
-  \dontrun{ mybank = choosebank() }
+  \dontrun{ mybank <- choosebank() }
   \dontrun{ choosebank(mybank[1]) }
 }
 \keyword{ manip }

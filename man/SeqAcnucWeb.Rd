@@ -9,11 +9,14 @@
   \code{is.SeqAcnucWeb} returns TRUE if the object is of class \code{SeqAcnucWeb}. 
 }
 \usage{
-as.SeqAcnucWeb(object,socket=F)
+as.SeqAcnucWeb(object,length, frame, ncbigc,socket=F)
 is.SeqAcnucWeb(object)
 }
 \arguments{
   \item{object}{ a string giving the name of a sequence presents in the data base}
+  \item{length}{ a string giving the length of the sequence presents in the data base}
+  \item{frame}{ a string giving the frame of the sequence presents in the data base}
+  \item{ncbigc}{ a string giving the ncbi genetic code of the sequence presents in the data base}
   \item{socket}{ an object of class \code{socket}}
 }
 \value{

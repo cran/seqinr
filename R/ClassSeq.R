@@ -17,14 +17,17 @@
 getSequence.default = function(object){
 	if(length(object) == 1) object=s2c(object)	
  	xx = tolower(object)
- 	if(length(grep("[acgtu]",xx)) != length(xx)) stop("Biological sequence is needed !")	
- 	else return(xx)		
+# 	if(length(grep("[acgtu]",xx)) != length(xx)) stop("Biological sequence is needed !")	
+# 	else return(xx)	
+	if(length(grep("[acgtu]",xx)) != length(xx)) warning("Sequence with non acgtu characters!")	
+	return(xx)	
 }
 
 getFrag.default = function(object,begin,end){ 
 	if(length(object) == 1) object=s2c(object)	
  	xx = tolower(object)
- 	if(length(grep("[acgtu]",xx)) != length(xx)) stop("Biological sequence is needed !")
+# 	if(length(grep("[acgtu]",xx)) != length(xx)) stop("Biological sequence is needed !")
+ 	if(length(grep("[acgtu]",xx)) != length(xx)) warning("Sequence with non acgtu characters!")
  	if(begin>length(xx) || end>length(xx) || begin>end) stop("borns are not correct")	
  	else return(xx[begin:end])		
 }
@@ -32,7 +35,8 @@ getFrag.default = function(object,begin,end){
 getLength.default = function(object){
 	if(length(object) == 1) object=s2c(object)	
  	xx = tolower(object)
- 	if(length(grep("[acgtu]",xx)) != length(xx)) stop("Biological sequence is needed !")
+ 	#if(length(grep("[acgtu]",xx)) != length(xx)) stop("Biological sequence is needed !")
+	if(length(grep("[acgtu]",xx)) != length(xx)) warning("Sequence with non acgtu characters!")
  	return(length(xx))
 }
 
@@ -54,6 +58,8 @@ getKeyword.default = function(object){
 
 getTrans.default = function(seq,frame=0, sens= "F", numcode=1){
 	translate(seq,frame,sens,numcode)
+	
+		
 }
 
 ##################################################################
@@ -99,6 +105,7 @@ getTrans = function(seq,frame=0, sens= "F", numcode=1){
 	if(! inherits(seq,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getTrans.default(seq,frame=0, sens= "F", numcode=1)}
 	else UseMethod("getTrans")
 }
+
 
 
 
@@ -218,10 +225,10 @@ summary.SeqFastaAA = function(object,...){
 
 
 
-as.SeqAcnucWeb = function( object, socket = F ){
+as.SeqAcnucWeb = function( object, length, frame, ncbigc, socket = F  ){
 
 	class(object)="SeqAcnucWeb"
-	attributes(object)=list(class="SeqAcnucWeb",socket=socket)
+	attributes(object)=list(class="SeqAcnucWeb",socket=socket,length=length,frame=frame,ncbigc=ncbigc)
 	object
 }
 
@@ -232,8 +239,10 @@ is.SeqAcnucWeb = function( object ){
 
 
 
+#simon:
 getSequence.SeqAcnucWeb = function(object){
-	b=getLength( object )
+	#b=getLength( object )
+	b=attr(object,"length")
 	getSequenceSocket(attr(object,"socket"),object,start=1,length=b)
 }
 
@@ -257,11 +266,13 @@ getName.SeqAcnucWeb = function(object ){
 
 }
 
+#simon:
 getLength.SeqAcnucWeb = function( object ){
 
-	return( getAttributsocket(attr(object,"socket"),object)[[1]] )
+	return( attr(object,"length"))
 
 }
+
 
 
 getAnnot.SeqAcnucWeb = function(object, nbl ){
@@ -273,7 +284,7 @@ getAnnot.SeqAcnucWeb = function(object, nbl ){
 
 getKeyword.SeqAcnucWeb = function(object){
 	
-	return( getKeywordsocket( socket= attr(object,"socket"), name=object))
+	return( unlist(getKeywordsocket( socket= attr(object,"socket"), name=object)))
 }
 
 getLocation.SeqAcnucWeb = function(object){ 
@@ -283,10 +294,20 @@ getLocation.SeqAcnucWeb = function(object){
 
 
 
-
-getTrans.SeqAcnucWeb = function(seq,frame=0, sens= "F", numcode=1){
-	translate(seq, frame = frame, sens = sens, numcode = numcode)
+#simon:
+#getTrans.SeqAcnucWeb = function(seq,frame=0, sens= "F", numcode=1){
+getTrans.SeqAcnucWeb = function(seq,frame=0,sens="F",numcode="auto"){
+	dnaseq<-getSequence(seq)
+	if (numcode == "auto") {
+		translate(dnaseq, frame =  as.numeric(attr(seq,"frame")), sens = "F", numcode = as.numeric(attr(seq,"ncbigc")))
+		} else {
+		translate(dnaseq, frame =  as.numeric(attr(seq,"frame")), sens = "F", numcode = as.numeric(numcode))
+		} 
+	
+	
 }
+
+
 
 
 	############################################################################
