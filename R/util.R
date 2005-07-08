@@ -2,7 +2,7 @@
 # char to string
 ########################
 
-c2s <- function( chars = c("m","e","r","g","e","d") )
+"c2s" <- function( chars = c("m","e","r","g","e","d") )
 {
   return( paste( chars, collapse = "" ) )
 }
@@ -11,7 +11,7 @@ c2s <- function( chars = c("m","e","r","g","e","d") )
 # string to char
 ############################
 
-s2c = function (string) 
+"s2c" <- function (string) 
 {
   if(is.character(string) & is.vector(string)){
   return(.Call("s2c", string, PACKAGE = "seqinr"))
@@ -26,7 +26,7 @@ s2c = function (string)
 # a vector of chars
 ############################
 
-n2s <- function(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
+"n2s" <- function(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 {
   if( base4 )
     levels[nseq + 1]
@@ -39,7 +39,7 @@ n2s <- function(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 # is independent of locale.
 ###############################
 
-s2n <- function(seq, levels = c("a", "c", "g", "t"), base4 = TRUE)
+"s2n" <- function(seq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 {
   if( base4 )
     unclass(factor(seq, levels = levels ) ) - 1
@@ -51,20 +51,18 @@ s2n <- function(seq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 # GC.percent
 #################################
 
-GC = function(seq)
+"GC" <- function(seq)
 {
-	c=count(seq,1)
-	cc=(c[2]+c[3])/sum(c)
-	return(as.vector(cc))
+        sum(seq=='c'|seq=='g')/length(seq)
 }
 
 
 
 ##########################################
-# Conversion one-letter code to 3-letters code for amino-acids
+# Convert one-letter code to 3-letters code for amino-acids
 ##########################################
 
-aaa <- function( aa )
+"aaa" <- function( aa )
 {
   aa1 <- s2c("*ACDEFGHIKLMNPQRSTVWY")
   aa3 <- c("Stp", "Ala", "Cys", "Asp", "Glu", "Phe", "Gly", "His", "Ile",
@@ -89,7 +87,7 @@ aaa <- function( aa )
 # Conversion 3-letters code to one letter code for amino-acids
 ##########################################
 
-a <- function( aa )
+"a" <- function( aa )
 {
   aa1 <- s2c("*ACDEFGHIKLMNPQRSTVWY")
   aa3 <- c("Stp", "Ala", "Cys", "Asp", "Glu", "Phe", "Gly", "His", "Ile",
@@ -113,10 +111,10 @@ a <- function( aa )
 
 
 #########################################
-# revers a sequence
+# reverse a sequence
 #######################################
 
-invers<-function(seq)
+"invers" <- function(seq)
 {
 	rev(seq)
 }
@@ -125,32 +123,33 @@ invers<-function(seq)
 #complement a sequences
 ###########################################
 
-comp<-function(seq){
+"comp" <- function(seq){
 	return(as.vector(n2s((3-s2n(seq)))))
 }	
 
 
 ######################
-# GC3		     #
+# GC1		     #
 ######################
 
-GC3 = function(seq){
-	sequence <- splitseq( seq )
-	codons <- words(length = 3, alphabet = s2c("acgt"))	
-	eff=table(factor( sequence , levels=codons))
-	f =round(eff/(floor(length(seq)/3)),4)
-	return(as.vector(f %*% EXP$CG3))
-	}
+
+"GC1" <- function(seq){
+	GC(seq[seq(1,length(seq),by=3)])
+}
 
 ######################
 # GC2		     #
 ######################
 
 
-GC2 = function(seq){
-	sequence <- splitseq( seq )
-	codons <- words(length = 3, alphabet = s2c("acgt"))	
-	eff=table(factor( sequence , levels=codons))
-	f =round(eff/(floor(length(seq)/3)),4)
-	return(as.vector(f %*% EXP$CG2))
-	}
+"GC2" <- function(seq){
+	GC(seq[seq(2,length(seq),by=3)])
+}
+
+######################
+# GC3		     #
+######################
+
+"GC3" <- function(seq){
+        GC(seq[seq(3,length(seq),by=3)])
+}

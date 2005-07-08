@@ -19,9 +19,9 @@
   Data prepared by D.Charif \email{charif@biomserv.univ-lyon1.fr}.\cr The genetic codes have been taken from the ncbi taxonomy database: \url{http://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi?mode=c }. Last update October 05, 2000.\cr The IUPAC one-letter code for aminoacids is descibed at: \url{http://www.chem.qmul.ac.uk/iupac/AminoAcid/ }. 
  pK values of amino acids were taken from Bjellqvist et al.\cr 
 Bjellqvist, B.,Hughes, G.J., Pasquali, Ch., Paquet, N., Ravier, F., Sanchez, J.-Ch., Frutiger, S. & Hochstrasser, D.F.(1993)  The focusing positions of polypeptides in immobilized pH gradients can be predicted from their amino acid sequences.\emph{ Electrophoresis}, \bold{14}, 1023-1031. 
-To have an overview of the seqinR's functionnality, please consult this vignette: 
-Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
-computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
+}
+\references{
+  \code{citation("seqinr")}
 }
 \examples{
 data(SEQINR.UTIL)

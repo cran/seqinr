@@ -12,18 +12,17 @@
    Method for the classes of sequences:  \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb} and \code{SeqFrag}. 
 }
 \usage{
-getSequence(object)
+getSequence(object, as.string = FALSE)
 }
 \arguments{
   \item{object}{an object of class \code{SeqFastadna},  \code{SeqFastaAA},  \code{SeqAcnucWeb} or \code{SeqFrag}.}
+  \item{as.string}{if TRUE sequences are returned as a string instead of a vector of chars.}
 }
 \value{
- A vector of chars containing the sequence
+ A vector of chars containing the sequence (default) or a string when \code{as.string} is set to TRUE.
 }
-\references{ 
-To have an overview of the seqinR's functionnality, please consult this vignette: 
-Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
-computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
+\references{
+  \code{citation("seqinr")}
 }
 \author{ D. Charif } 
 \seealso{ \code{\link{getFrag}}, \code{\link{c2s}} }

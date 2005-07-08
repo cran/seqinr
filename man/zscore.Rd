@@ -1,0 +1,82 @@
+\name{dinucleotides}
+\alias{rho}
+\alias{zscore}
+\title{Statistical over- and under- representation of dinucleotides in a
+  sequence}
+\description{
+  These two functions compute two different types of statistics for the
+  measure of statistical dinculeotide over- and under-representation :
+  the rho statistic, and the z-score, each computed for all 16 dinucleotides.
+}
+\usage{
+rho(sequence)
+zscore(sequence, simulations = NULL, modele, ... )
+}
+\arguments{
+  \item{sequence}{ A nucleic acids sequence }
+  \item{simulations}{ If \code{NULL}, analytical solution is computed
+    when available (models \code{base} and {codon}). Otherwise, it
+    should be the number of permutations for the z-score computation }
+  \item{modele}{ A string of characters describing the model chosen for
+    the random generation }
+  \item{...}{ Optional parameters for specific model permutations are
+    passed on to \code{\link{permutation}} function. }
+}
+\details{
+  The \code{rho} statistic, as presented in Karlin S., Cardon LR. (1994), can
+  be computed on each of the 16 dinucleotides. It is the frequence of
+  dinucleotide \emph{xy} divided by the product of frequencies of
+  nucleotide \emph{x} and nucleotide \emph{y}. It is equal to 1.00 when
+  dinucleotide \emph{xy} is formed by pure chance, and it is superior
+  (respectively inferior) to 1.00 when dinucleotide \emph{xy} is over-
+  (respectively under-) represented.
+
+  The \code{zscore} statistic, as presented in Palmeira, L., Guéguen, L.
+  and Lobry JR. (in prep.). The statistic is the normalization of the
+  \code{rho} statistic by its expectation and variance according to a
+  given random sequence generation model, and follows the
+  standard normal distribution. This statistic can be computed
+  with several models (cf. \code{\link{permutation}} for the description
+  of each of the models). We provide analytical calculus for two of
+  them: the \code{base} permutations model and the  \code{codon}
+  permutations model.
+  
+  The \code{base} model allows for random sequence generation by
+  shuffling (with/without replacement) of all bases in the sequence.
+  Analytical computation is available for this model.
+
+  The \code{position} model allows for random sequence generation
+  by shuffling (with/without replacement) of bases within their
+  position in the codon (bases in position I, II or III stay in
+  position I, II or III in the new sequence.
+
+  The \code{codon} model allows for random sequence generation by
+  shuffling (with/without replacement) of codons. Analytical
+  computation is available for this model.
+
+  The \code{syncodon} model allows for random sequence generation
+  by shuffling (with/without replacement) of synonymous codons.
+  }
+}
+\value{
+  a table containing the computed statistic for each dinucleotide
+}
+\references{
+  \code{citation("seqinr")}
+  
+  Karlin S. and Cardon LR. (1994) Computational DNA sequence analysis.
+  \emph{Annu Rev Microbiol}, \bold{48}, 619--54.
+
+  Palmeira, L., Guéguen, L. and Lobry JR. (in prep) UV-targeted
+  dinucleotides are not depleted in light-exposed Prokaryotic genomes.
+}
+\author{ Leonor Palmeira }
+\seealso{ \code{\link{permutation}} }
+\examples{
+sequence=sample(s2c('acgt'),6000,rep=TRUE)
+rho(sequence)
+zscore(sequence,modele='base')
+zscore(sequence,modele='codon')
+zscore(sequence,1000,modele='syncodon')
+}
+\keyword{ utilities }

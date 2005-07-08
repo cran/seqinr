@@ -14,14 +14,22 @@
 	#####################################################################################
 
 
-getSequence.default = function(object){
-	if(length(object) == 1) object=s2c(object)	
- 	xx = tolower(object)
-# 	if(length(grep("[acgtu]",xx)) != length(xx)) stop("Biological sequence is needed !")	
-# 	else return(xx)	
-	if(length(grep("[acgtu]",xx)) != length(xx)) warning("Sequence with non acgtu characters!")	
-	return(xx)	
+getSequence.default = function(object, as.string){
+  if( as.string ){
+    if( length(object) == 1) {
+      return(object)
+    } else {
+      return(c2s(object))
+    }
+  } else {
+    if( length(object) == 1) {
+      return(s2c(object))
+    } else {
+      return(object)
+    }
+  }
 }
+
 
 getFrag.default = function(object,begin,end){ 
 	if(length(object) == 1) object=s2c(object)	
@@ -69,7 +77,7 @@ getFrag =  function(object,begin,end) {
 	else UseMethod("getFrag")
 }
 
-getSequence = function(object){
+getSequence <- function(object, as.string = FALSE){
 	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getSequence.default(object)}
 	else UseMethod("getSequence")
 }
@@ -130,9 +138,13 @@ is.SeqFastadna = function(object){
 	inherits(object,"SeqFastadna")
 }
 
-getSequence.SeqFastadna = function(object){
+getSequence.SeqFastadna <- function(object, as.string){
+  if( ! as.string ){
 	return(object)
-	}
+  } else {
+    return(c2s(object))
+  }
+}
 
 getFrag.SeqFastadna = function(object, begin, end){
 	if(end > getLength(object)) stop("invalid end")	
@@ -182,9 +194,13 @@ is.SeqFastaAA = function(object){
 	inherits(object,"SeqFastaAA")
 }
 
-getSequence.SeqFastaAA = function(object){
+getSequence.SeqFastaAA <- function(object, as.string){
+  if( ! as.string ){
 	return(object)
-	}
+  } else {
+    return(c2s(object))
+  }
+}
 
 
 getFrag.SeqFastaAA = function(object, begin, end){
@@ -239,11 +255,11 @@ is.SeqAcnucWeb = function( object ){
 
 
 
-#simon:
-getSequence.SeqAcnucWeb = function(object){
-	#b=getLength( object )
-	b=attr(object,"length")
-	getSequenceSocket(attr(object,"socket"),object,start=1,length=b)
+#JRL ajout as.string
+
+getSequence.SeqAcnucWeb = function(object, as.string = FALSE){
+	b <- attr(object, "length")
+	getSequenceSocket(attr(object,"socket"),object,start=1,length=b, as.string = as.string)
 }
 
 
@@ -297,7 +313,7 @@ getLocation.SeqAcnucWeb = function(object){
 #simon:
 #getTrans.SeqAcnucWeb = function(seq,frame=0, sens= "F", numcode=1){
 getTrans.SeqAcnucWeb = function(seq,frame=0,sens="F",numcode="auto"){
-	dnaseq<-getSequence(seq)
+	dnaseq <- getSequence(seq)
 	if (numcode == "auto") {
 		translate(dnaseq, frame =  as.numeric(attr(seq,"frame")), sens = "F", numcode = as.numeric(attr(seq,"ncbigc")))
 		} else {
@@ -331,9 +347,13 @@ is.SeqFrag = function(object){
 }
 
 
-getSequence.SeqFrag = function(object){
+getSequence.SeqFrag <- function(object, as.string){
+  if( ! as.string ){
 	return(object)
-	}
+  } else {
+    return(c2s(object))
+  }
+}
 
 
 getFrag.SeqFrag = function(object,begin,end){

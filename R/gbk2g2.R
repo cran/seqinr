@@ -1,11 +1,11 @@
-########################################################################
+#########################################################################
 #
 #                                 gbk2g2
 #
 # Conversion of a genbank format into a run-glimmer2 like format
 #
 #
-########################################################################
+#########################################################################
 
 gbk2g2 <- function(
   gbkfile = "ftp://pbil.univ-lyon1.fr/pub/logiciel/oriloc/ct.gbk",
@@ -42,14 +42,14 @@ gbk2g2 <- function(
   # Look for 3' partial genes:
   #
   idx3p <- grep("<", input)
-  if( length( idx5p != 0 ) )
+  if( length( idx3p != 0 ) )
     warning("3' partial genes encountered (no output):", idx3p)
     
   #
   # Look for join in features:
   #
   idxjoin <- grep("join", input)
-  if( length( idx5p != 0 ) )
+  if( length( idxjoin != 0 ) )
     warning("join encountered (no output):", idxjoin)  
     
   #

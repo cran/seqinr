@@ -14,7 +14,9 @@ closebank(bank = NA, host = "pbil.univ-lyon1.fr", port = 5558, verbose = FALSE)
   \item{port}{ Integer. The TCP port number }
   \item{verbose}{ Logical. If TRUE, verbose mode is on }
 }
-
+\references{
+  \code{citation("seqinr")}
+}
 \seealso{ \code{\link{choosebank}}}
 \examples{
   \dontrun{ choosebank("genbank") }

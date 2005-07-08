@@ -6,12 +6,14 @@
   sequence. Note that the oligomers are overlapping.
 }
 \usage{
-count(seq,word,frame=0)
+count(seq,word,frame=0,freq=FALSE)
 }
 \arguments{
   \item{seq}{ a vector of chars }
   \item{word}{ an integer giving the size of word (n-mer) to count }
-  \item{frame}{	an integer (0,1,2) giving the frame (starting position) }
+  \item{frame}{	an integer (0,1,2,...) giving the frame (starting
+    position) }
+  \item{freq}{ if TRUE, word frequencies are computed instead of counts}
 }
 \details{
  \code{count} counts the occurence of all words by moving a window of
@@ -20,20 +22,21 @@ count(seq,word,frame=0)
 }
 \value{
   This function returns a factor whose levels are all the possible
-  oligonucleotids. All oligomers are returned, even if absent from the sequence.		
+  oligonucleotides. All oligomers are returned, even if absent from
+  the sequence.		
 }
 \author{ D. Charif }
-\references{ 
-To have an overview of the seqinR's functionnality, please consult this vignette: 
-Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
-computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
+\references{
+  \code{citation("seqinr")}
 }
 \seealso{ \code{\link{table}} }
 \examples{
 a=s2c("acgggtacggtcccatcgaa")
-##To count the occurences of dinucleotides of a:
+##To count dinucleotide occurrences in sequence a:
 count(a,2)
-##To count the occurences of trinucleotides of a in frame 2:
+##To count trinucleotide occurrences in sequence a, in frame 2:
 count(a,3,2)
+##To count dinucleotide frequencies in sequence a:
+count(a,2,freq=TRUE)
 }
 \keyword{ manip }

@@ -2,13 +2,53 @@
 # Genetic code table as in Text Books
 #
 
-tablecode <- function(numcode = 1, urn.rna = c("u","c","a","g"), dia = TRUE)
+tablecode <- function(numcode = 1, urn.rna = c("u","c","a","g"), dia = TRUE,
+latexfile = NULL)
 {
   aa1 <- c("*", "A", "C", "D", "E", "F", "G", "H", "I", "K", "L", "M", "N",
            "P", "Q", "R", "S", "T", "V", "W", "Y")
   aa3 <- c("Stp", "Ala", "Cys", "Asp", "Glu", "Phe", "Gly", "His", "Ile",
            "Lys", "Leu", "Met", "Asn", "Pro", "Gln", "Arg", "Ser", "Thr",
            "Val", "Trp", "Tyr")
+  codename <- SEQINR.UTIL$CODES.NCBI[numcode, "ORGANISMES"]
+  codename <- as.character(codename)
+  urn <- c("t","c","a","g") # internal
+
+#
+# As a LaTex table:
+#  
+  if( ! is.null(latexfile) ) {
+    Tfile <- file(latexfile, open = "w")
+    writeLines("\\begin{table}", Tfile)
+    writeLines("\\begin{center}", Tfile)
+    writeLines("\\begin{tabular}{*{13}{l}}", Tfile)
+    writeLines("\\hline", Tfile)
+    writeLines("\\\\", Tfile)
+    for( i in 0:3 )
+    {
+      for( j in 0:3 )
+      {
+        for( k in 0:3 )
+        {
+          codon <- c(urn[i+1], urn[k+1], urn[j+1])
+          codon.urn <- paste(urn.rna[i+1], urn.rna[k+1], urn.rna[j+1], sep = "", collapse = "")
+          aminoacid <- aa3[which(aa1 == translate(codon, numcode = numcode))]
+          writeLines(paste(codon.urn, aminoacid, " &", sep = " & "), Tfile)
+        }
+        writeLines("\\\\", Tfile)
+      }
+      writeLines("\\\\", Tfile)
+    }
+    writeLines("\\hline", Tfile)
+    writeLines("\\end{tabular}", Tfile)
+    writeLines(paste("\\caption{Genetic code number ", numcode, ": ", codename, ".}", sep = ""), Tfile)
+    writeLines(paste("\\label{", latexfile, "}", sep = ""), Tfile)
+    writeLines("\\end{center}", Tfile)
+    writeLines("\\end{table}", Tfile)
+    close(Tfile)
+    return(invisible(NULL))
+  }
+  
   if( dia )
   {  
     op <- par(no.readonly = TRUE)
@@ -28,8 +68,6 @@ tablecode <- function(numcode = 1, urn.rna = c("u","c","a","g"), dia = TRUE)
   segments( 0, 0, 100, 0, lwd = 2)
   segments( 0, 97, 100, 97)
 
-  codename <- SEQINR.UTIL$CODES.NCBI[numcode, "ORGANISMES"]
-  codename <- as.character(codename)
 
   text(x=0, y = 98.5, font = 2, adj = c(0, 0),
     lab = paste("Genetic code", numcode,":",codename))

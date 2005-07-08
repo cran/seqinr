@@ -64,9 +64,7 @@ The blue lines correspond to the very small subset of allowed
 values for which we have in addition PR2 state, that is
 \code{[A]=[T]} and \code{[C]=[G]}. Remember, these data are for ssDNA !
 
-To have an overview of the seqinR's functionnality, please consult this vignette: 
-Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
-computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
+\code{citation("seqinr")}
 }
 
 \examples{

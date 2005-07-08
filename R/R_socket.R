@@ -207,6 +207,17 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
       if(verbose) cat("I'm trying to set up the server for following queries...\n")
       writeLines("prep_requete", socket, sep = "\n")
       rep3 <- readLines(socket, n = 1)
+      
+      #
+      # Re-patch pas beau:
+      #
+      if(length(rep3) == 0){
+        if(verbose) cat("... answer from server is empty!\n")
+        while(length(rep3) == 0){
+          if(verbose) cat("... reading again.\n")
+          rep3 <- readLines(socket, n = 1)
+        }
+      }
       if(verbose) cat("... answer from server is: ", rep3, "\n")
       res3 <- parser.socket(rep3)
       if( res3[1] == "0") {
@@ -349,7 +360,7 @@ parser.socket <- function(p)
 #                                                                                                 #
 ###################################################################################################
 
-getSequenceSocket <- function( socket, name, start, length){
+getSequenceSocket <- function( socket, name, start, length, as.string = FALSE){
   request <- paste("gfrag&name=", name, "&start=", start, "&length=", formatC(length, format = "d"), sep = "")
   writeLines(request, socket, sep="\n")
   s <- readLines(socket, n = 1)
@@ -358,11 +369,12 @@ getSequenceSocket <- function( socket, name, start, length){
     warning(paste("invalid sequence name:", name))
     return(NA)
   } else {   
-    s <- s2c(s)
-    sequence <- s[(grep("&", s) + 1):length(s)]
-    # Ne devrait-on pas recuperer ici la longueur effectivement lue de la sequence sur
-    # le serveur et verifier que tout va bien ?
-    return(sequence)
+    sequence <- unlist(strsplit(s, split = "&"))[2]
+    if( as.string ){
+      return(sequence)
+    } else {
+      return(s2c(sequence))
+    }
   }
 }
   
@@ -389,13 +401,21 @@ getAttributsocket <- function( socket, name){
 ###################################################################################################
 
 readAnnots.socket <- function(socket, name, nl){
-  request <- paste("read_annots&name=", name, "&nl=", nl, sep = "")
-  writeLines(request , socket, sep="\n")
-  res<-readLines(socket , n = nl)
-  res1 <- res[1]
-  p<-unlist(strsplit(res1,"&"))
-  res[1]<-p[2]
-  res
+
+
+  if(nl == 0){
+    warning(paste("invalid annotations line number 0. Automatically set to 1."))
+    nl <- 1
+    }
+#  } else {
+    request <- paste("read_annots&name=", name, "&nl=", nl, sep = "")
+    writeLines(request , socket, sep="\n")
+    res<-readLines(socket , n = nl)
+    res1 <- res[1]
+    p<-unlist(strsplit(res1,"&"))
+    res[1]<-p[2]
+    res
+#  }
 }
 
 ###################################################################################################

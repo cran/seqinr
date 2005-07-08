@@ -17,9 +17,7 @@ computePI(seq)
 \references{ 
 The algorithm is quite the same as the one which is implemented at the following url:  
 \url{http://www.expasy.org/tools/pi_tool-doc.html}
-To have an overview of the seqinR's functionnality, please consult this vignette: 
-Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
-computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
+\code{citation("seqinr")}
  }
 \author{ D. Charif }
 \note{ 

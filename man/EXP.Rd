@@ -58,7 +58,8 @@ ANALSEQ EXPFILEs for command EXP.\cr
 \url{http://biomserv.univ-lyon1.fr/doclogi/docanals/manuel.html}
 }
 \references{
-\describe{
+  \code{citation("seqinr")}
+  \describe{
   \item{A   }{ content in A nucleotide }
   \item{A3  }{ content in A nucleotide in third position of codon }	
   \item{AGZ }{ Arg content (aga and agg codons) }
@@ -91,9 +92,6 @@ the hydropathic character of a protein. \emph{J. Mol. Biol.},\bold{157}
   \item{U   }{ content in U nucleotide }
   \item{U3  }{  content in U nucleotides in third position of codon }
   }
-To have an overview of the seqinR's functionnality, please consult this vignette: 
-Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
-computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
 }
 \examples{
 data(EXP)

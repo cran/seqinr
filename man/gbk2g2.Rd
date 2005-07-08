@@ -20,10 +20,8 @@ Partial CDS (either 5' or 3') and join in features are discarded.
 }
 \value{
 }
-\references{ 
-To have an overview of the seqinR's functionnality, please consult this vignette: 
-Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
-computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
+\references{
+  \code{citation("seqinr")}
 }
 \author{J.R. lobry }
 \seealso{ \code{\link{oriloc}} }

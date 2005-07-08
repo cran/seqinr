@@ -60,9 +60,7 @@ Lobry, J.R. (1996) A simple vectorial representation of DNA sequences
 for the detection of replication origins in bacteria. \emph{Biochimie},
 \bold{78}:323-326.
 
-To have an overview of the seqinR's functionnality, please consult this vignette: 
-Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
-computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
+\code{citation("seqinr")}
 }
 \author{ J.R. Lobry and A.C. Frank}
 \note{ The method works only for genomes having a single origin of replication 

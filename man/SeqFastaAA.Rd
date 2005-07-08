@@ -26,17 +26,15 @@ summary.SeqFastaAA(object,...)
 	\item{composition}{ the AA counting of the sequence} 
 	\item{AA.Property}{ the percentage of each group of amino acid in the sequence. By example, the groups are small, tiny, aliphatic, aromatic ... }
 }
-\references{ 
-To have an overview of the seqinR's functionnality, please consult this vignette: 
-Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
-computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
+\references{
+  \code{citation("seqinr")}
 }
 \author{ D. Charif }
 \examples{
-  s = read.fasta(File=system.file("sequences/seqAA.fasta",package="seqinr"),seqtype="AA")
+  s <- read.fasta(File = system.file("sequences/seqAA.fasta", package = "seqinr"), seqtype="AA")
   is.SeqFastaAA(s[[1]])
   summary(s[[1]])
-  myseq = s2c("MSPTAYRRGSPAFLV*")
+  myseq <- s2c("MSPTAYRRGSPAFLV*")
   as.SeqFastaAA(myseq, name = "myseq", Annot = "blablabla")
   myseq
 }

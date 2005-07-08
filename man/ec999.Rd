@@ -22,11 +22,9 @@ sequence.
 Lobry, J.R., Gautier, C. (1994) Hydrophobicity,
 expressivity and aromaticity are the major trends of amino-acid usage in
 999 \emph{Escherichia coli} chromosome-encode genes. \emph{Nucleic Acids
-Research},\bold{22}:3174-3180.
+  Research},\bold{22}:3174-3180.
 
-To have an overview of the seqinR's functionnality, please consult this vignette: 
-Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
-computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
+\code{citation("seqinr")}
 }
 \examples{
 data(ec999)

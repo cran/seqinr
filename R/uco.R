@@ -1,21 +1,34 @@
-uco = function (seq, frame = 0, index = c("eff", "freq", "rscu"), as.data.frame = FALSE) 
+uco <- function (seq, frame = 0, index = c("eff", "freq", "rscu"), as.data.frame = FALSE) 
 {
     choice <- match.arg(index)
     sequence <- splitseq(seq = seq, frame = frame, word = 3)
-    eff <- table(factor(sequence, levels = SEQINR.UTIL$CODON.AA$CODON))
-    freq <- eff/(floor(length(seq)/3))
-    T <- split(freq, SEQINR.UTIL$CODON.AA$AA)
-    rscu <- lapply(T, function(x) {
+
+    if( as.data.frame == FALSE ) {
+      eff <- table(factor(sequence, levels = SEQINR.UTIL$CODON.AA$CODON))
+      if(choice == "eff") return(eff)
+      
+      freq <- eff/(floor(length(seq)/3))
+      if(choice == "freq") return(freq)
+      
+      T <- split(freq, SEQINR.UTIL$CODON.AA$AA)
+      rscu <- lapply(T, function(x) {
         return(x/((1/length(x)) * sum(x)))
-    })
-    names(rscu) <- NULL
-    rscu <- unlist(rscu)[as.character(SEQINR.UTIL$CODON.AA$CODON)]
-    if (as.data.frame == FALSE) 
-        return(switch(choice, eff = eff, freq = freq, rscu = rscu))
-    else {
-        df = data.frame(SEQINR.UTIL$CODON.AA$AA, eff = eff, freq = as.vector(freq), RSCU = rscu)
-        names(df) = c("AA", "codon", "eff", "freq", "RSCU")
-        return(df)
+      })
+      names(rscu) <- NULL
+      rscu <- unlist(rscu)[as.character(SEQINR.UTIL$CODON.AA$CODON)]
+      return(rscu)
+    } else { # return all indices in a data.frame
+      eff <- table(factor(sequence, levels = SEQINR.UTIL$CODON.AA$CODON))
+      freq <- eff/(floor(length(seq)/3))
+      T <- split(freq, SEQINR.UTIL$CODON.AA$AA)
+      rscu <- lapply(T, function(x) {
+        return(x/((1/length(x)) * sum(x)))
+      })
+      names(rscu) <- NULL
+      rscu <- unlist(rscu)[as.character(SEQINR.UTIL$CODON.AA$CODON)]
+      df <- data.frame(SEQINR.UTIL$CODON.AA$AA, eff = eff, freq = as.vector(freq), RSCU = rscu)
+      names(df) = c("AA", "codon", "eff", "freq", "RSCU")
+      return(df)
     }
 }
 

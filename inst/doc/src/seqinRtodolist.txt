@@ -1,0 +1,154 @@
+o Implementer getSequence(as.tring = TRUE) pour ne pas vectoriser les chaines
+  de caracteres automatiquement pour les requestes Web. Une fois implemente dans
+  la version du CRAN de seqinr, modifier le script de 
+  http://pbil.univ-lyon1.fr/members/lobry/repro/bioinfo04/
+
+o Etudier la faisabilite de recuperer les sequences en mode compresse.
+  (idee de Christian depuis de Bresil)
+  Implementer la possibilite de rapatrier directement les sequences au format
+  fasta et autres du serveur avec
+  extractseqs&{lrank=xx|seqnum=xx}&format=xx&operation=xx[&feature="xx"][&bounds="xx"][&minbounds="xx"]\n
+  Utiliser l'API en C
+  
+o Pour read.alignment il manque des exemples pour le format fasta et clustal.
+
+
+o Mettre un note of caution dans la doc a propos des query(..., virtual = TRUE):
+  les infos sont definitivement perdues si la socket est fermee.
+  
+  
+o dia.bactgensize() ne marche plus parce que l'URL n'est plus bonne. J'ai
+  corrige ca en dur dans tdr222 (code chunk a la fin) mais je me demande
+  si on ferait mieux de pas bazarder cette fonction. Bon, on peut voir si
+  la modif de tdr222 tient la route un peu et laisser tomber sinon.
+
+o getType() appele sans argument ne se demerde pas tout seul comme un grand
+  pour trouver la socket qui va bien de la banque ouverte par defaut (comme
+  le fait query() par exemple. 
+
+o Le site web pour la reproductibilite de l'article Bioinfo 
+  http://pbil.univ-lyon1.fr/members/lobry/repro/bioinfo04/
+  utilise une version obsolete de R et de seqinR. Le garder dans
+  un coin et l'adapter a la derniere mouture de seqinR.
+
+o Probleme souleve par GP, une requeste de type f=nonmfic ne marche pas :
+
+  read.table("sequence")
+       V1
+  1 AE013218
+
+  > query("lista","f=sequence")
+
+   Error in query("lista", "f=sequence") : invalid request:"file does not exist or is not adequate at (^): \"f=(^)sequence\""
+
+  Mettre au moins la doc a jour (unimplemented)
+  
+o La fonction uco() pour calculer l'usage du code :
+
+  Elle ne gère pas correctement le code génétique pour les RSCU (mais bon, les RSCU
+  c'est de la merde de toute façons).
+  Elle ne récupère pas automatiquement la phase et le code génétique, la propager
+  comme pour getTrans().
+  
+
+
+o La phase est perdue quand on fait un GC2() ou un GC3(), la propager comme
+  pour getTrans.
+
+o Exemples de calculs d'indices d'usage du code dans la vignette du package
+
+o Fichier CITATION a modifier quand ref disponible.
+
+
+o Il vaudrait mieux que les exemples de la vignette soient si possible fait
+  sur des banques frozen, sauf a montrer l'interest des daily updates.
+  
+o Mettre un fichier par fonction dans seqinr/R/ ?
+
+o Faire en sorte que les erreurs du serveur ne generent pas d'erreur (stop)
+  pour pouvoir mettre les examples en run et pas en dontrun. Ne faire que des
+  warnings() sauf cas graves et mettre les exemple en suppressWarnings(expr).
+  Donc try-catch(de tous les stop) des fonction de base...
+  
+o Recuperer automatiquement les annotations en entier.
+
+o Probleme souleve par Marcus G Daniels 
+
+	Hello,
+
+	It seems to me that it is a bug in read.fasta that substr goes to nchar(nomseq) instead of nchar(nomseq[[i]]).
+	The result of the current behavior (the former) is that some sequence names get truncated.
+
+	Thanks!
+  Le remercier dans la vignette. 
+
+
+------ PENDING --------
+
+
+o Ka/Ks qui plante (voir avec Anouk). Truc zarbi: plus de NA dans la vignette
+  a partir de la 2.1.1.... A suivre.
+
+o Le probleme du controsle trop strict sur acgt comme seuls chars acceptes. 
+  Faire une option professionnelle read.fasta(checkIUPAC= c("dnastrict", "dnaambiguous",
+  aastrict","aaambiguous","relax"), gapallowed = FALSE, gapchar = "-", forcetolower = FALSE)
+  pour couvrir les cas les plus courrants sans perdre en tests inutiles. Le top, faire
+  un "oracle" pour deviner le bon truc.
+  
+o Mettre la doc a jour sur la gestion des caracteres ambigus dans la vignette.
+
+------ TOUT CA, CA A DEJA ETE FAIT ---
+
+o Mettre les downloads() de la vignette en data() de seqinR. -- Fait JRL pour 1.0-4
+
+o Changer le mainteneur du site web de seqinR et mettre à jour. -- SP dec 2005
+
+o Le bug qui survenait lorsque l'on fait un getAnnots avec un nombre de lignes  egal
+  a 0 est resolu.   - SP
+ 
+o Supprimer ou modifier le script compile qui est  est obsolete   - SP
+
+o Revoir tablecode (Christian Request) e-mail du Tue, 26 Jul 2005 14:08:28 +0200
+  tablecode a deux problèmes:
+  1) de manière bizarre Ile se positionne mal, pourtant il semble que tu ais 
+     bien utilisé une police fixe
+  2) la dernière ligne est barrée, il faut décaler davantage la ligne de fin du tableau
+  
+  Faire une version qui genere la table en LaTeX (idee de Zan)
+  
+  Option LaTex Fait - JRL pour la 1.0-4 
+  Bug de Christian difficile a reproduire, laisse beton.
+
+o La fonction uco() pour calculer l'usage du code n'est pas tres rapide. - JRL pour 1.0-4
+  Par exemple :
+  > data(ec999)
+  > system.time(tmp<-lapply(ec999,uco))
+  [1]  82.83   1.59 104.63   0.00   0.00
+  Plus d'une minute pour calculer l'usage du code de 999 CDS, c'est vraiment pas terrible.
+  06-DEC-2005 - JRL:
+  identification du facteur limitant : c'est splitseq() :
+  > data(ec999)
+  > system.time(tmp<-lapply(ec999,splitseq))
+  [1] 60.59  0.73 72.55  0.00  0.00
+  OK, j'ai commite une modif de splitseq() entierement re-ecrit, gain d'un facteur 10 environ
+  > system.time(tmp<-lapply(ec999,uco))
+  [1] 8.43 0.11 8.65 0.00 0.00
+  
+  Elle calcule le RSCU et les frequences relatives pour rien quand on en a pas besoin.
+  C'est aussi modifie, ca ne gagne pas grand chose en perf - JRL pour 1.0-4
+
+  
+o Recuperation du code genetique qui va bien ? A verifier de pres, important.
+  C'est fait dans la 1.0-3 normalement.
+
+o Bug a 10^6 de getfrag (voir avec Delphine). Fait dans 1.0-3.
+
+o Identification du client en tant que seqinr (Manolo request). Fait dans 1.0-3.
+
+o Changer le DESCRIPTION du package pour changer le mainteneur. Verifier
+  la visiblite (ce qui est vu de l'exterieur, i.e. sur le CRAN, voir avec Zan).
+  Fait depuis la 1.0-3.
+
+o Refbiblio a mettre a jour (article seqinr pour credibiliser le truc). Voir
+  aussi citation() pour retourner la bonne ref.
+  citation("seqinr") est mis en place depuis la 1.0-3, attente de la ref definitive.

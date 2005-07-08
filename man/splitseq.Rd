@@ -9,22 +9,28 @@ splitseq(seq, frame = 0, word = 3)
 }
 \arguments{
   \item{seq}{ a vector of chars }
-  \item{frame}{ an integer giving the starting position to split the sequence }
+  \item{frame}{ an integer (0, 1, 2) giving the starting position to split the sequence }
   \item{word}{ an integer giving the size of the sub-sequences }
 }
 \value{
   This function returns a vector which contains the sub-sequences.
 }
-\references{ 
-To have an overview of the seqinR's functionnality, please consult this vignette: 
-Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
-computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
+\references{
+\code{citation("seqinr")}
+\cr
 }
-\author{ D. Charif }
+\author{ J.R. Lobry }
 \seealso{ \code{\link{split}} }
 \examples{
-a=s2c("aacgttgcaggtcgctcgctacgtagctactgttt")
+cds <- s2c("aacgttgcaggtcgctcgctacgtagctactgttt")
 ## To obtain the codon sequence in frame 0:
-splitseq(a)
+splitseq(cds)
+## Show the effect of frame and word with a ten char sequence:
+(tenchar <- s2c("1234567890"))
+splitseq(tenchar, frame = 0)
+splitseq(tenchar, frame = 1)
+splitseq(tenchar, frame = 2)
+splitseq(tenchar, frame = 0, word = 2)
+splitseq(tenchar, frame = 0, word = 1)
 }
 \keyword{ manip }

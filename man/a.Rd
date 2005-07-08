@@ -21,9 +21,7 @@ A vector of single characters. Character values are *ACDEFGHIKLMNPQRSTVWY.
 \references{
 The IUPAC one-letter code for aminoacids is described at: 
 \url{http://www.chem.qmul.ac.uk/iupac/AminoAcid/} 
-To have an overview of the seqinR's functionnality, please consult this vignette: 
-Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
-computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
+\code{citation("seqinr")}
 }
 \author{ D. Charif }
 \seealso{ \code{\link{translate}}, \code{\link{aaa}} }

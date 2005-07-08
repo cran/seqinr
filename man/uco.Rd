@@ -1,46 +1,84 @@
 \name{uco}
 \alias{uco}
-\title{ Create codon usage table }
+\title{ Codon usage indices }
 \description{
-  \code{uco} calculates some codon usage index: the codon count \code{eff}, the absolute frequencies \code{freq} or the Relative Synonymous Codon Usage \code{rscu}.
+  \code{uco} calculates some codon usage indices: the codon counts \code{eff}, the relative frequencies \code{freq} or the Relative Synonymous Codon Usage \code{rscu}.
 }
 \usage{
-uco( seq, frame = 0, index = c("eff","freq","rscu"), as.data.frame = FALSE) 
+uco(seq, frame = 0, index = c("eff", "freq", "rscu"), as.data.frame = FALSE) 
 }
 \arguments{
-  \item{seq}{ a vector of chars }
-  \item{frame}{ an integer (0,1,2) giving the frame }
-  \item{index}{ One of this value }
-  tabular{lll}{
-	eff  \tab To get the codon count\cr
-	freq \tab To get the absolute frequence of codon\cr
-	rscu  \tab To get the RSCU indice
-	}
-  \item{as.data.frame}{ logical. If \code{TRUE}: The eff, freq and rscu index will be returned in a data frame.}
+  \item{seq}{ a coding sequence as a vector of chars }
+  \item{frame}{ an integer (0, 1, 2) giving the frame of the coding sequence }
+  \item{index}{ codon usage index choice, partial matching is allowed. 
+                \code{eff} for codon counts, 
+                \code{freq} for codon relative frequencies, 
+                and \code{rscu} the RSCU index}
+  \item{as.data.frame}{ logical. If \code{TRUE}: all indices are returned into a data frame.}
+}
+\details{
+  Codons with ambiguous bases are ignored.\cr
+  
+  RSCU is a simple measure of non-uniform usage of synonymous codons in a coding sequence
+  (Sharp \emph{et al.} 1986).
+  RSCU values are the number of times a particular codon is observed, relative to the number 
+  of times that the codon would be observed for a uniform synonymous codon usage (i.e. all the
+  codons for a given amino-acid have the same probability). 
+  In the absence of any codon usage bias, the RSCU values would be 1.00 (this is the case
+  for sequence \code{cds} in the exemple thereafter).  A codon that is used 
+  less frequently than expected will have an RSCU value of less than 1.00 and vice versa for a codon 
+  that is used more frequently than expected.\cr 
+  
+  Do not use correspondence analysis on RSCU tables as this is a source of artifacts 
+  (Perriere and Thioulouse 2002). Within-aminoacid correspondence analysis is a
+  simple way to study synonymous codon usage (Charif \emph{et al.} 2005).
 }
 \value{
     If \code{as.data.frame} is TRUE \code{uco} returns a data frame with five columns: 
   \item{ aa }{ a vector containing the name of amino-acid }
   \item{ codon }{ a vector containing the corresponding codon }
-  \item{ eff }{ a numeric vector containing effectifs of codons }
-  \item{ freq }{  a numeric vector containing frequencies of codons }
-  \item{ rscu }{ a numeric vector containing the relative synonymous codon usage}
+  \item{ eff }{ a numeric vector of codon counts }
+  \item{ freq }{ a numeric vector of codon relative frequencies }
+  \item{ rscu }{ a numeric vector of RSCU index }
+  
   If \code{as.data.frame} is FALSE, \code{uco} returns one of this index: 
-  \item{ eff }{ a factor containing effectifs of codons }
-  \item{ freq }{  a factor containing frequencies of codons }	
-  \item{ rscu }{ a factor containing the relative synonymous codon usage}
+  \item{ eff }{ a table of codon counts }
+  \item{ freq }{ a table of codon relative frequencies }	
+  \item{ rscu }{ a vector of relative synonymous codon usage values}
 }
-\references{†
-To have an overview of the seqinR's functionnality, please consult this vignette: 
-Charif, D., Lobry, J.R. (2005) SeqinR: a contributed package to the R project for statistical
-computing devoted to biological sequences retrieval and analysis. Springer Verlag, \emph{Biological and Medical Physics/Biomedical Series}, in preparation. \cr
+\references{
+\code{citation("seqinr")} \cr
+
+Sharp, P.M., Tuohy, T.M.F., Mosurski, K.R. (1986) Codon usage in yeast: cluster
+analysis clearly differentiates highly and lowly expressed genes.
+\emph{Nucl. Acids. Res.}, \bold{14}:5125-5143.\cr
+
+Perriere, G., Thioulouse, J. (2002) Use and misuse of correspondence analysis in
+codon usage studies. \emph{Nucl. Acids. Res.}, \bold{30}:4548-4555.\cr
+
+Charif, D., Thioulouse, J., Lobry, J.R., Perriere, G. (2005) Online 
+Synonymous Codon Usage Analyses with the ade4 and seqinR packages. 
+\emph{Bioinformatics}, \bold{21}:545-547. \url{http://pbil.univ-lyon1.fr/members/lobry/repro/bioinfo04/}.
 }
-\author{ D. Charif }
+\author{ D. Charif, J.R. Lobry }
 \examples{
-s = read.fasta(File=system.file("sequences/malM.fasta",package = "seqinr"))
-uco( s[[1]], index="freq")
-uco( s[[1]], index="eff")
-uco( s[[1]], index="rscu")
-uco( s[[1]], as.data.frame = TRUE)
+## Show all possible codons:
+words()
+## Make a coding sequence from this:
+(cds <- s2c(paste(words(), collapse = "")))
+## Get codon counts:
+uco(cds, index = "eff")
+## Get codon relative frequencies:
+uco(cds, index = "freq")
+## Get RSCU values:
+uco(cds, index = "rscu")
+## Show what's happen with ambiguous bases:
+uco(s2c("aaannnttt"))
+## Use a real coding sequence:
+rcds <- read.fasta(File = system.file("sequences/malM.fasta", package = "seqinr"))[[1]]
+uco( rcds, index = "freq")
+uco( rcds, index = "eff")
+uco( rcds, index = "rscu")
+uco( rcds, as.data.frame = TRUE)
 }
 \keyword{ manip }

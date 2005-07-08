@@ -1,21 +1,59 @@
-kaks = function(x){
-	if(attr(x,"class") != "alignment") error("object x must be of class alignment")
-	if(x$nb <= 1) return(0)
-	tmp<-x
-	l = .Call("kaks",x$seq,x$nb,PACKAGE="seqinr")
-	tmp$seq<-l[[5]]
-	assign(as.character(as.list(match.call())$x),tmp, envir = globalenv())
-	m = lapply(l[1:4],function(k){
-	if(! is.null(x$nam)) tmp = matrix( k, x$nb, x$nb, byrow = TRUE, dimnames=list(x$nam,x$nam))
-	else{
-	 n = paste("seq",c(1:x$nb),sep="")
-	 tmp = matrix( k, x$nb, x$nb, byrow = TRUE, dimnames=list(n,n))
-	}
-	 as.dist(t(tmp))
-	})
-	m = lapply(m,round,digits=6)
-	names(m)=c("ka","ks","vka","vks")
-	return(m)
+kaks <- function(x, debug = FALSE){
+    #
+    # Check argument class:
+    #
+    if(attr(x,"class") != "alignment") error("object x must be of class alignment")
+    if(debug){
+      cat("<--- Argument x storage is --->\n")
+      print(str(x))
+      cat("<--- Argument x storage is --->\n")
+    }
+    #
+    # Check that there are at least two sequences in the alignment:
+    #
+    if(x$nb < 2){
+      warning("there should be at least two sequences in the alignment")
+      return(NA)
+    }
+    #
+    # Check that all sequences are of the same length:
+    #
+    lseqs <- nchar(x$seq)
+    if( !all(lseqs == lseqs[1])) {
+      warning("all sequences should be the same length in an alignment")
+      return(NA)
+    }
+    #
+    # Check that the length of sequences is a mutiple of 3 since we are dealing
+    # with coding sequences here:
+    #
+    if( lseqs[1] %% 3 != 0){
+      warning("sequence lengths are not a multiple of 3")
+      return(NA)
+    }
+    #
+    # Call internal C function:
+    #
+    l <- .Call("kaks", x$seq, x$nb, debug, PACKAGE = "seqinr")
+    if(debug){
+      cat("<--- Result l storage is --->\n")
+      print(str(l))
+      cat("<--- Result l storage is --->\n")
+    }
+    #
+    # If the sequences names are missing, we call them seq1, seq2, and so on:
+    #
+    if( is.null(x$nam) ) x$nam <- paste("seq", 1:x$nb, sep = "")
+    
+    #
+    # This is to compute the list of results:
+    #
+    mkresult <- function(k){
+      tmp <- matrix( k, x$nb, x$nb, byrow = TRUE, dimnames = list(x$nam, x$nam))
+      as.dist(t(tmp))
+    }
+    result <- lapply(l[1:4], mkresult)
+    names(result) <- c("ka", "ks", "vka", "vks")
+    return(result)
 }
-
 
