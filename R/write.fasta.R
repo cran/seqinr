@@ -1,0 +1,39 @@
+write.fasta <- function(sequences, names, nbchar = 60, file.out, open = "w"){
+  #
+  # Open output file:
+  #
+  outfile <- file(description = file.out, open = open)
+  
+  #
+  # Function to write one sequence in output file:
+  #
+  write.oneseq<-function(sequence, name, nbchar){
+    writeLines(paste(">", name, sep = ""), outfile)
+    l <- length(sequence)
+    q <- floor(l/nbchar)
+    r <- l - nbchar*q
+    if(q > 0){
+#      sapply(1:q, function(x) writeLines(paste(sequence[(nbchar*(x-1)+1):(nbchar*x)], collapse = "", sep = ""), outfile))
+      sapply(1:q, function(x) writeLines(c2s(sequence[(nbchar*(x - 1) + 1):(nbchar*x)]), outfile))
+    }
+    if(r > 0){
+#      writeLines(paste(sequence[(nbchar*q+1):l], collapse = "", sep = ""), outfile)
+      writeLines(c2s(sequence[(nbchar*q + 1):l]), outfile)
+    }
+  }
+  
+  #
+  # Write all sequences in output file:
+  #
+  if(!is.list(sequences)){
+    write.oneseq(sequence = sequences, name = names, nbchar = nbchar)
+  }else{
+    sapply(1:length(sequences), function(x) write.oneseq(sequence = as.character(sequences[[x]]), name = names[x], nbchar = nbchar))
+  }
+  
+  #
+  # Close output file:
+  #
+  close(outfile)
+  return(NULL);
+}

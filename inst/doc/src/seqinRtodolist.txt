@@ -1,3 +1,9 @@
+
+o Mettre aaindex en data ?
+
+o Mieux documenter les nouvelles options de read.fasta dans la vignette.
+  Faire un exemple avec A. thaliana ?
+
 o Implementer getSequence(as.tring = TRUE) pour ne pas vectoriser les chaines
   de caracteres automatiquement pour les requestes Web. Une fois implemente dans
   la version du CRAN de seqinr, modifier le script de 
@@ -9,13 +15,7 @@ o Etudier la faisabilite de recuperer les sequences en mode compresse.
   fasta et autres du serveur avec
   extractseqs&{lrank=xx|seqnum=xx}&format=xx&operation=xx[&feature="xx"][&bounds="xx"][&minbounds="xx"]\n
   Utiliser l'API en C
-  
-o Pour read.alignment il manque des exemples pour le format fasta et clustal.
-
-
-o Mettre un note of caution dans la doc a propos des query(..., virtual = TRUE):
-  les infos sont definitivement perdues si la socket est fermee.
-  
+   
   
 o dia.bactgensize() ne marche plus parce que l'URL n'est plus bonne. J'ai
   corrige ca en dur dans tdr222 (code chunk a la fin) mais je me demande
@@ -30,18 +30,6 @@ o Le site web pour la reproductibilite de l'article Bioinfo
   http://pbil.univ-lyon1.fr/members/lobry/repro/bioinfo04/
   utilise une version obsolete de R et de seqinR. Le garder dans
   un coin et l'adapter a la derniere mouture de seqinR.
-
-o Probleme souleve par GP, une requeste de type f=nonmfic ne marche pas :
-
-  read.table("sequence")
-       V1
-  1 AE013218
-
-  > query("lista","f=sequence")
-
-   Error in query("lista", "f=sequence") : invalid request:"file does not exist or is not adequate at (^): \"f=(^)sequence\""
-
-  Mettre au moins la doc a jour (unimplemented)
   
 o La fonction uco() pour calculer l'usage du code :
 
@@ -50,7 +38,6 @@ o La fonction uco() pour calculer l'usage du code :
   Elle ne récupère pas automatiquement la phase et le code génétique, la propager
   comme pour getTrans().
   
-
 
 o La phase est perdue quand on fait un GC2() ou un GC3(), la propager comme
   pour getTrans.
@@ -72,22 +59,13 @@ o Faire en sorte que les erreurs du serveur ne generent pas d'erreur (stop)
   
 o Recuperer automatiquement les annotations en entier.
 
-o Probleme souleve par Marcus G Daniels 
-
-	Hello,
-
-	It seems to me that it is a bug in read.fasta that substr goes to nchar(nomseq) instead of nchar(nomseq[[i]]).
-	The result of the current behavior (the former) is that some sequence names get truncated.
-
-	Thanks!
-  Le remercier dans la vignette. 
+o Mettre un note of caution dans la doc a propos des query(..., virtual = TRUE):
+  les infos sont definitivement perdues si la socket est fermee.
+ 
 
 
 ------ PENDING --------
 
-
-o Ka/Ks qui plante (voir avec Anouk). Truc zarbi: plus de NA dans la vignette
-  a partir de la 2.1.1.... A suivre.
 
 o Le probleme du controsle trop strict sur acgt comme seuls chars acceptes. 
   Faire une option professionnelle read.fasta(checkIUPAC= c("dnastrict", "dnaambiguous",
@@ -98,6 +76,52 @@ o Le probleme du controsle trop strict sur acgt comme seuls chars acceptes.
 o Mettre la doc a jour sur la gestion des caracteres ambigus dans la vignette.
 
 ------ TOUT CA, CA A DEJA ETE FAIT ---
+
+o Probleme souleve par GP, une requeste de type f=nonmfic ne marche pas :
+
+  read.table("sequence")
+       V1
+  1 AE013218
+
+  > query("lista","f=sequence")
+
+   Error in query("lista", "f=sequence") : invalid request:"file does not exist or is not adequate at (^): \"f=(^)sequence\""
+
+  Mettre au moins la doc a jour (unimplemented)
+  
+  -- fait pour 1.0-5 JRL (voir crelistfromclientdata)
+
+o D'apres https://stat.ethz.ch/pipermail/bioconductor/2006-May/013082.html
+  il serait utile d'avoir une fonction pour calculer la masse d'un peptide.
+  -- fait pour 1.0-5 JRL
+
+o Trouve le commentaire suivant dans la doc de la fonction readFASTA de 
+  Biostrings de bioconductor:
+  
+  QUOTE
+  There are many other packages that provide similar, but different capabilities. 
+  The one in the package seqinr seems most similar but they separate the 
+  biological sequence into single character strings, which is too inefficient 
+  for large problems.
+  UNQUOTE
+  
+  Donc rajouter une option as.string = FALSE pour desactiver le c2s si besoin
+  est (mettre exemple dans la vignette). -- fait pour 1.0-5 JRL
+
+o Probleme souleve par Marcus G Daniels 
+
+	Hello,
+
+	It seems to me that it is a bug in read.fasta that substr goes to nchar(nomseq) instead of nchar(nomseq[[i]]).
+	The result of the current behavior (the former) is that some sequence names get truncated.
+
+	Thanks!
+  Le remercier dans la vignette.  -- Fait pour 1.0-5
+
+o Pour read.alignment il manque des exemples pour le format fasta et clustal. -- Fait JRL pour 1.0-5
+
+o Ka/Ks qui plante (voir avec Anouk). Truc zarbi: plus de NA dans la vignette
+  a partir de la 2.1.1.... A suivre. -- Fait (bug dans le code C) JRL pour 1.0-4
 
 o Mettre les downloads() de la vignette en data() de seqinR. -- Fait JRL pour 1.0-4
 

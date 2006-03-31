@@ -52,7 +52,7 @@ getName.default = function(object){
  	stop("no name")
 }
 
-getAnnot.default = function(object,nbl){ 
+getAnnot.default <- function(object, nbl){ 
  	stop("no annotation for this sequence")
 }
 
@@ -64,8 +64,8 @@ getKeyword.default = function(object){
  	stop("no keyword for this sequence")
 }
 
-getTrans.default = function(seq,frame=0, sens= "F", numcode=1){
-	translate(seq,frame,sens,numcode)
+getTrans.default = function(object,frame=0, sens= "F", numcode=1){
+	translate(object,frame,sens,numcode)
 	
 		
 }
@@ -93,8 +93,11 @@ getName =  function(object) {
 	else UseMethod("getName")
 }
 
-getAnnot = function(object,nbl) {
-	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getAnnot.default(object,nbl)}
+getAnnot <- function(object, nbl = 10000) {
+	if(! inherits(object,c("SeqFastadna", "SeqFastaAA", "SeqAcnucWeb", "SeqFrag"))) 
+	{
+	  getAnnot.default(object, nbl = nbl)
+	}
 	else UseMethod("getAnnot")
 }
 
@@ -109,8 +112,8 @@ getKeyword = function(object) {
 }
 
 
-getTrans = function(seq,frame=0, sens= "F", numcode=1){
-	if(! inherits(seq,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getTrans.default(seq,frame=0, sens= "F", numcode=1)}
+getTrans = function(object,frame=0, sens= "F", numcode=1){
+	if(! inherits(object,c("SeqFastadna","SeqFastaAA","SeqAcnucWeb","SeqFrag"))) {getTrans.default(object,frame=0, sens= "F", numcode=1)}
 	else UseMethod("getTrans")
 }
 
@@ -171,8 +174,8 @@ summary.SeqFastadna = function(object,...){
 	return(list(length=length ,composition=compo, GC=GC(object)))
 }
 
-getTrans.SeqFastadna =  function(seq, frame = 0, sens = "F", numcode = 1){
-	translate(seq, frame = frame, sens = sens, numcode = numcode)
+getTrans.SeqFastadna =  function(object, frame = 0, sens = "F", numcode = 1){
+	translate(object, frame = frame, sens = sens, numcode = numcode)
 }
 	
 
@@ -291,7 +294,7 @@ getLength.SeqAcnucWeb = function( object ){
 
 
 
-getAnnot.SeqAcnucWeb = function(object, nbl ){
+getAnnot.SeqAcnucWeb <- function(object, nbl = 10000){
 		
 	return( readAnnots.socket( socket= attr(object,"socket"),name = object, nl = nbl) ) 
 
@@ -310,17 +313,21 @@ getLocation.SeqAcnucWeb = function(object){
 
 
 
-#simon:
-#getTrans.SeqAcnucWeb = function(seq,frame=0, sens= "F", numcode=1){
-getTrans.SeqAcnucWeb = function(seq,frame=0,sens="F",numcode="auto"){
-	dnaseq <- getSequence(seq)
-	if (numcode == "auto") {
-		translate(dnaseq, frame =  as.numeric(attr(seq,"frame")), sens = "F", numcode = as.numeric(attr(seq,"ncbigc")))
-		} else {
-		translate(dnaseq, frame =  as.numeric(attr(seq,"frame")), sens = "F", numcode = as.numeric(numcode))
-		} 
-	
-	
+#
+# Translation of CDS into proteins from sequences from an ACNUC server. By
+# default, the genetic code and the frame are automatically propagated.
+#
+getTrans.SeqAcnucWeb <- function(object, frame = "auto", sens = "F", numcode = "auto"){
+  dnaseq <- getSequence(object)
+  if(numcode == "auto") {
+    numcode <- attr(object, "ncbigc")
+  }
+  numcode <- as.numeric(numcode)
+  if(frame == "auto") {
+    frame <- attr(object, "frame")
+  }
+  frame <- as.numeric(frame)
+  translate(seq = dnaseq, frame = frame, numcode = numcode) 
 }
 
 
@@ -373,8 +380,8 @@ getName.SeqFrag = function(object){
 	return(attr(object,"seqMother"))
 }
 
-getTrans.SeqFrag = function(seq, frame=0, sens= "F", numcode=1){
-	translate(seq, frame = frame, sens = sens, numcode = numcode)
+getTrans.SeqFrag = function(object, frame=0, sens= "F", numcode=1){
+	translate(object, frame = frame, sens = sens, numcode = numcode)
 }
 
 

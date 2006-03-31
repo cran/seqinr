@@ -1,4 +1,5 @@
-uco <- function (seq, frame = 0, index = c("eff", "freq", "rscu"), as.data.frame = FALSE) 
+uco <- function (seq, frame = 0, index = c("eff", "freq", "rscu"), 
+as.data.frame = FALSE, NA.rscu = NA) 
 {
     choice <- match.arg(index)
     sequence <- splitseq(seq = seq, frame = frame, word = 3)
@@ -16,6 +17,8 @@ uco <- function (seq, frame = 0, index = c("eff", "freq", "rscu"), as.data.frame
       })
       names(rscu) <- NULL
       rscu <- unlist(rscu)[as.character(SEQINR.UTIL$CODON.AA$CODON)]
+      is.na(rscu[!is.finite(rscu)]) <- TRUE
+      rscu[is.na(rscu)] <- NA.rscu
       return(rscu)
     } else { # return all indices in a data.frame
       eff <- table(factor(sequence, levels = SEQINR.UTIL$CODON.AA$CODON))
@@ -26,6 +29,8 @@ uco <- function (seq, frame = 0, index = c("eff", "freq", "rscu"), as.data.frame
       })
       names(rscu) <- NULL
       rscu <- unlist(rscu)[as.character(SEQINR.UTIL$CODON.AA$CODON)]
+      is.na(rscu[!is.finite(rscu)]) <- TRUE
+      rscu[is.na(rscu)] <- NA.rscu
       df <- data.frame(SEQINR.UTIL$CODON.AA$AA, eff = eff, freq = as.vector(freq), RSCU = rscu)
       names(df) = c("AA", "codon", "eff", "freq", "RSCU")
       return(df)

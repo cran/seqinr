@@ -4,11 +4,24 @@
 \usepackage{float}
 \usepackage{url}
 \usepackage{amsfonts}
+\usepackage{color}
+\usepackage{pdfcolmk}
 
 \SweaveOpts{prefix.string=figs/seqinr,eps=F}
 
 \begin{document}
-
+%
+% To change the R input/output style:
+%
+\definecolor{Soutput}{rgb}{0,0,0.56}
+\definecolor{Sinput}{rgb}{0.56,0,0}
+\DefineVerbatimEnvironment{Sinput}{Verbatim}
+{formatcom={\color{Sinput}},fontsize=\footnotesize, baselinestretch=0.75}
+\DefineVerbatimEnvironment{Soutput}{Verbatim}
+{formatcom={\color{Soutput}},fontsize=\footnotesize, baselinestretch=0.75}
+%
+% Shortcut for seqinR:
+%
 \newcommand{\seqinr}{\texttt{seqin\bf{R}}}
 \newcommand{\Seqinr}{\texttt{Seqin\bf{R}}}
 \fvset{fontsize= \scriptsize}
@@ -24,7 +37,8 @@ r <- getOption("repos")
 r["CRAN"] <- "http://cran.univ-lyon1.fr"
 options(repos = r)
 #library(seqinr)
-library(seqinr, lib = "/Users/lobry/seqinr.Rcheck")#Users/lobry/seqinr.Rcheck")
+#library(seqinr, lib = "/home/palmeira/work/CVS/seqinr.Rcheck")
+library(seqinr, lib = "/Users/lobry/seqinr.Rcheck")
 library(xtable)
 library(ade4)
 library(ape)
@@ -85,6 +99,85 @@ on multivariate methods.
 \end{abstract}
 
 \section{Introduction}
+
+\section{About ACNUC}
+
+\marginpar{
+\includegraphics[width=\marginparwidth]{figs/acnucbook1}\\
+\tiny{Cover of ACNUC book vol. 1}
+}
+\marginpar{
+\includegraphics[width=\marginparwidth]{figs/acnucbook2}\\
+\tiny{Cover of ACNUC book vol. 2}
+}
+
+ACNUC\footnote{
+A contraction of ACides NUCl{\'e}iques, that is \emph{NUCleic ACids}
+in french (\url{http://pbil.univ-lyon1.fr/databases/acnuc/acnuc.html})}
+was first a database of nucleic acids developed in the early
+80's in the same lab (Lyon, France) that issued \seqinr{}. ACNUC was first published
+as a printed book in two volumes \cite{GautierC1982a, GautierC1982b}
+whose covers are reproduced in margin there. At about the same time, two
+other databases were created, one in the USA (GenBank,
+at Los Alamos and now managed by the NCBI\footnote{National Center for Biotechnology Information}), 
+and another one in Germany
+(created in K{\"o}ln by K. St{\"u}ber). To avoid duplication of efforts at the
+european level, a single repository database was initiated in Germany yielding
+the EMBL\footnote{European Molecular Biology Laboratory} database that moved from K{\"o}ln
+to Heidelberg, and then to its current location at the EBI\footnote{European Bioinformatic
+Institute} near Cambridge. The DDBJ\footnote{DNA Data Bank of Japan} started
+in 1986 at the NIG\footnote{National Institute of Genetics} in Mishima. These three
+main repository DNA databases are now collaborating to maintain the INSD\footnote{
+International Nucleotide Sequence Database (\url{http://www.insdc.org/})} 
+and are sharing data on a daily basis.
+
+
+The sequences present in the ACNUC book \cite{GautierC1982a, GautierC1982b} were all
+the published nucleic acid sequences of about 150 or more continuous
+unambiguous nucleotides up to May or June 1981 from the following journals:
+
+\begin{scriptsize}
+\begin{itemize}
+\item\textit{Biochimie}
+\item\textit{Biochemistry (ACS)}
+\item\textit{Cell}
+\item\textit{Comptes Rendus de l'Acad{\'e}mie des Sciences, Paris}
+\item\textit{European Journal of Biochemistry}
+\item\textit{FEBS Letters}
+\item\textit{Gene}
+\item\textit{Journal of Bacteriology}
+\item\textit{Journal of Biological Chemistry}
+\item\textit{Journal of Molecular Biology}
+\item\textit{Molecular and General Genetics}
+\item\textit{Nature}
+\item\textit{Nucleic Acids Research}
+\item\textit{Proceedings of the National Academy of Sciences of the United States of America}
+\item\textit{Science}
+\end{itemize}
+\end{scriptsize}
+
+The total number of base pair was 474,439 in the two books. They were about 4.5 cm
+width. We can then compute of much place would it take to print the last GenBank
+release with the same format as the ACNUC book: 
+\marginpar{
+\includegraphics[width=\marginparwidth]{figs/acnucbook12}\\
+\tiny{ACNUC books are about 4.5 cm width}
+}
+
+<<gbkinkm,fig=F, eval=T>>=
+acnucbooksize <- 4.5 #cm
+acnucbp <- 474439
+choosebank("genbank") -> mybank
+mybank$details
+unlist(strsplit(mybank$details[2], split=" "))[1] -> bpbk
+bpbk
+bpbk <- as.numeric(paste(unlist(strsplit(bpbk, split = ",")), collapse = ""))
+widthcm <- acnucbooksize*bpbk/acnucbp
+(widthkm <- widthcm/10^5)
+@
+
+It would be about \Sexpr{ifelse(exists("widthkm"), round(widthkm, 1), "???")}
+kilometer long in ACNUC book format to print to print GenBank today (\today).
 
 \subsection{About R and CRAN}
 
@@ -337,9 +430,7 @@ was used to produce the figure, ensuring an automatic update. For \LaTeX~users, 
 worth mentioning the fantastic tool contributed by Friedrich Leish \cite{Sweave}
 called \texttt{Sweave()} that allows for the automatic insertion
 of R outputs (including graphics) in a \LaTeX~document. In the same spirit, there
-is a package called \texttt{xtable} to coerce R data into \LaTeX~tables, for instance
-table \ref{df} here was produced this way, enforcing a complete coherence between
-the R code example and the table.
+is a package called \texttt{xtable} to coerce R data into \LaTeX~tables.
 
 \end{description}
 
@@ -366,7 +457,7 @@ The function \texttt{read.fasta()} imports sequences from fasta files
 into your workspace, for example:
 
 <<readfasta, eval=T>>=
-seqaa <- read.fasta(File = system.file("sequences/seqAA.fasta", package = "seqinr"), seqtype="AA")
+seqaa <- read.fasta(file = system.file("sequences/seqAA.fasta", package = "seqinr"), seqtype="AA")
 seqaa
 @
 
@@ -405,6 +496,315 @@ abline(h = 0, lty = 2)
 text(400, -4, "Terminus")
 text(850, 9, "Origin")
 @
+
+As from \seqinr{} 1.0-5 the automatic conversion of sequences into vector
+of single characters and the automatic attribute settings can be neutralized, for
+instance :
+
+<<readfastaasstring, fig=F,eval=T>>=
+smallAA <- system.file("sequences/smallAA.fasta", package = "seqinr")
+read.fasta(smallAA, seqtype = "AA", as.string = TRUE, set.attributes = FALSE)
+@
+
+This is interesting to save time and space when reading large FASTA files.
+\marginpar{\includegraphics[width=\marginparwidth]{figs/ath}\\
+\tiny{\textit{Arabidobpsis thaliana}. Source: wikipedia.}
+}
+Let's give a practical example. In their paper \cite{HannahMA2005},
+Matthew Hannah, Arnd Heyer and Dirk Hincha were working on
+\textit{Arabidobpsis thaliana} genes in order to detect those involved
+in cold acclimation. They were interested by the detection of proteins called
+hydrophilins, that had a mean hydrophilicity of over 1 and glycine
+content of over 0.08 \cite{GarayArroyoA2000}, because they are though to be important
+for freezing tolerance. The starting point was a FASTA file called
+\texttt{ATH1\_pep\_cm\_20040228} downloaded from the Arabidopsis
+Information Ressource (TAIR at \url{http://www.arabidopsis.org/}) 
+which contains the sequences of 21,161 proteins.
+
+<<readath,fig=F, eval=T>>=
+athfile <- system.file("sequences/ATH1_pep_cm_20040228.fasta", package = "seqinr")
+system.time(ath <- read.fasta(athfile, seqtype = "AA", as.string = TRUE, set.attributes = FALSE))
+@
+
+It's about one minute here to read 21,161 protein sequences. We save them
+in XDR binary format to read them faster later at will:
+
+<<saveath,fig=F,eval=T>>=
+save(ath, file = "ath.RData")
+@
+<<loadath,fig=F,eval=T>>=
+system.time(load("ath.RData"))
+@
+
+Now it's about one second to load the whole data set thanks to the XDR format.
+The object size is about 15 Mo in RAM, that is something very close to
+the flat file size on disk:
+
+<<sizeath,fig=F,eval=T>>=
+object.size(ath)/2^20
+file.info(athfile)$size/2^20
+@
+
+Using strings for sequence storage is very comfortable when there is
+an efficient function to compute what you want. For instance, suppose
+that you are interested by the distribution of protein size in
+\textit{Arabidopsis thaliana}. There is an efficient vectorized function
+called \texttt{nchar()} that will do the job, we just have to remove
+one unit because of the stop codon which is translated as a star (*) in
+this data set. This is a simple and direct task under R:
+
+<<athdistriprotsize,fig=T,eval=T>>=
+nres <- nchar(ath) - 1
+hist(log10(nres), col = grey(0.7), xlab = "Protein size (log10 scale)",
+ylab = "Protein count", 
+main = expression(italic(Arabidopsis~~thaliana)))
+@
+
+However, sometimes it is more convenient to work with the single
+character vector representation of sequences. For instance, to count
+the number of glycine (G), we first play with one sequence, let's
+take the smallest one in the data set:
+
+<<playwithonesequence,fig=F,eval=T>>=
+which.min(nres)
+ath[[9523]]
+s2c(ath[[9523]])
+s2c(ath[[9523]]) == "G"
+sum(s2c(ath[[9523]]) == "G")
+@
+
+We can now easily define a vectorised function to count the number
+of glycine:
+
+<<ngly,fig=F,eval=T>>=
+ngly <- function(data){
+ res <- sapply(data, function(x) sum(s2c(x) == "G"))
+ names(res) <- NULL
+ return(res)
+}
+@
+
+Now we can use \texttt{ngly()} in the same way that \texttt{nchar()} so
+that computing glycine frequencies is very simple:
+
+<<glycinefreq,fig=F,eval=T>>=
+ngly(ath[1:10])
+fgly <- ngly(ath)/nres
+@
+
+And we can have a look at the distribution:
+
+<<histgly,fig=T,eval=T>>=
+hist(fgly, col = grey(0.7), main = "Distribution of Glycine frequency",
+xlab = "Glycine content", ylab = "Protein count")
+abline(v = 0.08, col = "red")
+legend("topright",inset=0.01,lty=1,col="red",legend="Threshold for hydrophilines")
+@
+
+Let's use a boxplot instead:
+
+<<boxplotgly,fig=T,eval=T>>=
+boxplot(fgly, horizontal = TRUE, col = grey(0.7), main = "Distribution of Glycine frequency",
+xlab = "Glycine content", ylab = "Protein count")
+abline(v = 0.08, col = "red")
+legend("topright",inset=0.01,lty=1,col="red",legend="Threshold for hydrophilines")
+@
+
+The threshold value for the glycine content in hydrophilines is therefore
+very close to the third quartile of the distribution:
+
+<<summaryfgly,fig=F,eval=T>>=
+summary(fgly)
+@
+
+We want now to compute something relatively more complex,
+we want the Kyte and Doolittle\cite{KD} hydropathy score of our proteins
+(aka GRAVY score). This is basically a linear form on amino
+acid frequencies:
+
+$$
+s = \sum_{i = 1}^{20} \alpha_{i}f_{i}
+$$
+where $\alpha_{i}$ is the coefficient for amino acid number $i$ and
+$f_{i}$ the relative frequency of amino acid number $i$. The coefficients
+$\alpha_{i}$ are given in the \texttt{KD} component of the data set
+\texttt{EXP}:
+
+<<dataEXP,fig=F,eval=T>>=
+data(EXP)
+EXP$KD
+@
+
+This is for codons in lexical order, that is:
+
+<<lexicalorder,fig=F,eval=T>>=
+words()
+@
+
+But since we are working with protein sequences here we name the
+coefficient according to their amino acid :
+
+<<putexpkdnames,fig=F,eval=T>>=
+names(EXP$KD) <- sapply(words(),function(x) translate(s2c(x)))
+@
+
+We just need one value per amino acid, we sort them in the lexical
+order, and we reverse the scale so as to have positive values for
+hydrophilic proteins as in \cite{HannahMA2005} :
+
+<<kdc,fig=F,eval=T>>=
+kdc <- EXP$KD[unique(names(EXP$KD))]
+kdc <- -kdc[order(names(kdc))]
+kdc
+@
+
+Now that we have the vector of coefficient $\alpha_{i}$, we need the
+amino acid relative frequencies $f_{i}$, let's play with one protein
+first:
+
+<<playwithoneforkd,fig=F,eval=T>>=
+ath[[9523]]
+s2c(ath[[9523]])
+table(s2c(ath[[9523]]))
+table(factor(s2c(ath[[9523]]), levels = names(kdc)))
+@
+
+Now that we know how to count amino acids it's relatively easy thanks
+to R's matrix operator \texttt{\%*\%} to
+define a vectorised function to compute a linear form on amino acid
+frequencies:
+
+<<linform,fig=F,eval=T>>=
+linform <- function(data, coef){
+ f <- function(x){
+   aaseq <- s2c(x)
+   freq <- table(factor(aaseq, levels = names(coef)))/length(aaseq)
+   return(coef %*% freq)
+ }
+ res <- sapply(data, f)
+ names(res) <- NULL
+ return(res)
+}
+kdath <- linform(ath,kdc)
+@
+
+Let's have a look at the distribution:
+
+<<distriKD,fig=T,eval=T>>=
+boxplot(kdath, horizontal = TRUE, col = grey(0.7),
+main = "Distribution of Hydropathy index",
+xlab = "Kyte and Doolittle GRAVY score")
+abline(v = 1, col = "red")
+legend("topleft",inset=0.01,lty=1,col="red",legend="Threshold for hydrophilines")
+@
+
+The threshold is therefore much more stringent here than the previous one on
+glycine content. Let's define a vector of logicals to select the hydrophilines:
+
+<<hydrophilinesindex,fig=F,eval=T>>=
+hydrophilines <- fgly > 0.08 & kdath > 1
+names(ath)[hydrophilines]
+@
+
+Check with a simple graph that there is no mistake here:
+
+<<chekhydro,fig=T,eval=T>>=
+library(MASS)
+dst <- kde2d(kdath,fgly, n = 50)
+filled.contour(x = dst, color.palette = topo.colors,
+plot.axes = {
+  axis(1)
+  axis(2)
+  title(xlab="Kyte and Doolittle GRAVY score", ylab = "Glycine content",
+    main = "Hydrophilines location")
+  abline(v=1, col = "yellow")
+  abline(h=0.08, col = "yellow")
+  points(kdath[hydrophilines], fgly[hydrophilines], col = "white")
+  legend("topleft",inset=0.02,lty=1,col="yellow", bg="white", legend="Threshold for hydrophilines", cex = 0.8)
+  }
+)
+@
+
+Everything seems to be OK, we can save the results in a data frame:
+
+<<hyd,fig=F,eval=T>>=
+data.frame(list("name"=names(ath), 
+"KD"=kdath, "Gly"=fgly)) -> athres
+head(athres)
+@
+
+  
+%
+% Deleted because this table is a little bit too long
+%
+% We can also export the data frame in a \LaTeX~table:
+%
+%<<hydlatex,fig=F,eval=T>>=
+%library(xtable)
+%print(xtable(x = hyd, caption = "Hydrophilines from \\textit{Arabidopsis thaliana}.", 
+%    label = "hyd", digits = c(0,0,0,3,3)), file = "hyd.tex", size = "tiny")
+%@
+%\input{hyd.tex}
+%
+%so as to generate table \ref{hyd}.
+
+We want to check now that the results are consistent with those reported
+previously. The following table is extracted from the file
+\texttt{pgen.0010026.st003.xls} provided as the supplementary
+material table S3 in \cite{HannahMA2005} and available at
+\url{http://www.pubmedcentral.nih.gov/picrender.fcgi?artid=1189076&blobname=pgen.0010026.st003.xls}.
+Only the protein names, the hydrophilicity and the glycine content were
+extracted:
+
+<<readhannah,fig=F,eval=T>>=
+read.table(system.file("sequences/hannah.txt", package = "seqinr"), sep = "\t", header = TRUE)->hannah
+head(hannah)
+@
+
+The protein names are not exactly the same because they have no extension.
+As explained in \cite{HannahMA2005}, when multiple gene models 
+were predicted only the first was one used. Then:
+
+<<renamehannah,fig=F,eval=T>>=
+hannah$AGI <- paste(hannah$AGI, "1", sep = ".")
+head(hannah)
+@
+
+We join now the two data frames thanks to their common key:
+
+<<jointure,fig=F,eval=T>>=
+join <- merge(hannah, athres, by.x = "AGI", by.y = "name")
+head(join)
+@
+
+Let's compare the glycine content :
+
+<<comparegly,fig=T,eval=T>>=
+plot(join$Glycine, join$Gly, xlab = "Glycine content in Hannah et al. (2005)",
+ylab = "Glycine content here", main = "Comparison of Glycine content results")
+abline(c(0,1), col = "red")
+@
+
+The results are consistent, we have just lost some resolution because
+there are only two figures after the decimal point in the Excel\footnote{
+this software is a real \textbf{pain} for the reproducibility of results.
+This is well documented, see \url{http://www.burns-stat.com/pages/Tutor/spreadsheet_addiction.html}
+and references therein.
+} file. Let's have a look at the GRAVY score now:
+
+<<comparekd,fig=T,eval=T>>=
+plot(join$Hydrophilicity, join$KD, xlab = "GRAVY score in Hannah et al. (2005)",
+ylab = "GRAVY score here", main = "Comparison of hydropathy score results", las = 1)
+abline(c(0,-1), col = "red")
+abline(v=0, lty=2)
+abline(h=0, lty=2)
+@
+
+The results are consistent, it's hard to say whether the small differences
+are due to Excel rounding errors or because the method used to compute the GRAVY
+score was not exactly the same (in \cite{HannahMA2005} they used the
+mean over a sliding window). 
+
 
 \subsection{Importing aligned sequence data}
 
@@ -446,7 +846,7 @@ gopher$nam
    Images are from the wikipedia (\protect\url{http://www.wikipedia.org/}).
    The picture of the chewing louse \textit{Damalinia limbata} found on Angora goats
    was taken by Fiorella Carnevali (ENEA, Italy). The gopher drawing is from
-   Gustav Mützel, Brehms Tierleben, Small Edition 1927.}
+   Gustav M{\"u}tzel, Brehms Tierleben, Small Edition 1927.}
    \label{lousegopher}
 \end{figure}
 
@@ -1815,6 +2215,8 @@ file = "aacost.tex")
 \input{aacost.tex}
 
 \clearpage
+\section{Nonparametric statistics}
+
 \SweaveInput{prochlo.rnw}
 
 \clearpage
@@ -1850,7 +2252,62 @@ GC3m(ecribo)
 GC3m(ecribo, 1:10)
 @
 
+\subsection{How do I get a sequence from its name?}
+
+This question is adapted from an e-mail (22 Jun 2006) by Gang Xu.
+I know that the UniProt (SwissProt) entry of my protein is \texttt{P08758},
+if I know its name, how can I get the sequence?
+
+<<uniprot,fig=F,eval=T>>=
+choosebank("swissprot") 
+query("myprot","AC=P08758")
+getSequence(myprot$req[[1]])       
+@
+
 \section{Releases notes}
+
+\subsection{release 1.0-5}
+
+\begin{itemize}
+
+\item A  new function \texttt{dotPlot()} is now available.
+
+\item A new function \texttt{crelistfromclientdata()} is now available to
+create a list on the server from a local file of sequence names, sequence
+accession numbers, species names, or keywords names.
+
+\item A new function \texttt{pmw()} to compute the molecular weight of
+a protein is now available.
+
+\item A new function \texttt{reverse.align()} contributed by Anamaria Nec\c{s}ulea
+is now available to align CDS at the protein level and then reverse translate this at
+the nucleic acid level from a \texttt{clustalw} output. This can be done on the fly
+if \texttt{clustalw} is available on your platform.
+
+\item An undocumented behavior was reported by Guy Perri{\`e}re for \texttt{uco()}
+when computing RSCU on sequences where an amino-acid is missing. There is
+now a new argument \texttt{NA.rscu} that allows the user to force the
+missing values to his favorite magic value.
+
+\item There was a bug in \texttt{read.fasta()}: some sequence names were
+truncated, this is now fixed (thanks to Marcus G. Daniels for pointing this).
+In order to be more consistent with standard functions such as \texttt{read.table()}
+or \texttt{scan()}, the file argument starts now with a lower case letter (\texttt{file})
+in function \texttt{read.fasta()}, but the old-style \texttt{File} is still
+functional for forward-compatibility. There is a new logical argument in \texttt{read.fasta()}
+named \texttt{as.string} to allow sequences to be returned as strings instead of
+vector of single characters. The automatic conversion of DNA sequences into
+lower case letters can now be disabled with the new logical argument
+\texttt{forceDNAtolower}. It is also possible to disable the automatic attributes
+settings with the new logical argument \texttt{set.attributes}.
+
+\item A new function \texttt{write.fasta()} is now available.
+
+\item The function \texttt{kaks()} now forces character in sequences to upper case.
+This default behavior can be neutralized in order to save time by setting the 
+argument \texttt{forceUpperCase} to \texttt{FALSE}.
+
+\end{itemize}
 
 \subsection{release 1.0-4}
 
@@ -1866,7 +2323,33 @@ vignette along with two toy data sets (\texttt{toyaa} and \texttt{toycodon}).
 \item A bug in \texttt{getAnnot()} when the number of lines was zero is now fixed.
 \item There is now a new argument, \texttt{latexfile}, in \texttt{tablecode()} to export genetic codes
 tables in a \LaTeX~document, for instance table \ref{code3.tex} and table \ref{code4.tex} here.
+\item There is now a new argument, \texttt{freq}, in \texttt{count()}
+  to compute word frequencies instead of counts.
 \item Function \texttt{splitseq()} has been entirely rewritten to improve speed.
+\item Functions computing the G+C content: \texttt{GC(), GC1(), GC2(),
+  GC3()} were rewritten to improve speed, and their document files
+  were merged to facilitate usage.
+\item The following new functions have been added:
+\begin{itemize}
+\item \texttt{syncodons()} returns all synonymous codons for a given
+  codon. Argument \texttt{numcode} specifies the desired genetic code.
+\item \texttt{ucoweight()} returns codon usage bias on a sequence as
+  the number of synonymous codons present in the sequence for each
+  amino acid.
+\item \texttt{synsequence()} generates a random coding sequence which
+      is synonymous to a given sequence and has a chosen codon usage
+      bias.
+\item \texttt{permutation()} generates a new sequence from a given
+  sequence, while maintaining some constraints from the given sequence
+  such as nucleotide frequency, codon usage bias, ...
+\item \texttt{rho()} computes the rho statistic on dinucleotides as
+  defined in \cite{Karlin}.
+\item \texttt{zscore()} computes the zscore statistic on dinucleotides
+  as defined in \cite{UV}.
+\end{itemize}
+\item Two datasets (\texttt{dinucl} and \texttt{prochlo}) were added
+  to illustrate these new functions.
+
 \end{itemize}
 
 \subsection{release 1.0-3}
@@ -1937,6 +2420,16 @@ Wavelab and reproducible research.
 Gautier, C:
 Analyses statistiques et {\'e}volution des s{\'e}quences d'acides nucl{\'e}iques.
 PhD thesis (1987), Universit{\'e} Claude Bernard - Lyon I.
+
+\bibitem{GautierC1982a}
+Gautier, C., Gouy, M., Jacobzone, M., Grantham, R.:
+Nucleic acid sequences handbook. Vol. 1.
+ISBN 0-275-90798-8 (1982), Praeger Publishers, London, UK.
+
+\bibitem{GautierC1982b}
+Gautier, C., Gouy, M., Jacobzone, M., Grantham, R.:
+Nucleic acid sequences handbook. Vol. 2.
+ISBN 0-275-90799-6 (1982), Praeger Publishers, London, UK.
 
 \bibitem{RFAQ}
 Hornik, K.: 
@@ -2057,9 +2550,9 @@ Chance and Statistical Significance in Protein and DNA Sequence Analysis.
 Science {\bf 257} (1992) 39--49.
 
 \bibitem{UV}
-Palmeira, L., Guéguen L., Lobry, J.R.:
+Palmeira, L., Gu\'eguen L., Lobry, J.R.:
 UV-targeted dinucleotides are not depleted in light-exposed Prokaryotic genomes.
-\textit{in prep.}
+\textit{in revision}
 
 \bibitem{Singer}
 Singer, C.E., Ames, B.N.:
@@ -2075,6 +2568,18 @@ Science {\bf 175} (1972) 1391--1393.
 Setlow, R. B.:
 Cyclobutane-Type Pyrimidine Dimers in Polynucleotides.
 Science {\bf 153} (1966) 379--386.
+
+\bibitem{HannahMA2005}
+Hannah, M.A., Heyer, A.G., Hincha, D.K.:
+A global survey of gene regulation during cold acclimation in 
+\textit{Arabidopsis thaliana}. 
+PLoS Genet {\bf 1} (2005) e26.
+
+\bibitem{GarayArroyoA2000}
+Garay-Arroyo, A., Colmenero-Flores, J.M., Garciarrubio, A., Covarrubias, A.A.: 
+Highly hydrophilic proteins in prokaryotes and eukaryotes are 
+common during conditions of water deficit. 
+J Biol Chem {\bf 275} (2000) 5668--5674. 
 
 \end{thebibliography}
 

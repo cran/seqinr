@@ -42,12 +42,12 @@ fragment complexe requests into simple requests. For instance, here are
 two equivalent ways to get all coding sequences from \emph{Escherichia coli} 
 that are not partial:
 
-\preformatted{s=choosebank("genbank")}
-\code{query(s$socket,"final","sp=escherichia coli ET t=cds ET NO k=partial")}
-\preformatted{s=choosebank("genbank")}
-\code{query(s$socket,"eco","sp=escherichia coli")}
-\preformatted{query(s$socket,"ecocds","eco ET t=cds")}
-\code{query(s$socket,"final","ecocds ET NO k=partial")}
+\preformatted{choosebank("genbank")}
+\code{query("final", "sp=escherichia coli ET t=cds ET NO k=partial")}
+\preformatted{choosebank("genbank")}
+\code{query("eco", "sp=escherichia coli")}
+\preformatted{query("ecocds", "eco ET t=cds")}
+\code{query("final", "ecocds ET NO k=partial")}
 
 }
 
@@ -137,8 +137,14 @@ URNA   \tab Sequenced molecule is snRNA \tab (GenBank, Hovergen)
            
 \item{AC = accession number}{ sequences of given accession number.}
 
-\item{F = file name}{ sequences whose names are in a specified file.}                                
-\item{FA = file name}{ sequences whose accesion numbers are in a specified file.} 
+\item{F = file name}{ (not implemented) sequences whose names are in a specified file.
+  Use \code{\link{crelistfromclientdata}} with \code{type = "SQ"} for this purpose.
+  }
+                                
+\item{FA = file name}{ (not implemented) sequences whose accesion numbers are in a specified file.
+  Use \code{\link{crelistfromclientdata}} with \code{type = "AC"} for this purpose.
+  } 
+
 }
 \value{
   A list with the following components:
@@ -167,14 +173,21 @@ Gouy, M., Gautier, C., Milleret, F. (1985) System analysis and nucleic acid sequ
 \author{J.R. Lobry & D. Charif}
 \note{Most of the documentation was imported from ACNUC help
 files written by Manolo Gouy}
-\seealso{ \code{\link{choosebank}}, \code{\link{getSequence}}, \code{\link{plot.SeqAcnucWeb}} }
+\seealso{
+  \code{\link{choosebank}}, 
+  \code{\link{getSequence}}, 
+  \code{\link{getName}},
+  \code{\link{crelistfromclientdata}}
+}
 \examples{
- \dontrun{s <- choosebank("genbank")}
- \dontrun{query(s$socket,"ecoli","sp=escherichia coli@")}
- \dontrun{ecoli}
- # To have the 4 first names of the sequence
- \dontrun{ecoli$req[1:4]}
- \dontrun{ecoli$req[[5]]}
- \dontrun{ecoli$call}
+ \dontrun{
+ # Need internet connection
+ choosebank("genbank")
+ query("bb", "sp=Borrelia burgdorferi")
+ # To get the names of the 4 first sequences:
+ sapply(bb$req[1:4], getName)
+ # To get the 4 first sequences:
+ sapply(bb$req[1:4], getSequence, as.string = TRUE) 
+ }
 }
 \keyword{utilities}

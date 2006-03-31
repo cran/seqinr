@@ -2,7 +2,6 @@
 % Prochlorococcus marinus example
 %
 
-\section{Nonparametric statistics}
 
 Nonparametric statistical methods were initially developped to study
 variables for which little or nothing is known concerning their
@@ -34,7 +33,7 @@ that compose it ($\rho_{xy} = 1$). Departure from this value
 characterizes either over- or under-representation of dinucleotide
 $xy$.
 
-<<n, eval=TRUE, echo= FALSE>>=
+<<n, echo= FALSE,eval=T>>=
 n <- 500
 di <- 4
 @ 
@@ -47,11 +46,14 @@ sequences, we can fit a normal distribution which is centered on 1
 
 \begin{figure}[H]
   \begin{center}
-<<rho, echo = TRUE, fig=TRUE, results=hide,height=5,eval=TRUE>>=
+<<rho, echo = TRUE, fig=TRUE, results=hide,height=5,eval=T>>=
 rhoseq <- sapply(seq(n),function(x){rho(sample(s2c('acgt'),6000,rep=TRUE))})
 hist(rhoseq[di,],freq=FALSE,xlab="Rho statistic",main=paste("Distribution for dinucleotide",toupper(labels(rhoseq)[[1]][di]),"on",n,"random sequences"),las=1,col=grey(0.8),border=grey(0.5))
 abline(v=1,lwd=2,lty=3)
-lines(density(rnorm(1000,mean=mean(rhoseq[di,]),sd=sqrt(var(rhoseq[di,])))),lwd=2,lty=2)
+min=min(rhoseq[di,])
+max=max(rhoseq[di,])
+x=seq(min,max,length.out=1000)
+lines(x,dnorm(x,mean=mean(rhoseq[di,]),sd=sd(rhoseq[di,])),lwd=2,lty=2)
 @ 
 \end{center}
    \caption{Distribution of the $\rho$ statistic computed on
@@ -105,7 +107,7 @@ we will extract a CDS sequence of \textit{Escherichia coli}'s
 chromosome from the Genome Reviews database. We will first make a
 request to retrieve all available CDS from this bacteria:
 
-<<querycoli, eval = TRUE, echo = TRUE>>=
+<<querycoli, echo = TRUE,eval=T>>=
 choosebank("greview")
 query("coli","sp=escherichia coli et t=cds et no k=partial")
 sequence <- getSequence(coli$req[[448]]) 
@@ -126,7 +128,7 @@ following nonparametric statistics:
 
 \begin{figure}[H]
   \begin{center}
-<<dinuclcoli, eval = TRUE, echo = TRUE, fig = TRUE>>=
+<<dinuclcoli, echo = TRUE, fig = TRUE,eval=T>>=
 rhocoli=rho(sequence)
 zcolibase=zscore(sequence,mod='base')
 zcolicodon=zscore(sequence,mod='codon')
@@ -204,17 +206,17 @@ to UV wavelengths differ and depend on the micro-organism
 
 %% %% \begin{figure}
 %% %%    \begin{minipage}[c]{.46\linewidth}
-%% <<sensitivity1, eval = TRUE, echo = FALSE, fig = TRUE>>=
+%% <<sensitivity1, eval = TRUE, echo = FALSE, fig = TRUE,eval=T>>=
 %% pie(c(0.59,0.34,0.07),labels=c('T-T(59\%)','C-T(34\%)','C-C(7\%)'),col=c('lightblue','purple','royalblue'),main="Escherichia coli")
 %% @
 %% %%   \end{minipage} \hfill
 %% %%    \begin{minipage}[c]{.46\linewidth}
-%% <<sensitivity2, eval = TRUE, echo = FALSE, fig = TRUE>>=
+%% <<sensitivity2, eval = TRUE, echo = FALSE, fig = TRUE,eval=T>>=
 %% pie(c(0.71,0.24,0.05),labels=c('T-T(71\%)','C-T(24\%)','C-C(5\%)'),col=c('lightblue','purple','royalblue'),main="Haemophilus influenzae")
 %% @ 
 %% %%    \end{minipage} \hfill
 %% %%    \begin{minipage}[c]{.46\linewidth}
-%% <<sensitivity3, eval = TRUE, echo = FALSE, fig = TRUE>>=
+%% <<sensitivity3, eval = TRUE, echo = FALSE, fig = TRUE,eval=T>>=
 %% pie(c(0.19,0.55,0.26),labels=c('T-T(19\%)','C-T(55\%)','C-C(26\%)'),col=c('lightblue','purple','royalblue'),main="Micrococcus lysodeikticus")
 %% @
 %% %%    \end{minipage}
@@ -236,28 +238,28 @@ with a high G+C content will contain few phototargets (see Fig.
 
 \begin{figure}[H]
   \begin{center}
-<<GCcoli, echo=F,fig=T,results=hide,height=5,eval=TRUE>>=
+<<GCcoli, echo=F,fig=T,results=hide,height=5,eval=T>>=
 worstcase = function(gc){
-	c = gc
-	t = (1-gc)
-	(0.59*t*t + 0.34*t*c + 0.07*c*c)/2
+c = gc
+t = (1-gc)
+(0.59*t*t + 0.34*t*c + 0.07*c*c)/2
 }
 randomcase = function(gc){
-   	c = gc/2
-	t = (1-gc)/2
-	0.59*t*t + 0.34*t*c + 0.07*c*c
+c = gc/2
+t = (1-gc)/2
+0.59*t*t + 0.34*t*c + 0.07*c*c
 }
 bestcase = function(gc){
-	c = (gc)/2
-	t = (1-gc)/2
-	if ((c+t)<=0.5){
-		0
-	}	
-	else{
-		c = (c + t - 0.5)/2
-		t = (c + t - 0.5)/2
-		0.59*t*t + 0.34*t*c + 0.07*c*c
-	}
+c = (gc)/2
+t = (1-gc)/2
+if ((c+t)<=0.5){
+0
+} 
+else{
+c = (c + t - 0.5)/2
+t = (c + t - 0.5)/2
+0.59*t*t + 0.34*t*c + 0.07*c*c
+}
 }
 xval <- seq(from = 0, to = 100, length = 100)
 sapply(xval/100, randomcase) -> yrand
@@ -301,28 +303,28 @@ In a \textit{Micrococcus lysodeikticus} sequence (see Fig.
 
 \begin{figure}[H]
    \begin{center}
-<<GCmicro, echo=F,fig=T,results=hide,height=5,eval=TRUE>>=
+<<GCmicro, echo=F,fig=T,results=hide,height=5,eval=T>>=
 worstcase = function(gc){
-	c = gc
-	t = (1-gc)
-	(0.19*t*t + 0.55*t*c + 0.26*c*c)/2
+c = gc
+t = (1-gc)
+(0.19*t*t + 0.55*t*c + 0.26*c*c)/2
 }
 randomcase = function(gc){
-   	c = gc/2
-	t = (1-gc)/2
-	0.19*t*t + 0.55*t*c + 0.26*c*c
+c = gc/2
+t = (1-gc)/2
+0.19*t*t + 0.55*t*c + 0.26*c*c
 }
 bestcase = function(gc){
-	c = (gc)/2
-	t = (1-gc)/2
-	if ((c+t)<=0.5){
-		0
-	}	
-	else{
-		c = (c + t - 0.5)/2
-		t = (c + t - 0.5)/2
-		0.19*t*t + 0.55*t*c + 0.26*c*c
-	}
+c = (gc)/2
+t = (1-gc)/2
+if ((c+t)<=0.5){
+0
+} 
+else{
+c = (c + t - 0.5)/2
+t = (c + t - 0.5)/2
+0.19*t*t + 0.55*t*c + 0.26*c*c
+}
 }
 xval <- seq(from = 0, to = 100, length = 100)
 sapply(xval/100, randomcase) -> yrand
@@ -372,7 +374,7 @@ June 16, 2005), we have computed the mean of the \textit{zscore} with
 the \texttt{base} model on all intergenic sequences, and the mean of
 the \textit{zscore} with the \texttt{codon} model on all CDS:
 
-<<dinucl,eval=TRUE>>=
+<<dinucl,eval=T>>=
 data(dinucl)
 @ 
 
@@ -382,7 +384,7 @@ none of the four pyrimidine dinucleotides (see Fig.
 
 \begin{figure}[H]
    \begin{center}
-<<dinucl-graphes,eval=TRUE,echo=FALSE,fig=TRUE>>=
+<<dinucl-graphes,echo=FALSE,fig=TRUE,eval=T>>=
 par(mfrow=c(2,2))
 plot(dinucl$intergenic$CT,dinucl$coding$CT,xlab="intergenic",ylab="coding",main="CpT bias",las=1,ylim=c(-6,4),xlim=c(-3,3),pch=".",cex=3)
 abline(v=0,lty=3)
@@ -451,14 +453,14 @@ We have computed the \textit{zscore} with the \texttt{codon} model on
 all CDS from each of these three strains (as retrieved from Genome
 Reviews database on June 16, 2005):
 
-<<dinucl,eval=TRUE>>=
+<<dinucl,eval=T>>=
 data(prochlo)
 @ 
 
 
 \begin{figure}[H]
    \begin{center}
-<<prochlo,fig=TRUE,echo=FALSE,results=hide,height=3,eval=TRUE>>=
+<<prochlo,fig=TRUE,echo=FALSE,results=hide,height=3,eval=T>>=
 par(mfrow=c(2,2),mar=c(2,3,2,3))
 plot(density(prochlo$BX548174$CT),ylim=c(0,0.4),xlim=c(-4,4),lty=3,lwd=2,main="CpT bias",xlab="",ylab="",las=1)
 lines(density(prochlo$AE017126$CT),lwd=2,lty=2)

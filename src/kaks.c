@@ -57,7 +57,7 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
   SEXP rvka;
   SEXP rvks;
   SEXP res;
-  SEXP lsequtil; /* The effective number of sites used, to be implemented */
+/*  SEXP lsequtil; The effective number of sites used, to be implemented */
 
   debugon = INTEGER_VALUE(debugkaks);
   totseqs = INTEGER_VALUE(nbseq);
@@ -82,7 +82,9 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
   }
   /* The length of the first sequence is used as a reference since in an
     alignment all sequences are supposed to be of the same length, this point
-  is controlled before call to kaks at the R level.*/
+    is controlled before call to kaks at the R level.
+  */
+
   lgseq = strlen(seq[0]);
   if(debugon) Rprintf("C> lgseq = %d\n", lgseq);
  

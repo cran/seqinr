@@ -3,9 +3,8 @@
 \title{ Prediction of origin and terminus of replication in bacteria }
 \description{
 This program finds the putative origin and terminus of 
-replication in procaryotic genomes. The program works with
-unannotated sequences and therefore uses glimmer2 outputs to 
-discriminate between codon positions.
+replication in procaryotic genomes. The program discriminates
+between codon positions.
 }
 \usage{
 oriloc(seq.fasta = system.file("sequences/ct.fasta", package ="seqinr"),
@@ -26,9 +25,11 @@ of the oriloc program }
 }
 \details{
 The method builds on the fact that there are compositional asymmetries between
-the leading and the lagging strand for replication. The program works with
-unannotated sequences in fasta format and therefore uses glimmer2.0 outputs to
-discriminate between codon positions so as to increase the signal/noise ratio.
+the leading and the lagging strand for replication. The programs works only
+with third codon positions so as to increase the signal/noise ratio.
+To discriminate between codon positions, the program use as input either
+an annotated genbank file, either a fasta file and a glimmer2.0 output
+file.
 }
 \value{
   A data.frame with seven columns: \code{g2num} for the CDS number in
@@ -44,6 +45,13 @@ skew in third codon positions.
 }
 \references{ 
 
+More illustrated explanations to help understand oriloc outputs
+are available there:
+\url{http://pbil.univ-lyon1.fr/software/Oriloc/howto.html}.\cr
+
+Examples of oriloc outputs on real sequence data are there: 
+\url{http://pbil.univ-lyon1.fr/software/Oriloc/index.html}.\cr
+
 The original paper for oriloc:\cr
 Frank, A.C., Lobry, J.R. (2000) Oriloc: prediction of replication
 boundaries in unannotated bacterial chromosomes. \emph{Bioinformatics}, 
@@ -58,7 +66,10 @@ Lobry, J.R. (1999) Genomic landscapes. \emph{Microbiology Today},
 An early and somewhat historical application of DNA-walks:\cr
 Lobry, J.R. (1996) A simple vectorial representation of DNA sequences 
 for the detection of replication origins in bacteria. \emph{Biochimie},
-\bold{78}:323-326.
+\bold{78}:323-326.\cr
+
+Glimmer, a very efficient open source software for the prediction of CDS from scratch
+in prokaryotic genome, is decribed at \url{http://www.cbcb.umd.edu/software/glimmer/}.\cr
 
 \code{citation("seqinr")}
 }
@@ -70,7 +81,7 @@ corresponds to the movement in the positive y-direction and G to a movement
 in the negative y-direction. T and A are mapped by analogous steps along the 
 x-axis. When there is a strand asymmetry, this will form a trajectory that 
 turns at the origin and terminus of replication. Each step is the sum of 
-nucleotides in a gene in third codon positions. Then ortogonal regression is 
+nucleotides in a gene in third codon positions. Then orthogonal regression is 
 used to find a line through this trajectory. Each point in the trajectory will 
 have a corresponding point on the line, and the coordinates of each are 
 calculated. Thereafter, the distances from each of these points to the origin
@@ -82,9 +93,13 @@ one or two peaks. Positive peak means origin, and negative means terminus.
 In the case of only one peak, the sequence starts at the origin or terminus 
 site. }
 \examples{
-  \dontrun{  out <- oriloc() }
-  \dontrun{  plot(out$st, out$sk, type="l", xlab="Map position in Kb",
+\dontrun{
+# A little bit too long for routine checks:
+library(ade4)
+out <- oriloc()
+plot(out$st, out$sk, type = "l", xlab = "Map position in Kb",
     ylab = "Cumulated composite skew", 
-    main=expression(italic(Chlamydia~~trachomatis)~~complete~~genome))}
+    main = expression(italic(Chlamydia~~trachomatis)~~complete~~genome))
+}
 }
 \keyword{utilities}

@@ -1,4 +1,4 @@
-kaks <- function(x, debug = FALSE){
+kaks <- function(x, debug = FALSE, forceUpperCase = TRUE){
     #
     # Check argument class:
     #
@@ -30,6 +30,15 @@ kaks <- function(x, debug = FALSE){
     if( lseqs[1] %% 3 != 0){
       warning("sequence lengths are not a multiple of 3")
       return(NA)
+    }
+    #
+    # Force sequences characters to upper case letters when at least one
+    # one 'a', 'c', 'g', or 't' is found in the sequences:
+    #
+    if(forceUpperCase){
+      if( length(grep("[acgt]", x$seq)) != 0){
+        x$seq <- toupper(x$seq)
+      }
     }
     #
     # Call internal C function:
