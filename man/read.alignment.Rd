@@ -6,14 +6,15 @@
  These formats are used to store nucleotide or protein multiple alignments. 
 }
 \usage{
-read.alignment(File, format)
+read.alignment(file, format, File = NULL)
 }
 \arguments{
-  \item{File}{the name of the file which the aligned sequences are to be read from. 
+  \item{file}{the name of the file which the aligned sequences are to be read from. 
   If it does not contain an absolute or relative path, the file name is relative 
   to the current working directory, \code{\link{getwd}}. }
   \item{format}{a character string specifying the format of the file : \code{mase}, 
   \code{clustal}, \code{phylip}, \code{fasta} or \code{msf} }
+  \item{File}{synonymous of file maintained for backward compatibility.}
 }
 \details{
 
@@ -76,10 +77,10 @@ read.alignment(File, format)
 }
 \author{ D. Charif, J.R. Lobry }
 \examples{
-mase <- read.alignment(File = system.file("sequences/test.mase", package = "seqinr"), format = "mase")
-clustal <- read.alignment(File = system.file("sequences/test.aln", package = "seqinr"), format="clustal")
-phylip <- read.alignment(File = system.file("sequences/test.phylip", package = "seqinr"), format = "phylip")
-msf <- read.alignment(File = system.file("sequences/test.msf", package = "seqinr"), format = "msf")
-fasta <- read.alignment(File = system.file("sequences/Anouk.fasta", package = "seqinr"), format = "fasta")
+mase <- read.alignment(file = system.file("sequences/test.mase", package = "seqinr"), format = "mase")
+clustal <- read.alignment(file = system.file("sequences/test.aln", package = "seqinr"), format="clustal")
+phylip <- read.alignment(file = system.file("sequences/test.phylip", package = "seqinr"), format = "phylip")
+msf <- read.alignment(file = system.file("sequences/test.msf", package = "seqinr"), format = "msf")
+fasta <- read.alignment(file = system.file("sequences/Anouk.fasta", package = "seqinr"), format = "fasta")
 }
 \keyword{ manip }

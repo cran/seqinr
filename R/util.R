@@ -2,7 +2,7 @@
 # char to string
 ########################
 
-"c2s" <- function( chars = c("m","e","r","g","e","d") )
+c2s <- function( chars = c("m","e","r","g","e","d") )
 {
   return( paste( chars, collapse = "" ) )
 }
@@ -11,7 +11,7 @@
 # string to char
 ############################
 
-"s2c" <- function (string) 
+s2c <- function (string) 
 {
   if(is.character(string) & is.vector(string)){
   return(.Call("s2c", string, PACKAGE = "seqinr"))
@@ -26,7 +26,7 @@
 # a vector of chars
 ############################
 
-"n2s" <- function(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
+n2s <- function(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 {
   if( base4 )
     levels[nseq + 1]
@@ -34,28 +34,144 @@
     levels[nseq]
 }
 
-###############################
-# simple numerical encoding of a DNA sequence that by default
-# is independent of locale.
-###############################
-
-"s2n" <- function(seq, levels = c("a", "c", "g", "t"), base4 = TRUE)
-{
-  if( base4 )
-    unclass(factor(seq, levels = levels ) ) - 1
-  else
-    unclass(factor(seq, levels = levels ) )
-}
 
 ################################
-# GC.percent
+# G+C content
 #################################
 
-"GC" <- function(seq)
+GC <- function(seq, forceToLower = TRUE, exact = TRUE)
 {
-        sum(seq=='c'|seq=='g')/length(seq)
+	#
+	# Check that sequence is a vector of chars:
+	#
+	if(nchar(seq[1]) > 1) stop("sequence is not a vector of chars")
+	#
+	# Force to lower-case letters if requested:
+	#
+	if(forceToLower) seq <- tolower(seq)
+	
+	if(! exact){
+		result <- sum(seq == 'c' | seq == 'g')/length(seq)
+	} else {
+		#
+		# First pass to get an estimate of the base content based
+		# only on non-amibuous bases:
+		#
+		na <- sum( seq == "a" )
+		nt <- sum( seq == "t" )
+		nc <- sum( seq == "c" )
+		ng <- sum( seq == "g" )
+		#
+		# Now we have our firt estimate of GC vs. AT base frequencies:
+		#
+		ngc <- ng + nc
+		nat <- na + nt
+
+                 
+		#
+		# weak and strong bases are 100% informative with respect
+		# to the GC content, we just add them:
+		#
+		# s : Strong (g or c)
+		# w : Weak (a or t)
+		#
+		ngc <- ngc + sum( seq == "s" )
+		nat <- nat + sum( seq == "w" )
+
+                
+		
+		##########################
+		# Ambiguous base section #
+		##########################
+		
+		#
+		# m : Amino (a or c)
+		#
+		nm <- sum( seq == "m")
+		ngc <- ngc + nm*nc/(na + nc)
+		nat <- nat + nm*na/(na + nc)
+
+               
+		#
+		# k : Keto (g or t)
+		#
+		nk <- sum( seq == "k" )
+		ngc <- ngc + nk*ng/(ng + nt)
+		nat <- nat + nk*nt/(ng + nt)
+
+		#
+		# r : Purine (a or g)
+		#
+		nr <- sum( seq == "r" )
+		ngc <- ngc + nr*ng/(ng + na)
+		nat <- nat + nr*na/(ng + na)
+                
+               
+		#
+		# y : Pyrimidine (c or t)
+		#
+		ny <- sum( seq == "y" )
+		ngc <- ngc + ny*nc/(nc + nt)
+		nat <- nat + ny*nt/(nc + nt)
+
+                
+		#
+		# v : not t (a, c or g)
+		#
+		nv <- sum( seq == "v" )
+		ngc <- ngc + nv*(nc + ng)/(na + nc + ng)
+		nat <- nat + nv*na/(na + nc + ng)
+		#
+		# h : not g (a, c or t)
+		#
+		nh <- sum( seq == "h" )
+		ngc <- ngc + nh*nc/(na + nc + nt)
+		nat <- nat + nh*(na + nt)/(na + nc + nt)
+		#
+		# d : not c (a, g or t)
+		#
+		nd <- sum( seq == "d" )
+		ngc <- ngc + nd*ng/(na + ng + nt)
+		nat <- nat + nd*(na + nt)/(na + ng + nt)
+		#
+		# b : not a (c, g or t)
+		#
+		nb <- sum( seq == "b" )
+		ngc <- ngc + nb*(nc + ng)/(nc + ng + nt)
+		nat <- nat + nb*nt/(nc + ng + nt)
+		#
+		# n : any (a, c, g or t) is not informative, so
+		# we compute the G+C content as:
+		#
+                
+		result <- ngc/(ngc + nat)
+	}
+	return(result)
 }
 
+######################
+# GC1		     #
+######################
+
+GC1 <- function(seq, ...){
+	GC(seq[seq(1, length(seq), by = 3)], ...)
+}
+
+######################
+# GC2		     #
+######################
+
+GC2 <- function(seq, ...){
+	GC(seq[seq(2, length(seq), by = 3)], ...)
+}
+
+######################
+# GC3		     #
+######################
+
+GC3 <- function(seq, ...){
+	GC(seq[seq(3, length(seq), by = 3)])
+}
 
 
 ##########################################
@@ -111,47 +227,3 @@ a <- function( aa )
 }
 
 
-
-#########################################
-# reverse a sequence
-#######################################
-
-"invers" <- function(seq)
-{
-	rev(seq)
-}
-
-##########################################
-#complement a sequences
-###########################################
-
-"comp" <- function(seq){
-	return(as.vector(n2s((3-s2n(seq)))))
-}	
-
-
-######################
-# GC1		     #
-######################
-
-
-"GC1" <- function(seq){
-	GC(seq[seq(1,length(seq),by=3)])
-}
-
-######################
-# GC2		     #
-######################
-
-
-"GC2" <- function(seq){
-	GC(seq[seq(2,length(seq),by=3)])
-}
-
-######################
-# GC3		     #
-######################
-
-"GC3" <- function(seq){
-        GC(seq[seq(3,length(seq),by=3)])
-}

@@ -72,7 +72,7 @@ getLength(object)
 getLocation(object)
 getName(object)
 getSequence(object, as.string = FALSE)
-getTrans(object, frame = 0, sens = "F", numcode = 1)
+getTrans(object, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous = FALSE)
 }
 \arguments{
   \item{object}{ an object of the class \code{SeqAcnucWeb}
@@ -87,6 +87,9 @@ getTrans(object, frame = 0, sens = "F", numcode = 1)
   \item{frame}{ Frame(s) (0,1,2) to translate. By default the frame \code{0} is used. }
   \item{sens}{ Sense to translate: \code{F} for forward sense and \code{R} for revers sense. }
   \item{numcode}{ The number of the code to use. By default the standard genetic code is used. }
+  \item{NAstring}{ How to translate amino-acids when there are ambiguous bases in codons. }
+  \item{ambiguous}{ If TRUE, ambiguous bases are taken into account so that for instance
+  GGN is translated to Gly in the standard genetic code. }
 }
 \value{
   \code{getAnnot} returns a vector of string of characters containing the
@@ -114,31 +117,137 @@ getTrans(object, frame = 0, sens = "F", numcode = 1)
   
   \code{getTrans} returns a vector of chars containing the sequence.
 }
-\references{ 
+\references{
   \code{citation("seqinr")}
 }
-\author{ D. Charif } 
+\author{ D. Charif and J.R. Lobry and L. Palmeira} 
 \seealso{
   \code{\link{query}}, \code{\link{SeqAcnucWeb}}, \code{\link{c2s}}, \code{\link{translate}}
 }
 \examples{
-
+###
+### List all available methods for getSequence generic function:
+###
+  methods(getSequence)
+#
+# SeqAcnucWeb class example:
+#
+  \dontrun{
+  # Need internet connection for getSequence.SeqAcnucWeb()
+  choosebank("emblTP")
+  query("fc", "sp=felis catus et t=cds")
+  getSequence(fc$req[[1]])
+  getSequence(fc$req[[1]], as.string = TRUE)
+  }
+#
+# SeqFastaAA class example:
+#
+  aafile <- system.file("sequences/seqAA.fasta", package = "seqinr")
+  sfaa <- read.fasta(aafile, seqtype = "AA")
+  getSequence(sfaa[[1]])
+  getSequence(sfaa[[1]], as.string = TRUE)
+#
+# SeqFastadna class example:
+#
+  dnafile <- system.file("sequences/malM.fasta", package = "seqinr")
+  sfdna <- read.fasta(file = dnafile)
+  getSequence(sfdna[[1]])
+  getSequence(sfdna[[1]], as.string = TRUE)
+#
+# SeqFrag class example:
+#
+  sfrag <- getFrag(object = sfdna[[1]], begin = 1, end = 10)
+  getSequence(sfrag)
+  getSequence(sfrag, as.string = TRUE)
+#
+# Default getSequence method example:
+#
+  getSequence(letters)
+  getSequence(letters, as.string = TRUE)
+  
+###
+### List all available methods for getAnnot generic function:
+###
   methods(getAnnot)
+#
+# SeqAcnucWeb class example:
+#
+  \dontrun{
+  # Need internet connection for getAnnot.SeqAcnucWeb()
+  choosebank("emblTP")
+  query("fc", "sp=felis catus et t=cds")
+  annots <- getAnnot(fc$req[[1]])
+  cat(annots, sep = "\n")
+  }
+#
+# SeqFastaAA class example:
+#
+  getAnnot(sfaa[[1]])
+#
+# SeqFastadna class example:
+#
+  getAnnot(sfdna[[1]])
+#
+# Default getAnnot method example:
+#
+  \dontrun{
+  # An error is produced because there are no annotations by default
+  getAnnot(letters)
+  }
 
+###
+### List all available methods for getKeyword generic function:
+###
+  methods(getKeyword)
+#
+# SeqAcnucWeb class example:
+#
+  \dontrun{
+  # Need internet connection for getKeyword.SeqAcnucWeb()
+  choosebank("emblTP")
+  query("fc", "sp=felis catus et t=cds")
+  getKeyword(fc$req[[1]])
+  # Should be: [1] "DIVISION ORG" "RELEASE 62"   "CYTOCHROME B" "SOURCE"       "CDS"
+  }
+#
+# Default getKeyword method example:
+#
+  \dontrun{
+  # An error is produced because there are no keywords by default
+  getKeyword(letters)
+  }
+
+###
+### List all available methods for getFrag generic function:
+###
   methods(getFrag)
 
-  \dontrun{s=choosebank.socket("embl")}
-  \dontrun{query.socket(s$socket,"fc","sp=felis catus et t=cds")}
-  \dontrun{getKeyword(fc$req[[7]])}
-
+###
+### List all available methods for getLength generic function:
+###
   methods(getLength)
 
+###
+### List all available methods for getLocation generic function:
+###
   methods(getLocation)
 
+###
+### List all available methods for getName generic function:
+###
   methods(getName)
-
-  methods(getSequence)
-
+#
+# SeqAcnucWeb class example:
+#
+  \dontrun{
+  # Need internet connection for getName.SeqAcnucWeb()
+  choosebank("emblTP")
+  query("fc", "sp=felis catus et t=cds")
+  sapply(fc$req, getName)
+  }
+###
+### List all available methods for getTrans generic function:
+###
   methods(getTrans)
 }
 \keyword{ utilities }

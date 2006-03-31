@@ -47,7 +47,7 @@ The IUPAC one-letter code for aminoacids is described at:
   stopifnot( aaa(a(aaa())) == aaa())
   
   #
-  # Show what's happen with non-allowed values:
+  # Show what happens with non-allowed values:
   #
   
   a("SOS") # should be NA and a warning is generated

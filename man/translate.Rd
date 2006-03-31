@@ -1,21 +1,25 @@
 \name{translate}
 \alias{translate}
-\title{ Translate nucleic acid sequences }
+\title{ Translate nucleic acid sequences into proteins }
 \description{
    This function translates nucleic acid sequences into the corresponding 
    peptide sequence. It can translate in any of the 3 forward or three 
    reverse sense frames. In the case of reverse sense, the reverse-complement 
    of the sequence is taken. It can translate using the standard (universal) 
-   genetic code and also with non-standard codes. 
+   genetic code and also with non-standard codes. Ambiguous bases can also
+   be handled.
 }
 \usage{
-translate(seq, frame = 0, sens = "F", numcode = 1)
+translate(seq, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous = FALSE)
 }
 \arguments{
-  \item{seq}{ an object of class \code{seq}. }
+  \item{seq}{ the sequence to translate as a vector of single characters in lower case letters. }
   \item{frame}{ Frame(s) (0,1,2) to translate. By default the frame \code{0} is used. }
   \item{sens}{ Sense to translate: \code{F} for forward sense and \code{R} for reverse sense. }
   \item{numcode}{ The ncbi genetic code number for translation. By default the standard genetic code is used. }
+  \item{NAstring}{ How to translate amino-acids when there are ambiguous bases in codons. }
+  \item{ambiguous}{ If TRUE, ambiguous bases are taken into account so that for instance
+  GGN is translated to Gly in the standard genetic code. }
 }
 \details{
  The following genetic codes are described here. The number preceding each code 
@@ -41,7 +45,7 @@ translate(seq, frame = 0, sens = "F", numcode = 1)
 } 
 }
 \value{
-  \code{translate} returns a vector of character containing the peptide sequence in 
+  \code{translate} returns a vector of single characters containing the peptide sequence in 
   the standard one-letter IUPAC code. Termination (STOP) codons are translated by 
   the character '*'.
 }
@@ -56,21 +60,30 @@ The IUPAC one-letter code for aminoacids is described at:
 }
 \author{ D. Charif, J.R. Lobry }
 \seealso{
+Use \code{\link{tolower}} to change upper case letters into lower case letters.
 For coding sequences obtained from an ACNUC server with \code{\link{query}} it's
 better to use the function \code{\link{getTrans}} so that the relevant genetic
 code and the relevant frame are automatically used.
 The genetic codes are given in the object \code{\link{SEQINR.UTIL}}, a more
-human readable form is given by the function \code{\link{tablecode}}. }
+human readable form is given by the function \code{\link{tablecode}}. 
+Use \code{\link{aaa}} to get the three-letter code for amino-acids.}
 \examples{
 ##
-## Toy cds example invented by Leonor Palmeira:
+## Toy CDS example invented by Leonor Palmeira:
 ##
 toycds <- s2c("tctgagcaaataaatcgg")
 translate(seq = toycds) # should be c("S", "E", "Q", "I", "N", "R")
 ##
-## Real cds example:
+## Toy CDS example with ambiguous bases:
 ##
-realcds <- read.fasta(File = system.file("sequences/malM.fasta", package ="seqinr"))[[1]]
+toycds2 <- s2c("tcngarcarathaaycgn")
+translate(toycds2) # should be c("X", "X", "X", "X", "X", "X")
+translate(toycds2, ambiguous = TRUE) # should be c("S", "E", "Q", "I", "N", "R")
+translate(toycds2, ambiguous = TRUE, numcode = 2) # should be c("S", "E", "Q", "X", "N", "R")
+##
+## Real CDS example:
+##
+realcds <- read.fasta(file = system.file("sequences/malM.fasta", package ="seqinr"))[[1]]
 translate(seq = realcds)
 # Biologically correct, only one stop codon at the end
 translate(seq = realcds, frame = 3, sens = "R", numcode = 6)
@@ -78,13 +91,31 @@ translate(seq = realcds, frame = 3, sens = "R", numcode = 6)
 
 \dontrun{
 ## Need internet connection.
-## Translation of the following genbank entry:
+## Translation of the following EMBL entry:
 ##
-## AE003734.PE35        Location/Qualifiers    (length=1833 bp)
-##      CDS             join(complement(162997..163210),
-##                      complement(162780..162919),complement(161238..162090),
-##                      146568..146732,146806..147266)
-choosebank("genbank")
+## FT   CDS             join(complement(153944..154157),complement(153727..153866),
+## FT                   complement(152185..153037),138523..138735,138795..138955)
+## FT                   /codon_start=1
+## FT                   /db_xref="FLYBASE:FBgn0002781"
+## FT                   /db_xref="GOA:Q86B86"
+## FT                   /db_xref="TrEMBL:Q86B86"
+## FT                   /note="mod(mdg4) gene product from transcript CG32491-RZ;
+## FT                   trans splicing"
+## FT                   /gene="mod(mdg4)"
+## FT                   /product="CG32491-PZ"
+## FT                   /locus_tag="CG32491"
+## FT                   /protein_id="AAO41581.1"
+## FT                   /translation="MADDEQFSLCWNNFNTNLSAGFHESLCRGDLVDVSLAAEGQIVKA
+## FT                   HRLVLSVCSPFFRKMFTQMPSNTHAIVFLNNVSHSALKDLIQFMYCGEVNVKQDALPAF
+## FT                   ISTAESLQIKGLTDNDPAPQPPQESSPPPAAPHVQQQQIPAQRVQRQQPRASARYKIET
+## FT                   VDDGLGDEKQSTTQIVIQTTAAPQATIVQQQQPQQAAQQIQSQQLQTGTTTTATLVSTN
+## FT                   KRSAQRSSLTPASSSAGVKRSKTSTSANVMDPLDSTTETGATTTAQLVPQQITVQTSVV
+## FT                   SAAEAKLHQQSPQQVRQEEAEYIDLPMELPTKSEPDYSEDHGDAAGDAEGTYVEDDTYG
+## FT                   DMRYDDSYFTENEDAGNQTAANTSGGGVTATTSKAVVKQQSQNYSESSFVDTSGDQGNT
+## FT                   EAQVTQHVRNCGPQMFLISRKGGTLLTINNFVYRSNLKFFGKSNNILYWECVQNRSVKC
+## FT                   RSRLKTIGDDLYVTNDVHNHMGDNKRIEAAKAAGMLIHKKLSSLTAADKIQGSWKMDTE
+## FT                   GNPDHLPKM"
+choosebank("emblTP")
 query("trans", "N=AE003734.PE35")
 getTrans(trans$req[[1]])
 ## Complex transsplicing operations, the correct frame and the correct 

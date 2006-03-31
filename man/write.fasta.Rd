@@ -4,7 +4,9 @@
 \description{
   Writes sequences to a file in FASTA format.
 }
+
 \usage{write.fasta(sequences, names, nbchar = 60, file.out, open = "w")}
+
 \arguments{
   \item{sequences}{ A DNA or protein sequence (i.e. a
     character vector) or a list of  sequences (i.e. a
@@ -21,7 +23,7 @@
 \references{
   \code{citation("seqinr")}
 }
-\author{ Anamaria Necsulea }
+\author{ A. Necsulea }
 \seealso{ \code{\link{read.fasta}} }
 \examples{
 ## Read sequences from a FASTA file:

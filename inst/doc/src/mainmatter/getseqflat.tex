@@ -429,7 +429,7 @@ which contains the sequences of 21,161 proteins.
      set.attributes = FALSE))
 \end{Sinput}
 \begin{Soutput}
-[1] 28.222  0.461 29.937  0.000  0.000
+[1] 6.326 0.072 6.480 0.000 0.000
 \end{Soutput}
 \end{Schunk}
 
@@ -446,7 +446,7 @@ in XDR binary format to read them faster later at will:
  system.time(load("ath.RData"))
 \end{Sinput}
 \begin{Soutput}
-[1] 0.655 0.048 1.009 0.000 0.000
+[1] 0.305 0.013 0.318 0.000 0.000
 \end{Soutput}
 \end{Schunk}
 
@@ -459,7 +459,7 @@ the flat file size on disk:
  object.size(ath)/2^20
 \end{Sinput}
 \begin{Soutput}
-[1] 14.94021
+[1] 14.65537
 \end{Soutput}
 \begin{Sinput}
  file.info(athfile)$size/2^20
@@ -497,7 +497,8 @@ take the smallest one in the data set:
  which.min(nres)
 \end{Sinput}
 \begin{Soutput}
-[1] 9523
+At2g25990.1 
+       9523 
 \end{Soutput}
 \begin{Sinput}
  ath[[9523]]
@@ -817,13 +818,13 @@ Everything seems to be OK, we can save the results in a data frame:
  head(athres)
 \end{Sinput}
 \begin{Soutput}
-         name         KD        Gly
-1 At1g01010.1  0.7297674 0.05827506
-2 At1g01020.1 -0.1674419 0.03906250
-3 At1g01030.1  0.8136490 0.08100559
-4 At1g01040.1  0.4159686 0.06705081
-5 At1g01050.1  0.4460094 0.03773585
-6 At1g01060.1  0.7444272 0.04186047
+                   name         KD        Gly
+At1g01010.1 At1g01010.1  0.7297674 0.05827506
+At1g01020.1 At1g01020.1 -0.1674419 0.03906250
+At1g01030.1 At1g01030.1  0.8136490 0.08100559
+At1g01040.1 At1g01040.1  0.4159686 0.06705081
+At1g01050.1 At1g01050.1  0.4460094 0.03773585
+At1g01060.1 At1g01060.1  0.7444272 0.04186047
 \end{Soutput}
 \end{Schunk}
 
@@ -1259,19 +1260,19 @@ produced by common external programs for multiple sequence alignment.
  example(read.alignment)
 \end{Sinput}
 \begin{Soutput}
-rd.lgn> mase <- read.alignment(File = system.file("sequences/test.mase", 
+rd.lgn> mase <- read.alignment(file = system.file("sequences/test.mase", 
     package = "seqinr"), format = "mase")
 
-rd.lgn> clustal <- read.alignment(File = system.file("sequences/test.aln", 
+rd.lgn> clustal <- read.alignment(file = system.file("sequences/test.aln", 
     package = "seqinr"), format = "clustal")
 
-rd.lgn> phylip <- read.alignment(File = system.file("sequences/test.phylip", 
+rd.lgn> phylip <- read.alignment(file = system.file("sequences/test.phylip", 
     package = "seqinr"), format = "phylip")
 
-rd.lgn> msf <- read.alignment(File = system.file("sequences/test.msf", 
+rd.lgn> msf <- read.alignment(file = system.file("sequences/test.msf", 
     package = "seqinr"), format = "msf")
 
-rd.lgn> fasta <- read.alignment(File = system.file("sequences/Anouk.fasta", 
+rd.lgn> fasta <- read.alignment(file = system.file("sequences/Anouk.fasta", 
     package = "seqinr"), format = "fasta")
 \end{Soutput}
 \end{Schunk}
@@ -1493,12 +1494,13 @@ the updated dataset.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item Version 2.3.1 (2006-06-01), \verb|powerpc-apple-darwin8.6.0|
+  \item R version 2.4.1 (2006-12-18), \verb|i386-apple-darwin8.8.1|
+  \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-27.1, ade4~1.4-1, ape~1.8-2,
-    gee~4.13-10, lattice~0.13-8, nlme~3.1-73, seqinr~1.0-6,
-    xtable~1.3-0
+  \item Other packages: MASS~7.2-30, ade4~1.4-2, ape~1.9-3,
+    gee~4.13-12, lattice~0.14-16, nlme~3.1-78, seqinr~1.0-7,
+    xtable~1.4-3
 \end{itemize}
 
 

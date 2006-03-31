@@ -9,7 +9,7 @@
 AAstat(seq, plot = TRUE)
 }
 \arguments{
-  \item{seq}{ a protein sequence as a vector of chars }
+  \item{seq}{ a protein sequence as a vector of upper-case chars }
   \item{plot}{ if \code{TRUE}, plots the presence of residues splited by 
   physico-chemical classes along the sequence. }
 }
@@ -26,7 +26,7 @@ AAstat(seq, plot = TRUE)
 \author{ D. Charif, J.R. Lobry }
 \seealso{ \code{\link{computePI}}, \code{\link{SEQINR.UTIL}}, \code{\link{SeqFastaAA}}}
 \examples{
-  ss <- read.fasta(File = system.file("sequences/seqAA.fasta", package = "seqinr"), seqtype = "AA")
-  AAstat(ss[[1]])
+  seqAA <- read.fasta(file = system.file("sequences/seqAA.fasta", package = "seqinr"), seqtype = "AA")
+  AAstat(seqAA[[1]])
 }
 \keyword{utilities}

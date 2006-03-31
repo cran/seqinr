@@ -11,16 +11,23 @@
 \tableofcontents
 % BEGIN - DO NOT REMOVE THIS LINE
 
-\section*{Introduction}
+\section{Introduction}
 
 As a rule of thumb, after compression one nucleotide needs one octet
 of disk space storage (because you need also the annotations corresponding
 to the sequences), so that most likely you won't have enough space on
 your computer to work with a local copy of a complete DNA database.
 The idea is to import under \Rlogo{}~only the subset of sequences you are
-interested in. This is done in three steps detailed thereafter.
+interested in. This is done in three steps:
+\begin{enumerate}
+\item Choose the bank you want to work with.
+\item Select the sequences you are interested in.
+\item Retrieve sequences from server into your workspace.
+\end{enumerate}
+We now give a full example of those three steps under the ACNUC system
+\cite{GautierC1982a, GautierC1982b, acnuc1984, acnuc1985, acnuc1985b}.
 
-\section{Choose a bank}
+\subsection{Choose a bank}
 
 Select the database from which you want to extract sequences with the \texttt{choosebank()} function.
 This function initiates a remote access to an ACNUC database. Called without arguments,
@@ -95,7 +102,8 @@ For specialized databases, some relevant informations are also given in the
 \texttt{details} component, for instance:
 
 <<exdetails,fig=F, eval=T>>=
-choosebank("taxobacgen")$details
+choosebank("taxobacgen")$details -> moreinfo
+cat(moreinfo, sep = "\n")
 @
 
 The previous command has a side-effect that is worth mentioning. 
@@ -107,9 +115,11 @@ This is just a matter of convenience so that you don't have to explicitly specif
 socket connection when working with the last opened database. You have, however,
 full control of the process since \texttt{choosebank()} returns (invisibly) all the
 required details. There is no trouble to open \emph{simultaneously} many databases.
-You are just limited by the number of simultaneous connections your build of R is
+You are just limited by the number of simultaneous connections your build of \Rlogo{}~is
 allowed\footnote{
-There is a very convenient function called \texttt{closeAllConnections()} in the R base package if
+As from \Rlogo{}~2.4.0 he maximum number of open connections has been increased from
+50 to 128. Note also that 
+there is a very convenient function called \texttt{closeAllConnections()} in the \Rlogo{}~base package if
 you want to close all open connections at once.}.
 
 For advanced users who may wish to access to more than one database at time, a good advice
@@ -119,9 +129,9 @@ display the number of taxa (\textit{i.e.} the number of nodes) in the species ta
 with each available database (including frozen databases). For this, we loop over available databases and 
 close them as soon as the information has been retrieved.
 
-<<taxaperbank,fig=T,eval=F, eval=T>>=
+<<taxaperbank,fig=T,eval=T, eval=T>>=
 banks <- c(choosebank(), choosebank(tagbank="TP"))
-ntaxa <- numeric(0)
+ntaxa <- numeric(0) # there is a good reason for numeric 0
 for(i in banks){
   ntaxa[i] <- as.numeric(choosebank(i)$totspecs)
   closebank()
@@ -131,7 +141,7 @@ main = "Number of taxa in available databases",
 xlab = "Log10(number of taxa)")
 @
 
-\section{Make your query}
+\subsection{Make your query}
 
 For this section, set up the default bank to GenBank, so that you don't have 
 to provide the sockets details for the \texttt{query()} function:
@@ -144,11 +154,15 @@ Then, you have to say what you want, that is to compose a query
 to select the subset of sequences you are interested in. The way to do this is
 documented under \texttt{?query}, we just give here a simple example. 
 In the query below, we want to select all the coding sequences 
-(\texttt{t=cds}) from cat (\texttt{sp=felis catus}) that are not 
-(\texttt{et no}) partial sequences (\texttt{k=partial}). 
+(\texttt{t=cds}) from cat (\texttt{AND sp=felis catus}) that are not 
+(\texttt{AND NOT}) partial sequences (\texttt{k=partial}). 
 We want the result to be stored in an object called \texttt{completeCatsCDS}.
+
+\marginpar{\includegraphics[width=\marginparwidth]{../figs/Feliscatus}\\
+\tiny{\textit{Felis catus}. Source: wikipedia}}
+
 <<query1,eval=T>>=
-query("completeCatsCDS", "sp=felis catus et t=cds et no k=partial")
+query("completeCatsCDS", "sp=felis catus AND t=cds AND NOT k=partial")
 @
 
 Now, there is in the workspace an object called \texttt{completeCatsCDS}, which
@@ -204,7 +218,7 @@ is that a list of sequences can be re-used. For instance, we can re-use \texttt{
 to get only the list of sequences that were published in 2004:
 
 <<query2,eval=T>>=
-query("ccc2004", "completeCatsCDS et y=2004")
+query("ccc2004", "completeCatsCDS AND y=2004")
 length(ccc2004$req)
 @
 
@@ -241,7 +255,7 @@ for instance we may extract from this list all the sequences
 from, say, \textit{Mycoplasma genitalium}:
 
 <<chtouille,eval=T>>=
-query("small", "allcds et sp=mycoplasma genitalium", virtual = TRUE)
+query("small", "allcds AND sp=mycoplasma genitalium", virtual = TRUE)
 small$nelem
 @
 
@@ -274,7 +288,7 @@ There are \texttt{\Sexpr{ifelse(exists("sex"), formatC(sex$nelem, big.mark=","),
 
 \item[\textbf{tRNA.}] How many complete tRNA sequences are available?
 <<trnacplt, eval=T>>=
-query("trna","t=trna et no k=partial",virtual=T)
+query("trna","t=trna AND NOT k=partial",virtual=T)
 trna$nelem
 @
 There are \texttt{\Sexpr{ifelse(exists("trna"), formatC(trna$nelem, big.mark=","), "???")}} complete tRNA sequences.
@@ -326,9 +340,39 @@ genomes, so that the winner is
 
 \end{description}
 
-\section{Extract sequences of interest}
+\subsection{Extract sequences of interest}
 
-The sequence itself is obtained with the function \texttt{getSequence()}.
+\subsubsection{Introduction}
+
+There are two functions to get the sequences. The first one, 
+\texttt{getSequence()}, uses regular socket connections, the
+second one, \texttt{extractseq()}, uses zlib compressed sockets,
+which is faster but the function is experimental and has not
+been extensively tested.
+
+\subsubsection{Extacting sequences with \texttt{getSequence()}}
+
+
+For this section we set up the bank to \texttt{emblTP} which is a frozen
+subset of EMBL database to allow for the reproducibility of results.
+
+<<useemblTP, fig=F, eval=T>>=
+choosebank("emblTP")
+@
+
+We suppose that the sequences we are interested in are all the complete
+coding sequences from \textit{Felis catus} :
+
+<<requeryccc, fig=F, eval=T>>=
+query("completeCatsCDS", "sp=felis catus AND t=cds AND NOT k=partial")
+(nseq <- completeCatsCDS$nelem)
+@
+
+Thus, there were \Sexpr{ifelse(exists("nseq"), nseq, "???")} complete
+CDS from \textit{Felis catus} in this release of EMBL.
+
+
+The sequences are obtained with the function \texttt{getSequence()}.
 For example, the first 50 nucleotides of the first sequence of our request are:
 
 <<getSequence, eval=T>>=
@@ -339,23 +383,18 @@ They can also be coerced as string of character with the function \texttt{c2s()}
 <<SequenceAsString, eval=T>>=
 c2s(myseq[1:50])
 @
+
 Note that what is done by \texttt{getSequence()} is much more complex
 than a substring extraction because subsequences of biological interest are
 not necessarily contiguous or even on the same DNA strand. Consider for
 instance the following coding sequence from sequence \texttt{AE003734}:
 
-\scriptsize
-\begin{verbatim}
-AE003734.PE35        Location/Qualifiers    (length=1833 bp)
-     CDS             join(complement(162997..163210),
-                     complement(162780..162919),complement(161238..162090),
-                     146568..146732,146806..147266)
-                     /gene="mod(mdg4)"
-                     /locus_tag="CG32491"
-                     /note="CG32491 gene product from transcript CG32491-RT;
-                     trans-splicing"
-\end{verbatim}
-\normalsize
+<<transann,fig=F,eval=T>>=
+query("trs","N=AE003734.PE35")
+getAnnot(trs$req[[1]]) -> annots
+cat(annots, sep="\n")
+@
+
 
 To get the coding sequence manually you would have join 5 different pieces 
 from \texttt{AE003734} and some of them are in the complementary strand. 
@@ -409,6 +448,659 @@ class(transspliced$req[[1]])
 Therefore, when you are using the \texttt{getTrans()} function, you are automatically redirected
 to the \texttt{getTrans.SeqAcnucWeb()} function which knows how to take into account the relevant frame
 and genetic code for your coding sequence.
+
+
+\subsubsection{Extacting sequences with \texttt{extractseqs()} (experimental)}
+
+The timings here were from an home-ADSL connection, and are only indicative.
+For this section we set up the bank to \texttt{emblTP} which is a frozen
+subset of EMBL database to allow for the reproducibility of results.
+
+<<useemblTP, fig=F, eval=T>>=
+(tcb <- system.time(choosebank("emblTP")))
+@
+
+It was then about \Sexpr{ifelse(exists("tcb"), round(tcb[3]), "???")} 
+seconds to select
+the relevant database. We suppose that the sequences we are interested in 
+are all the complete coding sequences from \textit{Homo sapiens} that
+are encoded in the nucleus (we don't want sequences from human mitochondrion). 
+We use a virtual query to speed up things:
+
+<<querycccv, fig=F, eval=T>>=
+(tqu <- system.time(query("hsCDS", 
+  "sp=Homo sapiens AND t=cds AND o=nuclear AND NOT k=partial", virtual = TRUE)))
+(nseq <- hsCDS$nelem)
+@
+
+It was then about \Sexpr{ifelse(exists("tqu"), round(tqu[3]), "???")} seconds 
+to create on the server a list of \Sexpr{ifelse(exists("nseq"), nseq, "???")}
+sequences. We download now the sequences in zlib compressed mode:
+
+<<extractseq1,fig=F,eval=T>>=
+(tex <- system.time(mycds <- extractseqs("hsCDS")))
+@
+
+It was then about \Sexpr{ifelse(exists("tex"), round(tex[3]), "???")} seconds
+to dowload the sequences in the object \texttt{mycds}, which looks like :
+
+<<mycdslook,fig=F,eval=T>>=
+cat(head(mycds), sep = "\n")
+cat(tail(mycds), sep = "\n")
+@
+
+We save now the sequences in a local FASTA file for future use:
+
+<<writefastat,fig=F,eval=T>>=
+(twl <- system.time(writeLines(mycds, "mycds.fasta")))
+@
+
+It was then about \Sexpr{ifelse(exists("twl"), round(twl[3]), "???")} seconds
+to dump the sequences on a local file. We read the sequences as strings
+without setting attributes to save time:
+
+<<readfastas,fig=F,eval=T>>=
+(trf <- system.time(mycdss <- read.fasta("mycds.fasta", as.string = TRUE, set.attributes = FALSE)))
+@
+
+It was then about \Sexpr{ifelse(exists("trf"), round(trf[3]), "???")} seconds
+to read the sequences as strings. We save them in XDR format:
+
+<<saveRData,fig=F,eval=T>>=
+(tsrd <- system.time(save(mycdss, file = "mycdss.RData")))
+@
+
+It was then about \Sexpr{ifelse(exists("tsrd"), round(tsrd[3]), "???")} seconds
+to save the sequences in XDR format. How long is it to load the sequences
+from XDR format?
+
+<<loadRDatat,fig=F,eval=T>>=
+(tlrd <-  system.time(load("mycdss.RData")))
+@
+
+It was then about \Sexpr{ifelse(exists("tlrd"), round(tlrd[3]), "???")} seconds
+to load the sequences from an XDR formated file. Now, we also want the
+corresponding proteins. We download the translated CDS from the server:
+
+<<extractseq2,fig=F,eval=T>>=
+(texp <- system.time(myprot <- extractseqs("hsCDS", operation = "translate")))
+@
+
+It was then about \Sexpr{ifelse(exists("texp"), round(texp[3]), "???")} seconds
+to get the protein sequences from the server. The object \texttt{myprot} looks
+like:
+
+<<myprotlook,fig=F,eval=T>>=
+cat(head(myprot), sep = "\n")
+cat(tail(myprot), sep = "\n")
+@
+
+We save the protein sequences in a local FASTA file for future use:
+
+<<writefastat2,fig=F,eval=T>>=
+(twl2 <- system.time(writeLines(myprot, "myprot.fasta")))
+@
+
+It was then about \Sexpr{ifelse(exists("twl2"), round(twl2[3]), "???")} seconds
+to dump the protein sequences on a local file. We read the sequences as strings
+without setting attributes to save time:
+
+<<readfastas2,fig=F,eval=T>>=
+(trf2 <- system.time(myprots <- read.fasta("myprot.fasta", as.string = TRUE, set.attributes = FALSE)))
+@
+
+It was then about \Sexpr{ifelse(exists("trf2"), round(trf2[3]), "???")} seconds
+to read the protein sequences as strings. We save them in XDR format:
+
+<<saveRData2,fig=F,eval=T>>=
+(tsrd2 <- system.time(save(myprots, file = "myprots.RData")))
+@
+
+It was then about \Sexpr{ifelse(exists("tsrd2"), round(tsrd2[3]), "???")} seconds
+to save the protein sequences in XDR format. How long is it to load the 
+protein sequences from XDR format?
+
+<<loadRDatat2,fig=F,eval=T>>=
+(tlrd2 <-  system.time(load("myprots.RData")))
+@
+
+It was then about \Sexpr{ifelse(exists("tlrd2"), round(tlrd2[3]), "???")} seconds
+to load the protein sequences from an XDR formated file.
+
+%Summary in a table -- bof bof
+
+As a quick sanity check, we plot the distribution of protein size:
+
+\setkeys{Gin}{width=\textwidth}
+
+<<protsizeinhuman,fig=T,width=10,height=4>>=
+x <- log10(nchar(myprots) - 1)
+dstx <- density(x)
+plot(dstx, main = paste("Protein size distribution in the human genome\nn = ", 
+length(myprots), "proteins"),
+xlab = "Number of amino-acids in log 10 scale", las = 1)
+rug(x, col = "blue")
+polycurve <- function(x, y, base.y = min(y), ...) 
+  polygon(x = c(min(x), x, max(x)), y = c(base.y, y, base.y), ...)
+polycurve(dstx$x, dstx$y, col = "yellow")
+@ 
+
+\section{The query language}
+
+
+\subsection{Where to find information}
+
+The last version of the documentation for the query language is available online
+at \url{http://pbil.univ-lyon1.fr/databases/acnuc/cfonctions.html#QUERYLANGUAGE}.
+This documentation has been imported within the documentation of the
+\texttt{query()} function, but the last available update is the online version.
+
+\subsection{Case sensitivity and ambiguities resolution}
+
+The query language is case insensitive, for instance:
+
+<<lowervsupper,fig=F,eval=T>>=
+choosebank("emblTP")
+query("lowercase", "sp=escherichia coli", virtual = TRUE)
+query("uppercase", "SP=Escherichia coli", virtual = TRUE)
+lowercase$nelem == uppercase$nelem
+closebank()
+@
+
+Three operators (AND, OR, NOT) 
+can be ambiguous because they can also occur within valid criterion values. 
+Such ambiguities can be solved by encapsulating elementary selection 
+criteria between escaped double quotes. For example:
+
+<<ambig,fig=F,eval=T>>=
+choosebank("emblTP")
+query("ambig","\"sp=Beak and feather disease virus\" AND \"au=ritchie\"", virtual = T)
+ambig$nelem
+closebank()
+@
+
+\subsection{Selection criteria}
+
+\subsubsection{Introduction}
+
+Selection criteria are in the form \texttt{c=something} (without space
+before the = sign) or \texttt{list\_name} where \texttt{list\_name} is a
+previously constructed list.
+
+\subsubsection{\texttt{SP=taxon}}
+
+This is used to select sequences attached to a given taxon or any other below in
+the tree. The at sign @ substitutes as a wildcard character for any zero or more 
+characters. Here are some examples:
+
+<<borreliaexample,fig=F,eval=T>>=
+choosebank("emblTP")
+query("bb","sp=Borrelia burgdorferi",virtual=T)
+bb$nelem
+query("borrelia","sp=Borrelia",virtual=T)
+borrelia$nelem
+closebank()
+@
+
+Here is an example of use of the wildcard @ to look for sapiens species:
+
+<<sapiens,fig=F,eval=T>>=
+choosebank("emblTP")
+query("sapiens","sp=@sapiens@",virtual=T)
+sapiens$nelem
+query("sapienspecies","PS sapiens")
+sapply(sapienspecies$req, getName)
+closebank()
+@
+
+\subsubsection{\texttt{TID=id}}
+
+This is used to select sequences attached attached to a given numerical 
+NCBI's taxonomy ID. For instance, the taxonomy ID for 
+\textit{Homo sapiens neanderthalensis} is 63221:
+
+\marginpar{\includegraphics[width=\marginparwidth]{../figs/hsn}\\
+\tiny{\textit{Homo neanderthalensis}. Source: wikipedia}}
+
+<<tidexample,fig=F,eval=T>>=
+choosebank("genbank")
+query("hsn","TID=63221", virtual=T)
+hsn$nelem
+query("hsnsp","PS hsn")
+sapply(hsnsp$req, getName)
+closebank()
+@
+
+\subsubsection{\texttt{K=keyword}}
+
+This is used to select sequences attached to a given keyword or any other below in
+the tree. The at sign @ substitutes as a wildcard character for any zero or more 
+characters. Example:
+
+<<exemplekw,fig=F,eval=T>>=
+ choosebank("emblTP")
+query("ecoliribprot","sp=escherichia coli AND k=rib@ prot@", virtual=T)
+ ecoliribprot$nelem
+closebank()
+@
+
+\subsubsection{\texttt{T=type}}
+
+This is used to select sequences of specified type. The list of available
+type for the currently opened database is given by function \texttt{getType()}:
+
+<<getTypeexample,fig=F,eval=T>>=
+choosebank("emblTP")
+getType()
+closebank()
+@
+
+For instance, to select all coding sequences from \textit{Homo sapiens} we can use:
+
+<<allhscds,fig=F,eval=T>>=
+choosebank("emblTP")
+query("hscds","sp=Homo sapiens AND t=cds", virtual=T)
+hscds$nelem
+closebank()
+@
+
+\subsubsection{\texttt{J=journal\_name}}
+
+This is used to select sequences published in journal specified using defined journal code.
+For instance to select all sequences published in \textit{Science}:
+
+<<allseqsfromscience,fig=F,eval=T>>=
+choosebank("emblTP")
+query("allseqsfromscience","J=Science", virtual=TRUE)
+allseqsfromscience$nelem
+closebank()
+@
+
+The list of available journal code can be obtained from the \texttt{readsmj()} function
+this way:
+
+<<journalcodes,fig=F,eval=T>>=
+choosebank("emblTP")
+nl <- readfirstrec(type = "SMJ")
+smj <- readsmj(nl = nl, all.add = TRUE)
+head(smj[!is.na(smj$nature) & smj$nature == "journal", c("sname","libel")])
+closebank()
+@
+
+\subsubsection{\texttt{R=refcode}}
+
+This is used to select sequences from a given bibliographical reference specified
+as \texttt{jcode/volume/page}. For instance, to select sequences associated
+with the first publication \cite{jrl0009} of the complete genome of \textit{Rickettsia prowazekii},
+we can use:
+
+<<refbibexample,fig=F,eval=T>>=
+choosebank("emblTP")
+query("rpro","R=Nature/396/133")
+sapply(rpro$req,getName)
+closebank()
+@
+
+\subsubsection{\texttt{AU=name}}
+
+This is used to select sequences having a specified author (only last name, no initial).
+
+<<authorexample,fig=F,eval=T>>=
+choosebank("emblTP")
+query("Graur","AU=Graur")
+Graur$nelem
+closebank()
+@
+
+\subsubsection{\texttt{AC=accession\_no}}
+
+This is used to select sequences attached to specified accession number.
+For instance if we are looking for sequences attached to the accession
+number AY382159:
+
+<<exampleAC,fig=F,eval=T>>=
+choosebank("emblTP")
+query("ACexample","AC=AY382159")
+getName(ACexample$req[[1]])
+annotations <- getAnnot(ACexample$req[[1]])
+cat(annotations, sep ="\n")
+closebank()
+@
+
+\subsubsection{\texttt{N=seq\_name}}
+
+This is used to select sequences of a given name\footnote{
+\textit{i.e.} what is documented in the ID or the LOCUS
+field}. Sequences names are not necessarily stable, so that it's almost always
+better to work with accession numbers. Anyway, the distinction between sequence names
+and accession numbers is on a vanishing way because they tend more and
+more to be the same thing (as in the example just below). 
+The use of the at sign @ to substitute as a wildcard character for any zero or more characters 
+is possible here.
+
+<<exampleN,fig=F,eval=T>>=
+choosebank("emblTP")
+query("Nexample","N=AY382159")
+getName(Nexample$req[[1]])
+annotations <- getAnnot(Nexample$req[[1]])
+cat(annotations, sep ="\n")
+closebank()
+@
+
+\subsubsection{\texttt{Y=year} or \texttt{Y>year} or \texttt{Y<year}}
+
+This is used to select sequences published in a given year (\texttt{Y=year}),
+or in a given year and after this year (\texttt{Y>year}), or in a given
+year and before this year (\texttt{Y<year}).
+
+<<exampleY,fig=F,eval=T>>=
+choosebank("emblTP")
+query("Yexample","Y=1999", virtual=TRUE)
+Yexample$nelem
+closebank()
+@
+
+\subsubsection{\texttt{O=organelle}}
+
+This is used to select sequences from specified organelle named following defined code 
+(\textit{e.g.}, chloroplast).
+The list of available organelle codes can be obtained from the \texttt{readsmj()} function
+this way:
+
+<<organellescodes,fig=F,eval=T>>=
+choosebank("genbank")
+ nl <- readfirstrec(type = "SMJ")
+  smj <- readsmj(nl = nl, all.add = TRUE)
+ smj[!is.na(smj$nature) & smj$nature == "organelle", c("sname","libel")]
+closebank()
+@
+
+To select for instance all sequences from chloroplast genome we can use:
+
+<<exampleO,fig=F,eval=T>>=
+choosebank("emblTP")
+query("Oexample","O=chloroplast", virtual=TRUE)
+Oexample$nelem
+closebank()
+@
+
+\subsubsection{\texttt{M=molecule}}
+
+This is used to select sequences according to the chemical nature of the
+sequenced molecule\footnote{as named in ID or LOCUS annotation records}.
+The list of available organelle code can be obtained from the \texttt{readsmj()} function
+this way:
+
+<<moleculescodes,fig=F,eval=T>>=
+choosebank("genbank")
+ nl <- readfirstrec(type = "SMJ")
+  smj <- readsmj(nl = nl, all.add = TRUE)
+ smj[!is.na(smj$nature) & smj$nature == "molecule", c("sname","libel")]
+closebank()
+@
+
+To select for instance all sequences sequenced from DNA we can use:
+
+<<exampleM,fig=F,eval=T>>=
+choosebank("emblTP")
+query("Mexample","M=DNA", virtual=TRUE)
+Mexample$nelem
+closebank()
+@
+
+\subsubsection{\texttt{ST=status}}
+
+This is used to select sequences from specified data class (EMBL) or review level (UniProt).
+The list of status codes can be obtained from the \texttt{readsmj()} function
+this way:
+
+<<emblstatus,fig=F,eval=T>>=
+choosebank("embl")
+ nl <- readfirstrec(type = "SMJ")
+  smj <- readsmj(nl = nl, all.add = TRUE)
+ smj[!is.na(smj$nature) & smj$nature == "status", c("sname","libel")]
+closebank()
+choosebank("swissprot")
+ nl <- readfirstrec(type = "SMJ")
+  smj <- readsmj(nl = nl, all.add = TRUE)
+ smj[!is.na(smj$nature) & smj$nature == "status", c("sname","libel")]
+closebank()
+@
+
+To select for instance all fully annotated sequences from Uniprot we can use:
+
+<<exampleST,fig=F,eval=T>>=
+choosebank("swissprot")
+query("STexample","ST=REVIEWED", virtual=TRUE)
+STexample$nelem
+closebank()
+@
+
+\subsubsection{\texttt{F=file\_name}}
+
+This is used to select sequences whose names are in a given file, one name per line.
+This is not directly implemented in seqinR, you have to use the function
+\texttt{crelistfromclientdata()} or its short form \texttt{clfcd()} for this purpose. Here is an example with
+a file of sequence names distributed with the seqinR package:
+
+<<filesqexample,fig=F,eval=T>>=
+choosebank("emblTP")
+fileSQ <- system.file("sequences/bb.mne", package = "seqinr")
+cat(readLines(fileSQ),sep="\n")
+clfcd("listSQ", file = fileSQ, type = "SQ")
+sapply(listSQ$req, getName)
+closebank()
+@
+
+
+\subsubsection{\texttt{FA=file\_name}}
+
+This is used to select sequences whose accession numbers are in a given file, one name per line.
+This is not directly implemented in seqinR, you have to use the function
+\texttt{crelistfromclientdata()} or its short form \texttt{clfcd()} for this purpose. Here is an example with
+a file of sequence accession numbers distributed with the seqinR package:
+
+<<fileACCexample,fig=F,eval=T>>=
+choosebank("emblTP")
+fileAC <- system.file("sequences/bb.acc", package = "seqinr")
+cat(readLines(fileAC),sep="\n")
+clfcd("listAC", file = fileAC, type = "AC")
+sapply(listAC$req, getName)
+closebank()
+@
+
+
+\subsubsection{\texttt{FK=file\_name}}
+
+This is used to produces the list of keywords named in given file, one keyword per line.
+This is not directly implemented in seqinR, you have to use the function
+\texttt{crelistfromclientdata()} or its short form \texttt{clfcd()} for this purpose. Here is an example with
+a file of keywords distributed with the seqinR package:
+
+<<fileKWexample,fig=F,eval=T>>=
+choosebank("emblTP")
+fileKW <- system.file("sequences/bb.kwd", package = "seqinr")
+cat(readLines(fileKW),sep="\n")
+clfcd("listKW", file = fileKW, type = "KW")
+sapply(listKW$req, getName) 
+closebank()
+@
+
+\subsubsection{\texttt{FS=file\_name}}
+
+This is used to produces the list of species named in given file, one species per line.
+This is not directly implemented in seqinR, you have to use the function
+\texttt{crelistfromclientdata()} or its short form \texttt{clfcd()} for this purpose. Here is an example with
+a file of species names distributed with the seqinR package:
+
+<<fileSPexample,fig=F,eval=T>>=
+choosebank("emblTP")
+fileSP <- system.file("sequences/bb.sp", package = "seqinr")
+cat(readLines(fileSP),sep="\n")
+clfcd("listSP", file = fileSP, type = "SP")
+sapply(listSP$req, getName) 
+closebank()
+@
+
+\subsubsection{\texttt{list\_name}}
+
+A list name can be re-used, for instance:
+
+<<examplereuselistname,fig=F,eval=T>>=
+choosebank("emblTP")
+query("MyFirstListName", "Y=2000", virtual = TRUE)
+MyFirstListName$nelem
+query("MySecondListName", "SP=Borrelia burgdorferi", virtual = TRUE)
+MySecondListName$nelem
+query("MyThirdListName", "MyFirstListName AND MySecondListName", virtual = TRUE)
+MyThirdListName$nelem
+closebank()
+@
+ 
+\subsection{Operators} 
+
+\subsubsection{\texttt{AND}}
+
+This is the binary operator for the logical and: a sequence belongs to the 
+resulting list if, and only if, it is present in both operands. To select
+for instance sequences from \textit{Borrelia burgdorferi} that are
+also coding sequences we can use:
+
+<<exampleAND,fig=F,eval=T>>=
+choosebank("emblTP")
+query("ANDexample","SP=Borrelia burgdorferi AND T=CDS", virtual=TRUE)
+ANDexample$nelem
+closebank()
+@
+
+
+\subsubsection{\texttt{OR}}
+
+This is the binary operator for the logical or: a sequence belongs to the 
+resulting list if it is present in at least one of the two operands. To select
+for instance sequences from \textit{Borrelia burgdorferi} or
+from \textit{Escherichia coli} we can use:
+
+<<exampleOR,fig=F,eval=T>>=
+choosebank("emblTP")
+query("ORexample","SP=Borrelia burgdorferi OR SP=Escherichia coli", virtual=TRUE)
+ORexample$nelem
+closebank()
+@
+
+\subsubsection{\texttt{NOT}}
+
+This is the unary operator for the logical negation. To select
+for instance sequences from \textit{Borrelia burgdorferi} that
+are not partial we can use:
+
+<<exampleOR,fig=F,eval=T>>=
+choosebank("emblTP")
+query("NOTexample","SP=Borrelia burgdorferi AND NOT K=PARTIAL", virtual=TRUE)
+NOTexample$nelem
+closebank()
+@
+
+\subsubsection{\texttt{PAR}}
+
+This is a unary operator to compute the list of parent sequences of a list
+of sequences. The reciprocal operator is \texttt{SUB}. To check
+the reciprocity we can use for instance:
+ 
+<<examplePAR,fig=F,eval=T>>=
+choosebank("emblTP")
+query("A","T=TRNA", virtual=TRUE)
+query("B","PAR A", virtual=TRUE)
+query("C","SUB B", virtual=TRUE)
+query("D","PAR C", virtual=TRUE)
+query("emptySet", "B AND NOT D", virtual=TRUE)
+emptySet$nelem
+closebank()
+@
+
+\subsubsection{\texttt{SUB}}
+
+This is a unary operator to add all subsequences of members of the single list operand.
+
+<<exampleSUB,fig=F,eval=T>>=
+choosebank("emblTP")
+query("SUBexample","AC=AE000783",virtual=T)
+SUBexample$nelem
+ query("SUBexample2","SUB SUBexample",virtual=T)
+SUBexample2$nelem
+closebank()
+@
+
+\subsubsection{\texttt{PS}}
+
+This unary operator is used to get the list of species attached to member 
+sequences of the operand list.
+
+<<examplePS,fig=F,eval=T>>=
+choosebank("emblTP")
+query("PSexample","K=hyperthermo@",virtual=T)
+query("PSexample2","PS PSexample")
+sapply(PSexample2$req, getName)
+closebank()
+@
+
+\subsubsection{\texttt{PK}}
+
+This unary operator is used to get the list of keywords attached to member sequences 
+of the operand list.
+
+<<examplePK,fig=F,eval=T>>=
+choosebank("emblTP")
+query("PKexample","AC=AE000783",virtual=T)
+query("PKexample2","PK PKexample")
+sapply(PKexample2$req, getName)
+closebank()
+@
+
+\subsubsection{\texttt{UN}}
+
+This unary operator is used to get the list of sequences attached to a list
+of species or keywords.
+
+<<exampleUN,fig=F,eval=T>>=
+choosebank("emblTP")
+fileSP <- system.file("sequences/bb.sp", package = "seqinr")
+cat(readLines(fileSP),sep="\n")
+clfcd("listSP", file = fileSP, type = "SP")
+query("UNexample", "UN listSP", virtual = TRUE)
+UNexample$nelem 
+closebank()
+@
+
+\subsubsection{\texttt{SD}}
+
+This unary operator computes the list of species placed in the tree below the members of the 
+species list operand.
+
+<<exampleSD,fig=F,eval=T>>=
+choosebank("emblTP")
+query("hominidae","SP=Hominidae",virtual=T)
+query("hsp","PS hominidae",virtual=T)
+hsp$nelem
+query("SDexample","SD hsp")
+sapply(SDexample$req, getName) 
+closebank()
+@
+
+\subsubsection{\texttt{KD}}
+
+This unary operator computes the list of keywords placed in the tree below the members of the 
+keywords list operand.
+
+<<exampleKD,fig=F,eval=T>>=
+choosebank("emblTP")
+query("cat","SP=Felis catus", virtual = TRUE)
+query("catkw","PK cat", virtual = TRUE)
+catkw$nelem
+query("KDexample","KD catkw", virtual = TRUE)
+KDexample$nelem
+closebank()
+@
 
 \SweaveInput{../config/sessionInfo.rnw}
 

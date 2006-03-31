@@ -52,7 +52,7 @@ kaks <- function(x, debug = FALSE, forceUpperCase = TRUE){
     #
     # If the sequences names are missing, we call them seq1, seq2, and so on:
     #
-    if( is.null(x$nam) ) x$nam <- paste("seq", 1:x$nb, sep = "")
+    if( is.null(x$nam) ) x$nam <- paste("seq", seq_len(x$nb), sep = "")
     
     #
     # This is to compute the list of results:
@@ -61,7 +61,7 @@ kaks <- function(x, debug = FALSE, forceUpperCase = TRUE){
       tmp <- matrix( k, x$nb, x$nb, byrow = TRUE, dimnames = list(x$nam, x$nam))
       as.dist(t(tmp))
     }
-    result <- lapply(l[1:4], mkresult)
+    result <- lapply(l[seq_len(4)], mkresult)
     names(result) <- c("ka", "ks", "vka", "vks")
     return(result)
 }

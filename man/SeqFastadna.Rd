@@ -12,13 +12,14 @@
 \usage{
 as.SeqFastadna(object, name = NULL, Annot = NULL)
 is.SeqFastadna(object)
-summary.SeqFastadna(object,...)
+summary.SeqFastadna(object, alphabet = s2c("acgt"), ...)
 }
 \arguments{
   \item{object}{a vector of chars representing a biological sequence} 
   \item{name}{ \code{NULL} a character string specifying a name for the sequence } 
   \item{Annot}{ \code{NULL} a character string specifying some annotations for the sequence }
   \item{...}{additional arguments affecting the summary produced}
+    \item{alphabet}{a vector of single characters}
 }
 \value{
   \code{as.SeqFastadna} returns an object sequence of class \code{SeqFastadna}.
@@ -27,15 +28,15 @@ summary.SeqFastadna(object,...)
 	\item{compo}{the base counting of the sequence} 
 	\item{GC}{the percentage of G+C in the sequence}
 }
-\references{ 
+\references{
   \code{citation("seqinr")}
 }
 \author{D. Charif}
 \examples{
- s = read.fasta(system.file("sequences/malM.fasta",package="seqinr"))
+ s <- read.fasta(system.file("sequences/malM.fasta",package="seqinr"))
  is.SeqFastadna(s[[1]])
  summary(s[[1]])
- myseq = s2c("acgttgatgctagctagcatcgat")
+ myseq <- s2c("acgttgatgctagctagcatcgat")
  as.SeqFastadna(myseq, name = "myseq", Annot = "blablabla")
  myseq
 }

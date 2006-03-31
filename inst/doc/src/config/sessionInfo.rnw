@@ -1,0 +1,9 @@
+
+\section{Session Informations}
+
+This part was compiled under the following \Rlogo{}~environment:
+
+<<sessionInfo, results=tex, echo = F>>=
+toLatex(sessionInfo())
+@
+

@@ -1,48 +1,27 @@
-o Probleme souleve par Oliver (23-AUG-2006):
+o D'un e-mail de Manolo du 05-MARS-2007 :
+  QUOTE
+  J'ai ajouté 2 criteres de selection:
+  NS= et NK= pour mettre une espece ou un mot-cle (@ possible) dans une liste
+  UNQUOTE
+  --> Mettre à our la doc de query() et le manuel.
+  
 
-  Je voulais repondre a la requete du journal en incluant un exemple dans le
-  <<Supplementary Methods>>, puis j'ai constate' en introduisant des vrais
-  sequences d'ADN qu'il y avait toujours des legeres differences entre les
-  resultats de GC2(), GC3() dans seqInR par rapport a codonW (et par rapport
-  aux calculs du GC2 faits directement a partir des sequences proteiques).
-  J'ai vu par la suite que la raison etait assez simple: quand ACNUC/query
-  extrait un CDS, il inclut le codon stop, donc les operations de seqInR
-  s'etalent egalement sur ces derniers trois nucleotides, tandis que le
-  <<default>> de codonW c'est d'exclure le codon stop avant de faire ses
-  calculs.
 
-  Une solution (mise en FAQ pour 1.0-6) est:
-
-  GC(s[1:(length(s) - 3)])
-
-  mais ce n'est pas tres convivial. Ajouter une option "removeLastCodon" ?
+o Fichier CITATION a modifier quand ref disponible.
 
 o La phase est perdue quand on fait un GC2() ou un GC3(), la propager comme
   pour getTrans.
   
-o File -> file dans read.alignment()
-
 o Implementer getSequence(as.tring = TRUE) pour ne pas vectoriser les chaines
   de caracteres automatiquement pour les requestes Web. Une fois implemente dans
   la version du CRAN de seqinr, modifier le script de 
   http://pbil.univ-lyon1.fr/members/lobry/repro/bioinfo04/
 
-o Etudier la faisabilite de recuperer les sequences en mode compresse.
-  (idee de Christian depuis de Bresil)
-  Implementer la possibilite de rapatrier directement les sequences au format
-  fasta et autres du serveur avec
-  extractseqs&{lrank=xx|seqnum=xx}&format=xx&operation=xx[&feature="xx"][&bounds="xx"][&minbounds="xx"]\n
-  Utiliser l'API en C
    
-  
 o dia.bactgensize() ne marche plus parce que l'URL n'est plus bonne. J'ai
   corrige ca en dur dans tdr222 (code chunk a la fin) mais je me demande
   si on ferait mieux de pas bazarder cette fonction. Bon, on peut voir si
   la modif de tdr222 tient la route un peu et laisser tomber sinon.
-
-o getType() appele sans argument ne se demerde pas tout seul comme un grand
-  pour trouver la socket qui va bien de la banque ouverte par defaut (comme
-  le fait query() par exemple. 
 
 o Le site web pour la reproductibilite de l'article Bioinfo 
   http://pbil.univ-lyon1.fr/members/lobry/repro/bioinfo04/
@@ -56,11 +35,7 @@ o La fonction uco() pour calculer l'usage du code :
   Elle ne rÈcupËre pas automatiquement la phase et le code gÈnÈtique, la propager
   comme pour getTrans().
   
-
-
 o Exemples de calculs d'indices d'usage du code dans la vignette du package
-
-o Fichier CITATION a modifier quand ref disponible.
 
 
 o Il vaudrait mieux que les exemples de la vignette soient si possible fait
@@ -92,6 +67,42 @@ o Le probleme du controsle trop strict sur acgt comme seuls chars acceptes.
 o Mettre la doc a jour sur la gestion des caracteres ambigus dans la vignette.
 
 ------ TOUT CA, CA A DEJA ETE FAIT ---
+
+o Doc pour GC() et consorts à clarifier pour minuscules versus majuscules
+  en input. -- Fait pour 1.0-7 JRL
+  
+o Etudier la faisabilite de recuperer les sequences en mode compresse.
+  (idee de Christian depuis de Bresil)
+  Implementer la possibilite de rapatrier directement les sequences au format
+  fasta et autres du serveur avec
+  extractseqs&{lrank=xx|seqnum=xx}&format=xx&operation=xx[&feature="xx"][&bounds="xx"][&minbounds="xx"]\n
+  Utiliser l'API en C
+  -- Fait en experimental pour 1.0-7 par Simon Penel avec l'aide de Manolo Gouy.
+
+o getType() appele sans argument ne se demerde pas tout seul comme un grand
+  pour trouver la socket qui va bien de la banque ouverte par defaut (comme
+  le fait query() par exemple. -- fait pour 1.0-7 JRL
+
+o File -> file dans read.alignment() -- fait pour 1.0-7 JRL
+
+o Probleme souleve par Oliver (23-AUG-2006):
+
+  Je voulais repondre a la requete du journal en incluant un exemple dans le
+  <<Supplementary Methods>>, puis j'ai constate' en introduisant des vrais
+  sequences d'ADN qu'il y avait toujours des legeres differences entre les
+  resultats de GC2(), GC3() dans seqInR par rapport a codonW (et par rapport
+  aux calculs du GC2 faits directement a partir des sequences proteiques).
+  J'ai vu par la suite que la raison etait assez simple: quand ACNUC/query
+  extrait un CDS, il inclut le codon stop, donc les operations de seqInR
+  s'etalent egalement sur ces derniers trois nucleotides, tandis que le
+  <<default>> de codonW c'est d'exclure le codon stop avant de faire ses
+  calculs.
+
+  Une solution (mise en FAQ pour 1.0-6) est:
+
+  GC(s[1:(length(s) - 3)])
+
+  mais ce n'est pas tres convivial. Ajouter une option "removeLastCodon" ?
 
 o Controsle de la taille des caracteres dans tablecode() et option boldtex
   pour mettre certaines entrées en bold (faciliter la lecture des codes

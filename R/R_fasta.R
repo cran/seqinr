@@ -30,7 +30,7 @@ read.fasta <- function(file = system.file("sequences/ct.fasta", package = "seqin
   #
   # Main loop to read sequences:
   #  
-  for(i in 1:nseq)
+  for(i in seq_len(nseq))
   {
     #
     # Sequence name ends with the first space character:

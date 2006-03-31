@@ -7,32 +7,53 @@
 
 oriloc <- function(
   seq.fasta = system.file("sequences/ct.fasta", package = "seqinr"),
-  g2.coord = system.file("sequences/ct.coord", package = "seqinr"),
+  g2.coord = system.file("sequences/ct.predict", package = "seqinr"),
+  glimmer.version = 3,
   oldoriloc = FALSE,
   gbk = NULL,
   clean.tmp.files = TRUE,
   rot = 0)
 {
-  if( !missing(gbk) ) # Work directly with genbank file
+  if( !missing(gbk) & ! is.null(gbk)) # Work directly with genbank file
   {
-    tmpgbk <- tempfile(pattern = "oriloc_gbk")
+    if(substr(gbk,1,7)=="http://" | substr(gbk,1,6)=="ftp://" | substr(gbk,1,7)=="file://"){
+      tmpgbk <- tempfile(pattern = "oriloc_gbk")
+      download.file( gbk, destfile = tmpgbk )
+    }
+    else{
+      tmpgbk <- gbk
+    }
     seq.fasta <- tempfile(pattern = "oriloc_fasta")
     g2.coord <- tempfile(pattern = "oriloc_g2")
-    download.file( gbk, destfile = tmpgbk )
+   
     gb2fasta( tmpgbk, seq.fasta )
     gbk2g2( tmpgbk, g2.coord )
   } 
- 
-  seq <- tolower(unlist(strsplit(readLines(seq.fasta)[-1], split="")))
+#  
+# Get first sequence from fasta file:
+#
+  seq <- read.fasta(file = seq.fasta, set.attributes = FALSE)[[1]]
   lseq <- length(seq)
+#
+# Read CDS coordinate file:
+#
   g2 <- readLines( g2.coord )
+#
+# Patch for glimmer3 version:
+#
+  if( glimmer.version > 2 ){
+    # remove first line:
+    g2 <- g2[-1]
+    # remove first three characters (i.e. orf)
+    g2 <- sapply(g2, function(x) substr(x,4,nchar(x)), USE.NAMES = FALSE)
+  }
 #
 # Extract info from g2.coord file
 #
   tokens <- function( string )
   {
     tmp <- unlist(strsplit( string, split = " "))
-    tmp[nchar(tmp) > 0 ][1:3]
+    tmp[nchar(tmp) > 0 ][seq_len(3)]
   }
   tmp <- sapply( g2, tokens )
   gnum  <- as.numeric(tmp[1, ]) # gene number in g2.coord
@@ -59,7 +80,7 @@ oriloc <- function(
       } 
       else 
       {
-        c(x[(rot+1):n],x[1:rot])
+        c(x[(rot+1):n],x[seq_len(rot)])
       }
     } 
     seq <- rotate(x  = seq, rot = rot )
@@ -141,7 +162,7 @@ oriloc <- function(
     Regression <- function(x, y, Li)
     {
       a <- 0 ; b <- 0 ; c <- 0; l <- 0
-      for( m in 1:(Li-1) ) # I think this should go to Li included
+      for( m in seq_len(Li-1) ) # I think this should go to Li included
       {
         b <- b + y[m]^2
         a <- a + x[m]^2
@@ -159,7 +180,7 @@ oriloc <- function(
 
     slope <- Regression( x, y, ncds )
   
-    for ( i in 1:ncds)
+    for ( i in seq_len(ncds))
     {
       X.line <- ( y[i] + slope*x[i] )/(2*slope)
       Y.line <- slope*X.line        

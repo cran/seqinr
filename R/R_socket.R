@@ -24,7 +24,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
     cat(paste("  bank = ", deparse(substitute(bank)), "\n"))
     cat(paste("  host = ", deparse(substitute(host)), "\n"))
     cat(paste("  port = ", deparse(substitute(port)), "\n"))
-    cat(paste("  timeout = ", deparse(substitute(port)), "seconds \n"))
+    cat(paste("  timeout = ", deparse(substitute(timeout)), "seconds \n"))
     cat(paste("  infobank = ", deparse(substitute(infobank)), "\n"))
     cat(paste("  tagbank = ", deparse(substitute(tagbank)), "\n"))
   }
@@ -121,10 +121,10 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
   resdf <- as.data.frame(list(bank = I(rep("NAbank", nbank)), 
                   status = I(rep("NAstatus", nbank)), 
                   info = I(rep("NAinfo", nbank))))
-  for(i in 1:nbank)
+  for(i in seq_len(nbank))
     resdf[i, ] <- unlist(strsplit(res[i], split = "\\|"))[1:3]
-  for(i in 1:nbank)
-    for(j in 1:3)
+  for(i in seq_len(nbank))
+    for(j in seq_len(3))
       resdf[i, j] <- removeTrailingSpaces(resdf[i, j])   
            
   ###############################################################################
@@ -185,7 +185,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
       if(verbose) cat("Number of lines=", nblhelp,".\n")
       if (as.numeric(nblhelp) > 2){
         bankhelp <- readLines(socket, n = (as.integer(nblhelp) - 1))
-        for(i in 1:length(bankhelp)) bankhelp[i] <- removeTrailingSpaces(bankhelp[i])
+        for(i in seq_len(length(bankhelp))) bankhelp[i] <- removeTrailingSpaces(bankhelp[i])
         bankrel <- bankhelp[1]
       } else {
         bankhelp <- "there is no information available about the contents of this bank"
@@ -197,7 +197,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
       # Try to get status info:
       #
       status <- "unknown"
-      for(i in 1:nbank){
+      for(i in seq_len(nbank)){
           if (resdf[i,1] == bank) status<-resdf[i,2]
       }
 
@@ -348,10 +348,13 @@ removeTrailingSpaces <- function(string){
 
 parser.socket <- function(p)
 {
+  if(is.null(p)){
+    return(NULL)
+  }
   p1 <- s2c(p)
   b <- grep("=", p1)
   a <- c(grep("&", p1), length(p1) + 1)
-  return(unlist(lapply(1:length(a), function(x){substr(p, (b[x]+1), (a[x] - 1))})))
+  return(unlist(lapply(seq_len(length(a)), function(x){substr(p, (b[x]+1), (a[x] - 1))})))
 }
   
 ###################################################################################################
@@ -666,25 +669,6 @@ getLocationSocket <- function( socket, name){
   return(l)
 } 
 
-###################################################################################################
-#                                                                                                 #
-#                                         getType                                                 #
-#                                                                                                 #
-###################################################################################################
-
-getType <- function(socket){
-  writeLines("readfirstrec&type=SMJ", socket, sep = "\n") 
-  s <- readLines(socket, n = 1)
-  rep <- parser.socket(s)
-  if(rep[1] != "0") stop("erreur")
-  rep <- as.numeric(rep)
-  writeLines(paste("readsmj&num=", 10, "&nl=", rep[2] - 10, sep = ""), socket, sep = "\n" ) 
-  ss <- readLines(socket, n = rep[2] - 9)
-  occ <- grep("name=\"04", ss)
-  h = ss[occ]
-  return(lapply(h,function(x){ c(substring(noquote(parser.socket(x))[2],4,nchar(noquote(parser.socket(x))[2])-1),substring(noquote(parser.socket(x))[4],2,nchar(noquote(parser.socket(x))[4])-1)) }))
-}
-
 
 ###################################################################################################
 #                                                                                                 #
@@ -759,7 +743,7 @@ plot.SeqAcnucWeb <- function(x,  type = "all", ...){
     nb=numeric()
     posi = list()
     
-    for(i in 1:length(ptype)){
+    for(i in seq_len(length(ptype))){
       cou = cou+1
       q=paste("filles et t=",ptype[i],sep="")
       query(socket = socket, listname = "tmp", query = q, invisible = TRUE)
@@ -777,7 +761,7 @@ plot.SeqAcnucWeb <- function(x,  type = "all", ...){
     }
     plot(c(0,l),c(0,10),type="n",axes=FALSE,ann=FALSE)
     title("Legend",font.main=4)
-    legend(9,legend=paste(ptype[rap],"(",nb,")",sep=""),fill=c(1:cou),bg="cornsilk",ncol = 4)
+    legend(9,legend=paste(ptype[rap],"(",nb,")",sep=""),fill= seq_len(cou),bg="cornsilk",ncol = 4)
     par(mfrow=c(1,1))
     resu = lapply(posi,function(x){lapply(x,unlist)})
     names(resu) = ptype[rap]
@@ -799,112 +783,63 @@ simon <-function(res, socket) {
   acnucy
 }
 
+
+
 ###################################################################################################
 #                                                                                                 #
-#                              crelistfromclientdata                                              #
+#                              readfirstrec                                                       #
 #                                                                                                 #
-#                To create on server a bitlist from data lines sent by client                     #                                                                                                 #
+#                Returns the record count of the specified ACNUC index file.                      #                                                                                                 #
 #                                                                                                 #
-# ==>  crelistfromclientdata{&type=[SQ|AC|SP|KW]}&nl=xx                                           #
-# 0 or more lines of data sent by client to server                                                #
-# <==  code=0&name="xx"&lrank=xx&count=xx\n                                                       #
-# To create on server a bitlist from data lines sent by client.                                   #
-# type: the type of data sent to server (SQ=seqs, AC=acc nos, SP=species, KW=keywords)            #
-#      SQ by default                                                                              #
-# nl: announces the number of data lines that follow (0 is OK)                                    #
-# code: 0 iff OK                                                                                  #
-#      3 no list creation is possible                                                             #
-#      4 EOF while reading the nl lines from client                                               #
-# name: name of bitlist created from this data                                                    #
-# lrank: rank of this bitlist                                                                     #
-# count: count of elements in bitlist                                                             #
+# ==>   readfirstrec&type=[AUT|BIB|ACC|SMJ|SUB|LOC|KEY|SPEC|SHRT|LNG|EXT|TXT]                     #
+# <==  code=xx&count=xx                                                                           #
+# Returns the record count of the specified ACNUC index file.                                     #
+# Code != 0 indicates error.                                                                      #
 #                                                                                                 #
 ###################################################################################################
 
-crelistfromclientdata <- function(listname, file, type, socket = "auto", invisible = TRUE, verbose = FALSE, 
-virtual = FALSE) {
+readfirstrec <- function(socket = "auto", type)
+{
+  allowedtype <- c("AUT", "BIB", "ACC", "SMJ", "SUB", "LOC", "KEY", "SPEC", 
+                   "SHRT", "LNG", "EXT", "TXT")
+  if(missing(type)){
+    return(allowedtype)
+  }
+  
   #
-  # Check arguments:
+  # Use default bank if no socket is given:
   #
-  if(verbose) cat("I'm checking the arguments...\n")
-
-  if(!file.exists(file)) stop(paste("input file", file, "doesn't exist."))
-  if( ! type %in% c("SQ", "AC", "SP", "KW") ) stop("wrong value for type argument.")
   if (socket == "auto"){
-    if(verbose) cat("No socket were specified, using default.\n")
     socket <- banknameSocket$socket
   }
   
-  if( !inherits(socket, "sockconn") ) stop(paste("argument socket = ", socket, "is not a socket connection."))
-  if( !is.logical(invisible) ) stop(paste("argument invisible = ", invisible, "should be TRUE or FALSE."))
-  if( is.na(invisible) ) stop(paste("argument invisible = ", invisible, "should be TRUE or FALSE."))
-  if(verbose) cat("... and everything is OK up to now.\n")
+  #
+  # Build the request:
+  #
+  request <- paste("readfirstrec&type=", type, sep = "", collapse = "")
   
   #
-  # Check the status of the socket connection:
+  # Send request:
   #
-  if(verbose) cat("I'm checking the status of the socket connection...\n")
-  #
-  # Ca marche pas: summary.connection leve une exception et on ne va pas plus loin
-  #
-  if(!isOpen(socket)) stop(paste("socket:", socket, "is not opened."))
-  if(!isOpen(socket, rw = "read")) stop(paste("socket:", socket, "can not read."))
-  if(!isOpen(socket, rw = "write")) stop(paste("socket:", socket, "can not write."))
-  if(verbose) cat("... and everything is OK up to now.\n")
-
-  #
-  # Read user file:
-  #
-  infile <- file(description = file, open = "r")
-  data <- readLines(infile)
-  close(infile)
-  nl <- length(data)
-  #
-  # Send request to server:
-  #
-  if(verbose) cat("I'm sending query to server...\n")
-  request <- paste("crelistfromclientdata&type=", type, "&nl=", nl, sep = "")
-  if(verbose) writeLines(c(request, data))
-  writeLines(c(request, data), socket, sep = "\n")
-  res <- readLines(socket, n = 1)
-  #
-  # Check for non empty answer from server:
-  #
-  if(verbose) cat(paste("... answer from server is:", res, "\n"))
-  if(length(res) == 0){
-    if(verbose) cat("... answer from server is empty!\n")
-    while(length(res) == 0){
-      if(verbose) cat("... reading again.\n")
-      res <- readLines(socket, n = 1)
-    }
-  }
-  #
-  # Analysing answer from server:
-  #
-  if(verbose) cat("I'm trying to analyse answer from server...\n")
-  p <- parser.socket(res)
-  if(p[1] != "0"){
-    if(verbose) cat("... and I was able to detect an error.\n") 
-    if( p[1] == "3" ) stop("no list creation is possible")
-    if( p[1] == "4" ) stop("EOF while reading the nl lines from client")
-    stop(paste("unknown error code from server:", p[1]))
-  }
-  if(verbose) cat("... and everything is OK up to now.\n")
   
-  if(verbose){
-    cat("listname is:", p[2], "\n")
-    cat("list rank is:", p[3], "\n")
-    cat("list count of elements is:", p[4], "\n")
-  }
+  writeLines(request, socket, sep = "\n") 
   #
-  # Use query with user parameters:
+  # Read answer from server:
   #
-  if(invisible){
-  invisible(query(listname = listname, query = p[2], socket = socket, invisible = TRUE, 
-    verbose = verbose, virtual = virtual))
+  
+  s <- readLines(socket, n = 1)
+  rep <- parser.socket(s)
+  
+  #
+  # Check answer from server:
+  #
+  if(rep[1] != "0"){
+    warning("Server returns an error")
+    return(NA)
   } else {
-    return(query(listname = listname, query = p[2], socket = socket, invisible = FALSE, 
-    verbose = verbose, virtual = virtual))
+    return(as.numeric(rep[2]))
   }
 }
+
+
 

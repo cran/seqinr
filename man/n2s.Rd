@@ -30,7 +30,7 @@ a vector of characters
 ##example of the default behaviour:
 nseq <- sample(x = 0:3, size = 100, replace = TRUE)
 n2s(nseq) 
-# Show what's happen with out-of-range and NA values:
+# Show what happens with out-of-range and NA values:
 nseq[1] <- NA
 nseq[2] <- 777
 n2s(nseq)[1:10]

@@ -1,6 +1,6 @@
 \name{oriloc}
 \alias{oriloc}
-\title{ Prediction of origin and terminus of replication in bacteria }
+\title{ Prediction of origin and terminus of replication in bacteria.}
 \description{
 This program finds the putative origin and terminus of 
 replication in procaryotic genomes. The program discriminates
@@ -8,14 +8,16 @@ between codon positions.
 }
 \usage{
 oriloc(seq.fasta = system.file("sequences/ct.fasta", package ="seqinr"),
- g2.coord = system.file("sequences/ct.coord", package = "seqinr"),
+ g2.coord = system.file("sequences/ct.predict", package = "seqinr"),
+ glimmer.version = 3,
 oldoriloc = FALSE, gbk = NULL, clean.tmp.files = TRUE, rot = 0)
 }
 \arguments{
   \item{seq.fasta}{ the name of a file which contains the dna sequence
 of a bacterial chromosome in fasta format }
   \item{g2.coord}{ the name of file which contains the output of
-glimmer2 program}
+glimmer program (*.predict in glimmer version 3)}
+  \item{glimmer.version}{glimmer version used, could be 2 or 3}
   \item{oldoriloc}{ logical to be set at TRUE to reproduce the
 (deprecated) outputs of previous (publication date: 2000) version 
 of the oriloc program }
@@ -28,7 +30,8 @@ The method builds on the fact that there are compositional asymmetries between
 the leading and the lagging strand for replication. The programs works only
 with third codon positions so as to increase the signal/noise ratio.
 To discriminate between codon positions, the program use as input either
-an annotated genbank file, either a fasta file and a glimmer2.0 output
+an annotated genbank file, either a fasta file and a glimmer2.0 (or
+glimmer3.0) output
 file.
 }
 \value{
@@ -70,10 +73,21 @@ for the detection of replication origins in bacteria. \emph{Biochimie},
 
 Glimmer, a very efficient open source software for the prediction of CDS from scratch
 in prokaryotic genome, is decribed at \url{http://www.cbcb.umd.edu/software/glimmer/}.\cr
+For a description of Glimmer 1.0 and 2.0 see:\cr
+
+Delcher, A.L., Harmon, D., Kasif, S., White, O., Salzberg, S.L. (1999)
+Improved microbial gene identification with GLIMMER, 
+\emph{Nucleic Acids Research}, \bold{27}:4636-4641.\cr
+
+Salzberg, S., Delcher, A., Kasif, S., White, O. (1998)
+Microbial gene identification using interpolated Markov models, 
+\emph{Nucleic Acids Research}, \bold{26}:544-548.\cr
 
 \code{citation("seqinr")}
 }
 \author{ J.R. Lobry and A.C. Frank}
+\seealso{ \code{\link{draw.oriloc}}, \code{\link{rearranged.oriloc}} }
+
 \note{ The method works only for genomes having a single origin of replication 
 from which the replication is bidirectional. To detect the composition changes,
 a DNA-walk is performed. In a 2-dimensional DNA walk, a C in the sequence 
@@ -94,8 +108,11 @@ In the case of only one peak, the sequence starts at the origin or terminus
 site. }
 \examples{
 \dontrun{
-# A little bit too long for routine checks:
-library(ade4)
+#
+# A little bit too long for routine checks because oriloc() is already
+# called in draw.oriloc.Rd documentation file. Try example(draw.oriloc)
+# instead, or copy/paste the following code:
+#
 out <- oriloc()
 plot(out$st, out$sk, type = "l", xlab = "Map position in Kb",
     ylab = "Cumulated composite skew", 

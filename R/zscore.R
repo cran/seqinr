@@ -1,16 +1,16 @@
-"rho" <- function (sequence){
-  di <- count(sequence,2,freq=TRUE)
-  uni <- count(sequence,1,freq=TRUE)
+rho <- function (sequence, alphabet = s2c("acgt")){
+  di <- count(sequence,2,freq=TRUE, alphabet = alphabet)
+  uni <- count(sequence,1,freq=TRUE, alphabet = alphabet)
   di/(rep(uni,4)*rep(uni,each=4))
 }
 
-"zscore" <- function (sequence, simulations = NULL, modele, ... ){
+zscore <- function (sequence, simulations = NULL, modele, alphabet = s2c("acgt"), ... ){
   if (is.null(simulations)){
     if (modele=="base"){
-      uni <- count(sequence,1,freq=TRUE)
-      di <- count(sequence,2,freq=TRUE)
-      rep1 <- rep(uni,4)
-      rep2 <- rep(uni,each=4)
+      uni <- count(sequence, 1, freq = TRUE, alphabet = alphabet)
+      di <- count(sequence, 2, freq = TRUE, alphabet = alphabet)
+      rep1 <- rep(uni, 4)
+      rep2 <- rep(uni, each = 4)
       rho <- di/(rep1*rep2)
       zscore <- ((rho-1)/sqrt(((1-rep1)*(1-rep2))/((length(sequence))*rep1*rep2)))
     }

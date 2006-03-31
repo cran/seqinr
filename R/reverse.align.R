@@ -36,16 +36,16 @@ reverse.align <- function(nucl.file,
   length(cds.aln) <- length(seq.nucl)
   names(cds.aln) <- protaln$nam
 
-  if(input.format%in%c("fasta","clustal","phylip","mase")){
-    gapchar <-"-"
+  if(input.format %in% c("fasta","clustal","phylip","mase")){
+    gapchar <- "-"
   }
-  if(input.format=="msf"){
-    gapchar <-"."
+  if(input.format == "msf"){
+    gapchar <- "."
   }
   
-  for(k in 1:nchar(protaln$seq[1])){
+  for(k in seq_len(nchar(protaln$seq[1]))){
     allaln=TRUE
-    for(j in 1:length(seq.nucl)){
+    for(j in seq_len(length(seq.nucl))){
       if(substr(protaln$seq[j],k,k)!=gapchar){
         index[[j]]=index[[j]]+1
       }
@@ -54,7 +54,7 @@ reverse.align <- function(nucl.file,
         }
       }
       if(allaln){
-        for(j in 1:length(seq.nucl)){
+        for(j in seq_len(length(seq.nucl))){
           cds.aln[[j]]=c(cds.aln[[j]],seq.nucl[[j]][(3*index[[j]]-2):(3*index[[j]])] )
         }
       }

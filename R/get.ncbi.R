@@ -172,6 +172,20 @@ get.ncbi <- function(repository = "ftp://ftp.ncbi.nih.gov/genomes/Bacteria/"  )
       cmd <- sprintf("ftp -v -n %s < %s", hostname, tmpname)
       whatsin <- readLines(pipe(cmd))
     }
+    else if( sysinfo=="Linux"){
+      # Build command file for ftp connection:
+      tmpname <- tempfile(pattern="getncbi")
+      tmpcmdfile <- file(tmpname, open="w")
+      writeLines("user anonymous seqteam@biomserv.univ-lyon1.fr", tmpcmdfile)
+      writeLines(sprintf("cd genomes/Bacteria/%s", folder), tmpcmdfile)
+      writeLines("dir", tmpcmdfile)
+      writeLines("bye", tmpcmdfile)
+      close(tmpcmdfile)
+      #
+      hostname <- unlist(strsplit(repository,split="/"))[3]
+      cmd <- sprintf("ftp -v -n %s < %s", hostname, tmpname)
+      whatsin <- readLines(pipe(cmd))
+    }
     else
     {
       stop("unimplemented platform")
@@ -180,7 +194,7 @@ get.ncbi <- function(repository = "ftp://ftp.ncbi.nih.gov/genomes/Bacteria/"  )
     #
     # Remove backup files with % extension:
     #
-    for( i in 1:length(whatsin) )
+    for( i in seq_len(length(whatsin)) )
       if( substr(whatsin[i], nchar(whatsin[i]), nchar(whatsin)[i]) == "%" )
         is.na(whatsin[i]) <- TRUE
     whatsin <- whatsin[!is.na(whatsin)]
@@ -253,6 +267,13 @@ get.ncbi <- function(repository = "ftp://ftp.ncbi.nih.gov/genomes/Bacteria/"  )
       if( accname == "NC_007352" ) def <- "plasmid"
       if( accname == "NC_003425" ) def <- "plasmid"
       if( accname == "NC_006833" ) def <- "chromosome"
+      if( accname == "NC_006810" ) def <- "chromosome"
+      if( accname == "NC_008529" ) def <- "chromosome"
+      if( accname == "NC_008531" ) def <- "chromosome"
+      if( accname == "NC_008346" ) def <- "chromosome"
+      if( accname == "NC_008800" ) def <- "chromosome"
+            
+            
 
       
       #

@@ -89,7 +89,7 @@ uco(cds, index = "freq")
 ## Get RSCU values:
 uco(cds, index = "rscu")
 
-## Show what's happen with ambiguous bases:
+## Show what happens with ambiguous bases:
 uco(s2c("aaannnttt"))
 
 ## Use a real coding sequence:
@@ -99,7 +99,7 @@ uco( rcds, index = "eff")
 uco( rcds, index = "rscu")
 uco( rcds, as.data.frame = TRUE)
 
-## Show what's happen with RSCU when an amino-acid is missing:
+## Show what happens with RSCU when an amino-acid is missing:
 ecolicgpe5 <- read.fasta(file = system.file("sequences/ecolicgpe5.fasta",package="seqinr"))[[1]]
 uco(ecolicgpe5, index = "rscu")
 

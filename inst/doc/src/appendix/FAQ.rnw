@@ -43,7 +43,7 @@ GC3m(ecribo, 1:10)
 \section{Why do I have not exactly the same G+C content as in \texttt{codonW}?}
 
 This question was raised (and solved) by Oliver Clay in an e-mail (23-AUG-2006).
-The program \texttt{codonW} was written in C as part of Jonh Peden's PhD thesis 
+The program \texttt{codonW} was written in C as part of John Peden's PhD thesis 
 on Codon Usage \cite{codonW} and is available at \url{http://codonw.sourceforge.net/}.
 The reason for the small differences in G+C content between the two programs is
 that the default behavior in \texttt{codonW} is to remove the stop codon before

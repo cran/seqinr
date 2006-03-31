@@ -80,7 +80,7 @@ were included in the ACNUC books \cite{GautierC1982a, GautierC1982b}}
 \end{table}
 
 
-The total number of base pair was 474,439 in the two books. They were about 4.5 cm
+The total number of base pair was 526,506 in the two books. They were about 4.5 cm
 width. We can then compute of much place would it take to print the last GenBank
 release with the same format as the ACNUC book: 
 \marginpar{
@@ -90,7 +90,7 @@ release with the same format as the ACNUC book:
 
 <<gbkinkm,fig=F, eval=T>>=
 acnucbooksize <- 4.5 #cm
-acnucbp <- 474439
+acnucbp <- 526506
 choosebank("genbank") -> mybank
 mybank$details
 unlist(strsplit(mybank$details[2], split=" "))[1] -> bpbk
@@ -296,7 +296,7 @@ strand for 7 bacterial chromosomes.
 
 \setkeys{Gin}{width=0.5\textwidth}
 <<chargaff,fig=T, results=hide,eval=T>>=
-example(chargaff)
+example(chargaff, ask = FALSE)
 @
 \setkeys{Gin}{width=0.8\textwidth}
 
@@ -348,12 +348,12 @@ The tables were then inserted in the \LaTeX~file with:
 In research area, data are not always stable. 
 Consider figure 1 from \cite{lobrylncs} which is reproduced here in figure \ref{fig1lncs2004}.
 Data have been updated since then, but we can re-use  the same \Rlogo{}~code\footnote{
-This code was copy/pasted from \url{http://pbil.univ-lyon1.fr/members/lobry/repro/lncs04/}.
+This code was adapted from \url{http://pbil.univ-lyon1.fr/members/lobry/repro/lncs04/}.
 }
 to update the figure:
 
 \setkeys{Gin}{width=\textwidth}
-<<dbg, fig = TRUE, eval=T, width=9.2, height=5.2>>=
+<<dbg, fig = TRUE, eval=T, width=9.2, height=6>>=
 data <- get.db.growth()
 scale <- 1
    ltymoore <- 1 # line type for Moore's law
@@ -362,8 +362,8 @@ scale <- 1
     Month <- data$Month
     plot.default(date, log10(Nucleotides), 
         main = "Update of Fig. 1 from Lobry (2004) LNCS, 3039:679:\nThe exponential growth of genome sequence data", xlab = "Year", 
-        ylab = "Log10 number of nucleotides", pch = 19, 
-        cex = scale/2, cex.axis = scale, cex.lab = scale)
+        ylab = "Log10 number of nucleotides", pch = 19, las = 1,
+        cex = scale, cex.axis = scale, cex.lab = scale)
     abline(lm(log10(Nucleotides) ~ date), lwd = 2)
     lm1 <- lm(log(Nucleotides) ~ date)
     mu <- lm1$coef[2]

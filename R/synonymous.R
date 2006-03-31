@@ -1,7 +1,12 @@
 "syncodons" <-
 function (codons, numcode = 1) 
 {
-    allaminos = s2c(c2s(SEQINR.UTIL$CODES.NCBI$CODES[numcode]))
+  alph=unlist(lapply(codons, s2c))
+  if(any(alph%in%LETTERS)){
+    codons=tolower(codons)
+  }
+  
+  allaminos = s2c(c2s(SEQINR.UTIL$CODES.NCBI$CODES[numcode]))
     allcodons = splitseq(as.vector(t(cbind(rep(s2c("tcag"), each = 16), 
         rep(s2c("tcag"), each = 4), rep(s2c("tcag"), 4)))))
     syncodons = lapply(seq(21), function(a) {

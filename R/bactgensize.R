@@ -3,8 +3,8 @@ dia.bactgensize <- function(
   m3 = 9000, sd3 = 1000)
 {
 
-  bactURL <- "http://ergo.integratedgenomics.com/GOLD/search.cgi?orgcol=org&sizecol=size&org_name1=genus&gensp=&org_domain=BACTERIAL&org_status=ALL&size2=ALL&org_size=Kb&phylogeny2=ALL&gen_institution=ALL&gen_funding=ALL&gen_data=ALL&cont=ALL&selection=submit+search"
-  archURL <- "http://ergo.integratedgenomics.com/GOLD/search.cgi?orgcol=org&sizecol=size&org_name1=genus&gensp=&org_domain=ARCHAEAL&org_status=ALL&size2=ALL&org_size=Kb&phylogeny2=ALL&gen_institution=ALL&gen_funding=ALL&gen_data=ALL&cont=ALL&selection=submit+search"
+  archURL <- "http://www.genomesonline.org/search.cgi?orgcol=org&sizecol=size&goldstamp=ALL&gen_type=ALL&org_name1=genus&gensp=&org_domain=ARCHAEAL&org_status=ALL&size2=ALL&org_size=Kb&gen_gc=ALL&phylogeny2=ALL&gen_institution=ALL&gen_funding=ALL&gen_data=ALL&cont=ALL&gen_pheno=ALL&gen_eco=ALL&gen_disease=ALL&gen_relevance=ALL&gen_avail=ALL&selection=submit+search"
+  bactURL <- "http://www.genomesonline.org/search.cgi?orgcol=org&sizecol=size&goldstamp=ALL&gen_type=ALL&org_name1=genus&gensp=&org_domain=BACTERIAL&org_status=ALL&size2=ALL&org_size=Kb&gen_gc=ALL&phylogeny2=ALL&gen_institution=ALL&gen_funding=ALL&gen_data=ALL&cont=ALL&gen_pheno=ALL&gen_eco=ALL&gen_disease=ALL&gen_relevance=ALL&gen_avail=ALL&selection=submit+search"
   bactdata <- readLines(bactURL)
   archdata <- readLines(archURL)
 

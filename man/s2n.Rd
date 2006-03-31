@@ -9,14 +9,14 @@ order \code{(a > c > g > t)}, that is 0 for "a", 1 for "c", 2 for "g", 3 for
 "t" and NA for ambiguous bases.
 }
 \usage{
-s2n(seq, levels, base4 = TRUE)
+s2n(seq, levels = s2c("acgt"), base4 = TRUE, forceToLower = TRUE)
 }
 \arguments{
-  \item{seq}{ a vector of chars }
+  \item{seq}{ the sequence as a vector of single chars }
   \item{levels}{ allowed char values, by default a, c, g and t }
   \item{base4}{if TRUE the numerical encoding will start at O, if
 FALSE at 1}
-  \item{\dots}{ further arguments to factor }
+  \item{forceToLower}{if TRUE the sequence is forced to lower case caracters}
 }
 \value{
   a vector of integers
@@ -35,19 +35,31 @@ set to the other one as you like.
 }
 \seealso{ \code{\link{n2s}}, \code{\link{factor}}, \code{\link{unclass}} }
 \examples{
-#example of default behaviour
-urndna <- c("a","c","g","t")
+##
+## Example of default behaviour:
+##
+urndna <- s2c("acgt")
 seq <- sample( urndna, 100, replace = TRUE ) ; seq
 s2n(seq)
-#How to deal with RNA
-urnrna <- c("a","c","g","t")
+##
+## How to deal with RNA:
+##
+urnrna <- s2c("acgt")
 seq <- sample( urnrna, 100, replace = TRUE ) ; seq
 s2n(seq)
-#what's happen with unknown characters
+##
+## what happens with unknown characters:
+##
 urnmess <- c(urndna,"n")
 seq <- sample( urnmess, 100, replace = TRUE ) ; seq
 s2n(seq)
-#How to change the encoding for unknown characters
+##
+## How to change the encoding for unknown characters:
+##
 tmp <- s2n(seq) ; tmp[is.na(tmp)] <- -1; tmp
+##
+## Simple sanity check:
+##
+stopifnot(all(s2n(s2c("acgt")) == 0:3))
 }
 \keyword{ utilities }

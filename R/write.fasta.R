@@ -13,8 +13,8 @@ write.fasta <- function(sequences, names, nbchar = 60, file.out, open = "w"){
     q <- floor(l/nbchar)
     r <- l - nbchar*q
     if(q > 0){
-#      sapply(1:q, function(x) writeLines(paste(sequence[(nbchar*(x-1)+1):(nbchar*x)], collapse = "", sep = ""), outfile))
-      sapply(1:q, function(x) writeLines(c2s(sequence[(nbchar*(x - 1) + 1):(nbchar*x)]), outfile))
+#      sapply(seq_len(q), function(x) writeLines(paste(sequence[(nbchar*(x-1)+1):(nbchar*x)], collapse = "", sep = ""), outfile))
+      sapply(seq_len(q), function(x) writeLines(c2s(sequence[(nbchar*(x - 1) + 1):(nbchar*x)]), outfile))
     }
     if(r > 0){
 #      writeLines(paste(sequence[(nbchar*q+1):l], collapse = "", sep = ""), outfile)
@@ -28,7 +28,8 @@ write.fasta <- function(sequences, names, nbchar = 60, file.out, open = "w"){
   if(!is.list(sequences)){
     write.oneseq(sequence = sequences, name = names, nbchar = nbchar)
   }else{
-    sapply(1:length(sequences), function(x) write.oneseq(sequence = as.character(sequences[[x]]), name = names[x], nbchar = nbchar))
+    n.seq <- length(sequences)
+    sapply(seq_len(n.seq), function(x) write.oneseq(sequence = as.character(sequences[[x]]), name = names[x], nbchar = nbchar))
   }
   
   #

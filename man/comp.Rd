@@ -4,17 +4,21 @@
 \description{
     Complements a sequence, for instance if the sequence is 
     \code{"a","c","g","t"} it returns \code{"t","g","c","a"}. 
-    All other values will return NA. This is not the reverse
-    complementary strand.
+    This is not the reverse complementary strand. This function
+    can handle ambiguous bases if required.
 }
 \usage{
-comp(seq)
+comp(seq, forceToLower = TRUE, ambiguous = FALSE)
 }
 \arguments{
-  \item{seq}{ a vector of chars }
+  \item{seq}{ a DNA sequence as a vector of single chars }
+  \item{forceToLower}{ if TRUE character in seq are forced to lower case}
+  \item{ambiguous}{ if TRUE ambiguous bases in seq are handled} 
 }
 \value{
-  a vector of characters which is the complement of the sequence.
+  a vector of characters which is the complement of the sequence,
+  not the reverse complementary strand. Undefined values are
+  returned as NA.
 }
 \author{ D. Charif, J.R. Lobry }
 \references{
@@ -34,8 +38,18 @@ c2s(comp(s2c("aaaattttggggcccc")))
 ##
 c2s(rev(comp(s2c("aaaattttggggcccc"))))
 ##
-## Show what's happen with non allowed values:
+## Show what happens with non allowed values:
 ##
 c2s(rev(comp(s2c("aaaaXttttYggggZcccc"))))
+##
+## Show what happens with ambiguous bases:
+##
+allbases <- s2c("abcdghkmstvwn")
+comp(allbases) # NA are produced
+comp(allbases, ambiguous = TRUE) # No more NA
+##
+## Routine sanity check:
+##
+stopifnot(identical(comp(allbases, ambiguous = TRUE), s2c("tvghcdmksabwn")))
 }
 \keyword{ manip }
