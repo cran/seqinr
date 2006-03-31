@@ -1,0 +1,249 @@
+\documentclass{article}
+\input{../config/commontex}
+
+\title{Release notes}
+\author{Lobry, J.R., Palmeira, L.}
+
+\usepackage{/Library/Frameworks/R.framework/Resources/share/texmf/Sweave}
+\begin{document}
+%
+% To change the R input/output style:
+%
+\definecolor{Soutput}{rgb}{0,0,0.56}
+\definecolor{Sinput}{rgb}{0.56,0,0}
+\DefineVerbatimEnvironment{Sinput}{Verbatim}
+{formatcom={\color{Sinput}},fontsize=\footnotesize, baselinestretch=0.75}
+\DefineVerbatimEnvironment{Soutput}{Verbatim}
+{formatcom={\color{Soutput}},fontsize=\footnotesize, baselinestretch=0.75}
+%
+% Rlogo
+%
+\newcommand{\Rlogo}{\protect\includegraphics[height=1.8ex,keepaspectratio]{../figs/Rlogo.pdf}}
+%
+% Shortcut for seqinR:
+%
+\newcommand{\seqinr}{\texttt{seqin\bf{R}}}
+\newcommand{\Seqinr}{\texttt{Seqin\bf{R}}}
+\fvset{fontsize= \scriptsize}
+%
+% R output options and libraries to be loaded.
+%
+%
+%  Sweave Options
+%
+% Put all figures in the fig folder and start the name with current file name.
+% Do not produce EPS files
+%
+
+
+\maketitle
+% BEGIN - DO NOT REMOVE THIS LINE
+
+\section{release 1.0-6}
+
+Release 1.0-6 is a minor release to fix a problem found and solved by Kurt Hornik
+(namely a change from \texttt{SET\_ELEMENT} to \texttt{SET\_STRING\_ELT}
+in C code for \texttt{s2c()} in file \texttt{util.c}). The few changes are
+as follows.
+
+\begin{itemize}
+
+\item More typographical option for the output \LaTeX~table of \texttt{tablecode()}
+are now available to outline deviations from the standard genetic code (see example in the
+appendix "genetic codes" of the manual).
+
+\item A new dataset \texttt{aaindex} extracted from the aaindex database
+\cite{aaindex1, aaindex2, aaindex3} is now available. It contains a list
+of 544 physicochemical and biological properties for the 20 amino-acids
+
+\item The default value for argument \texttt{dia} is now \texttt{FALSE}
+in function \texttt{tablecode()}.
+
+\item The example code for \texttt{data(chargaff)} has been changed.
+
+\end{itemize}
+\section{release 1.0-5}
+
+\begin{itemize}
+
+\item A  new function \texttt{dotPlot()} is now available.
+
+\item A new function \texttt{crelistfromclientdata()} is now available to
+create a list on the server from a local file of sequence names, sequence
+accession numbers, species names, or keywords names.
+
+\item A new function \texttt{pmw()} to compute the molecular weight of
+a protein is now available.
+
+\item A new function \texttt{reverse.align()} contributed by Anamaria Nec\c{s}ulea
+is now available to align CDS at the protein level and then reverse translate this at
+the nucleic acid level from a \texttt{clustalw} output. This can be done on the fly
+if \texttt{clustalw} is available on your platform.
+
+\item An undocumented behavior was reported by Guy Perri{\`e}re for \texttt{uco()}
+when computing RSCU on sequences where an amino-acid is missing. There is
+now a new argument \texttt{NA.rscu} that allows the user to force the
+missing values to his favorite magic value.
+
+\item There was a bug in \texttt{read.fasta()}: some sequence names were
+truncated, this is now fixed (thanks to Marcus G. Daniels for pointing this).
+In order to be more consistent with standard functions such as \texttt{read.table()}
+or \texttt{scan()}, the file argument starts now with a lower case letter (\texttt{file})
+in function \texttt{read.fasta()}, but the old-style \texttt{File} is still
+functional for forward-compatibility. There is a new logical argument in \texttt{read.fasta()}
+named \texttt{as.string} to allow sequences to be returned as strings instead of
+vector of single characters. The automatic conversion of DNA sequences into
+lower case letters can now be disabled with the new logical argument
+\texttt{forceDNAtolower}. It is also possible to disable the automatic attributes
+settings with the new logical argument \texttt{set.attributes}.
+
+\item A new function \texttt{write.fasta()} is now available.
+
+\item The function \texttt{kaks()} now forces character in sequences to upper case.
+This default behavior can be neutralized in order to save time by setting the 
+argument \texttt{forceUpperCase} to \texttt{FALSE}.
+
+\end{itemize}
+
+\section{release 1.0-4}
+
+\begin{itemize}
+\item The scaling factor $n_{\bullet\bullet}$ was missing in equation \ref{chi}.
+\item The files \texttt{louse.fasta}, \texttt{louse.names}, \texttt{gopher.fasta}, \texttt{gopher.names}
+and \texttt{ortho.fasta} that were used for examples in the previous version of this document are
+no more downloaded from the internet since they are now distributed in the \texttt{sequences/} folder
+of the package.
+\item An example of synonymous and non synonymous codon usage analysis was added to the
+vignette along with two toy data sets (\texttt{toyaa} and \texttt{toycodon}).
+\item A FAQ section was added to the vignette.
+\item A bug in \texttt{getAnnot()} when the number of lines was zero is now fixed.
+\item There is now a new argument, \texttt{latexfile}, in \texttt{tablecode()} to export genetic codes
+tables in a \LaTeX~document, for instance table \ref{../tables/code3.tex} and table \ref{../tables/code4.tex} here.
+\item There is now a new argument, \texttt{freq}, in \texttt{count()}
+  to compute word frequencies instead of counts.
+\item Function \texttt{splitseq()} has been entirely rewritten to improve speed.
+\item Functions computing the G+C content: \texttt{GC(), GC1(), GC2(),
+  GC3()} were rewritten to improve speed, and their document files
+  were merged to facilitate usage.
+\item The following new functions have been added:
+\begin{itemize}
+\item \texttt{syncodons()} returns all synonymous codons for a given
+  codon. Argument \texttt{numcode} specifies the desired genetic code.
+\item \texttt{ucoweight()} returns codon usage bias on a sequence as
+  the number of synonymous codons present in the sequence for each
+  amino acid.
+\item \texttt{synsequence()} generates a random coding sequence which
+      is synonymous to a given sequence and has a chosen codon usage
+      bias.
+\item \texttt{permutation()} generates a new sequence from a given
+  sequence, while maintaining some constraints from the given sequence
+  such as nucleotide frequency, codon usage bias, ...
+\item \texttt{rho()} computes the rho statistic on dinucleotides as
+  defined in \cite{Karlin}.
+\item \texttt{zscore()} computes the zscore statistic on dinucleotides
+  as defined in \cite{UV}.
+\end{itemize}
+\item Two datasets (\texttt{dinucl} and \texttt{prochlo}) were added
+  to illustrate these new functions.
+
+\end{itemize}
+
+\section{release 1.0-3}
+
+\begin{itemize}
+\item The new package maintainer is Dr. Simon Penel, PhD, who has now a fixed position in the
+laboratory that issued \seqinr~(\texttt{penel@biomserv.univ-lyon1.fr}). Delphine Charif was
+successful too to get a fixed position in the same lab, with now a different research task (but who knows?).
+Thanks to the close vicinity of our pioneering maintainers the transition was sweet. The DESCRIPTION
+file of the \seqinr{} package has been updated to take this into account.
+
+\item The reference paper for the package is now \textit{in press}. We do not have the full
+reference for now, you may use \texttt{citation("seqinr")} to check if it is complete now:
+\begin{Schunk}
+\begin{Sinput}
+ citation("seqinr")
+\end{Sinput}
+\begin{Soutput}
+To cite seqinR in publications use:
+
+  in the body of the text (J.R. Lobry, personal communication), or
+  wait for the exact complete reference.
+
+A BibTeX entry for LaTeX users is
+
+  @incollection{,
+    author = {D. Charif and J.R. Lobry},
+    title = {SeqinR 1.0-2: a contributed package to the R project for statistical computing devoted to biological sequences retrieval and analysis.},
+    booktitle = {Structural approaches to sequence evolution: Molecules, networks, populations},
+    year = {2006},
+    editor = {U. Bastolla, M. Porto, H.E. Roman and M. Vendruscolo},
+    volume = {NA},
+    series = {Biological and Medical Physics, Biomedical Engineering},
+    pages = {NA},
+    address = {New York},
+    month = {NA},
+    organization = {NA},
+    publisher = {Springer Verlag},
+    note = {in press},
+  }
+
+Note that the orginal article and updates are available in the
+../../../../../seqinr.Rcheck/seqinr/doc/ folder in PDF format
+\end{Soutput}
+\end{Schunk}
+
+\item There was a bug when sending a \texttt{gfrag} request to the server for long (Mb range) 
+sequences. The length argument was converted to scientific notations that are not understand by the
+server. This is now corrected and should work up the the Gb scale.
+
+\item The \texttt{query()} function has been improved by de-looping list element info request,
+there are now download at once which is much more efficient. For example, a query from a
+researcher-home ADSL connection with a list with about 1000 elements was 60 seconds and
+is now only 4 seconds (\textit{i.e.} 15 times faster now).
+
+\item A new parameter \texttt{virtual} has been added to \texttt{query()} 
+so that long lists can stay on the server without trying to download
+them automatically. A query like \texttt{query(s\$socket,"allcds","t=cds", virtual = TRUE)} is 
+now possible.
+
+\item Relevant genetic codes and frames are now automatically propagated.
+
+\item \Seqinr{}~sends now its name and version number to the server.
+
+% Pas arrvié à le repoduire
+%
+%\item A bug as been reported for intensive \texttt{kaks()} calls.
+
+\item Strict control on ambiguous DNA base alphabet has been relaxed.
+
+\item Default value for parameter \texttt{invisible} of function \texttt{query()} is now \texttt{TRUE}.
+
+\end{itemize}
+
+
+
+\section{Session Informations}
+
+This part was compiled under the following \Rlogo{}~environment:
+
+\begin{itemize}
+  \item Version 2.3.1 (2006-06-01), \verb|powerpc-apple-darwin8.6.0|
+  \item Base packages: base, datasets, grDevices, graphics, methods,
+    stats, utils
+  \item Other packages: MASS~7.2-27.1, ade4~1.4-1, ape~1.8-2,
+    gee~4.13-10, lattice~0.13-8, nlme~3.1-73, seqinr~1.0-6,
+    xtable~1.3-0
+\end{itemize}
+
+% END - DO NOT REMOVE THIS LINE
+
+
+%%%%%%%%%%%%  BIBLIOGRAPHY %%%%%%%%%%%%%%%%%
+\clearpage
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{plain}
+\bibliography{../config/book}
+\end{document}
+
+
+

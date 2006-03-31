@@ -8,14 +8,15 @@ into the three-letter one, for instance "A" into "Ala".}
 aaa(aa)
 }
 \arguments{
-  \item{aa}{ A vector of single characters }
+  \item{aa}{ A vector of single characters.}
 }
 \details{
-Allowed character values for \code{aa} are *ACDEFGHIKLMNPQRSTVWY.
-All other values will generate a warning and return NA. }
+Allowed character values for \code{aa} are given by \code{a()}.
+All other values will generate a warning and return NA.
+Called without arguments, \code{aaa()} returns the list of
+all possible output values.}
 \value{
-A vector of char string. All strings are 3 chars long, run
-example(aaa) to see them.
+A vector of char string. All strings are 3 chars long.
 }
 \references{
 The IUPAC one-letter code for aminoacids is described at: 
@@ -23,12 +24,30 @@ The IUPAC one-letter code for aminoacids is described at:
 \code{citation("seqinr")}
 }
 \author{ J.R. Lobry }
-\seealso{ \code{\link{translate}}, \code{\link{a}} }
+\seealso{\code{\link{a}}, \code{\link{translate}} }
 \examples{
-  # show all allowed values
-  allowed <- s2c("*ACDEFGHIKLMNPQRSTVWY")
-  aaa(allowed)
-  # show what's happen with non-allowed values
+  #
+  # Show all possible input values:
+  #
+  
+  a()
+  
+  #
+  # Convert them in one letter-code:
+  #
+  
+  aaa(a())
+  
+  #
+  # Check consistency of results:
+  #
+  
+  stopifnot(a(aaa(a())) == a())
+  
+  #
+  # Show what's happen with non-allowed values:
+  #
+  
   aaa("Z") # should be NA and a warning is generated
 }
 \keyword{ utilities }

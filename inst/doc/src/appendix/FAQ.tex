@@ -1,0 +1,428 @@
+\documentclass{article}
+\input{../config/commontex}
+
+\title{FAQ: Frequently Asked Questions}
+\author{Lobry, J.R.}
+
+\usepackage{/Library/Frameworks/R.framework/Resources/share/texmf/Sweave}
+\begin{document}
+%
+% To change the R input/output style:
+%
+\definecolor{Soutput}{rgb}{0,0,0.56}
+\definecolor{Sinput}{rgb}{0.56,0,0}
+\DefineVerbatimEnvironment{Sinput}{Verbatim}
+{formatcom={\color{Sinput}},fontsize=\footnotesize, baselinestretch=0.75}
+\DefineVerbatimEnvironment{Soutput}{Verbatim}
+{formatcom={\color{Soutput}},fontsize=\footnotesize, baselinestretch=0.75}
+%
+% Rlogo
+%
+\newcommand{\Rlogo}{\protect\includegraphics[height=1.8ex,keepaspectratio]{../figs/Rlogo.pdf}}
+%
+% Shortcut for seqinR:
+%
+\newcommand{\seqinr}{\texttt{seqin\bf{R}}}
+\newcommand{\Seqinr}{\texttt{Seqin\bf{R}}}
+\fvset{fontsize= \scriptsize}
+%
+% R output options and libraries to be loaded.
+%
+%
+%  Sweave Options
+%
+% Put all figures in the fig folder and start the name with current file name.
+% Do not produce EPS files
+%
+
+
+\maketitle
+% BEGIN - DO NOT REMOVE THIS LINE
+
+\section{How do I compute a score on my sequences?}
+
+In the example below we want to compute the G+C content in third codon
+positions for complete ribosomal CDS from \textit{Escherichia coli}:
+
+\begin{Schunk}
+\begin{Sinput}
+ choosebank("emblTP")
+ query("ecribo", "sp=escherichia coli ET t=cds ET k=ribosom@ ET NO k=partial")
+ myseqs <- sapply(ecribo$req, getSequence)
+ (gc3 <- sapply(myseqs, GC3))
+\end{Sinput}
+\begin{Soutput}
+ [1] 0.4946237 0.6046512 0.5000000 0.6194030 0.5772727 0.4838710 0.5980066
+ [8] 0.4974359 0.5031250 0.4324324 0.5000000 0.5113636 0.5290520 0.6142857
+[15] 0.4904762 0.5714286 0.6191860 0.5906040 0.4880000 0.4880000 0.4946237
+[22] 0.6046512 0.5000000 0.3522727 0.5076923 0.4343434 0.6194030 0.5522388
+[29] 0.6104651 0.5661157 0.4946237 0.4946237 0.6079734 0.5000000 0.6343284
+[36] 0.4659091 0.5789474 0.4946237 0.5000000 0.4974359 0.5689655 0.4611111
+[43] 0.4611111 0.5303030 0.5303030 0.4482759 0.4201681 0.5915493 0.5000000
+[50] 0.3829787 0.4519231 0.4302326 0.5696203 0.4285714 0.5689655 0.5000000
+[57] 0.5224417 0.5661157 0.6057692 0.4444444 0.4659091 0.4130435 0.4946237
+[64] 0.5661157 0.4946237 0.5680272
+\end{Soutput}
+\end{Schunk}
+
+At the amino-acid level, we may get an estimate of the isoelectric point of
+the proteins this way:
+
+\begin{Schunk}
+\begin{Sinput}
+ sapply(sapply(myseqs, getTrans), computePI)
+\end{Sinput}
+\begin{Soutput}
+ [1]  6.624309  7.801329 10.864793  5.931989  7.830476  6.624309  7.801329
+ [8]  9.203410  9.826485  5.674672  7.154423  6.060457  6.313741  5.571446
+[15]  9.435422  4.310747  6.145496  4.876054 11.006424 10.876041  6.624309
+[22]  7.801329 10.864793  9.346289  9.203410  5.877050  5.931989  9.934988
+[29]  5.920490  6.612505  6.624309  6.624309  7.801329 10.864793  5.931989
+[36] 11.182505  9.598944  6.624309 10.864793  9.203410 11.031938  5.858421
+[43]  5.858421 11.777516 11.777511 10.619175 11.365738  9.460987 10.864793
+[50] 13.002381  9.845859 10.584868 11.421257 10.248325 11.031938 10.402075
+[57]  4.863862  6.612505  9.681066 11.150304 11.182505 11.043602  6.624309
+[64]  6.612505  6.624309  4.310747
+\end{Soutput}
+\end{Schunk}
+
+Note that some pre-defined vectors to compute linear forms on sequences are
+available in the \texttt{EXP} data.
+
+As a matter of convenience, you may encapsulate the computation of your favorite score 
+within a function this way:
+
+\begin{Schunk}
+\begin{Sinput}
+ GC3m <- function(list, ind = 1:list$nelem) sapply(sapply(list$req[ind], 
+     getSequence), GC3)
+ GC3m(ecribo)
+\end{Sinput}
+\begin{Soutput}
+ [1] 0.4946237 0.6046512 0.5000000 0.6194030 0.5772727 0.4838710 0.5980066
+ [8] 0.4974359 0.5031250 0.4324324 0.5000000 0.5113636 0.5290520 0.6142857
+[15] 0.4904762 0.5714286 0.6191860 0.5906040 0.4880000 0.4880000 0.4946237
+[22] 0.6046512 0.5000000 0.3522727 0.5076923 0.4343434 0.6194030 0.5522388
+[29] 0.6104651 0.5661157 0.4946237 0.4946237 0.6079734 0.5000000 0.6343284
+[36] 0.4659091 0.5789474 0.4946237 0.5000000 0.4974359 0.5689655 0.4611111
+[43] 0.4611111 0.5303030 0.5303030 0.4482759 0.4201681 0.5915493 0.5000000
+[50] 0.3829787 0.4519231 0.4302326 0.5696203 0.4285714 0.5689655 0.5000000
+[57] 0.5224417 0.5661157 0.6057692 0.4444444 0.4659091 0.4130435 0.4946237
+[64] 0.5661157 0.4946237 0.5680272
+\end{Soutput}
+\begin{Sinput}
+ GC3m(ecribo, 1:10)
+\end{Sinput}
+\begin{Soutput}
+ [1] 0.4946237 0.6046512 0.5000000 0.6194030 0.5772727 0.4838710 0.5980066
+ [8] 0.4974359 0.5031250 0.4324324
+\end{Soutput}
+\end{Schunk}
+
+\section{Why do I have not exactly the same G+C content as in \texttt{codonW}?}
+
+This question was raised (and solved) by Oliver Clay in an e-mail (23-AUG-2006).
+The program \texttt{codonW} was written in C as part of Jonh Peden's PhD thesis 
+on Codon Usage \cite{codonW} and is available at \url{http://codonw.sourceforge.net/}.
+The reason for the small differences in G+C content between the two programs is
+that the default behavior in \texttt{codonW} is to remove the stop codon before
+computations. Here is one way of removing the stop codon under \Rlogo{}:
+
+\begin{Schunk}
+\begin{Sinput}
+ gc3nos <- sapply(myseqs, function(s) GC3(s[1:(length(s) - 
+     3)]))
+\end{Sinput}
+\end{Schunk}
+
+As compared with the previous result, the difference is small but visible:
+
+\begin{Schunk}
+\begin{Sinput}
+ plot(x = gc3, y = gc3nos, las = 1, main = "Stop codon removal effect on G+C content\nin third codon positions", 
+     xlab = "With stop codon", ylab = "Stop codons removed")
+ abline(c(0, 1))
+\end{Sinput}
+\end{Schunk}
+\includegraphics{../figs/FAQ-stopcodonremovaleffect}
+
+\texttt{CodonW} was released with a test file called \texttt{input.dat}, here are
+the first 10 lines of the file copied from \texttt{CodonWSourceCode\_1\_4\_4}:
+
+\begin{Schunk}
+\begin{Sinput}
+ inputdatfile <- system.file("sequences/input.dat", package = "seqinr")
+ cat(readLines(inputdatfile, n = 10), sep = "\n")
+\end{Sinput}
+\begin{Soutput}
+>YCG9 Probable          1377 residues Pha 0 Code 0
+ATGAATATGCTCATTGTCGGTAGAGTTGTTGCTAGTGTTGGGGGAAGCGGACTTCAAACG
+CTTTGCTTTGTTATTGGTTGTACGATGGTTGGTGAAAGGTCACGTCCATTGGTGATTTCC
+ATCCTAAGTTGTGCATTTGCTGTAGCTGCTATCGTTGGTCCTATAATCGGAGGTGCCTTT
+ACAACCCATGTTACCTGGAGGTGGTGCTTCTATATCAATCTTCCTATCGGTGGTCTTGCC
+ATTATTATGTTTTTACTCACATATAAGGCCGAGAATAAGGGTATACTTCAACAAATTAAA
+GATGCTATAGGAACAATCTCGAGCTTTACTTTTAGTAAGTTCAGACACCAAGTTAATTTT
+AAAAGACTTATGAATGGCATAATCTTCAAGTTTGACTTCTTTGGTTTTGCCCTCTGCTCT
+GCAGGGCTGGTCCTTTTCCTACTGGGGCTAACCTTTGGTGGTAATAAATATAGTTGGAAC
+TCTGGCCAAGTCATCGCATATTTGGTTTTGGGTGTCTTACTTTTTATTTTTTCATTGGTG
+\end{Soutput}
+\end{Schunk}
+
+This is a FASTA file that we import under \Rlogo{}~with:
+
+\begin{Schunk}
+\begin{Sinput}
+ input <- read.fasta(file = inputdatfile)
+ names(input)
+\end{Sinput}
+\begin{Soutput}
+  [1] "YCG9"      "YCG8"      "ALPHA2"    "ALPHA1"    "CHA1"      "KRR1"     
+  [7] "PRD1"      "KAR4"      "PBN1"      "LRE1"      "APA1"      "YCE9"     
+ [13] "YCE8"      "YCE7"      "YCE5"      "YCE6"      "YCE4"      "PDI1"     
+ [19] "GLK1"      "YCD8"      "SRO9"      "YCD6"      "YCD5"      "YCD3"     
+ [25] "STE50"     "HIS4"      "BIK1"      "FUS1"      "YC08"      "AGP1"     
+ [31] "LEU2"      "NFS1"      "BUD3"      "GBP2"      "ILV6"      "CWH36"    
+ [37] "PEL1"      "RER1"      "CDC10"     "MRPL32"    "YCP4"      "CIT2"     
+ [43] "YCP7"      "SAT4"      "RVS161"    "YCQ0"      "ADP1"      "PGK1"     
+ [49] "POL4"      "YCQ7"      "SRD1"      "MAK32"     "PET18"     "MAK31"    
+ [55] "HSP30"     "YCR3"      "SYN"       "YCR6"      "GNS1"      "FEN2"     
+ [61] "RIM1"      "CRY1"      "YCS2"      "YCS3"      "GNS1"      "RBK1"     
+ [67] "PHO87"     "BUD5"      "MATALPHA2" "MATALPHA1" "TSM1"      "YCT5"     
+ [73] "PETCR46"   "YCT7"      "YCT9"      "ARE1"      "RSC6"      "THR4"     
+ [79] "CTR86"     "PWP2"      "YCU9"      "YCV1"      "G10"       "HCM1"     
+ [85] "RAD18"     "CYPR"      "YCW1"      "YCW2"      "SSK22"     "SOL2"     
+ [91] "ERS1"      "PAT1"      "SRB8"      "YCX3"      "TUP1"      "YC16"     
+ [97] "ABP1"      "KIN82"     "MSH3"      "CDC39"     "YCY4"      "A2"       
+[103] "GIT1"      "YCZ0"      "YCZ1"      "YCZ2"      "YCZ3"      "PAU3"     
+[109] "YCZ5"      "YCZ6"      "YCZ7"     
+\end{Soutput}
+\end{Schunk}
+
+The file \texttt{input.out} contains the values obtained with \texttt{codonW}
+for the GC content and GC3s content:
+
+\begin{Schunk}
+\begin{Sinput}
+ inputoutfile <- system.file("sequences/input.out", package = "seqinr")
+ cat(readLines(inputoutfile, n = 10), sep = "\n")
+\end{Sinput}
+\begin{Soutput}
+title                    	GC3s	GC	
+YCG9_Probable__________13	0.335	0.394	
+YCG8________573_residues_	0.439	0.446	
+ALPHA2________633_residue	0.328	0.351	
+ALPHA1________528_residue	0.345	0.379	
+CHA1_________1083_residue	0.328	0.394	
+KRR1__________951_residue	0.364	0.384	
+PRD1_________2139_residue	0.430	0.397	
+KAR4_________1008_residue	0.354	0.383	
+PBN1_________1251_residue	0.330	0.386	
+\end{Soutput}
+\begin{Sinput}
+ input.res <- read.table(inputoutfile, header = TRUE)
+ head(input.res)
+\end{Sinput}
+\begin{Soutput}
+                      title  GC3s    GC
+1 YCG9_Probable__________13 0.335 0.394
+2 YCG8________573_residues_ 0.439 0.446
+3 ALPHA2________633_residue 0.328 0.351
+4 ALPHA1________528_residue 0.345 0.379
+5 CHA1_________1083_residue 0.328 0.394
+6 KRR1__________951_residue 0.364 0.384
+\end{Soutput}
+\end{Schunk}
+
+Let's try to reproduce the results for the G+C content, we know that we have to
+remove the last stop codon:
+
+\begin{Schunk}
+\begin{Sinput}
+ input.gc <- sapply(input, function(s) GC(s[1:(length(s) - 
+     3)]))
+ max(abs(input.gc - input.res$GC))
+\end{Sinput}
+\begin{Soutput}
+[1] 0.0004946237
+\end{Soutput}
+\begin{Sinput}
+ plot(x = input.gc, y = input.res$GC, las = 1, xlab = "Results with GC()", 
+     ylab = "Results from codonW", main = "Comparison of G+C content results")
+ abline(c(0, 1))
+\end{Sinput}
+\end{Schunk}
+\includegraphics{../figs/FAQ-inputgc}
+
+The results are consistent if we consider that we have 3 significant digits
+in the file \texttt{input.out}. Now, let's try to reproduce the results
+for G+C in third codon positions:
+
+\begin{Schunk}
+\begin{Sinput}
+ input.gc3 <- sapply(input, function(s) GC3(s[1:(length(s) - 
+     3)]))
+ max(abs(input.gc3 - input.res$GC3s))
+\end{Sinput}
+\begin{Soutput}
+[1] 0.054
+\end{Soutput}
+\begin{Sinput}
+ plot(x = input.gc3, y = input.res$GC3s, las = 1, xlab = "Results with GC3()", 
+     ylab = "Results from codonW", main = "Comparison of G+C content in third codon positions results")
+ abline(c(0, 1))
+\end{Sinput}
+\end{Schunk}
+\includegraphics{../figs/FAQ-inputgc3}
+
+There is clearly a problem here. Looking into the documentation of
+\texttt{codonW}, GC3s is the G+C content in third codon position
+after removing non-synonymous and stop codons (those corresponding to Met, Trp, Stp).
+Let's remove these codons:
+
+\begin{Schunk}
+\begin{Sinput}
+ codons <- words()
+ names(codons) <- sapply(codons, function(c) aaa(translate(s2c(c), 
+     numcode = 1)))
+ okcodons <- codons[!names(codons) %in% c("Met", "Trp", "Stp")]
+ gc3s <- function(s) {
+     tmp <- splitseq(s)
+     tmp <- tmp[tmp %in% okcodons]
+     tmp <- s2c(paste(tmp, collapse = ""))
+     GC3(tmp)
+ }
+ input.gc3s <- sapply(input, gc3s)
+ max(abs(input.gc3s - input.res$GC3s))
+\end{Sinput}
+\begin{Soutput}
+[1] 0.0004980843
+\end{Soutput}
+\begin{Sinput}
+ plot(x = input.gc3s, y = input.res$GC3s, las = 1, xlab = "Results with GC3()", 
+     ylab = "Results from codonW", main = "Comparison of G+C content in third codon positions results\n(Met, Trp and Stp codons excluded)")
+ abline(c(0, 1))
+\end{Sinput}
+\end{Schunk}
+\includegraphics{../figs/FAQ-inputgc3s}
+
+The results are now consistent. But thinking more about it there is still a problem
+with the codons for Ile:
+
+\begin{Schunk}
+\begin{Sinput}
+ codons[names(codons) == "Ile"]
+\end{Sinput}
+\begin{Soutput}
+  Ile   Ile   Ile 
+"ata" "atc" "att" 
+\end{Soutput}
+\end{Schunk}
+
+There are three codons for Ile. If the distribution of the four bases was uniform and selectively
+neutral in third codon position of synonymous codons, then we would expect to
+get a G+C of 50\% in quartet and duet codons at third codons positions because they
+all have the same number of W (A or T )and S (C or G) bases in third position. But for Ile 
+we have two codons ending in W versus only one in S so that we would get a G+C
+of $\frac{1}{3}$ instead of $\frac{1}{2}$. This point was clearly stated 
+\cite{noboru88} by Sueoka in 1988:
+
+\begin{quote}
+\textbf{G + C Content of the Three Codons Positions.}
+In the present analysis, observed G + C contents of the first, second, and third
+codon positions ($P_{1}$, $P_{2}$, and $P_{3}$, respectively) are corrected
+average G + C contents of the three codon positions that are calculated from
+56 triplets out of 64. Because of the inequality of $\alpha$ and $\gamma$ at the
+third codon position, the three stop codons (TAA, TAG, and TGA) and the three
+codons for isoleucine (ATT, ATC, and ATA) were excluded in calculation of
+$P_{3}$, and two single codons for methionine (ATG) and tryptophan (TGG)
+were excluded in all three ($P_{1}$, $P_{2}$, and $P_{3}$)
+\end{quote}
+
+Let's compute $P_{3}$ and compare it with GC3s:
+
+\begin{Schunk}
+\begin{Sinput}
+ P3codons <- codons[!names(codons) %in% c("Met", "Trp", "Ile", 
+     "Stp")]
+ P3 <- function(s) {
+     tmp <- splitseq(s)
+     tmp <- tmp[tmp %in% P3codons]
+     tmp <- s2c(paste(tmp, collapse = ""))
+     GC3(tmp)
+ }
+ input.P3 <- sapply(input, P3)
+ max(abs(input.P3 - input.res$GC3s))
+\end{Sinput}
+\begin{Soutput}
+[1] 0.02821505
+\end{Soutput}
+\begin{Sinput}
+ plot(x = input.P3, y = input.res$GC3s, las = 1, xlab = "Results with P3", 
+     ylab = "Results from codonW GC3s", main = "Comparison of P3 and GC3s")
+ abline(c(0, 1))
+\end{Sinput}
+\end{Schunk}
+\includegraphics{../figs/FAQ-inputP3}
+
+This is not exactly the same, the maximum observed difference here is about $3\%$.
+In practice, $P_{3}$, GC3, and GC3s are only slightly different \cite{noboru99}.
+
+\section{How do I get a sequence from its name?}
+
+This question is adapted from an e-mail (22 Jun 2006) by Gang Xu.
+I know that the UniProt (SwissProt) entry of my protein is \texttt{P08758},
+if I know its name\footnote{
+More exactly, this is the accession number. Sequence names are not stable over time,
+it's always better to use the accession numbers. 
+}, how can I get the sequence?
+
+\begin{Schunk}
+\begin{Sinput}
+ choosebank("swissprot")
+ query("myprot", "AC=P08758")
+ getSequence(myprot$req[[1]])
+\end{Sinput}
+\begin{Soutput}
+  [1] "A" "Q" "V" "L" "R" "G" "T" "V" "T" "D" "F" "P" "G" "F" "D" "E" "R" "A"
+ [19] "D" "A" "E" "T" "L" "R" "K" "A" "M" "K" "G" "L" "G" "T" "D" "E" "E" "S"
+ [37] "I" "L" "T" "L" "L" "T" "S" "R" "S" "N" "A" "Q" "R" "Q" "E" "I" "S" "A"
+ [55] "A" "F" "K" "T" "L" "F" "G" "R" "D" "L" "L" "D" "D" "L" "K" "S" "E" "L"
+ [73] "T" "G" "K" "F" "E" "K" "L" "I" "V" "A" "L" "M" "K" "P" "S" "R" "L" "Y"
+ [91] "D" "A" "Y" "E" "L" "K" "H" "A" "L" "K" "G" "A" "G" "T" "N" "E" "K" "V"
+[109] "L" "T" "E" "I" "I" "A" "S" "R" "T" "P" "E" "E" "L" "R" "A" "I" "K" "Q"
+[127] "V" "Y" "E" "E" "E" "Y" "G" "S" "S" "L" "E" "D" "D" "V" "V" "G" "D" "T"
+[145] "S" "G" "Y" "Y" "Q" "R" "M" "L" "V" "V" "L" "L" "Q" "A" "N" "R" "D" "P"
+[163] "D" "A" "G" "I" "D" "E" "A" "Q" "V" "E" "Q" "D" "A" "Q" "A" "L" "F" "Q"
+[181] "A" "G" "E" "L" "K" "W" "G" "T" "D" "E" "E" "K" "F" "I" "T" "I" "F" "G"
+[199] "T" "R" "S" "V" "S" "H" "L" "R" "K" "V" "F" "D" "K" "Y" "M" "T" "I" "S"
+[217] "G" "F" "Q" "I" "E" "E" "T" "I" "D" "R" "E" "T" "S" "G" "N" "L" "E" "Q"
+[235] "L" "L" "L" "A" "V" "V" "K" "S" "I" "R" "S" "I" "P" "A" "Y" "L" "A" "E"
+[253] "T" "L" "Y" "Y" "A" "M" "K" "G" "A" "G" "T" "D" "D" "H" "T" "L" "I" "R"
+[271] "V" "M" "V" "S" "R" "S" "E" "I" "D" "L" "F" "N" "I" "R" "K" "E" "F" "R"
+[289] "K" "N" "F" "A" "T" "S" "L" "Y" "S" "M" "I" "K" "G" "D" "T" "S" "G" "D"
+[307] "Y" "K" "K" "A" "L" "L" "L" "L" "C" "G" "E" "D" "D"
+\end{Soutput}
+\end{Schunk}
+
+
+\section{Session Informations}
+
+This part was compiled under the following \Rlogo{}~environment:
+
+\begin{itemize}
+  \item Version 2.3.1 (2006-06-01), \verb|powerpc-apple-darwin8.6.0|
+  \item Base packages: base, datasets, grDevices, graphics, methods,
+    stats, utils
+  \item Other packages: MASS~7.2-27.1, ade4~1.4-1, ape~1.8-2,
+    gee~4.13-10, lattice~0.13-8, nlme~3.1-73, seqinr~1.0-6,
+    xtable~1.3-0
+\end{itemize}
+
+% END - DO NOT REMOVE THIS LINE
+
+%%%%%%%%%%%%  BIBLIOGRAPHY %%%%%%%%%%%%%%%%%
+\clearpage
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{plain}
+\bibliography{../config/book}
+\end{document}

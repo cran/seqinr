@@ -2,28 +2,46 @@
 # Genetic code table as in Text Books
 #
 
-tablecode <- function(numcode = 1, urn.rna = c("u","c","a","g"), dia = TRUE,
-latexfile = NULL)
+tablecode <- function(numcode = 1, urn.rna = s2c("TCAG"), dia = FALSE,
+latexfile = NULL, label = latexfile, size = "normalsize", caption = NULL,
+preaa = rep("", 64), postaa = rep("", 64), 
+precodon = preaa, postcodon = postaa)
 {
-  aa1 <- c("*", "A", "C", "D", "E", "F", "G", "H", "I", "K", "L", "M", "N",
-           "P", "Q", "R", "S", "T", "V", "W", "Y")
-  aa3 <- c("Stp", "Ala", "Cys", "Asp", "Glu", "Phe", "Gly", "His", "Ile",
-           "Lys", "Leu", "Met", "Asn", "Pro", "Gln", "Arg", "Ser", "Thr",
-           "Val", "Trp", "Tyr")
+  aa1 <- a()
+  aa3 <- aaa()
   codename <- SEQINR.UTIL$CODES.NCBI[numcode, "ORGANISMES"]
-  codename <- as.character(codename)
-  urn <- c("t","c","a","g") # internal
-
+  urn <- s2c("tcag") # internal
+#
+# Make default caption for LaTeX table:
+#
+  if( is.null(caption) ){
+    caption <- paste("\\caption{Genetic code number ", 
+                     numcode, ": ", codename, ".}", sep = "")
+  }
 #
 # As a LaTex table:
 #  
   if( ! is.null(latexfile) ) {
     Tfile <- file(latexfile, open = "w")
-    writeLines("\\begin{table}", Tfile)
-    writeLines("\\begin{center}", Tfile)
-    writeLines("\\begin{tabular}{*{13}{l}}", Tfile)
-    writeLines("\\hline", Tfile)
-    writeLines("\\\\", Tfile)
+    cat("\\begin{table}", file = Tfile, sep = "
+")
+    cat("\\begin{center}", file = Tfile, sep = "
+")
+#
+# Character size:
+#
+    cat(paste("{\\", size, sep = ""), file = Tfile, sep = "
+")
+    
+    cat("\\begin{tabular}{*{13}{l}}", file = Tfile, sep = "
+")
+    cat("\\hline", file = Tfile, sep = "
+")
+    cat("\\\\", file = Tfile, sep = "
+")
+    
+    ncodon <- 1 # codon rank as in
+    #paste(paste(rep(s2c("tcag"), each = 16), s2c("tcag"), sep = ""), rep(s2c("tcag"), each = 4), sep = "")
     for( i in 0:3 )
     {
       for( j in 0:3 )
@@ -32,23 +50,51 @@ latexfile = NULL)
         {
           codon <- c(urn[i+1], urn[k+1], urn[j+1])
           codon.urn <- paste(urn.rna[i+1], urn.rna[k+1], urn.rna[j+1], sep = "", collapse = "")
+          codon.urn <- paste(precodon[ncodon], codon.urn, postcodon[ncodon], sep = "")
+
           aminoacid <- aa3[which(aa1 == translate(codon, numcode = numcode))]
-          writeLines(paste(codon.urn, aminoacid, " &", sep = " & "), Tfile)
+          aminoacid <- paste(preaa[ncodon], aminoacid, postaa[ncodon], sep = "")
+
+          cat(paste(codon.urn, aminoacid, " &", sep = " & "), file = Tfile, sep = "
+")
+          ncodon <- ncodon + 1
         }
-        writeLines("\\\\", Tfile)
+        cat("\\\\", file = Tfile, sep = "
+")
       }
-      writeLines("\\\\", Tfile)
+      cat("\\\\", file = Tfile, sep = "
+")
     }
-    writeLines("\\hline", Tfile)
-    writeLines("\\end{tabular}", Tfile)
-    writeLines(paste("\\caption{Genetic code number ", numcode, ": ", codename, ".}", sep = ""), Tfile)
-    writeLines(paste("\\label{", latexfile, "}", sep = ""), Tfile)
-    writeLines("\\end{center}", Tfile)
-    writeLines("\\end{table}", Tfile)
+    cat("\\hline", file = Tfile, sep = "
+")
+    cat("\\end{tabular}", file = Tfile, sep = "
+")
+#
+# Caption:
+#
+    cat(caption, file = Tfile, sep = "
+")
+#
+# LaTeX label:
+#
+    cat(paste("\\label{", label, "}", sep = ""), file = Tfile, sep = "
+")
+#
+# End character size:
+#
+    cat("}", file = Tfile, sep = "
+")
+
+    cat("\\end{center}", file = Tfile, sep = "
+")
+    cat("\\end{table}", file = Tfile, sep = "
+")
     close(Tfile)
     return(invisible(NULL))
   }
-  
+#
+# END LATEX
+#
   if( dia )
   {  
     op <- par(no.readonly = TRUE)

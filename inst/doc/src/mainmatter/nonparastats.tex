@@ -1,0 +1,453 @@
+\documentclass{article}
+\input{../config/commontex}
+
+\title{Nonparametric statistics}
+\author{Palmeira, L.}
+
+\usepackage{/Library/Frameworks/R.framework/Resources/share/texmf/Sweave}
+\begin{document}
+%
+% To change the R input/output style:
+%
+\definecolor{Soutput}{rgb}{0,0,0.56}
+\definecolor{Sinput}{rgb}{0.56,0,0}
+\DefineVerbatimEnvironment{Sinput}{Verbatim}
+{formatcom={\color{Sinput}},fontsize=\footnotesize, baselinestretch=0.75}
+\DefineVerbatimEnvironment{Soutput}{Verbatim}
+{formatcom={\color{Soutput}},fontsize=\footnotesize, baselinestretch=0.75}
+%
+% Rlogo
+%
+\newcommand{\Rlogo}{\protect\includegraphics[height=1.8ex,keepaspectratio]{../figs/Rlogo.pdf}}
+%
+% Shortcut for seqinR:
+%
+\newcommand{\seqinr}{\texttt{seqin\bf{R}}}
+\newcommand{\Seqinr}{\texttt{Seqin\bf{R}}}
+\fvset{fontsize= \scriptsize}
+%
+% R output options and libraries to be loaded.
+%
+%
+%  Sweave Options
+%
+% Put all figures in the fig folder and start the name with current file name.
+% Do not produce EPS files
+%
+
+
+\maketitle
+% BEGIN - DO NOT REMOVE THIS LINE
+
+%
+% Prochlorococcus marinus example
+%
+
+\section{Introduction}
+
+Nonparametric statistical methods were initially developped to study
+variables for which little or nothing is known concerning their
+distribution. This makes them particularly suitable for statistical
+analysis of biological sequences, in particular for the study of over-
+and under-representation of $k$-letter words.
+
+We will briefly describe two statistics for the measure of
+dinucleotide over- and under-representation in sequences
+\cite{Karlin,UV}, which can both be computed with \seqinr{}. We will
+subsequently use them to answer the long-time controversial question
+concerning the relationship between UV exposure and genomic content in
+bacteria \cite{Singer,Bak}.
+
+\section{Determining dinucleotides over- and under-representation}
+
+\subsection{The \textit{rho} statistic}
+
+The $\rho$ statistic (\texttt{rho()}), presented in \cite{Karlin},
+measures the over- and under-representation of two-letter words:
+
+$$\rho(xy) = \frac{f_{xy}}{f_{x}\times f_{y}}$$
+
+where $f_{xy}$ and $f_{x}$ are respectively the frequencies of
+dinucleotide $xy$ and nucleotide $x$ in the studied sequence. The
+underlying model of random generation considers dinucleotides to be
+formed according to the specific frequencies of the two nucleotides
+that compose it ($\rho_{xy} = 1$). Departure from this value
+characterizes either over- or under-representation of dinucleotide
+$xy$.
+
+
+We expect the $\rho$ statistic of a randomly generated sequence to be
+neither over- nor under-represented. Indeed, when we compute the
+$\rho$ statistic on 500 random
+sequences, we can fit a normal distribution which is centered on 1
+(see Fig. \ref{rho})
+
+\begin{figure}[H]
+  \begin{center}
+\begin{Schunk}
+\begin{Sinput}
+ rhoseq <- sapply(seq(n), function(x) {
+     rho(sample(s2c("acgt"), 6000, rep = TRUE))
+ })
+ hist(rhoseq[di, ], freq = FALSE, xlab = "Rho statistic", main = paste("Distribution for dinucleotide", 
+     toupper(labels(rhoseq)[[1]][di]), "on", n, "random sequences"), 
+     las = 1, col = grey(0.8), border = grey(0.5))
+ abline(v = 1, lwd = 2, lty = 3)
+ min = min(rhoseq[di, ])
+ max = max(rhoseq[di, ])
+ x = seq(min, max, length.out = 1000)
+ lines(x, dnorm(x, mean = mean(rhoseq[di, ]), sd = sd(rhoseq[di, 
+     ])), lwd = 2, lty = 2)
+\end{Sinput}
+\end{Schunk}
+\includegraphics{../figs/nonparastats-rho}
+\end{center}
+   \caption{Distribution of the $\rho$ statistic computed on
+     500 random sequences. The vertical
+     dotted line is centered on 1. The dashed curve draws the fitted normal
+     distribution.}
+   \label{rho}
+   \end{figure}
+
+The downside of this statistic, is that the model against which we
+compare the sequence under study is fixed. For several types of
+sequences, dinucleotides are far from being formed by mere chance
+(CDS, ...). In this case, the model used in the $\rho$ statistic
+becomes trivial, and the over- or under-representations measured are
+mainly due to the strong constraints acting on those sequences.
+
+\subsection{The \textit{zscore} statistic}
+
+The \textit{zscore} statistic (\texttt{zscore()}) is inspired by the
+$\rho$ statistic, and is defined so that several different models can
+be used for the determination of over- and under-representation
+\cite{UV}. It allows for a finer measure of over- and
+under-representation in sequences, according to the chosen model.
+
+The \textit{zscore} is defined as follows:
+
+$$z_{score}=\frac{\rho_{xy}-E(\rho_{xy})}{\sqrt{Var(\rho_{xy})}}$$
+
+where $E(\rho_{xy})$ and $Var(\rho_{xy})$ are the expected mean and
+variance of $\rho_{xy}$ according to a given model that describes the
+sequence.
+
+This statistic follows the standard normal distribution, and can be
+computed with several different models of random sequence generation
+based on permutations from the original sequence (\texttt{modele}
+argument). More details on those models can be obtained in the
+documentation for the \texttt{zscore()} function, by simply typing
+\texttt{?zscore}.
+
+For instance, if we want to measure the over- and under-representation
+of dinucleotides in CDS sequences, we can use the \texttt{codon}
+model, which measures the over- and under-representations existing in
+the studied sequence once codon usage bias has been erased. For
+intergenic sequences, or sequences for which no good permutation model
+can be established, we can use the \texttt{base} model. 
+
+\subsection{Comparing statistics on a sequence}
+
+Let's have a look at what these different statistics can show. First,
+we will extract a CDS sequence of \textit{Escherichia coli}'s
+chromosome from the Genome Reviews database. We will first make a
+request to retrieve all available CDS from this bacteria:
+
+\begin{Schunk}
+\begin{Sinput}
+ choosebank("greview")
+ query("coli", "sp=escherichia coli et t=cds et no k=partial")
+ sequence <- getSequence(coli$req[[448]])
+\end{Sinput}
+\end{Schunk}
+
+From the 3684 sequences
+annotated as CDS in the Genome Reviews database, let's choose one
+coding sequence: say, for instance, number \texttt{448}. We can see
+that this CDS encodes a maltose O-acetyltransferase protein
+(\verb+getAnnot(coli$req[[448]],30)+). We will now compare the three
+following nonparametric statistics:
+
+\begin{itemize}
+\item the $\rho$ statistic,
+\item the \textit{zscore} statistic with \texttt{base} model,
+\item and the \textit{zscore} statistic with \texttt{codon} model.
+\end{itemize}
+
+\begin{figure}[H]
+  \begin{center}
+\begin{Schunk}
+\begin{Sinput}
+ rhocoli = rho(sequence)
+ zcolibase = zscore(sequence, mod = "base")
+ zcolicodon = zscore(sequence, mod = "codon")
+ par(mfrow = c(1, 3))
+ plot(rhocoli - 1, ylim = c(-0.5, 0.5), las = 1, ylab = "rho")
+ plot(zcolibase, ylim = c(-2.5, 2.5), las = 1, ylab = "zscore with base model")
+ plot(zcolicodon, ylim = c(-2.5, 2.5), las = 1, ylab = "zscore with codon model")
+\end{Sinput}
+\end{Schunk}
+\includegraphics{../figs/nonparastats-dinuclcoli}
+\end{center}
+   \caption{Three different non-parametric statistics (from left to
+   right: $\rho$, $zscore$ with \texttt{base} model, $zscore$ with
+   \texttt{codon} model), computed on the same sequence from
+   \textit{Escherichia coli}. In order to make the figures easily
+   comparable, we substracted 1 to the \texttt{rho()} results, so that
+   all 3 statistics are centered on 0. }
+\label{dinuclcoli}
+\end{figure}
+
+The first two figures are almost identical: this is due to the way the
+\textit{zscore} statistic has been built. The statistic computed with
+the \texttt{base} model is a reflection of the $\rho$ statistic. The
+difference being that the \textit{zscore} follows a standard normal
+distribution, which makes easier the comparisons between the results
+from the \texttt{base} model and the ones from the \texttt{codon}
+model. The last figure (\textit{zscore} with \texttt{codon} model), is
+completely different: almost all over- and under-representations have
+been erased. We can safely say that these over- and
+under-representations were due to codon usage bias.
+
+On this last figure, four dinucleotides stand out: CC and TT seem
+rather under-represented, CT and TC rather over-represented. This
+means that, in this sequence, codons ending with a given pyrimidine
+tend to be more frequently followed by a codon starting with the other
+pyrimidine than expected by chance. This is not a universal feature of
+\textit{Escherichia coli}, and is probably due to the amino-acid
+composition of this particular sequence. It seemed a funny example, as
+the following part will also relate to pyrimidine dinucleotides.
+However, what we see on this CDS from \textit{Escherichia coli} has
+nothing to do with what follows...
+
+\section{UV exposure and dinucleotide content}
+
+In the beginning of the 1970's, two contradictory papers considered
+the question of the impact of UV exposure on genomic content. Both
+papers had strong arguments for either side, and the question remained
+open until recently \cite{UV}.
+
+\subsection{The expected impact of UV light on genomic content}
+
+On this controversy, the known facts are: pyrimidine dinucleotides
+(CC, TT, CT and TC) are the major DNA target for UV-light
+\cite{Setlow}; the sensitivities of the four pyrimidine dinucleotides
+to UV wavelengths differ and depend on the micro-organism
+\cite{Setlow}:
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{rcccc}
+  \hline
+  & G+C content & CC (\%) & CT + TC (\%) & TT (\%)\\
+  \hline
+  \textit{Haemophilus influenzae} & 62 & 5 & 24 & 71 \\
+  \hline
+  \textit{Escherichia coli} & 50 & 7 & 34 & 59 \\
+  \hline
+  \textit{Micrococcus lysodeikticus} & 30 & 26 & 55 & 19 \\
+  \hline
+\end{tabular}
+\caption{Proportion of dimers formed in the DNA of three bacteria
+  after irradiation with 265 nm UV light. Table adapted from
+  \cite{Setlow}.}
+\label{sensitivity}
+\end{center}
+\end{table}
+
+%% %% \begin{figure}
+%% %%    \begin{minipage}[c]{.46\linewidth}
+%% <<sensitivity1, eval = TRUE, echo = FALSE, fig = TRUE,eval=T>>=
+%% pie(c(0.59,0.34,0.07),labels=c('T-T(59\%)','C-T(34\%)','C-C(7\%)'),col=c('lightblue','purple','royalblue'),main="Escherichia coli")
+%% @
+%% %%   \end{minipage} \hfill
+%% %%    \begin{minipage}[c]{.46\linewidth}
+%% <<sensitivity2, eval = TRUE, echo = FALSE, fig = TRUE,eval=T>>=
+%% pie(c(0.71,0.24,0.05),labels=c('T-T(71\%)','C-T(24\%)','C-C(5\%)'),col=c('lightblue','purple','royalblue'),main="Haemophilus influenzae")
+%% @ 
+%% %%    \end{minipage} \hfill
+%% %%    \begin{minipage}[c]{.46\linewidth}
+%% <<sensitivity3, eval = TRUE, echo = FALSE, fig = TRUE,eval=T>>=
+%% pie(c(0.19,0.55,0.26),labels=c('T-T(19\%)','C-T(55\%)','C-C(26\%)'),col=c('lightblue','purple','royalblue'),main="Micrococcus lysodeikticus")
+%% @
+%% %%    \end{minipage}
+%% %% \end{figure}
+
+The hypothesis presented by Singer and Ames \cite{Singer} is that
+pyrimidine dinucleotides are avoided in light-exposed micro-organisms.
+At the time, only G+C content is available, and -- based exclusively
+on the sensitivity of the four pyrimidine dinucleotides in an
+\textit{Escherichia coli} chromosome -- they hypothesize that a high
+G+C will result in less pyrimidine target. Indeed, they find that
+bacteria exposed to high levels of UV have higher G+C content than the
+others. Bak \textit{et al.} \cite{Bak} strongly criticize their
+methodology, but no clear cut answer is achieved.
+
+In an \textit{Escherichia coli} chromosome, it is true that a sequence
+with a high G+C content will contain few phototargets (see Fig.
+\ref{GCcoli}).
+
+\begin{figure}[H]
+  \begin{center}
+\includegraphics{../figs/nonparastats-GCcoli}
+\end{center}
+\caption{Density of phototargets, weighted by their frequency in the
+  \textit{Escherichia coli} chromosome, and calculated for different
+  G+C contents and for three kinds of random genomes. The weights are
+  as follows: $0.59*f_{tt}+0.34*(f_{tc}+f_{ct})+0.07*f_{cc}$ (where
+  $f_{xy}$ is the frequency of dinucleotide $xy$ in the specified
+  genome). Three models of random genomes are analyzed. In the worst
+  case (solid curve), the genome is the concatenation of a sequence of
+  pyrimidines and a sequence of purines: all pyrimidines are involved
+  in a pyrimidine dinucleotide. In the best case (dotted curve), the
+  genome is an unbroken succession of pyrimidine-purine dinucleotides:
+  no pyrimidine is involved in a pyrimidine dinucleotide. In the
+  "random case" (dashed curve), the frequency of a pyrimidine
+  dinucleotide is the result of chance ($f_{xy} = f_{x}\times
+  f_{y}$).}
+\label{GCcoli}
+\end{figure}
+
+
+In a \textit{Micrococcus lysodeikticus} sequence (see Fig.
+\ref{GCmicro}), we can see that this is no longer true...
+
+
+\begin{figure}[H]
+   \begin{center}
+\includegraphics{../figs/nonparastats-GCmicro}
+\end{center}
+\caption{Density of phototargets, weighted by their frequency in the
+  \textit{Micrococcus lysodeikticus} chromosome, and calculated for
+  different G+C contents and for three kinds of random genomes. The
+  weights are as follows:
+  $0.19*f_{tt}+0.55*(f_{tc}+f_{ct})+0.26*f_{cc}$. See previous figure
+  for more details.}
+\label{GCmicro}
+\end{figure}
+
+These two figures show that the density of phototargets depends on:
+
+\begin{itemize}
+\item the degree of aggregation of pyrimidine dinucleotides in the
+sequence,
+\item the sensitivities of the four pyrimidine dinucleotides.
+  \end{itemize}
+
+Instead of looking at G+C content, which is an indirect measure of the
+impact of UV exposure on genomic content, let us look at pyrimidine
+dinucleotide content.
+
+Are CC, TT, CT and TC dinucleotides avoided in light-exposed bacteria?
+
+\subsection{The measured impact of UV light on genomic content}
+
+On all available genomes (as retrieved from Genome Reviews database on
+June 16, 2005), we have computed the mean of the \textit{zscore} with
+the \texttt{base} model on all intergenic sequences, and the mean of
+the \textit{zscore} with the \texttt{codon} model on all CDS:
+
+\begin{Schunk}
+\begin{Sinput}
+ data(dinucl)
+\end{Sinput}
+\end{Schunk}
+
+The results show that there is no systematic under-representation of
+none of the four pyrimidine dinucleotides (see Fig.
+\ref{dinucl-graphes}).
+
+\begin{figure}[H]
+   \begin{center}
+\includegraphics{../figs/nonparastats-dinucl-graphes}
+\end{center}
+   \caption{Plot of the mean $zscore$ statistics for
+   \textbf{intergenic sequences} (x-axis) and for \textbf{coding
+   sequences} (y-axis), for each of the four pyrimidine dinucleotides.
+   On each plot, a dot corresponds to the mean of these two statistics
+   in a given prokaryote chromosome. The null x and y axis (dotted
+   lines), and the 5\% limits of significance for the standard normal
+   distribution (dashed lines) are plotted as benchmarks. It should be
+   noted that the variability within one chromosome is sometimes as
+   great as that between different chromosomes.}
+\label{dinucl-graphes}
+\end{figure}
+
+However, we have little or no information on the exposure of this
+bacteria to UV light. In order to fully answer this question, let's do
+another analysis and look at \textit{Prochlorococcus marinus} genome.
+
+\textit{Prochlorococcus marinus} seems to make an ideal model for
+investigating this hypothesis. Three completely sequenced strains are
+available in the Genome reviews database: two of these strains are
+adpated to living at a depth of more than 120 meters (accession
+numbers AE017126 and BX548175), and the other one at a depth of 5
+meters (accession number BX548174).
+
+Living at a depth of 5 meters, or at a depth of more than a 120 meters
+is totally different in terms of UV exposure: the residual intensity
+of 290 nm irradiation (UVb) in pure water can be estimated to 56\% of
+its original intensity at 5 m depth and to less than 0.0001\% at more
+than 120 m depth. For this reason, two of the \textit{Prochlorococcus
+marinus} strains can be considered to be adapted to low levels of UV
+exposure, and the other one to much higher levels. Is pyrimidine
+dinucleotide content different in these three strains? And is it
+linked to their UV exposure?
+
+We have computed the \textit{zscore} with the \texttt{codon} model on
+all CDS from each of these three strains (as retrieved from Genome
+Reviews database on June 16, 2005):
+
+\begin{Schunk}
+\begin{Sinput}
+ data(prochlo)
+\end{Sinput}
+\end{Schunk}
+
+
+\begin{figure}[H]
+   \begin{center}
+\includegraphics{../figs/nonparastats-prochlo}
+\end{center}
+   \caption{Each figure shows the distributions of the $zscore$ in all
+     \textbf{coding sequences} corresponding to each of the three
+     strains of \textit{Prochlorococcus marinus}. In each figure, the
+     distribution for the MED4 (a high-light adapted strain) is shown
+     as a solid line; the distribution for the SS120 (a low-light
+     adapted strain) is shown as a dashed line, and the distribution
+     for the MIT 9313 (a low-light adapted strain) is shown as a
+     dotted line. The 5\% limits of significance for the standard
+     normal distribution (dashed vertical lines) are plotted as
+     benchmarks.}
+\label{prochlo}
+\end{figure}
+
+Figure \ref{prochlo} shows that there is no difference between the
+relative abundances of pyrimidine dinucleotides in these three
+strains. We can say that pyrimidine dinucleotides are not avoided, and
+that the hypothesis by Singer and Ames \cite{Singer} no longer stands
+\cite{UV}.
+
+
+\section{Session Informations}
+
+This part was compiled under the following \Rlogo{}~environment:
+
+\begin{itemize}
+  \item Version 2.3.1 (2006-06-01), \verb|powerpc-apple-darwin8.6.0|
+  \item Base packages: base, datasets, grDevices, graphics, methods,
+    stats, utils
+  \item Other packages: MASS~7.2-27.1, ade4~1.4-1, ape~1.8-2,
+    gee~4.13-10, lattice~0.13-8, nlme~3.1-73, seqinr~1.0-6,
+    xtable~1.3-0
+\end{itemize}
+
+
+% END - DO NOT REMOVE THIS LINE
+
+%%%%%%%%%%%%  BIBLIOGRAPHY %%%%%%%%%%%%%%%%%
+\clearpage
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{plain}
+\bibliography{../config/book}
+\end{document}

@@ -1,0 +1,69 @@
+\documentclass{article}
+\input{../config/commontex}
+
+\title{Genetic codes}
+\author{Lobry, J.R.}
+
+\begin{document}
+\SweaveInput{../config/commonrnw.rnw}
+\maketitle
+% BEGIN - DO NOT REMOVE THIS LINE
+
+\section{Standard genetic code}
+
+The standard genetic code given in table \ref{stdcode} was produced with the
+following \Rlogo{}~code and inserted with \verb|\input{../tables/stdcode.tex}|
+within this \LaTeX~document and referenced as \verb|\ref{stdcode}| in
+the text.
+
+<<stdcode,fig=F,eval=T>>=
+tablecode( latexfile = "../tables/stdcode.tex",
+label = "stdcode", size = "small")
+@
+
+\input{../tables/stdcode.tex}
+
+\section{Available genetic code numbers}
+
+The genetic code numbers are those from the NCBI\footnote{
+National Center for Biotechnology Information, Bethesda, Maryland, U.S.A.
+} (\url{http://130.14.29.110/Taxonomy/Utils/wprintgc.cgi?mode=c}).
+This compilation from Andrzej (Anjay) Elzanowski, Jim Ostell, Detlef Leipe, 
+and Vladimir Soussov is based primarily on two previous reviews
+\cite{OsawaS1992, JukesTH1993}.
+
+<<availcodes,fig=F,eval=T>>=
+codes <- SEQINR.UTIL$CODES.NCBI
+availablecodes <- which(codes$CODES != "deleted")
+codes[availablecodes,"ORGANISMES", drop = FALSE]
+@
+
+The tables of variant genetic codes outlining the differences were produced with the
+following \Rlogo{}~code:
+
+<<allcodes,fig=F,results=tex,eval=T>>=
+cdorder <- paste(paste(rep(s2c("tcag"), each =16), s2c("tcag"), sep = ""), rep(s2c("tcag"), each = 4), sep = "")
+stdcode <- sapply(lapply(cdorder,s2c),translate, numcode = 1)
+for(cd in availablecodes[-1]){
+  Tfile <- paste("../tables/codnum", cd, ".tex", sep = "")
+  preemph <- "\\textcolor{red}{\\textbf{"
+  postemph <- "}}"
+  stcodon <- (stdcode ==  sapply(lapply(cdorder,s2c),translate, numcode = cd))
+  pre <- ifelse(stcodon, "", preemph)
+  post <- ifelse(stcodon, "", postemph)
+  tablecode(numcode = cd, latexfile = Tfile, size = "small", preaa = pre, postaa = post)
+  cat(paste("\\input{", Tfile, "}", sep = ""), sep = "\n")
+}
+@
+
+\SweaveInput{../config/sessionInfo.rnw}
+
+%
+% END - DO NOT REMOVE THIS LINE
+%
+%%%%%%%%%%%%  BIBLIOGRAPHY %%%%%%%%%%%%%%%%%
+\clearpage
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{plain}
+\bibliography{../config/book}
+\end{document}

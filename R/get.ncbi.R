@@ -69,6 +69,23 @@ get.ncbi <- function(repository = "ftp://ftp.ncbi.nih.gov/genomes/Bacteria/"  )
     cmd <- sprintf("ftp -v -n %s < %s", hostname, tmpname)
     brut <- readLines(pipe(cmd))
   }
+  else if( sysinfo=="Linux" ){
+    #
+    # Build command file for ftp connection
+    #
+    tmpname <- tempfile(pattern="getncbi")
+    tmpcmdfile <- file(tmpname, open="w")
+    writeLines("user anonymous seqteam@biomserv.univ-lyon1.fr", tmpcmdfile)
+    writeLines("cd genomes/Bacteria", tmpcmdfile)
+    writeLines("dir", tmpcmdfile)
+    writeLines("bye", tmpcmdfile)
+    close(tmpcmdfile)
+    #
+    hostname <- unlist(strsplit(repository,split="/"))[3]
+    cmd <- sprintf("ftp -v -n %s < %s", hostname, tmpname)
+    brut <- readLines(pipe(cmd))
+
+  }
   else
   {
     stop("Unimplemented platform")
@@ -104,7 +121,10 @@ get.ncbi <- function(repository = "ftp://ftp.ncbi.nih.gov/genomes/Bacteria/"  )
     return( vector[length(vector)] )
   }
   brut <- sapply( brut, get.last)
-
+  if(length(grep("CLUSTERS",brut))!=0){
+    brut<-brut[-grep("CLUSTERS",brut)]  # we remove the CLUSTERS folder, since it doesn't contain any annotated bacterial genomes
+  }
+  
   #
   # Now "brut" should contains folders names as in:
   # > brut[1:5]
@@ -212,12 +232,34 @@ get.ncbi <- function(repository = "ftp://ftp.ncbi.nih.gov/genomes/Bacteria/"  )
       if( accname == "NC_005072" ) def <- "chromosome"
       if( accname == "NC_004631" ) def <- "chromosome"
       if( accname == "NC_004344" ) def <- "chromosome"
-      if( accname == "NC_003902" ) def <- "chromosome"  
+      if( accname == "NC_003902" ) def <- "chromosome"
+      if( accname == "NC_005957" ) def <- "chromosome"
+      if( accname == "NC_007984" ) def <- "chromosome"
+      if( accname == "NC_002937" ) def <- "chromosome"
+      if( accname == "NC_005863" ) def <- "plasmid"
+      if( accname == "NC_008054" ) def <- "chromosome"
+      if( accname == "NC_002942" ) def <- "chromosome"
+      if( accname == "NC_005823" ) def <- "chromosome"
+      if( accname == "NC_005824" ) def <- "chromosome"
+      if( accname == "NC_000916" ) def <- "chromosome"
+      if( accname == "NC_007633" ) def <- "chromosome"
+      if( accname == "NC_006855" ) def <- "plasmid"
+      if( accname == "NC_006856" ) def <- "plasmid"
+      if( accname == "NC_006905" ) def <- "chromosome"
+      if( accname == "NC_006511" ) def <- "chromosome"
+      if( accname == "NC_003198" ) def <- "chromosome"
+      if( accname == "NC_007350" ) def <- "chromosome"
+      if( accname == "NC_007351" ) def <- "plasmid"
+      if( accname == "NC_007352" ) def <- "plasmid"
+      if( accname == "NC_003425" ) def <- "plasmid"
+      if( accname == "NC_006833" ) def <- "chromosome"
+
+      
       #
       # Concatenate results:
       #
       species <- c(species, folder)
-      accession <- c(accession, accname)
+      accession <- c( accession, accname)
       size.bp <- c(size.bp, as.integer(bp))
       lastupdate <- c(lastupdate, last)
       type <- c(type, def)

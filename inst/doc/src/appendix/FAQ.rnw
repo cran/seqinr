@@ -1,0 +1,212 @@
+\documentclass{article}
+\input{../config/commontex}
+
+\title{FAQ: Frequently Asked Questions}
+\author{Lobry, J.R.}
+
+\begin{document}
+\SweaveInput{../config/commonrnw.rnw}
+\maketitle
+% BEGIN - DO NOT REMOVE THIS LINE
+
+\section{How do I compute a score on my sequences?}
+
+In the example below we want to compute the G+C content in third codon
+positions for complete ribosomal CDS from \textit{Escherichia coli}:
+
+<<gc3, fig=F,eval=T>>=
+choosebank("emblTP")
+query("ecribo","sp=escherichia coli ET t=cds ET k=ribosom@ ET NO k=partial")
+myseqs <- sapply(ecribo$req, getSequence)
+(gc3 <- sapply(myseqs, GC3))
+@
+
+At the amino-acid level, we may get an estimate of the isoelectric point of
+the proteins this way:
+
+<<computePI,fig=F,eval=T>>=
+sapply( sapply(myseqs, getTrans), computePI)
+@
+
+Note that some pre-defined vectors to compute linear forms on sequences are
+available in the \texttt{EXP} data.
+
+As a matter of convenience, you may encapsulate the computation of your favorite score 
+within a function this way:
+
+<<encapsulate,fig=F,eval=T>>=
+GC3m <- function(list, ind = 1:list$nelem) sapply(sapply(list$req[ind], getSequence), GC3)
+GC3m(ecribo)
+GC3m(ecribo, 1:10)
+@
+
+\section{Why do I have not exactly the same G+C content as in \texttt{codonW}?}
+
+This question was raised (and solved) by Oliver Clay in an e-mail (23-AUG-2006).
+The program \texttt{codonW} was written in C as part of Jonh Peden's PhD thesis 
+on Codon Usage \cite{codonW} and is available at \url{http://codonw.sourceforge.net/}.
+The reason for the small differences in G+C content between the two programs is
+that the default behavior in \texttt{codonW} is to remove the stop codon before
+computations. Here is one way of removing the stop codon under \Rlogo{}:
+
+<<gc3nos, fig=F,eval=T>>=
+gc3nos <- sapply(myseqs, function(s) GC3(s[1:(length(s) - 3)]))
+@
+
+As compared with the previous result, the difference is small but visible:
+
+<<stopcodonremovaleffect,fig=T,eval=T>>=
+plot(x = gc3, y = gc3nos, las =1, main="Stop codon removal effect on G+C content
+in third codon positions", xlab = "With stop codon", ylab ="Stop codons removed")
+abline(c(0,1))
+@
+
+\texttt{CodonW} was released with a test file called \texttt{input.dat}, here are
+the first 10 lines of the file copied from \texttt{CodonWSourceCode\_1\_4\_4}:
+
+<<headinputdat,fig=F,eval=T>>=
+inputdatfile <- system.file("sequences/input.dat", package = "seqinr")
+cat(readLines(inputdatfile,n=10), sep = "\n")
+@
+
+This is a FASTA file that we import under \Rlogo{}~with:
+
+<<importinputdat,fig=F,eval=T>>=
+input <- read.fasta(file = inputdatfile)
+names(input)
+@
+
+The file \texttt{input.out} contains the values obtained with \texttt{codonW}
+for the GC content and GC3s content:
+
+<<inputout,fig=F,eval=T>>=
+inputoutfile <- system.file("sequences/input.out", package = "seqinr")
+cat(readLines(inputoutfile, n=10), sep = "\n")
+input.res <- read.table(inputoutfile, header = TRUE)
+head(input.res)
+@
+
+Let's try to reproduce the results for the G+C content, we know that we have to
+remove the last stop codon:
+
+<<inputgc,fig=T,eval=T>>=
+input.gc <- sapply(input, function(s) GC(s[1:(length(s)-3)]))
+max(abs(input.gc - input.res$GC))
+plot(x = input.gc, y = input.res$GC, las = 1,
+xlab = "Results with GC()", ylab = "Results from codonW",
+main = "Comparison of G+C content results")
+abline(c(0,1))
+@
+
+The results are consistent if we consider that we have 3 significant digits
+in the file \texttt{input.out}. Now, let's try to reproduce the results
+for G+C in third codon positions:
+
+<<inputgc3,fig=T,eval=T>>=
+input.gc3 <- sapply(input, function(s) GC3(s[1:(length(s)-3)]))
+max(abs(input.gc3 - input.res$GC3s))
+plot(x = input.gc3, y = input.res$GC3s, las = 1,
+xlab = "Results with GC3()", ylab = "Results from codonW",
+main = "Comparison of G+C content in third codon positions results")
+abline(c(0,1))
+@
+
+There is clearly a problem here. Looking into the documentation of
+\texttt{codonW}, GC3s is the G+C content in third codon position
+after removing non-synonymous and stop codons (those corresponding to Met, Trp, Stp).
+Let's remove these codons:
+
+<<inputgc3s,fig=T,eval=T>>=
+codons <- words()
+names(codons) <- sapply(codons, function(c) aaa(translate(s2c(c), numcode = 1)))
+okcodons <- codons[! names(codons) %in% c("Met", "Trp", "Stp")]
+gc3s <- function(s){
+  tmp <- splitseq(s)
+  tmp <- tmp[tmp %in% okcodons]
+  tmp <- s2c(paste(tmp, collapse = ""))
+  GC3(tmp)
+}
+input.gc3s <- sapply(input, gc3s)
+max(abs(input.gc3s - input.res$GC3s))
+
+plot(x = input.gc3s, y = input.res$GC3s, las = 1,
+xlab = "Results with GC3()", ylab = "Results from codonW",
+main = "Comparison of G+C content in third codon positions results\n(Met, Trp and Stp codons excluded)")
+abline(c(0,1))
+@
+
+The results are now consistent. But thinking more about it there is still a problem
+with the codons for Ile:
+
+<<ilecodons,fig=F,eval=T>>=
+codons[names(codons) == "Ile"]
+@
+
+There are three codons for Ile. If the distribution of the four bases was uniform and selectively
+neutral in third codon position of synonymous codons, then we would expect to
+get a G+C of 50\% in quartet and duet codons at third codons positions because they
+all have the same number of W (A or T )and S (C or G) bases in third position. But for Ile 
+we have two codons ending in W versus only one in S so that we would get a G+C
+of $\frac{1}{3}$ instead of $\frac{1}{2}$. This point was clearly stated 
+\cite{noboru88} by Sueoka in 1988:
+
+\begin{quote}
+\textbf{G + C Content of the Three Codons Positions.}
+In the present analysis, observed G + C contents of the first, second, and third
+codon positions ($P_{1}$, $P_{2}$, and $P_{3}$, respectively) are corrected
+average G + C contents of the three codon positions that are calculated from
+56 triplets out of 64. Because of the inequality of $\alpha$ and $\gamma$ at the
+third codon position, the three stop codons (TAA, TAG, and TGA) and the three
+codons for isoleucine (ATT, ATC, and ATA) were excluded in calculation of
+$P_{3}$, and two single codons for methionine (ATG) and tryptophan (TGG)
+were excluded in all three ($P_{1}$, $P_{2}$, and $P_{3}$)
+\end{quote}
+
+Let's compute $P_{3}$ and compare it with GC3s:
+
+<<inputP3,fig=T,eval=T>>=
+P3codons <- codons[! names(codons) %in% c("Met", "Trp", "Ile", "Stp")]
+
+P3 <- function(s){
+  tmp <- splitseq(s)
+  tmp <- tmp[tmp %in% P3codons]
+  tmp <- s2c(paste(tmp, collapse = ""))
+  GC3(tmp)
+}
+input.P3 <- sapply(input, P3)
+max(abs(input.P3 - input.res$GC3s))
+
+plot(x = input.P3, y = input.res$GC3s, las = 1,
+xlab = "Results with P3", ylab = "Results from codonW GC3s",
+main = "Comparison of P3 and GC3s")
+abline(c(0,1))
+@
+
+This is not exactly the same, the maximum observed difference here is about $3\%$.
+In practice, $P_{3}$, GC3, and GC3s are only slightly different \cite{noboru99}.
+
+\section{How do I get a sequence from its name?}
+
+This question is adapted from an e-mail (22 Jun 2006) by Gang Xu.
+I know that the UniProt (SwissProt) entry of my protein is \texttt{P08758},
+if I know its name\footnote{
+More exactly, this is the accession number. Sequence names are not stable over time,
+it's always better to use the accession numbers. 
+}, how can I get the sequence?
+
+<<uniprot,fig=F,eval=T>>=
+choosebank("swissprot") 
+query("myprot","AC=P08758")
+getSequence(myprot$req[[1]])       
+@
+
+\SweaveInput{../config/sessionInfo.rnw}
+
+% END - DO NOT REMOVE THIS LINE
+
+%%%%%%%%%%%%  BIBLIOGRAPHY %%%%%%%%%%%%%%%%%
+\clearpage
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{plain}
+\bibliography{../config/book}
+\end{document}

@@ -1,5 +1,5 @@
 Package: seqinr
-Version: 1.0-5
+Version: 1.0-6
 Date: 2006-03-31
 Title: Biological Sequences Retrieval and Analysis 
 Author: Delphine Charif and Jean Lobry and Anamaria Necsulea and Leonor Palmeira
@@ -10,4 +10,4 @@ Description: Exploratory data analysis and data visualization
 License: GPL version 2 or newer
 URL: http://pbil.univ-lyon1.fr/software/SeqinR/seqinr_home.php, Mailing list: http://pbil.univ-lyon1.fr/software/SeqinR/seqinr3_angl.php
 ZipData:no
-Packaged: Wed Jul 19 16:25:30 2006; penel
+Packaged: Mon Sep  4 14:30:13 2006; penel

@@ -11,30 +11,28 @@
 
 
 /*##################################################*/
-/*# Convertir une string en vecteur de caractères  #*/
+/*# Converts a String into a vector of characters  #*/
 /*##################################################*/
 
 
 SEXP s2c(SEXP seq){
   char *string;
-  int lseq,i;
-  char mot[2];
-  
-  
+  int lseq, i;
+  char mot[2] = {'\0', '\0'};
+    
   SEXP chaine;
 
-  string = CHAR(STRING_ELT(seq,0));
+  string = CHAR(STRING_ELT(seq, 0));
   
   lseq = strlen(string);
   
-  PROTECT(chaine=NEW_CHARACTER(lseq));
+  PROTECT(chaine = NEW_CHARACTER(lseq));
 
-
-  for(i=0;i<lseq;i++){  
-    mot[0]=string[i];
-    mot[1]='\0';
-    SET_ELEMENT(chaine,i,mkChar(mot));
+  for(i = 0 ; i < lseq ; i++){  
+    mot[0] = string[i];
+    SET_STRING_ELT(chaine, i, mkChar(mot));
     }
+
   UNPROTECT(1);
   return(chaine);
 }

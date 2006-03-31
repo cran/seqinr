@@ -1,0 +1,70 @@
+%%%%%% atxy.sty  V1.1
+% at.sty     Colin Hogben (chah@jet.uk)
+% 12-Aug-91  First version
+% 20-Mar-92  Fixed to allow for \headheight
+% 06-Jul-93  \@useat only used in case of any \at material (B.gaulle)
+% 07-Jul-93  at -> atxy, reset of \par added to \output (Y. Delmas)
+% 08-Jul-93  \global setting of \atxytrue. 
+%            Reset @ original \catcode (letter or other).
+%            \kerning of \voffset & \hoffset required.   (B.Gaulle) 
+% 25-Jan-94  \atxy printed nothing at all (pointed by Ph. Louarn)
+%            when one \atxy was specified between \begingroup and \endgroup.
+%            The \setbox nedded to be \global.  This will be V1.1 (B. Gaulle) 
+%
+% \atxy(HPOS,VPOS){TEXT}         % Y
+% Positions TEXT at an absolute distance of HPOS from the left edge
+% and VPOS from the top edge of the current page.
+%
+% Example:
+%   \atxy(2cm,5cm){\parbox[t]{10cm}{
+%       Name\\          % Recipient's name and address positioned
+%       Address\\etc.}} % suitably for a windowed envelope
+% -----------------------------------------------------------------
+%%
+%%      checksum        = "19479 77 357 2869"
+%%
+% -----------------------------------------------------------------
+%
+% First create a box in which to store absolute positioned material.
+%
+\ifcat/@ \makeatletter\let\resetat\makeatother% save @ \catcode
+                      \else\let\resetat\relax\fi% (letter or other only)
+\newbox\@atxybox%
+\newif\if@atxy\@atxyfalse% --bg
+%
+% atxy(HPOS,VPOS){TEXT}
+% Add the TEXT to the box with suitable offsets applied.
+%
+\long\def\atxy(#1,#2)#3{\global\setbox\@atxybox=\hbox% --bg
+ {\unhbox\@atxybox
+  \vtop to 0pt{\kern #2\hbox to 0pt{\kern #1\relax #3\hss}\vss}}%
+ \global\@atxytrue}% --bg
+%
+% Unload the saved absolute-positioned material.
+% Teleport to the actual top corner of the page by undoing the header
+% separation, the top and side margins, and the mysterious 1 inch
+% offset applied to each. Then make it look like a singularity (zero
+% height, depth and width).
+%
+\def\@useatxy{\if@atxy% --bg
+  \vtop to 0pt{\kern-\headsep \kern-\topmargin \kern-\headheight 
+               \kern-1in \kern-\voffset
+    \hbox to 0pt{\kern-\@themargin \kern-1in \kern-\hoffset
+\unhbox\@atxybox \hss}\vss}%
+            \fi\global\@atxyfalse}% --bg
+%
+% The following is a copy of the latex.tex \output routine except for
+% line 1: this prepends the shifted absolute material to the current
+% page. A little unsafe to copy code like this, but I couldn't work
+% out where else to insert the box.
+%
+\output{\setbox255=\vbox{\@useatxy \unvbox255}\let\par\@@par%
+  \ifnum\outputpenalty <-\@M\@specialoutput\else%
+  \@makecol\@opcol\@floatplacement\@startcolumn%
+  \@whilesw\if@fcolmade \fi{\@opcol\@startcolumn}\fi%
+  \global\vsize\ifnum\outputpenalty >-\@Miv \@colroom%
+                  \else \maxdimen\fi}%
+%
+\resetat% reset @ original \catcode
+\endinput% --bg
+
