@@ -195,6 +195,9 @@ mathematical theorem, but let's see how does it look like in practice:
 \begin{Sinput}
  scatter(coa, clab.col = 0.8, clab.row = 0.8, posi = "none")
 \end{Sinput}
+\begin{Soutput}
+NULL
+\end{Soutput}
 \end{Schunk}
 \includegraphics{../figs/multivariate-scatter}
 
@@ -620,9 +623,11 @@ The argument was in figure 5 of the paper (\textit{cf} fig \ref{lobgau5}), that 
  ec <- read.table(file = "ftp://pbil.univ-lyon1.fr/pub/datasets/NAR94/data.txt", 
      header = TRUE, row.names = 1)
  ec.coa <- dudi.coa(ec, scann = FALSE, nf = 3)
+ F2 <- ec.coa$li[, 2]
  tmp <- read.table(file = "ftp://pbil.univ-lyon1.fr/pub/datasets/NAR94/ecoli999.cai")
  cai <- exp(tmp$V2)
- plot(cai, ec.coa$li[, 2], pch = 20, xlab = "CAI Score", ylab = "F2 Score", 
+ if (cor(cai, F2) > 0) F2 <- -F2
+ plot(cai, F2, pch = 20, xlab = "CAI Score", ylab = "F2 Score", 
      main = "Fig 5 from Lobry & Gautier (1994) NAR 22:3174")
 \end{Sinput}
 \end{Schunk}
@@ -880,6 +885,7 @@ This is to run the non-sysnonymous codon usage analysis, or amino-acid usage ana
 \begin{Sinput}
  x <- ec999.syn$co[, 1]
  y <- ec999.btw$co[, 2]
+ if (cor(x, y) < 0) y <- -y
  kxy <- kde2d(x, y, n = 100)
  nlevels <- 25
  breaks <- seq(from = min(kxy$z), to = max(kxy$z), length = nlevels + 
@@ -919,12 +925,12 @@ use the two-dimensional kernel density estimation provided by the function
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.4.1 (2006-12-18), \verb|i386-apple-darwin8.8.1|
+  \item R version 2.5.1 (2007-06-27), \verb|i386-apple-darwin8.9.1|
   \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-30, ade4~1.4-2, ape~1.9-3,
-    gee~4.13-12, lattice~0.14-16, nlme~3.1-78, seqinr~1.0-7,
+  \item Other packages: MASS~7.2-34, ade4~1.4-3, ape~1.9-4,
+    gee~4.13-12, lattice~0.15-11, nlme~3.1-83, seqinr~1.1-1,
     xtable~1.4-3
 \end{itemize}
 

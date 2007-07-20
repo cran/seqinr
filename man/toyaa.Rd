@@ -2,6 +2,7 @@
 \alias{toyaa}
 \docType{data}
 \title{A toy example of amino-acid counts in three proteins}
+\encoding{latin1}
 \description{
 This is a toy data set to illustrate the importance of metric choice.
 }

@@ -5,7 +5,7 @@
   This function allows to plot all the type of subsequences on a parent sequence.Subsequences are represented by colored rectangle on the parent sequence.  As an example, types could be CDS, TRNA, RRNA .... In order to get all the types that are available for the selected database, please run \code{getType.socket}. 
 }
 \usage{
-plot.SeqAcnucWeb(x, type = "all", ...)
+\method{plot}{SeqAcnucWeb}(x, type = "all", ...)
 }
 \arguments{
   \item{x}{A sequence of class \code{SeqAcnucWeb}}

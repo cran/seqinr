@@ -32,7 +32,7 @@ system should have it.
 a vector of positions for which the motif \code{pattern} was
 found in the sequence \code{text}.
 }
-\references{ 
+\references{
   \code{citation("seqinr")}
 }
 \author{ J.R. Lobry }

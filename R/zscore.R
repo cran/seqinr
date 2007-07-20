@@ -4,7 +4,7 @@ rho <- function (sequence, alphabet = s2c("acgt")){
   di/(rep(uni,4)*rep(uni,each=4))
 }
 
-zscore <- function (sequence, simulations = NULL, modele, alphabet = s2c("acgt"), ... ){
+zscore <- function (sequence, simulations = NULL, modele, exact = FALSE, alphabet = s2c("acgt"), ... ){
   if (is.null(simulations)){
     if (modele=="base"){
       uni <- count(sequence, 1, freq = TRUE, alphabet = alphabet)
@@ -12,7 +12,31 @@ zscore <- function (sequence, simulations = NULL, modele, alphabet = s2c("acgt")
       rep1 <- rep(uni, 4)
       rep2 <- rep(uni, each = 4)
       rho <- di/(rep1*rep2)
-      zscore <- ((rho-1)/sqrt(((1-rep1)*(1-rep2))/((length(sequence))*rep1*rep2)))
+      if (exact==FALSE){
+        zscore <- ((rho-1)/sqrt(((1-rep1)*(1-rep2))/((length(sequence))*rep1*rep2)))
+      }
+      else if (exact==TRUE){
+        rm(uni,di,rep1,rep2)
+        uni <- count(sequence, 1, freq = FALSE, alphabet = alphabet)
+        di <- count(sequence, 2, freq = FALSE, alphabet = alphabet)
+        rep1 <- rep(uni, 4)
+        rep2 <- rep(uni, each = 4)
+        n <- length(sequence)
+        e <- c(rep(c(0,rep(n/(n-1),4)),3),0)
+        for (i in seq(1,4)){
+          e[1+5*(i-1)] <- (n*(uni[i]-1))/(uni[i]*(n-1))
+        }
+        v=NULL
+        for (i in seq(1,16)){
+          if (i==1 | i==6 | i==11 | i==16){
+            v[i] <- ((n^2*(rep1[i]-1))/(rep1[i]^2*(n-1)^2))*(1-rep1[i]+(n/rep1[i])*(1+2*(rep1[i]-2)/(n-1)+((n-4)*(rep1[i]-2)*(rep1[i]-3))/((n-2)*(n-3))))
+          }
+          else{
+            v[i] <- ((n^3)/((n-1)^2*rep1[i]*rep2[i]-n^2/(n-1)^2+(n^3*(n-4)*(rep1[i]-1)*(rep2[i]-1))/(rep1[i]*rep2[i]*(n-2)*(n-3)*(n-1)^2)))
+          }
+        }
+        zscore <- ((rho-e)/sqrt(v))
+      }
     }
     else if (modele=="codon"){
       split <- splitseq(sequence)

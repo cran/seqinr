@@ -82,6 +82,4 @@ values for the breakpoints.
 \dontrun{draw.rearranged.oriloc(r.ori, breaks.gcfw = breaks$gcfw$breaks, breaks.gcrev = breaks$gcrev$breaks)}
 }
 
-
-}
 \keyword{utilities}

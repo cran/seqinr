@@ -6,12 +6,12 @@
   using similarity (Fitch matrix) or identity matrix.
 }
 \usage{
-dist.alignment(x, matrix = "similarity")
+dist.alignment(x, matrix = c("similarity", "identity"))
 }
 \arguments{
   \item{x}{an object of class \code{alignment}, as returned by 
   \code{read.alignment} for instance}
-  \item{matrix}{the matrix distance to be used: "similarity" or "identity" }
+  \item{matrix}{the matrix distance to be used, partial matching allowed }
 }
 \value{
   The distance matrix, object of class \code{dist}, computed by using the 

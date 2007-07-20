@@ -23,7 +23,6 @@ glr(listname, socket = "auto", verbose = FALSE)
   This low level function is usually not used directly by the user.
 }
 
-}
 \value{
   The rank of list named \code{listname} on server, or 0 if no list with this name exists.
 }
@@ -35,7 +34,7 @@ glr(listname, socket = "auto", verbose = FALSE)
   \code{\link{choosebank}}, 
   \code{\link{query}}
 }
-}
+
 \examples{
  \dontrun{
  # Need internet connection

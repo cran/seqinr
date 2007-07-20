@@ -9,7 +9,58 @@
 \maketitle
 % BEGIN - DO NOT REMOVE THIS LINE
 
-\section{release 1.0-7}
+\section*{1.1 series}
+
+\subsection*{release 1.1-1}
+
+
+\begin{itemize}
+\item A bug was reported by Sylvain Mousset on 14 Jul 2007 in function
+\texttt{dist.alignment()}: when called with sequences in lower case
+letters, some sequences were modified. This should no more be the case:
+<<bugSylvain,fig=F>>=
+ali <- list(nb=4, nam=c("speciesA", "speciesB", "speciesC", "speciesD"),
+seq=c("ACGT","acgt","ACGT","ACGT"))
+class(ali) <- "alignment"
+print(ali$seq)
+print(dist.alignment(ali))
+print(ali$seq)
+@ 
+
+\item The CITATION file has been updated so that now \texttt{citation("seqinr")} returns the full complete reference for the package seqinR.
+
+\item Non ASCII characters in documentation
+(*.Rd) files have been removed. Declaration of the encoding as 
+latin1 when necessary is now present. 
+The updated documentation files are: \texttt{
+dinucl.Rd,
+gb2fasta.Rd,
+get.ncbi.Rd,
+lseqinr.Rd,
+n2s.Rd,
+prochlo.Rd,
+s2c.Rd,
+SeqAcnucWeb.Rd,
+SeqFrag.Rd,
+toyaa.Rd,
+words.pos.Rd,
+words.Rd,
+zscore.Rd}.
+
+\item Function \texttt{GC()} and by propagation functions \texttt{GC1()},
+\texttt{GC2()} and \texttt{GC3()} have gained a new argument \texttt{oldGC}
+allowing to compute the G+C content as in releases up to 1.0-6 included.
+The code has been also modified to avoid divisions by zero with very
+small sequences.
+
+\item New function \texttt{rot13()} that returns the ROT-13 encoding of
+a string of characters.
+
+\end{itemize}
+
+\section*{1.0 series}
+
+\subsection*{release 1.0-7}
 
 \begin{itemize}
 
@@ -99,7 +150,7 @@ is forwarded to \texttt{count()}.
 
 \end{itemize}
 
-\section{release 1.0-6}
+\subsection*{release 1.0-6}
 
 Release 1.0-6 is a minor release to fix a problem found and solved by Kurt Hornik
 (namely a change from \texttt{SET\_ELEMENT} to \texttt{SET\_STRING\_ELT}
@@ -122,7 +173,8 @@ in function \texttt{tablecode()}.
 \item The example code for \texttt{data(chargaff)} has been changed.
 
 \end{itemize}
-\section{release 1.0-5}
+
+\subsection*{release 1.0-5}
 
 \begin{itemize}
 
@@ -165,7 +217,7 @@ argument \texttt{forceUpperCase} to \texttt{FALSE}.
 
 \end{itemize}
 
-\section{release 1.0-4}
+\subsection*{release 1.0-4}
 
 \begin{itemize}
 \item The scaling factor $n_{\bullet\bullet}$ was missing in equation \ref{chi}.
@@ -208,7 +260,7 @@ tables in a \LaTeX~document, for instance table \ref{../tables/code3.tex} and ta
 
 \end{itemize}
 
-\section{release 1.0-3}
+\subsection*{release 1.0-3}
 
 \begin{itemize}
 \item The new package maintainer is Dr. Simon Penel, PhD, who has now a fixed position in the
@@ -241,10 +293,6 @@ now possible.
 
 \item \Seqinr{}~sends now its name and version number to the server.
 
-% Pas arrviÈ ‡ le repoduire
-%
-%\item A bug as been reported for intensive \texttt{kaks()} calls.
-
 \item Strict control on ambiguous DNA base alphabet has been relaxed.
 
 \item Default value for parameter \texttt{invisible} of function \texttt{query()} is now \texttt{TRUE}.
@@ -263,7 +311,3 @@ now possible.
 \bibliographystyle{plain}
 \bibliography{../config/book}
 \end{document}
-
-
-
-    

@@ -33,9 +33,13 @@ Select the database from which you want to extract sequences with the \texttt{ch
 This function initiates a remote access to an ACNUC database. Called without arguments,
 \texttt{choosebank()} returns the list of available databases:
 
+
 <<choixbanque1, eval=T>>=
 choosebank()
 @
+<<closesocket1,echo=F,results=hide,eval=T>>=
+close(getConnection(5))
+@ 
 
 Biological sequence databases are fast moving targets, and for publication purposes it is
 recommended to specify on which release you were working on when you made the job.
@@ -46,6 +50,9 @@ at the compilation time (\today) of this document:
 
 <<choixbanquemoreinfo, eval=T>>=
 choosebank(infobank = TRUE)[1:3, ]
+@
+<<closesocket2,echo=F,results=hide,eval=T>>=
+close(getConnection(5))
 @
 
 Note that there is a \texttt{status} column because a database could be unavailable
@@ -76,6 +83,9 @@ available frozen databases at the default server are:
 <<frozen, eval=T>>=
 choosebank(tagbank = "TP", infobank = TRUE)
 @
+<<closesocket3,echo=F,results=hide,eval=T>>=
+close(getConnection(5))
+@
 
 Now, if you want to work with a given database, say GenBank, just call \texttt{choosebank()}
 with \texttt{"genbank"} as its first argument and store the result in a variable
@@ -102,6 +112,7 @@ For specialized databases, some relevant informations are also given in the
 \texttt{details} component, for instance:
 
 <<exdetails,fig=F, eval=T>>=
+closebank()
 choosebank("taxobacgen")$details -> moreinfo
 cat(moreinfo, sep = "\n")
 @
@@ -140,6 +151,15 @@ dotchart(log10(ntaxa[order(ntaxa)]), pch = 19,
 main = "Number of taxa in available databases",
 xlab = "Log10(number of taxa)")
 @
+<<closesocket4,fig=F,echo=F,results=hide,eval=T>>=
+showConnections()
+close(getConnection(8))
+close(getConnection(7))
+close(getConnection(6))
+close(getConnection(5))
+close(getConnection(4))
+showConnections()
+@ 
 
 \subsection{Make your query}
 
@@ -357,6 +377,7 @@ For this section we set up the bank to \texttt{emblTP} which is a frozen
 subset of EMBL database to allow for the reproducibility of results.
 
 <<useemblTP, fig=F, eval=T>>=
+closebank()
 choosebank("emblTP")
 @
 
@@ -457,10 +478,11 @@ For this section we set up the bank to \texttt{emblTP} which is a frozen
 subset of EMBL database to allow for the reproducibility of results.
 
 <<useemblTP, fig=F, eval=T>>=
+closebank()
 (tcb <- system.time(choosebank("emblTP")))
 @
 
-It was then about \Sexpr{ifelse(exists("tcb"), round(tcb[3]), "???")} 
+It was then about \Sexpr{ifelse(exists("tcb"), round(as.numeric(tcb[3])), "???")} 
 seconds to select
 the relevant database. We suppose that the sequences we are interested in 
 are all the complete coding sequences from \textit{Homo sapiens} that
@@ -473,15 +495,15 @@ We use a virtual query to speed up things:
 (nseq <- hsCDS$nelem)
 @
 
-It was then about \Sexpr{ifelse(exists("tqu"), round(tqu[3]), "???")} seconds 
+It was then about \Sexpr{ifelse(exists("tqu"), round(as.numeric(tqu[3])), "???")} seconds 
 to create on the server a list of \Sexpr{ifelse(exists("nseq"), nseq, "???")}
 sequences. We download now the sequences in zlib compressed mode:
-
+ 
 <<extractseq1,fig=F,eval=T>>=
 (tex <- system.time(mycds <- extractseqs("hsCDS")))
 @
 
-It was then about \Sexpr{ifelse(exists("tex"), round(tex[3]), "???")} seconds
+It was then about \Sexpr{ifelse(exists("tex"), round(as.numeric(tex[3])), "???")} seconds
 to dowload the sequences in the object \texttt{mycds}, which looks like :
 
 <<mycdslook,fig=F,eval=T>>=
@@ -495,7 +517,7 @@ We save now the sequences in a local FASTA file for future use:
 (twl <- system.time(writeLines(mycds, "mycds.fasta")))
 @
 
-It was then about \Sexpr{ifelse(exists("twl"), round(twl[3]), "???")} seconds
+It was then about \Sexpr{ifelse(exists("twl"), round(as.numeric(twl[3])), "???")} seconds
 to dump the sequences on a local file. We read the sequences as strings
 without setting attributes to save time:
 
@@ -503,14 +525,14 @@ without setting attributes to save time:
 (trf <- system.time(mycdss <- read.fasta("mycds.fasta", as.string = TRUE, set.attributes = FALSE)))
 @
 
-It was then about \Sexpr{ifelse(exists("trf"), round(trf[3]), "???")} seconds
+It was then about \Sexpr{ifelse(exists("trf"), round(as.numeric(trf[3])), "???")} seconds
 to read the sequences as strings. We save them in XDR format:
 
 <<saveRData,fig=F,eval=T>>=
 (tsrd <- system.time(save(mycdss, file = "mycdss.RData")))
 @
 
-It was then about \Sexpr{ifelse(exists("tsrd"), round(tsrd[3]), "???")} seconds
+It was then about \Sexpr{ifelse(exists("tsrd"), round(as.numeric(tsrd[3])), "???")} seconds
 to save the sequences in XDR format. How long is it to load the sequences
 from XDR format?
 
@@ -518,7 +540,7 @@ from XDR format?
 (tlrd <-  system.time(load("mycdss.RData")))
 @
 
-It was then about \Sexpr{ifelse(exists("tlrd"), round(tlrd[3]), "???")} seconds
+It was then about \Sexpr{ifelse(exists("tlrd"), round(as.numeric(tlrd[3])), "???")} seconds
 to load the sequences from an XDR formated file. Now, we also want the
 corresponding proteins. We download the translated CDS from the server:
 
@@ -526,7 +548,7 @@ corresponding proteins. We download the translated CDS from the server:
 (texp <- system.time(myprot <- extractseqs("hsCDS", operation = "translate")))
 @
 
-It was then about \Sexpr{ifelse(exists("texp"), round(texp[3]), "???")} seconds
+It was then about \Sexpr{ifelse(exists("texp"), round(as.numeric(texp[3])), "???")} seconds
 to get the protein sequences from the server. The object \texttt{myprot} looks
 like:
 
@@ -541,7 +563,7 @@ We save the protein sequences in a local FASTA file for future use:
 (twl2 <- system.time(writeLines(myprot, "myprot.fasta")))
 @
 
-It was then about \Sexpr{ifelse(exists("twl2"), round(twl2[3]), "???")} seconds
+It was then about \Sexpr{ifelse(exists("twl2"), round(as.numeric(twl2[3])), "???")} seconds
 to dump the protein sequences on a local file. We read the sequences as strings
 without setting attributes to save time:
 
@@ -549,14 +571,14 @@ without setting attributes to save time:
 (trf2 <- system.time(myprots <- read.fasta("myprot.fasta", as.string = TRUE, set.attributes = FALSE)))
 @
 
-It was then about \Sexpr{ifelse(exists("trf2"), round(trf2[3]), "???")} seconds
+It was then about \Sexpr{ifelse(exists("trf2"), round(as.numeric(trf2[3])), "???")} seconds
 to read the protein sequences as strings. We save them in XDR format:
 
 <<saveRData2,fig=F,eval=T>>=
 (tsrd2 <- system.time(save(myprots, file = "myprots.RData")))
 @
 
-It was then about \Sexpr{ifelse(exists("tsrd2"), round(tsrd2[3]), "???")} seconds
+It was then about \Sexpr{ifelse(exists("tsrd2"), round(as.numeric(tsrd2[3])), "???")} seconds
 to save the protein sequences in XDR format. How long is it to load the 
 protein sequences from XDR format?
 
@@ -564,7 +586,7 @@ protein sequences from XDR format?
 (tlrd2 <-  system.time(load("myprots.RData")))
 @
 
-It was then about \Sexpr{ifelse(exists("tlrd2"), round(tlrd2[3]), "???")} seconds
+It was then about \Sexpr{ifelse(exists("tlrd2"), round(as.numeric(tlrd2[3])), "???")} seconds
 to load the protein sequences from an XDR formated file.
 
 %Summary in a table -- bof bof

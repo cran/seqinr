@@ -8,25 +8,29 @@
   Calculates the fraction of G+C bases of the input nucleic acid
   sequence(s). It reads in nucleic acid sequences, sums the number of
   'g' and 'c' bases and writes out the result as the fraction (in the
-  interval 0.0 to 1.0) of the length of the whole sequence. Global G+C
-  content \code{GC}, G+C in the first position of the codon bases
+  interval 0.0 to 1.0) to the total number of 'a', 'c', 'g' and 't' bases. 
+  Global G+C content \code{GC}, G+C in the first position of the codon bases
   \code{GC1}, G+C in the second position of the codon bases
   \code{GC2}, and G+C in the third position of the codon bases
-  \code{GC3} can be computed.
+  \code{GC3} can be computed. All functions can take ambiguous bases
+  into account when requested.
 }
 \usage{
-GC(seq, forceToLower = TRUE, exact = TRUE)
+GC(seq, forceToLower = TRUE, exact = FALSE, oldGC = FALSE)
 GC1(seq, ...)
 GC2(seq, ...)
 GC3(seq, ...)
 }
 \arguments{
-  \item{seq}{a nucleic acid sequence as a vector of single characters in lower case}
+  \item{seq}{a nucleic acid sequence as a vector of single characters}
   \item{forceToLower}{logical defaulting to \code{TRUE}: force sequence
   	characters in lower-case. Turn this to \code{FALSE} to save time
   	if your sequence is already in lower-case}
   \item{exact}{logical defaulting to \code{FALSE}: should ambiguous bases taken
   	into account when computing the G+C content (see details)}
+  \item{oldGC}{logical defaulting to \code{FALSE}: should the GC content computed
+    as in seqinR <= 1.0-6, that is as the sum of 'g' and 'c' bases divided by
+    the length of the sequence}
   \item{...}{arguments passed to the function \code{GC}}
 }
 \details{
@@ -52,8 +56,8 @@ GC3(seq, ...)
 \value{
   \code{GC} returns the fraction of G+C as a numeric vector,
   \code{GC1} returns the fraction of G+C at first codon position as a numeric vector,
-  \code{GC2} returns the fraction of G+C at second codon position  as a numeric vector,
-  \code{GC3} returns the fraction of G+C at third codon position  as a numeric vector.
+  \code{GC2} returns the fraction of G+C at second codon position as a numeric vector,
+  \code{GC3} returns the fraction of G+C at third codon position as a numeric vector.
 }
 \references{
   \code{citation("seqinr")}.
@@ -81,8 +85,8 @@ lower-case characters.
 # With ambiguous bases:
 #
   GC(s2c("acgt")) # 0.5
-  GC(s2c("acgtwsws")) # 0.25
-  GC(s2c("acgtwsws"), exact = TRUE) # 0.5
+  GC(s2c("acgtssss")) # 0.5
+  GC(s2c("acgtssss"), exact = TRUE) # 0.75
 #
 # How to reproduce the results obtained with the C program codonW
 # version 1.4.4 writen by John Peden. We use here the "input.dat"

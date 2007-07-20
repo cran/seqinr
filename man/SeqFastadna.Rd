@@ -12,7 +12,7 @@
 \usage{
 as.SeqFastadna(object, name = NULL, Annot = NULL)
 is.SeqFastadna(object)
-summary.SeqFastadna(object, alphabet = s2c("acgt"), ...)
+\method{summary}{SeqFastadna}(object, alphabet = s2c("acgt"), ...)
 }
 \arguments{
   \item{object}{a vector of chars representing a biological sequence} 

@@ -29,7 +29,6 @@ clfcd(listname, file, type, socket = "auto", invisible = TRUE, verbose = FALSE, 
 
 }
 
-}
 \value{
   A list with the following components:
   \item{bank}{the name of the bank that has been choosen by \code{choosebank.socket}}	
@@ -50,7 +49,7 @@ clfcd(listname, file, type, socket = "auto", invisible = TRUE, verbose = FALSE, 
   \code{\link{choosebank}}, 
   \code{\link{query}}
 }
-}
+
 \examples{
  \dontrun{
  # Need internet connection

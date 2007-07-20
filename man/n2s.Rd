@@ -21,7 +21,7 @@ n2s(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 \value{
 a vector of characters
 }
-\references{ 
+\references{
   \code{citation("seqinr")}
 }
 \author{ J.R. Lobry }

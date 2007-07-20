@@ -2,7 +2,7 @@ kaks <- function(x, debug = FALSE, forceUpperCase = TRUE){
     #
     # Check argument class:
     #
-    if(attr(x,"class") != "alignment") error("object x must be of class alignment")
+    if(attr(x,"class") != "alignment") stop("object x must be of class alignment")
     if(debug){
       cat("<--- Argument x storage is --->\n")
       print(str(x))

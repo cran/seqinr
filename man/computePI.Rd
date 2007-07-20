@@ -1,31 +1,40 @@
 \name{computePI}
 \alias{computePI}
-\title{ To Compute the Theoretical Isoelectric Point }
+\title{To Compute the Theoretical Isoelectric Point}
 \description{
   This function calculates the theoretical isoelectric point of a protein. Isoelectric point is the pH at which the protein has a neutral charge.
-These estimate does not account for the post-translational modifications.
+This estimate does not account for the post-translational modifications.
 }
 \usage{
 computePI(seq)
 }
 \arguments{
-  \item{seq}{ AA sequence as a vector of chars }
+  \item{seq}{ Protein sequence as a vector of single chars in upper case}
 }
 \value{
-  It returns the pI.
+  The theoretical isoelectric point (pI) as a numerical vector of length one.
 }
 \references{ 
-The algorithm is quite the same as the one which is implemented at the following url:  
-\url{http://www.expasy.org/tools/pi_tool-doc.html}
+The algorithm is the same as the one which is implemented at the following url:  
+\url{http://www.expasy.org/tools/pi_tool-doc.html} but with many trials
+in case of convergence failure of the non-linear regression procedure.
 \code{citation("seqinr")}
  }
-\author{ D. Charif }
+\author{D. Charif  and J.R. Lobry}
 \note{ 
 Protein pI is calculated using pK values of amino acids described in  Bjellqvist et al. See also \code{SEQINR.UTIL} for more details.
  }
 \seealso{\code{\link{SEQINR.UTIL}} }
 \examples{
-ss = read.fasta(File=system.file("sequences/seqAA.fasta",package = "seqinr"),seqtype="AA")
-computePI(ss[[1]]) 
+#
+# Simple sanity check with all 20 amino-acids in one-letter code alphabetical order:
+#
+prot <- s2c("ACDEFGHIKLMNPQRSTVWY")
+stopifnot(all.equal(computePI(prot), 6.78454))
+#
+# Read a protein sequence in a FASTA file and then compute its pI :
+#
+myProts <- read.fasta(file = system.file("sequences/seqAA.fasta", package = "seqinr"), seqtype = "AA")
+computePI(myProts[[1]]) # Should be 8.534902
 }
 \keyword{manip}

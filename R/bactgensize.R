@@ -130,7 +130,8 @@ dia.bactgensize <- function(
       -sum(log(p*dnorm(obs,m1,sd1)+(1-p)*dnorm(obs,m2,sd2)))
     }
 
-    attach(nlm(logvraineg, c(p, m1, sd1, m2, sd2), obs=sizeKb))
+    nlmres <- nlm(logvraineg, c(p, m1, sd1, m2, sd2), obs=sizeKb)
+    estimate <- nlmres$estimate
 
     y1 <- vscale*estimate[1]*dnorm(x, estimate[2], estimate[3])
     y2 <- vscale*(1-estimate[1])*dnorm(x, estimate[4], estimate[5])
@@ -193,7 +194,8 @@ dia.bactgensize <- function(
              +p3*dnorm(obs,m3,sd3)))
     }
 
-    attach(nlm(logvraineg, c(p, m1, sd1, m2, sd2, p3, m3, sd3), obs=sizeKb))
+    nlmres <- nlm(logvraineg, c(p, m1, sd1, m2, sd2, p3, m3, sd3), obs=sizeKb)
+    estimate <- nlmres$estimate
 
     y1 <- vscale*estimate[1]*dnorm(x, estimate[2], estimate[3])
     y2 <- vscale*(1-estimate[1]-estimate[6])*dnorm(x, estimate[4], estimate[5])

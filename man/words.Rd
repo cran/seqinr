@@ -18,7 +18,7 @@ words(length = 3, alphabet = s2c("acgt"))
 A vector of string whith \code{length} characters. 
 }
 \author{ J.R. Lobry }
-\references{ 
+\references{
   \code{citation("seqinr")}
 }
 \seealso{ \code{\link{kronecker}}, \code{\link{outer}} }

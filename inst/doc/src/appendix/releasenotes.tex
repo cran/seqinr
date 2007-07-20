@@ -39,7 +39,76 @@
 \maketitle
 % BEGIN - DO NOT REMOVE THIS LINE
 
-\section{release 1.0-7}
+\section*{1.1 series}
+
+\subsection*{release 1.1-1}
+
+
+\begin{itemize}
+\item A bug was reported by Sylvain Mousset on 14 Jul 2007 in function
+\texttt{dist.alignment()}: when called with sequences in lower case
+letters, some sequences were modified. This should no more be the case:
+\begin{Schunk}
+\begin{Sinput}
+ ali <- list(nb = 4, nam = c("speciesA", "speciesB", "speciesC", 
+     "speciesD"), seq = c("ACGT", "acgt", "ACGT", "ACGT"))
+ class(ali) <- "alignment"
+ print(ali$seq)
+\end{Sinput}
+\begin{Soutput}
+[1] "ACGT" "acgt" "ACGT" "ACGT"
+\end{Soutput}
+\begin{Sinput}
+ print(dist.alignment(ali))
+\end{Sinput}
+\begin{Soutput}
+         speciesA speciesB speciesC
+speciesB        0                  
+speciesC        0        0         
+speciesD        0        0        0
+\end{Soutput}
+\begin{Sinput}
+ print(ali$seq)
+\end{Sinput}
+\begin{Soutput}
+[1] "ACGT" "acgt" "ACGT" "ACGT"
+\end{Soutput}
+\end{Schunk}
+
+\item The CITATION file has been updated so that now \texttt{citation("seqinr")} returns the full complete reference for the package seqinR.
+
+\item Non ASCII characters in documentation
+(*.Rd) files have been removed. Declaration of the encoding as 
+latin1 when necessary is now present. 
+The updated documentation files are: \texttt{
+dinucl.Rd,
+gb2fasta.Rd,
+get.ncbi.Rd,
+lseqinr.Rd,
+n2s.Rd,
+prochlo.Rd,
+s2c.Rd,
+SeqAcnucWeb.Rd,
+SeqFrag.Rd,
+toyaa.Rd,
+words.pos.Rd,
+words.Rd,
+zscore.Rd}.
+
+\item Function \texttt{GC()} and by propagation functions \texttt{GC1()},
+\texttt{GC2()} and \texttt{GC3()} have gained a new argument \texttt{oldGC}
+allowing to compute the G+C content as in releases up to 1.0-6 included.
+The code has been also modified to avoid divisions by zero with very
+small sequences.
+
+\item New function \texttt{rot13()} that returns the ROT-13 encoding of
+a string of characters.
+
+\end{itemize}
+
+\section*{1.0 series}
+
+\subsection*{release 1.0-7}
 
 \begin{itemize}
 
@@ -129,7 +198,7 @@ is forwarded to \texttt{count()}.
 
 \end{itemize}
 
-\section{release 1.0-6}
+\subsection*{release 1.0-6}
 
 Release 1.0-6 is a minor release to fix a problem found and solved by Kurt Hornik
 (namely a change from \texttt{SET\_ELEMENT} to \texttt{SET\_STRING\_ELT}
@@ -152,7 +221,8 @@ in function \texttt{tablecode()}.
 \item The example code for \texttt{data(chargaff)} has been changed.
 
 \end{itemize}
-\section{release 1.0-5}
+
+\subsection*{release 1.0-5}
 
 \begin{itemize}
 
@@ -195,7 +265,7 @@ argument \texttt{forceUpperCase} to \texttt{FALSE}.
 
 \end{itemize}
 
-\section{release 1.0-4}
+\subsection*{release 1.0-4}
 
 \begin{itemize}
 \item The scaling factor $n_{\bullet\bullet}$ was missing in equation \ref{chi}.
@@ -238,7 +308,7 @@ tables in a \LaTeX~document, for instance table \ref{../tables/code3.tex} and ta
 
 \end{itemize}
 
-\section{release 1.0-3}
+\subsection*{release 1.0-3}
 
 \begin{itemize}
 \item The new package maintainer is Dr. Simon Penel, PhD, who has now a fixed position in the
@@ -256,28 +326,24 @@ reference for now, you may use \texttt{citation("seqinr")} to check if it is com
 \begin{Soutput}
 To cite seqinR in publications use:
 
-  in the body of the text (J.R. Lobry, personal communication), or
-  wait for the exact complete reference.
+  Charif, D. and Lobry, J.R. (2007)
 
 A BibTeX entry for LaTeX users is
 
   @incollection{,
     author = {D. Charif and J.R. Lobry},
-    title = {SeqinR 1.0-2: a contributed package to the R project for statistical computing devoted to biological sequences retrieval and analysis.},
+    title = {Seqin{R} 1.0-2: a contributed package to the {R} project for statistical computing devoted to biological sequences retrieval and analysis.},
     booktitle = {Structural approaches to sequence evolution: Molecules, networks, populations},
-    year = {2006},
+    year = {2007},
     editor = {U. Bastolla, M. Porto, H.E. Roman and M. Vendruscolo},
-    volume = {NA},
     series = {Biological and Medical Physics, Biomedical Engineering},
-    pages = {NA},
+    pages = {207-232},
     address = {New York},
-    month = {NA},
-    organization = {NA},
     publisher = {Springer Verlag},
-    note = {in press},
+    note = {{ISBN :} 978-3-540-35305-8},
   }
 
-Note that the orginal article and updates are available in the
+Note that the orginal article updated is available in the
 ../../../../../seqinr.Rcheck/seqinr/doc/ folder in PDF format
 \end{Soutput}
 \end{Schunk}
@@ -300,10 +366,6 @@ now possible.
 
 \item \Seqinr{}~sends now its name and version number to the server.
 
-% Pas arrviÈ ‡ le repoduire
-%
-%\item A bug as been reported for intensive \texttt{kaks()} calls.
-
 \item Strict control on ambiguous DNA base alphabet has been relaxed.
 
 \item Default value for parameter \texttt{invisible} of function \texttt{query()} is now \texttt{TRUE}.
@@ -317,12 +379,12 @@ now possible.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.4.1 (2006-12-18), \verb|i386-apple-darwin8.8.1|
+  \item R version 2.5.1 (2007-06-27), \verb|i386-apple-darwin8.9.1|
   \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-30, ade4~1.4-2, ape~1.9-3,
-    gee~4.13-12, lattice~0.14-16, nlme~3.1-78, seqinr~1.0-7,
+  \item Other packages: MASS~7.2-34, ade4~1.4-3, ape~1.9-4,
+    gee~4.13-12, lattice~0.15-11, nlme~3.1-83, seqinr~1.1-1,
     xtable~1.4-3
 \end{itemize}
 
@@ -335,7 +397,3 @@ This part was compiled under the following \Rlogo{}~environment:
 \bibliographystyle{plain}
 \bibliography{../config/book}
 \end{document}
-
-
-
-

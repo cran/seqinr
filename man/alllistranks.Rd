@@ -23,7 +23,6 @@ alr(socket = "auto", verbose = FALSE)
   This low level function is usually not used directly by the user.
 }
 
-}
 \value{
   A list with two components:
   \item{count}{count of existing lists}	
@@ -37,7 +36,7 @@ alr(socket = "auto", verbose = FALSE)
   \code{\link{choosebank}}, 
   \code{\link{query}}
 }
-}
+
 \examples{
  \dontrun{
  # Need internet connection

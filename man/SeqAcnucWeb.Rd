@@ -9,7 +9,7 @@
   \code{is.SeqAcnucWeb} returns TRUE if the object is of class \code{SeqAcnucWeb}. 
 }
 \usage{
-as.SeqAcnucWeb(object,length, frame, ncbigc,socket=F)
+as.SeqAcnucWeb(object,length, frame, ncbigc,socket=FALSE)
 is.SeqAcnucWeb(object)
 }
 \arguments{
@@ -22,7 +22,7 @@ is.SeqAcnucWeb(object)
 \value{
   \code{as.SeqAcnucWeb} returns an object sequence of class \code{SeqAcnucWeb}
 }
-\references{ 
+\references{
   \code{citation("seqinr")}
 }
 \author{ D. Charif }

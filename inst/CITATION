@@ -2,21 +2,18 @@ citHeader("To cite seqinR in publications use:")
 
 citEntry(entry = "incollection",
          author = "D. Charif, J.R. Lobry",
-         title = "SeqinR 1.0-2: a contributed package to the R project for statistical computing devoted to biological sequences retrieval and analysis.",
+         title = "Seqin{R} 1.0-2: a contributed package to the {R} project for statistical computing devoted to biological sequences retrieval and analysis.",
          booktitle = "Structural approaches to sequence evolution: Molecules, networks, populations",
-         year   = "2006",
+         year   = "2007",
          editor = "U. Bastolla, M. Porto, H.E. Roman and M. Vendruscolo",
-         volume = "NA",
          series = "Biological and Medical Physics, Biomedical Engineering",
-         pages = "NA",
+         pages = "207-232",
          address = "New York",
-         month = "NA",
-         organization = "NA",
          publisher = "Springer Verlag",
-         note = "in press",
+         note = "{ISBN :} 978-3-540-35305-8",
          
-         textVersion = "in the body of the text (J.R. Lobry, personal communication), or wait for the exact complete reference.")
+         textVersion = "Charif, D. and Lobry, J.R. (2007)")
 
-citFooter(paste("Note that the orginal article and updates are available in the ",
+citFooter(paste("Note that the orginal article updated is available in the ",
                  system.file(package = "seqinr"), 
                  "/doc/ folder in PDF format", sep = ""))

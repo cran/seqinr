@@ -280,16 +280,16 @@ summary.SeqFastaAA = function(object,...){
 
 
 
-as.SeqAcnucWeb = function( object, length, frame, ncbigc, socket = F  ){
-
-	class(object)="SeqAcnucWeb"
-	attributes(object)=list(class="SeqAcnucWeb",socket=socket,length=length,frame=frame,ncbigc=ncbigc)
-	object
+as.SeqAcnucWeb <- function( object, length, frame, ncbigc, socket = FALSE){
+  class(object) <- "SeqAcnucWeb"
+  attributes(object) <- list(class = "SeqAcnucWeb", socket = socket,
+                             length = length, frame = frame, ncbigc = ncbigc)
+  return(object)
 }
 
 
-is.SeqAcnucWeb = function( object ){	
-	inherits(object ,"SeqAcnucWeb")
+is.SeqAcnucWeb <- function( object ){	
+  inherits(object ,"SeqAcnucWeb")
 }
 
 

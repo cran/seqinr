@@ -2,6 +2,7 @@
 \alias{prochlo}
 \docType{data}
 \title{ Zscore on three strains of Prochlorococcus marinus }
+\encoding{latin1}
 \description{
 This dataset contains the zscores computed with the codon model on all
 CDS from 3 strains of Procholorococcus marinus (as retrieved from Genome

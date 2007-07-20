@@ -24,7 +24,7 @@ Returns a data frame which contains the following columns:
     \item{type}{A factor with two levels (plasmid or chromosome) temptatively
     deduced from the description of the sequence.}
 }
-\references{ 
+\references{
   \code{citation("seqinr")}
 }
 \author{J.R. Lobry }

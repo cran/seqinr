@@ -2,6 +2,7 @@
 \alias{dinucl}
 \docType{data}
 \title{ Mean zscore on 242 complete bacterial chromosomes }
+\encoding{latin1}
 \description{
 This dataset contains the mean zscores as computed on all intergenic
 sequences (intergenic) and on all CDS (coding) from 242

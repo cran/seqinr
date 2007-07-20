@@ -167,12 +167,13 @@ full path to the package is given by the following R code :
 \section{About sequin and \seqinr{}}
 
 Sequin is the well known sofware used to submit sequences to GenBank, \seqinr{}
-has definitively no connection with sequin. \seqinr{} is just a shortcut, with
+\cite{seqinr} has definitively no connection with sequin. \seqinr{} is just a shortcut, with
 no google hit, for "Sequences in R".
 
 However, as a mnemotechnic tip, you may think about the \seqinr{} package
 as the {\bf{R}}eciprocal function of sequin: with sequin you can submit sequences
-to Genbank, with \seqinr{} you can {\bf{R}}etrieve sequences from Genbank. This is
+to Genbank, with \seqinr{} you can {\bf{R}}etrieve sequences from Genbank
+(and many other sequence databases). This is
 a very good summary of a major functionality of the \seqinr{} package: to
 provide an efficient access to sequence databases under R.
 

@@ -26,7 +26,7 @@
   \code{is.SeqFrag} returns TRUE if the object is of class Seqfrag. 
 }
 \author{ D. Charif }
-\references{ 
+\references{
   \code{citation("seqinr")}
 }
 \seealso{\code{\link{getFrag}} }

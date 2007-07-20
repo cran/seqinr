@@ -63,18 +63,19 @@ Select the database from which you want to extract sequences with the \texttt{ch
 This function initiates a remote access to an ACNUC database. Called without arguments,
 \texttt{choosebank()} returns the list of available databases:
 
+
 \begin{Schunk}
 \begin{Sinput}
  choosebank()
 \end{Sinput}
 \begin{Soutput}
  [1] "genbank"      "embl"         "emblwgs"      "swissprot"   
- [5] "ensembl"      "refseq"       "nrsub"        "nbrf"        
- [9] "hobacnucl"    "hobacprot"    "hovernucl"    "hoverprot"   
-[13] "hogennucl"    "hogenprot"    "hoverclnu"    "hoverclpr"   
-[17] "homolensprot" "homolensnucl" "greview"      "emglib"      
-[21] "HAMAPnucl"    "HAMAPprot"    "hoppsigen"    "nurebnucl"   
-[25] "nurebprot"    "taxobacgen"  
+ [5] "ensembl"      "refseq"       "nrsub"        "hobacnucl"   
+ [9] "hobacprot"    "hovernucl"    "hoverprot"    "hogennucl"   
+[13] "hogenprot"    "hoverclnu"    "hoverclpr"    "homolensprot"
+[17] "homolensnucl" "greview"      "emglib"       "HAMAPnucl"   
+[21] "HAMAPprot"    "hoppsigen"    "nurebnucl"    "nurebprot"   
+[25] "taxobacgen"  
 \end{Soutput}
 \end{Schunk}
 
@@ -94,10 +95,10 @@ at the compilation time (\today) of this document:
 1 genbank     on
 2    embl     on
 3 emblwgs     on
-                                                                info
-1     GenBank Rel. 158 (15 February 2007) Last Updated: Mar 10, 2007
-2 EMBL Library Release 89 (December 2006) Last Updated: Mar  8, 2007
-3    EMBL Whole Genome Shotgun sequences Release 89  (December 2006)
+                                                            info
+1     GenBank Rel. 160 (15 June 2007) Last Updated: Jul  7, 2007
+2 EMBL Library Release 91 (June 2007) Last Updated: Jul  7, 2007
+3    EMBL Whole Genome Shotgun sequences Release 91  (June 2007)
 \end{Soutput}
 \end{Schunk}
 
@@ -131,18 +132,12 @@ available frozen databases at the default server are:
  choosebank(tagbank = "TP", infobank = TRUE)
 \end{Sinput}
 \begin{Soutput}
-         bank status
-1      emblTP     on
-2 swissprotTP     on
-3 hoverprotTP     on
-4 hovernuclTP     on
-5     trypano     on
-                                                                          info
-1                           EMBL Library Release 78 WITHOUT ESTs  (March 2004)
-2 UniProt Rel. 1 (SWISS-PROT 43 + TrEMBL 26 + NEW): Last Updated: May  3, 2004
-3               HOVERGEN - Release 45 (Jan 22 2004) Last Updated: Jan 22, 2004
-4               HOVERGEN - Release 45 (Jan 22 2004) Last Updated: Jan 22, 2004
-5                  trypano Rel. 1 (27 Janvier 2004) Last Updated: Jan 27, 2004
+         bank status                                           info
+1      emblTP     on                            frozen EMBL release
+2 swissprotTP     on                       frozen SwissProt release
+3 hoverprotTP     on    frozen Hovergen release - protein sequences
+4 hovernuclTP     on frozen Hovergen release - nucleotide sequences
+5     trypano     on                        frozen trypano database
 \end{Soutput}
 \end{Schunk}
 
@@ -157,34 +152,35 @@ in the workspace, called for instance \texttt{mybank} in the example thereafter:
 \end{Sinput}
 \begin{Soutput}
 List of 8
- $ socket  :Classes 'sockconn', 'connection'  int 21
+ $ socket  :Classes 'sockconn', 'connection'  int 5
  $ bankname: chr "genbank"
- $ totseqs : chr "71980262"
- $ totspecs: chr "437097"
- $ totkeys : chr "6375122"
- $ release : chr "GenBank Rel. 158 (15 February 2007) Last Updated: Mar 10, 2007"
+ $ totseqs : chr "78091005"
+ $ totspecs: chr "467383"
+ $ totkeys : chr "6892513"
+ $ release : chr "GenBank Rel. 160 (15 June 2007) Last Updated: Jul  7, 2007"
  $ status  :Class 'AsIs'  chr "on"
- $ details : chr [1:3] "GenBank Rel. 158 (15 February 2007) Last Updated: Mar 10, 2007" "72,371,122,329 bases; 68,158,715 sequences; 3,821,546 subseqs; 455,234 refers." "Software by M. Gouy, Lab. Biometrie et Biologie Evolutive, Universite Lyon I"
+ $ details : chr [1:3] "GenBank Rel. 160 (15 June 2007) Last Updated: Jul  7, 2007" "77,927,415,059 bases; 73,849,130 sequences; 4,241,874 subseqs; 470,139 refers." "Software by M. Gouy, Lab. Biometrie et Biologie Evolutive, Universite Lyon I"
 \end{Soutput}
 \end{Schunk}
 
 The list returned by \texttt{choosebank()} here means that in the database
 called \texttt{genbank} at the compilation time
 of this document there were 
-\texttt{71,980,262}
+\texttt{78,091,005}
 sequences from
-\texttt{437,097}
+\texttt{467,383}
 species and a total of
-\texttt{6,375,122}
+\texttt{6,892,513}
 keywords. The status of the bank was
 \texttt{on}, 
 and the release information was
-\texttt{GenBank Rel. 158 (15 February 2007) Last Updated: Mar 10, 2007}.
+\texttt{GenBank Rel. 160 (15 June 2007) Last Updated: Jul  7, 2007}.
 For specialized databases, some relevant informations are also given in the
 \texttt{details} component, for instance:
 
 \begin{Schunk}
 \begin{Sinput}
+ closebank()
  moreinfo <- choosebank("taxobacgen")$details
  cat(moreinfo, sep = "\n")
 \end{Sinput}
@@ -353,15 +349,15 @@ with many elements, for instance :
  allcds$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 4114605
+[1] 4560252
 \end{Soutput}
 \end{Schunk}
 
-There are therefore \texttt{4,114,605} coding
+There are therefore \texttt{4,560,252} coding
 sequences in this version of GenBank\footnote{
 which is stored in the \texttt{release} component of the object \texttt{banknameSocket}
 and current value is today (\today): \texttt{banknameSocket\$release = 
-GenBank Rel. 158 (15 February 2007) Last Updated: Mar 10, 2007}.
+GenBank Rel. 160 (15 June 2007) Last Updated: Jul  7, 2007}.
 }. 
 It would be long to get all the informations for the elements
 of this list, so we have set the parameter \texttt{virtual} to \texttt{TRUE} and the \texttt{req}
@@ -389,11 +385,11 @@ from, say, \textit{Mycoplasma genitalium}:
  small$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 916
+[1] 922
 \end{Soutput}
 \end{Schunk}
 
-There are then \texttt{916} elements in
+There are then \texttt{922} elements in
 the list \texttt{small}, so that we can safely repeat the previous query without asking for a
 virtual list:
 
@@ -419,10 +415,10 @@ current GenBank release.
  man$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 10771591
+[1] 11118298
 \end{Soutput}
 \end{Schunk}
-There are \texttt{10,771,591} sequences from \textit{Homo sapiens}.
+There are \texttt{11,118,298} sequences from \textit{Homo sapiens}.
 
 \item[\textbf{Sex.}] How many sequences are annotated with a keyword starting by sex?
 \begin{Schunk}
@@ -431,10 +427,10 @@ There are \texttt{10,771,591} sequences from \textit{Homo sapiens}.
  sex$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 1169
+[1] 1177
 \end{Soutput}
 \end{Schunk}
-There are \texttt{1,169} such sequences.
+There are \texttt{1,177} such sequences.
 
 \item[\textbf{tRNA.}] How many complete tRNA sequences are available?
 \begin{Schunk}
@@ -443,10 +439,10 @@ There are \texttt{1,169} such sequences.
  trna$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 210285
+[1] 226341
 \end{Soutput}
 \end{Schunk}
-There are \texttt{210,285} complete tRNA sequences.
+There are \texttt{226,341} complete tRNA sequences.
 
 \item[\textbf{Nature vs. Science.}] In which journal were the more sequences published?
 \begin{Schunk}
@@ -455,19 +451,19 @@ There are \texttt{210,285} complete tRNA sequences.
  nature$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 1533935
+[1] 1533740
 \end{Soutput}
 \begin{Sinput}
  query("science", "j=science", virtual = T)
  science$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 1281344
+[1] 1282802
 \end{Soutput}
 \end{Schunk}
-There are \texttt{1,533,935} sequences published
+There are \texttt{1,533,740} sequences published
 in \textit{Nature} and
-\texttt{1,281,344} sequences published in
+\texttt{1,282,802} sequences published in
 \textit{Science}, so that the winner is 
 \textit{Nature}.
 
@@ -482,10 +478,10 @@ in \textit{Nature} and
  smith$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 1860052
+[1] 4097022
 \end{Soutput}
 \end{Schunk}
-There are \texttt{1,860,052} such sequences.
+There are \texttt{4,097,022} such sequences.
 
 \item[\textbf{YK2.}] How many sequences were published after year 2000 (included)?
 \begin{Schunk}
@@ -494,10 +490,10 @@ There are \texttt{1,860,052} such sequences.
  yk2$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 56700047
+[1] 62387567
 \end{Soutput}
 \end{Schunk}
-There are \texttt{56,700,047} sequences published after year 2000.
+There are \texttt{62,387,567} sequences published after year 2000.
 
 \item[\textbf{Organelle contest.}] Do we have more sequences from chloroplast genomes or from mitochondion genomes?
 \begin{Schunk}
@@ -506,19 +502,19 @@ There are \texttt{56,700,047} sequences published after year 2000.
  chloro$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 131872
+[1] 142522
 \end{Soutput}
 \begin{Sinput}
  query("mito", "o=mitochondrion", virtual = T)
  mito$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 446692
+[1] 480124
 \end{Soutput}
 \end{Schunk}
-There are \texttt{131,872} sequences from
+There are \texttt{142,522} sequences from
 chloroplast genomes and
-\texttt{446,692} sequences from mitochondrion
+\texttt{480,124} sequences from mitochondrion
 genomes, so that the winner is 
 mitochondrion.
 
@@ -543,6 +539,7 @@ subset of EMBL database to allow for the reproducibility of results.
 
 \begin{Schunk}
 \begin{Sinput}
+ closebank()
  choosebank("emblTP")
 \end{Sinput}
 \end{Schunk}
@@ -726,10 +723,12 @@ subset of EMBL database to allow for the reproducibility of results.
 
 \begin{Schunk}
 \begin{Sinput}
+ closebank()
  (tcb <- system.time(choosebank("emblTP")))
 \end{Sinput}
 \begin{Soutput}
-[1] 0.101 0.004 0.858 0.000 0.000
+ utilisateur   syst\350me \351coul\351 
+       0.093        0.003        0.822 
 \end{Soutput}
 \end{Schunk}
 
@@ -746,7 +745,8 @@ We use a virtual query to speed up things:
      virtual = TRUE)))
 \end{Sinput}
 \begin{Soutput}
-[1]  0.002  0.000 10.628  0.000  0.000
+ utilisateur   syst\350me \351coul\351 
+       0.001        0.000       18.023 
 \end{Soutput}
 \begin{Sinput}
  (nseq <- hsCDS$nelem)
@@ -756,20 +756,21 @@ We use a virtual query to speed up things:
 \end{Soutput}
 \end{Schunk}
 
-It was then about 11 seconds 
+It was then about 18 seconds 
 to create on the server a list of 78573
 sequences. We download now the sequences in zlib compressed mode:
-
+ 
 \begin{Schunk}
 \begin{Sinput}
  (tex <- system.time(mycds <- extractseqs("hsCDS")))
 \end{Sinput}
 \begin{Soutput}
-[1]   7.920   1.099 150.114   0.000   0.000
+ utilisateur   syst\350me \351coul\351 
+      13.173        1.323       77.724 
 \end{Soutput}
 \end{Schunk}
 
-It was then about 150 seconds
+It was then about 78 seconds
 to dowload the sequences in the object \texttt{mycds}, which looks like :
 
 \begin{Schunk}
@@ -804,7 +805,8 @@ We save now the sequences in a local FASTA file for future use:
  (twl <- system.time(writeLines(mycds, "mycds.fasta")))
 \end{Sinput}
 \begin{Soutput}
-[1] 0.830 0.867 2.977 0.000 0.000
+ utilisateur   syst\350me \351coul\351 
+       0.846        0.831        2.912 
 \end{Soutput}
 \end{Schunk}
 
@@ -818,11 +820,12 @@ without setting attributes to save time:
      set.attributes = FALSE)))
 \end{Sinput}
 \begin{Soutput}
-[1] 29.173  0.404 29.588  0.000  0.000
+ utilisateur   syst\350me \351coul\351 
+      33.353        0.824       34.210 
 \end{Soutput}
 \end{Schunk}
 
-It was then about 30 seconds
+It was then about 34 seconds
 to read the sequences as strings. We save them in XDR format:
 
 \begin{Schunk}
@@ -830,11 +833,12 @@ to read the sequences as strings. We save them in XDR format:
  (tsrd <- system.time(save(mycdss, file = "mycdss.RData")))
 \end{Sinput}
 \begin{Soutput}
-[1] 38.850  0.271 39.531  0.000  0.000
+ utilisateur   syst\350me \351coul\351 
+      38.717        0.264       39.413 
 \end{Soutput}
 \end{Schunk}
 
-It was then about 40 seconds
+It was then about 39 seconds
 to save the sequences in XDR format. How long is it to load the sequences
 from XDR format?
 
@@ -843,7 +847,8 @@ from XDR format?
  (tlrd <- system.time(load("mycdss.RData")))
 \end{Sinput}
 \begin{Soutput}
-[1] 1.183 0.043 1.226 0.000 0.000
+ utilisateur   syst\350me \351coul\351 
+       1.170        0.046        1.216 
 \end{Soutput}
 \end{Schunk}
 
@@ -856,11 +861,12 @@ corresponding proteins. We download the translated CDS from the server:
  (texp <- system.time(myprot <- extractseqs("hsCDS", operation = "translate")))
 \end{Sinput}
 \begin{Soutput}
-[1]   2.725   0.641 159.953   0.000   0.000
+ utilisateur   syst\350me \351coul\351 
+       2.679        0.602       59.452 
 \end{Soutput}
 \end{Schunk}
 
-It was then about 160 seconds
+It was then about 59 seconds
 to get the protein sequences from the server. The object \texttt{myprot} looks
 like:
 
@@ -896,7 +902,8 @@ We save the protein sequences in a local FASTA file for future use:
  (twl2 <- system.time(writeLines(myprot, "myprot.fasta")))
 \end{Sinput}
 \begin{Soutput}
-[1] 0.305 0.306 0.610 0.000 0.000
+ utilisateur   syst\350me \351coul\351 
+       0.310        0.291        0.604 
 \end{Soutput}
 \end{Schunk}
 
@@ -910,7 +917,8 @@ without setting attributes to save time:
      as.string = TRUE, set.attributes = FALSE)))
 \end{Sinput}
 \begin{Soutput}
-[1] 17.026  0.100 17.163  0.000  0.000
+ utilisateur   syst\350me \351coul\351 
+      17.231        0.114       17.374 
 \end{Soutput}
 \end{Schunk}
 
@@ -922,7 +930,8 @@ to read the protein sequences as strings. We save them in XDR format:
  (tsrd2 <- system.time(save(myprots, file = "myprots.RData")))
 \end{Sinput}
 \begin{Soutput}
-[1] 3.779 0.160 3.939 0.000 0.000
+ utilisateur   syst\350me \351coul\351 
+       3.755        0.152        3.910 
 \end{Soutput}
 \end{Schunk}
 
@@ -935,7 +944,8 @@ protein sequences from XDR format?
  (tlrd2 <- system.time(load("myprots.RData")))
 \end{Sinput}
 \begin{Soutput}
-[1] 0.830 0.025 0.855 0.000 0.000
+ utilisateur   syst\350me \351coul\351 
+       0.832        0.049        0.882 
 \end{Soutput}
 \end{Schunk}
 
@@ -1450,10 +1460,10 @@ this way:
 \end{Sinput}
 \begin{Soutput}
              sname                    libel
-3455   CHLOROPLAST       Chloroplast genome
-3456 MITOCHONDRION     Mitochondrial genome
-3457   NUCLEOMORPH       Nucleomorph genome
-3458       PLASTID non-green plastid genome
+3587   CHLOROPLAST       Chloroplast genome
+3588 MITOCHONDRION     Mitochondrial genome
+3589   NUCLEOMORPH       Nucleomorph genome
+3590       PLASTID non-green plastid genome
 \end{Soutput}
 \begin{Sinput}
  closebank()
@@ -1576,7 +1586,7 @@ To select for instance all fully annotated sequences from Uniprot we can use:
  STexample$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 257964
+[1] 272212
 \end{Soutput}
 \begin{Sinput}
  closebank()
@@ -2098,12 +2108,12 @@ keywords list operand.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.4.1 (2006-12-18), \verb|i386-apple-darwin8.8.1|
+  \item R version 2.5.1 (2007-06-27), \verb|i386-apple-darwin8.9.1|
   \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-30, ade4~1.4-2, ape~1.9-3,
-    gee~4.13-12, lattice~0.14-16, nlme~3.1-78, seqinr~1.0-7,
+  \item Other packages: MASS~7.2-34, ade4~1.4-3, ape~1.9-4,
+    gee~4.13-12, lattice~0.15-11, nlme~3.1-83, seqinr~1.1-1,
     xtable~1.4-3
 \end{itemize}
 

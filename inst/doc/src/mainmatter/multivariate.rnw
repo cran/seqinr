@@ -512,10 +512,12 @@ ec <- read.table(
      header = TRUE,
      row.names = 1)
 ec.coa <- dudi.coa(ec, scann = FALSE, nf=3)
+F2 <- ec.coa$li[,2]
 tmp <- read.table(
      file = "ftp://pbil.univ-lyon1.fr/pub/datasets/NAR94/ecoli999.cai")
 cai <- exp(tmp$V2)
-plot(cai, ec.coa$li[,2], pch=20, xlab="CAI Score", ylab="F2 Score",
+if(cor(cai,F2) > 0) F2 <- -F2
+plot(cai, F2, pch=20, xlab="CAI Score", ylab="F2 Score",
      main="Fig 5 from Lobry & Gautier (1994) NAR 22:3174")
 @
 
@@ -616,6 +618,7 @@ This is to run the non-sysnonymous codon usage analysis, or amino-acid usage ana
 << vlg9,fig=T,eval=T>>=
 x <- ec999.syn$co[,1] 
 y <- ec999.btw$co[,2]
+if(cor(x,y) < 0) y <- -y
 kxy <- kde2d(x,y, n = 100)
 nlevels <- 25
 breaks <- seq(from = min(kxy$z), to = max(kxy$z), length = nlevels + 1)

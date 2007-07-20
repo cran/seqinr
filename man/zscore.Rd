@@ -3,6 +3,7 @@
 \alias{zscore}
 \title{Statistical over- and under- representation of dinucleotides in a
   sequence}
+\encoding{latin1}
 \description{
   These two functions compute two different types of statistics for the
   measure of statistical dinculeotide over- and under-representation :
@@ -10,7 +11,7 @@
 }
 \usage{
 rho(sequence, alphabet = s2c("acgt"))
-zscore(sequence, simulations = NULL, modele, alphabet = s2c("acgt"), ... )
+zscore(sequence, simulations = NULL, modele, exact = FALSE, alphabet = s2c("acgt"), ... )
 }
 \arguments{
   \item{sequence}{ A nucleic acids sequence }
@@ -19,6 +20,8 @@ zscore(sequence, simulations = NULL, modele, alphabet = s2c("acgt"), ... )
     should be the number of permutations for the z-score computation }
   \item{modele}{ A string of characters describing the model chosen for
     the random generation }
+  \item{exact}{ Whether exact analytical calculation or an
+  approximation should be used }
   \item{alphabet}{ A vector of single characters. }
   \item{...}{ Optional parameters for specific model permutations are
     passed on to \code{\link{permutation}} function. }
@@ -33,7 +36,7 @@ zscore(sequence, simulations = NULL, modele, alphabet = s2c("acgt"), ... )
   (respectively under-) represented.
 
   The \code{zscore} statistic, as presented in Palmeira, L., Guéguen, L.
-  and Lobry JR. (in prep.). The statistic is the normalization of the
+  and Lobry JR. (2006). The statistic is the normalization of the
   \code{rho} statistic by its expectation and variance according to a
   given random sequence generation model, and follows the
   standard normal distribution. This statistic can be computed
@@ -44,7 +47,10 @@ zscore(sequence, simulations = NULL, modele, alphabet = s2c("acgt"), ... )
   
   The \code{base} model allows for random sequence generation by
   shuffling (with/without replacement) of all bases in the sequence.
-  Analytical computation is available for this model.
+  Analytical computations are available for this model: either as an 
+  approximation for large sequences (cf. Palmeira, L., Guéguen, L.
+  and Lobry JR. (2006)), either as the exact analytical formulae
+  (cf. Schbath, S. (1995)).
 
   The \code{position} model allows for random sequence generation
   by shuffling (with/without replacement) of bases within their
@@ -57,7 +63,6 @@ zscore(sequence, simulations = NULL, modele, alphabet = s2c("acgt"), ... )
 
   The \code{syncodon} model allows for random sequence generation
   by shuffling (with/without replacement) of synonymous codons.
-  }
 }
 \value{
   a table containing the computed statistic for each dinucleotide
@@ -74,6 +79,10 @@ zscore(sequence, simulations = NULL, modele, alphabet = s2c("acgt"), ... )
   \bold{23}:2214-2219.\cr
   \url{http://mbe.oxfordjournals.org/cgi/reprint/23/11/2214}\cr\cr
 
+  Schbath, S. (1995) Étude asymptotique du nombre d'occurrences d'un
+  mot dans une chaîne de Markov et application à la recherche de mots
+  de fréquence exceptionnelle dans les séquences d'ADN.
+  \emph{Thèse de l'Université René Descartes, Paris V}
 }
 \author{ Leonor Palmeira }
 \seealso{ \code{\link{permutation}} }
@@ -81,6 +90,7 @@ zscore(sequence, simulations = NULL, modele, alphabet = s2c("acgt"), ... )
 sequence=sample(s2c('acgt'),6000,rep=TRUE)
 rho(sequence)
 zscore(sequence,modele='base')
+zscore(sequence,modele='base',exact=TRUE)
 zscore(sequence,modele='codon')
 zscore(sequence,1000,modele='syncodon')
 }

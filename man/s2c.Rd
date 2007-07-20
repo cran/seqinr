@@ -14,7 +14,7 @@ s2c(string)
 \value{
   a vector of chars
 }
-\references{ 
+\references{
   \code{citation("seqinr")}
 }
 \author{ J.R. Lobry }

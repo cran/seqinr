@@ -19,7 +19,7 @@ Multiple entries in GenBank file are not supported.
 \value{
   none
 }
-\references{ 
+\references{
   \code{citation("seqinr")}
 }
 \author{J.R. Lobry }

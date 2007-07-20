@@ -39,7 +39,7 @@ n2s <- function(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 # G+C content
 #################################
 
-GC <- function(seq, forceToLower = TRUE, exact = TRUE)
+GC <- function(seq, forceToLower = TRUE, exact = FALSE, oldGC = FALSE)
 {
 	#
 	# Check that sequence is a vector of chars:
@@ -49,25 +49,29 @@ GC <- function(seq, forceToLower = TRUE, exact = TRUE)
 	# Force to lower-case letters if requested:
 	#
 	if(forceToLower) seq <- tolower(seq)
-	
+    #
+    # Compute the count of each base:
+    #
+	nc <- sum( seq == "c" )
+	ng <- sum( seq == "g" )			
+	if(oldGC) return( (nc + ng)/length(seq) )
+	na <- sum( seq == "a" )
+	nt <- sum( seq == "t" )
+
 	if(! exact){
-		result <- sum(seq == 'c' | seq == 'g')/length(seq)
+          if((na+nc+ng+nt)==0){
+            result <- 0
+          }
+          else{
+            result <- (nc + ng)/(na + nc + ng + nt)
+          }
 	} else {
 		#
-		# First pass to get an estimate of the base content based
-		# only on non-amibuous bases:
-		#
-		na <- sum( seq == "a" )
-		nt <- sum( seq == "t" )
-		nc <- sum( seq == "c" )
-		ng <- sum( seq == "g" )
-		#
-		# Now we have our firt estimate of GC vs. AT base frequencies:
+		# We have our first estimate of GC vs. AT base counts:
 		#
 		ngc <- ng + nc
 		nat <- na + nt
 
-                 
 		#
 		# weak and strong bases are 100% informative with respect
 		# to the GC content, we just add them:
@@ -78,8 +82,6 @@ GC <- function(seq, forceToLower = TRUE, exact = TRUE)
 		ngc <- ngc + sum( seq == "s" )
 		nat <- nat + sum( seq == "w" )
 
-                
-		
 		##########################
 		# Ambiguous base section #
 		##########################
@@ -87,58 +89,71 @@ GC <- function(seq, forceToLower = TRUE, exact = TRUE)
 		#
 		# m : Amino (a or c)
 		#
-		nm <- sum( seq == "m")
-		ngc <- ngc + nm*nc/(na + nc)
+		if(na + nc != 0){
+			nm <- sum( seq == "m")
+			ngc <- ngc + nm*nc/(na + nc)
 		nat <- nat + nm*na/(na + nc)
-
+		}
                
 		#
 		# k : Keto (g or t)
 		#
-		nk <- sum( seq == "k" )
-		ngc <- ngc + nk*ng/(ng + nt)
-		nat <- nat + nk*nt/(ng + nt)
-
+		if(ng + nt != 0){
+			nk <- sum( seq == "k" )
+			ngc <- ngc + nk*ng/(ng + nt)
+			nat <- nat + nk*nt/(ng + nt)
+		}
+		
 		#
 		# r : Purine (a or g)
 		#
-		nr <- sum( seq == "r" )
-		ngc <- ngc + nr*ng/(ng + na)
-		nat <- nat + nr*na/(ng + na)
-                
+		if(ng + na != 0){
+			nr <- sum( seq == "r" )
+			ngc <- ngc + nr*ng/(ng + na)
+			nat <- nat + nr*na/(ng + na)
+                      }      
                
 		#
 		# y : Pyrimidine (c or t)
 		#
-		ny <- sum( seq == "y" )
-		ngc <- ngc + ny*nc/(nc + nt)
-		nat <- nat + ny*nt/(nc + nt)
-
+		if(nc + nt != 0){
+			ny <- sum( seq == "y" )
+			ngc <- ngc + ny*nc/(nc + nt)
+			nat <- nat + ny*nt/(nc + nt)
+		}
                 
 		#
 		# v : not t (a, c or g)
 		#
-		nv <- sum( seq == "v" )
-		ngc <- ngc + nv*(nc + ng)/(na + nc + ng)
-		nat <- nat + nv*na/(na + nc + ng)
+		if(na + nc + ng != 0){
+			nv <- sum( seq == "v" )
+			ngc <- ngc + nv*(nc + ng)/(na + nc + ng)
+			nat <- nat + nv*na/(na + nc + ng)
+		}
 		#
 		# h : not g (a, c or t)
 		#
-		nh <- sum( seq == "h" )
-		ngc <- ngc + nh*nc/(na + nc + nt)
-		nat <- nat + nh*(na + nt)/(na + nc + nt)
+		if(na + nc + nt != 0){
+			nh <- sum( seq == "h" )
+			ngc <- ngc + nh*nc/(na + nc + nt)
+			nat <- nat + nh*(na + nt)/(na + nc + nt)
+		}
 		#
 		# d : not c (a, g or t)
 		#
-		nd <- sum( seq == "d" )
-		ngc <- ngc + nd*ng/(na + ng + nt)
-		nat <- nat + nd*(na + nt)/(na + ng + nt)
+		if(na + ng + nt != 0){
+			nd <- sum( seq == "d" )
+			ngc <- ngc + nd*ng/(na + ng + nt)
+			nat <- nat + nd*(na + nt)/(na + ng + nt)
+		}
 		#
 		# b : not a (c, g or t)
 		#
-		nb <- sum( seq == "b" )
-		ngc <- ngc + nb*(nc + ng)/(nc + ng + nt)
-		nat <- nat + nb*nt/(nc + ng + nt)
+		if(nc + ng + nt != 0){
+			nb <- sum( seq == "b" )
+			ngc <- ngc + nb*(nc + ng)/(nc + ng + nt)
+			nat <- nat + nb*nt/(nc + ng + nt)
+		}
 		#
 		# n : any (a, c, g or t) is not informative, so
 		# we compute the G+C content as:

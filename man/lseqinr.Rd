@@ -10,7 +10,7 @@ lseqinr()
 \value{
   The list of objects in the package seqinr  
 }
-\references{ 
+\references{
   \code{citation("seqinr")}
 }
 \note{ 

@@ -82,15 +82,15 @@ sequences, dinucleotides are far from being formed by mere chance
 becomes trivial, and the over- or under-representations measured are
 mainly due to the strong constraints acting on those sequences.
 
-\subsection{The \textit{zscore} statistic}
+\subsection{The $z$-score statistic}
 
-The \textit{zscore} statistic (\texttt{zscore()}) is inspired by the
+The $z$-score statistic (\texttt{zscore()}) is inspired by the
 $\rho$ statistic, and is defined so that several different models can
 be used for the determination of over- and under-representation
 \cite{UV}. It allows for a finer measure of over- and
 under-representation in sequences, according to the chosen model.
 
-The \textit{zscore} is defined as follows:
+The $z$-score is defined as follows:
 
 $$z_{score}=\frac{\rho_{xy}-E(\rho_{xy})}{\sqrt{Var(\rho_{xy})}}$$
 
@@ -122,20 +122,20 @@ request to retrieve all available CDS from this bacteria:
 <<querycoli, echo = TRUE,eval=T>>=
 choosebank("greview")
 query("coli","sp=escherichia coli et t=cds et no k=partial")
-sequence <- getSequence(coli$req[[448]]) 
+sequence <- getSequence(coli$req[[31070]]) 
 @
 
 From the \Sexpr{ifelse(exists("coli"),coli$nelem, "???")} sequences
 annotated as CDS in the Genome Reviews database, let's choose one
-coding sequence: say, for instance, number \texttt{448}. We can see
+coding sequence: say, for instance, number \texttt{31070}. We can see
 that this CDS encodes a maltose O-acetyltransferase protein
-(\verb+getAnnot(coli$req[[448]],30)+). We will now compare the three
+(\verb+getAnnot(coli$req[[31070]],30)+). We will now compare the three
 following nonparametric statistics:
 
 \begin{itemize}
 \item the $\rho$ statistic,
-\item the \textit{zscore} statistic with \texttt{base} model,
-\item and the \textit{zscore} statistic with \texttt{codon} model.
+\item the $z$-score statistic with \texttt{base} model,
+\item and the $z$-score statistic with \texttt{codon} model.
 \end{itemize}
 
 \begin{figure}[H]
@@ -160,12 +160,12 @@ plot(zcolicodon,ylim=c(-2.5,2.5),las=1,ylab="zscore with codon model")
 \end{figure}
 
 The first two figures are almost identical: this is due to the way the
-\textit{zscore} statistic has been built. The statistic computed with
+$z$-score statistic has been built. The statistic computed with
 the \texttt{base} model is a reflection of the $\rho$ statistic. The
-difference being that the \textit{zscore} follows a standard normal
+difference being that the $z$-score follows a standard normal
 distribution, which makes easier the comparisons between the results
 from the \texttt{base} model and the ones from the \texttt{codon}
-model. The last figure (\textit{zscore} with \texttt{codon} model), is
+model. The last figure ($z$-score with \texttt{codon} model), is
 completely different: almost all over- and under-representations have
 been erased. We can safely say that these over- and
 under-representations were due to codon usage bias.
@@ -382,9 +382,9 @@ Are CC, TT, CT and TC dinucleotides avoided in light-exposed bacteria?
 \subsection{The measured impact of UV light on genomic content}
 
 On all available genomes (as retrieved from Genome Reviews database on
-June 16, 2005), we have computed the mean of the \textit{zscore} with
+June 16, 2005), we have computed the mean of the $z$-score with
 the \texttt{base} model on all intergenic sequences, and the mean of
-the \textit{zscore} with the \texttt{codon} model on all CDS:
+the $z$-score with the \texttt{codon} model on all CDS:
 
 <<dinucl,eval=T>>=
 data(dinucl)
@@ -461,7 +461,7 @@ exposure, and the other one to much higher levels. Is pyrimidine
 dinucleotide content different in these three strains? And is it
 linked to their UV exposure?
 
-We have computed the \textit{zscore} with the \texttt{codon} model on
+We have computed the $z$-score with the \texttt{codon} model on
 all CDS from each of these three strains (as retrieved from Genome
 Reviews database on June 16, 2005):
 
