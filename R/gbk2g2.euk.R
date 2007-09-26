@@ -131,7 +131,7 @@ gbk2g2.euk <- function(
       exons.begin=boundaries[[1]]
       exons.end=boundaries[[2]]
       
-      ids=rep(genes.cds[i],length(exons.begin))
+      
       
       for(j in seq_len(length(exons.begin))){
         phrase=paste(genes.cds[i],exons.begin[j],exons.end[j])

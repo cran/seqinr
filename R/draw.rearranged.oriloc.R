@@ -47,11 +47,11 @@ draw.rearranged.oriloc <- function(rearr.ori,breaks.gcfw=NA,breaks.gcrev=NA,brea
   }
   
   if(sum(is.na(breaks.atfw))==0){
-    segments(x0=meancoord.rear[breaks.atfw],y0=rearat[breaks.atfw]-(ymax-ymin)/30,x1=meancoord.rear[breaks.atfw],y1=rearat[breaks.at+fw]+(ymax-ymin)/30,col="red",lwd=2,lty=1)
+    segments(x0=meancoord.rear[breaks.atfw],y0=rearat[breaks.atfw]-(ymax-ymin)/30,x1=meancoord.rear[breaks.atfw],y1=rearat[breaks.atfw]+(ymax-ymin)/30,col="red",lwd=2,lty=1)
   }
 
   if(sum(is.na(breaks.atrev))==0){
-    segments(x0=meancoord.rear[breaks.atrev],y0=rearat[breaks.atrev]-(ymax-ymin)/30,x1=meancoord.rear[breaks.atrev],y1=rearat[breaks.at+fw]+(ymax-ymin)/30,col="red",lwd=2,lty=1)
+    segments(x0=meancoord.rear[breaks.atrev],y0=rearat[breaks.atrev]-(ymax-ymin)/30,x1=meancoord.rear[breaks.atrev],y1=rearat[breaks.atfw]+(ymax-ymin)/30,col="red",lwd=2,lty=1)
   }
 
 }

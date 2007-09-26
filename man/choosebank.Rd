@@ -1,6 +1,5 @@
 \name{choosebank}
 \alias{choosebank}
-\alias{removeTrailingSpaces}
 \title{To select a database structured under ACNUC and located on the web}
 \description{
   This function allows to select one of the databases structured under ACNUC and located on the web. 

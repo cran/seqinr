@@ -101,7 +101,7 @@ widthcm <- acnucbooksize*bpbk/acnucbp
 @
 
 It would be about \Sexpr{ifelse(exists("widthkm"), round(widthkm, 1), "???")}
-kilometer long in ACNUC book format to print to print GenBank today (\today).
+kilometer long in ACNUC book format to print GenBank today (\today).
 
 \section{About R and CRAN}
 

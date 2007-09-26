@@ -19,8 +19,8 @@ plong.add = FALSE, libel.add = FALSE, sname.add = FALSE, all.add = FALSE)
   #
   # Use default bank if no socket is given:
   #
-  if (socket == "auto"){
-    socket <- banknameSocket$socket
+  if(socket == "auto"){
+    socket <- get("banknameSocket", .GlobalEnv)$socket
   }
   
   #

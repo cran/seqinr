@@ -23,9 +23,14 @@ splitseq(seq, frame = 0, word = 3)
 \seealso{ \code{\link{split}} }
 \examples{
 cds <- s2c("aacgttgcaggtcgctcgctacgtagctactgttt")
-## To obtain the codon sequence in frame 0:
-splitseq(cds)
-## Show the effect of frame and word with a ten char sequence:
+#
+# To obtain the codon sequence in frame 0:
+#
+stopifnot(identical(splitseq(cds), 
+  c("aac", "gtt", "gca", "ggt", "cgc", "tcg", "cta", "cgt", "agc", "tac", "tgt")))
+#
+# Show the effect of frame and word with a ten char sequence:
+#
 (tenchar <- s2c("1234567890"))
 splitseq(tenchar, frame = 0)
 splitseq(tenchar, frame = 1)

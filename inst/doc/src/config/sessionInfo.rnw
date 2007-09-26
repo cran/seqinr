@@ -7,3 +7,12 @@ This part was compiled under the following \Rlogo{}~environment:
 toLatex(sessionInfo())
 @
 
+There were two compilation steps:
+<<Rtoday, echo=F, results=hide>>=
+.Rtoday <- date()
+@ 
+
+\begin{itemize}
+  \item \Rlogo{} compilation time was: \Sexpr{.Rtoday}
+  \item \LaTeX{} compilation time was: \today
+\end{itemize}

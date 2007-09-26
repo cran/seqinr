@@ -18,7 +18,7 @@ get.db.growth <- function(where = "http://www.ebi.ac.uk/embl/Documentation/Relea
     x <- x[nchar(x) > 0 ]
   }
   tmp <- sapply( tmp, not.empty )
-  tmp <- data.frame( t(tmp) )
+  tmp <- data.frame( matrix(unlist(tmp), ncol = 4, byrow = TRUE) )
   names(tmp) <- c("Release", "Month", "Entries", "Nucleotides")
 
   tmp[,1] <- as.double( as.character(tmp[,1]))
@@ -48,7 +48,11 @@ dia.db.growth <- function( get.db.growth.out = get.db.growth(),
   par( col.lab = "yellow" )
   par( col.main = "yellow" )
   par( col.sub = "yellow" )
-  attach( get.db.growth.out )
+
+  Nucleotides <- get.db.growth.out$Nucleotides
+  Month <- get.db.growth.out$Month
+  date <- get.db.growth.out$date
+    
   plot( date, log10(Nucleotides) , pch = 20,
     main = paste("The exponential growth of the DDBJ/EMBL/Genbank content\n",
            "Last update:", 
@@ -69,7 +73,6 @@ dia.db.growth <- function( get.db.growth.out = get.db.growth(),
     a <- log10(2)/1.5
     b <- y - a*x
 
-    lm10 <- lm(log10(Nucleotides)~date)
     for( i in seq(-10,10,by=0.5) )
       if( i != 0 )
         abline( coef=c(b+i, a), col="black" )
@@ -80,7 +83,7 @@ dia.db.growth <- function( get.db.growth.out = get.db.growth(),
   else
   {
     legend( x = 1990, y = 7, leg=paste("Observed doubling time:", 
-      round(dbt,1),"months"), lty = 1, col = "yellow")
+      round(dbt,1), "months"), lty = 1, col = "yellow")
   }
   par( op )
 } 

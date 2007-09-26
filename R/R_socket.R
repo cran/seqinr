@@ -125,7 +125,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
     resdf[i, ] <- unlist(strsplit(res[i], split = "\\|"))[1:3]
   for(i in seq_len(nbank))
     for(j in seq_len(3))
-      resdf[i, j] <- removeTrailingSpaces(resdf[i, j])   
+      resdf[i, j] <- trimSpace(resdf[i, j])   
            
   ###############################################################################
   #
@@ -185,7 +185,7 @@ choosebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, ver
       if(verbose) cat("Number of lines=", nblhelp,".\n")
       if (as.numeric(nblhelp) > 2){
         bankhelp <- readLines(socket, n = (as.integer(nblhelp) - 1))
-        for(i in seq_len(length(bankhelp))) bankhelp[i] <- removeTrailingSpaces(bankhelp[i])
+        for(i in seq_len(length(bankhelp))) bankhelp[i] <- trimSpace(bankhelp[i])
         bankrel <- bankhelp[1]
       } else {
         bankhelp <- "there is no information available about the contents of this bank"
@@ -274,7 +274,7 @@ closebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, verb
   #
   if( is.na(bank) ){
     if(verbose) cat("No bank argument was provided, I'm trying to close default bank.\n")
-    bank <- banknameSocket
+    bank <- get("banknameSocket", .GlobalEnv)
   }
   
   #
@@ -322,27 +322,9 @@ closebank <- function(bank = NA , host = "pbil.univ-lyon1.fr", port = 5558, verb
 
 ###################################################################################################
 #                                                                                                 #
-#                                         removeTrailingSpaces                                    #
-#                                                                                                 #
-# Utility function to remove white spaces " " from the start and the end of a character string    #
-#                                                                                                 #
-###################################################################################################
-
-removeTrailingSpaces <- function(string){
-  while(substr(string, 1, 1) == "\t")
-    string <- substr(string, 2, nchar(string))    
-  while(substr(string, 1, 1) == " ")
-    string <- substr(string, 2, nchar(string))
-  while(substr(string, nchar(string), nchar(string)) == " ")
-    string <- substr(string, 1, nchar(string) - 1)    
-  return( string )
-}
-
-###################################################################################################
-#                                                                                                 #
 #                                         parser.socket                                           #
 #                                                                                                 #
-# Utility function to parse answers from ACNUC server.
+#                      Utility function to parse answers from ACNUC server.                       #
 #                                                                                                 #
 ###################################################################################################
 
@@ -450,13 +432,22 @@ getNumber.socket <- function( socket, name){
 query <- function(listname, query, socket = "auto", invisible = TRUE, verbose = FALSE, virtual = FALSE) 
 {
   #
+  # Definition of the utility function simon() used only in query():
+  #
+  simon <-function(res, socket) {
+    x <- parser.socket(res)
+    y <- (x[c(2,3,6,7)])
+    acnucy <- as.SeqAcnucWeb(substring(y[1], 2, nchar(y[1]) - 1), y[2], y[3], y[4], socket = socket)
+    acnucy
+  }
+  #
   # Check arguments:
   #
   if(verbose) cat("I'm checking the arguments...\n")
 
   if (socket == "auto"){
     if(verbose) cat("No socket were specified, using default.\n")
-    socket <- banknameSocket$socket
+    socket <- get("banknameSocket", .GlobalEnv)$socket
   }
   
   if( !inherits(socket, "sockconn") ) stop(paste("argument socket = ", socket, "is not a socket connection."))
@@ -516,10 +507,8 @@ query <- function(listname, query, socket = "auto", invisible = TRUE, verbose = 
   if(verbose) cat(paste("... and the elements in the list are of type", typelist, ".\n"))
   if(typelist == "SQ"){
     if(p[5] == "T"){
-      onlyparents <- TRUE
       if(verbose) cat("... and there are only parent sequences in the list.\n")
     } else {
-      onlyparents <- FALSE
       if(verbose) cat("... and there are *not* only parent sequences in the list.\n")
     }
   }
@@ -593,37 +582,35 @@ print.qaw <- function(x, ...)
 #                                                                                                 #
 ###################################################################################################
 
-getKeywordsocket <- function( socket, name){
-#modif simon
-         writeLines(paste("isenum&name=",name,sep=""),socket,sep="\n")
-         res = readLines( socket , n=1 )
-         number = parser.socket(res)[1] 
+getKeywordsocket <- function(socket, name){
+  #modif simon
+  writeLines(paste("isenum&name=", name, sep = ""), socket, sep = "\n")
+  res <- readLines(socket, n = 1)
+  number <- parser.socket(res)[1] 
 
-         writeLines(paste("readsub&num=",number,sep=""),socket,sep="\n")
-         res2 = readLines( socket , n=1 ) 
-         rr = parser.socket(res2)
-         
-         writeLines(paste("readshrt&num=",rr[7],sep=""),socket,sep="\n")
-         res3 = readLines( socket , n=1 ) 
-         
+  writeLines(paste("readsub&num=", number, sep = ""), socket, sep = "\n")
+  res2 <- readLines(socket, n = 1) 
+  rr <- parser.socket(res2)
+
+  writeLines(paste("readshrt&num=", rr[7], sep = ""), socket, sep = "\n")
+  res3 <- readLines(socket, n = 1)
   #modif simon   
 
-  # recupere le nb de kw (inutile?)
-  nbkws<-parser.socket(res3)[2]
+  # Get the nb of kw (not used here)
+  # nbkws <- parser.socket(res3)[2]
 
-  #recupere la liste de paires val,next 
-  tmpl<-unlist(strsplit(res3,"&"))
+  #recupere la liste de paires val, next 
+  tmpl <- unlist(strsplit(res3, "&"))
   #transforme en liste
-  tmpl<-unlist(strsplit(tmpl[3],","))
-  kwl<-unlist(tmpl)[c(TRUE, FALSE)]
+  tmpl <- unlist(strsplit(tmpl[3],","))
+  kwl <- unlist(tmpl)[c(TRUE, FALSE)]
 
-        lapply(kwl,function(x){
-    writeLines(paste("readkey&num=",x,sep=""),socket,sep="\n")  
-              res4 = readLines( socket , n=1 ) 
-              res<-parser.socket(res4)[2]
-        substring(res[1],2,nchar(res[1])-1)
-        }
-  )
+  lapply(kwl, function(x){
+    writeLines(paste("readkey&num=", x, sep = ""), socket, sep = "\n")  
+    res4 <- readLines(socket, n = 1)
+    res <-parser.socket(res4)[2]
+    substring(res[1], 2, nchar(res[1]) - 1)
+  })
 
 } 
 
@@ -670,20 +657,6 @@ getLocationSocket <- function( socket, name){
 } 
 
 
-
-######################################################################################
-# simon
-######################################################################################
-
-simon <-function(res, socket) {
-  x <- parser.socket(res)
-  y <- (x[c(2,3,6,7)])
-  acnucy <- as.SeqAcnucWeb(substring(y[1], 2, nchar(y[1]) - 1),y[2], y[3], y[4], socket = socket)
-  acnucy
-}
-
-
-
 ###################################################################################################
 #                                                                                                 #
 #                              readfirstrec                                                       #
@@ -708,8 +681,8 @@ readfirstrec <- function(socket = "auto", type)
   #
   # Use default bank if no socket is given:
   #
-  if (socket == "auto"){
-    socket <- banknameSocket$socket
+  if(socket == "auto"){
+    socket <- get("banknameSocket", .GlobalEnv)$socket
   }
   
   #

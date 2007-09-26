@@ -101,7 +101,7 @@ SEXP read_mase(SEXP nomfic)
  
 
   /*Passages des objets R (paramètres) dans des variables C */ 
-  fic_name=CHAR(STRING_ELT(nomfic,0)); 
+  fic_name = (char *) CHAR(STRING_ELT(nomfic, 0)); 
 
 
 
@@ -304,7 +304,7 @@ SEXP distance(SEXP sequences,SEXP nbseq, SEXP matNumber, SEXP seqtype){
   seq = (char **)malloc(totseqs*sizeof(char *));
    
   for(i=0;i<totseqs;i++){
-    seq[i] = CHAR(STRING_ELT(sequences,i));
+    seq[i] = (char *) CHAR(STRING_ELT(sequences,i));
   }
 
   ndiff = (int **)malloc(MAXNSEQS*sizeof(int *));
@@ -440,7 +440,7 @@ SEXP read_msf_align(SEXP ficname)
  int i,l, curr_spec, maxwidname=0, curr_len, tot_spec, wid_1_line, wid_block;
  char **seq, **seqname, **comments;
  
- fname=CHAR(STRING_ELT(ficname,0)); 
+ fname = (char *) CHAR(STRING_ELT(ficname,0)); 
 
  PROTECT(nombreseq=NEW_INTEGER(1));
   PROTECT(list=allocVector(VECSXP,3));
@@ -560,7 +560,7 @@ SEXP read_phylip_align(SEXP ficname)
   int totseqs, lenseqs, i, l;
   
   q=0;
-  fname=CHAR(STRING_ELT(ficname,0)); 
+  fname = (char *) CHAR(STRING_ELT(ficname,0)); 
   
   PROTECT(nombreseq=NEW_INTEGER(1));
   PROTECT(list=allocVector(VECSXP,3));
@@ -659,7 +659,7 @@ SEXP read_fasta_align(SEXP ficname)
   char line[200], *p, *i, *provseq = NULL;
   char **seq, **seqname, **comments;
 
-  fname=CHAR(STRING_ELT(ficname,0)); 
+  fname = (char *) CHAR(STRING_ELT(ficname,0)); 
 
   PROTECT(nombreseq=NEW_INTEGER(1));
   PROTECT(list=allocVector(VECSXP,3));
@@ -768,7 +768,7 @@ SEXP read_clustal_align(SEXP ficname)
   char **seq, **comments, **seqname = NULL;
   
 
-  fname=CHAR(STRING_ELT(ficname,0)); 
+  fname = (char *) CHAR(STRING_ELT(ficname,0)); 
   
   PROTECT(nombreseq=NEW_INTEGER(1));
   PROTECT(list=allocVector(VECSXP,3));

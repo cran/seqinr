@@ -77,7 +77,7 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
    Initialisation of seq so that seq[i] points to sequence number i:
   */
   for(i = 0 ; i < totseqs ; i++){
-    seq[i] = CHAR(STRING_ELT(sequences, i));
+    seq[i] = (char *) CHAR(STRING_ELT(sequences, i));
     if(debugon) Rprintf("-->%s<--\n", seq[i]);
   }
   /* The length of the first sequence is used as a reference since in an

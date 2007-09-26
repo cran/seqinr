@@ -22,7 +22,7 @@ SEXP s2c(SEXP seq){
     
   SEXP chaine;
 
-  string = CHAR(STRING_ELT(seq, 0));
+  string = (char *) CHAR(STRING_ELT(seq, 0));
   
   lseq = strlen(string);
   
@@ -54,7 +54,7 @@ SEXP is_a_protein_seq(SEXP sequence)
   static char dna[]="ACGTU";
   int total=0, length=0;
   
-  seq = CHAR(STRING_ELT(sequence,0)); 
+  seq = (char *) CHAR(STRING_ELT(sequence,0)); 
 
   while(*seq != 0) {
     if(*seq != '-') {

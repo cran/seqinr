@@ -1,3 +1,5 @@
+o Citer article Biochimie 2007 Delmotte & Gouy quand ref complete dispo
+
 o D'un e-mail de Manolo du 05-MARS-2007 :
   QUOTE
   J'ai ajoutŽ 2 criteres de selection:
@@ -5,10 +7,6 @@ o D'un e-mail de Manolo du 05-MARS-2007 :
   UNQUOTE
   --> Mettre ˆ our la doc de query() et le manuel.
   
-
-
-o Fichier CITATION a modifier quand ref disponible.
-
 o La phase est perdue quand on fait un GC2() ou un GC3(), la propager comme
   pour getTrans.
   
@@ -17,7 +15,6 @@ o Implementer getSequence(as.tring = TRUE) pour ne pas vectoriser les chaines
   la version du CRAN de seqinr, modifier le script de 
   http://pbil.univ-lyon1.fr/members/lobry/repro/bioinfo04/
 
-   
 o dia.bactgensize() ne marche plus parce que l'URL n'est plus bonne. J'ai
   corrige ca en dur dans tdr222 (code chunk a la fin) mais je me demande
   si on ferait mieux de pas bazarder cette fonction. Bon, on peut voir si
@@ -67,6 +64,9 @@ o Le probleme du controsle trop strict sur acgt comme seuls chars acceptes.
 o Mettre la doc a jour sur la gestion des caracteres ambigus dans la vignette.
 
 ------ TOUT CA, CA A DEJA ETE FAIT ---
+
+
+o Fichier CITATION a modifier quand ref disponible. -- Fait pour 1.1-1 JRL
 
 o Doc pour GC() et consorts ˆ clarifier pour minuscules versus majuscules
   en input. -- Fait pour 1.0-7 JRL

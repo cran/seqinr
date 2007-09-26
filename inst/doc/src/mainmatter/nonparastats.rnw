@@ -122,14 +122,15 @@ request to retrieve all available CDS from this bacteria:
 <<querycoli, echo = TRUE,eval=T>>=
 choosebank("greview")
 query("coli","sp=escherichia coli et t=cds et no k=partial")
-sequence <- getSequence(coli$req[[31070]]) 
+names <- unlist(lapply(coli$req,getName))
+sequence <- getSequence(coli$req[[which(names=="U00096.PE448")]]) 
 @
 
 From the \Sexpr{ifelse(exists("coli"),coli$nelem, "???")} sequences
 annotated as CDS in the Genome Reviews database, let's choose one
-coding sequence: say, for instance, number \texttt{31070}. We can see
+coding sequence: say, for instance, the one with accession number \texttt{U00096.PE448}. We can see
 that this CDS encodes a maltose O-acetyltransferase protein
-(\verb+getAnnot(coli$req[[31070]],30)+). We will now compare the three
+(\verb+getAnnot(coli$req[[which(names=="U00096.PE448")]],30)+). We will now compare the three
 following nonparametric statistics:
 
 \begin{itemize}
@@ -138,11 +139,19 @@ following nonparametric statistics:
 \item and the $z$-score statistic with \texttt{codon} model.
 \end{itemize}
 
+The $z$-score statistic has been modified to incorporate an exact
+analytical calculation of the \texttt{base} model where the old 
+version (seqinR 1.1-1 and previous versions) incorporated an
+approximation for large sequences. This has been possible with the
+help of Sophie Schbath \cite{Schbath-thesis}, and the new version of
+this calculation can be obtained with the argument \texttt{exact} 
+set to \texttt{TRUE} (\texttt{FALSE} being the default).
+
 \begin{figure}[H]
   \begin{center}
 <<dinuclcoli, echo = TRUE, fig = TRUE,eval=T>>=
 rhocoli=rho(sequence)
-zcolibase=zscore(sequence,mod='base')
+zcolibase=zscore(sequence,mod='base',exact=TRUE)
 zcolicodon=zscore(sequence,mod='codon')
 par(mfrow=c(1,3))
 plot(rhocoli-1,ylim=c(-0.5,0.5),las=1,ylab="rho")

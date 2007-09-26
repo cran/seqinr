@@ -23,9 +23,12 @@
 \author{D. Charif}
 \seealso{\code{\link{getType}}, \code{\link{query}} }
 \examples{
-\dontrun{ s=choosebank("hovernucl")}
-\dontrun{ query(s$socket,"list","sp=homo sapiens et k=globin@")}	
-\dontrun{ plot.SeqAcnucWeb(list$req[[22]]) }
-\dontrun{ plot.SeqAcnucWeb(list$req[[22]],type=c("CDS","5'NCR")) }
+\dontrun{ 
+  ### Need internet connection
+  choosebank("hovernucl")
+  query("list","sp=homo sapiens et k=globin@")	
+  plot.SeqAcnucWeb(list$req[[22]])
+  plot.SeqAcnucWeb(list$req[[22]],type=c("CDS","5'NCR"))
+  }
 }
 \keyword{ hplot }

@@ -12,8 +12,9 @@ getType <- function(socket = "auto"){
   #
   # Use default bank if no socket is given:
   #
-  if (socket == "auto") socket <- banknameSocket$socket
-
+  if (socket == "auto"){
+    socket <- get("banknameSocket", .GlobalEnv)$socket
+  }
   #
   # Get the number of records in SMJYT index file:
   #

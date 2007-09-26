@@ -11,6 +11,39 @@
 
 \section*{1.1 series}
 
+\subsection*{release 1.1-2}
+
+
+\begin{itemize}
+
+\item New function \texttt{trimSpace()} to remove leading and trailing
+  spaces in string vectors.
+
+\item Function \texttt{splitseq()} is no more based on \texttt{substring()},
+  it is now more efficient for long sequences.
+
+\item A sanity check test was added in the documentation file
+  for the function \texttt{syncodons()}.
+
+\item The way this manual is produced is now documented in the
+  \texttt{doc/src/template/} folder.
+
+\item A bug in function \texttt{oriloc()} was reported on 23 Jul 2007
+  by Michael Kube: using directly genBank files was no more possible.
+  The culprit was \texttt{gbk2g2()} that turns genBank files into
+  glimmer files version 2 when \texttt{oriloc()} default is to use
+  version 3 files. The \texttt{glimmer.version} argument is now forced
+  to 2 when working with genBank files to fix this problem.
+ 
+\item Function \texttt{zscore()} has now a new argument
+  \texttt{exact} (which is only effective for the option
+  \texttt{model = base}). This argument, when set to 
+  \texttt{TRUE} allows for the exact analytical computation 
+  of the zscore under this model, instead of the approximation for
+  large sequences. It is set to \texttt{FALSE} by
+  default for backward compatibility.
+\end{itemize}
+
 \subsection*{release 1.1-1}
 
 

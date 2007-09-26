@@ -1,0 +1,113 @@
+\documentclass{article}
+\input{../config/commontex}
+
+\title{Installation of a local ACNUC socket server on your machine (under development)}
+\author{Penel, S.}
+
+\begin{document}
+\SweaveInput{../config/commonrnw.rnw}
+\maketitle
+\tableofcontents
+% BEGIN - DO NOT REMOVE THIS LINE
+
+\section{Introduction.}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+This chapter is under development and not complete.
+
+\section{System requirement.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The socket server will  build under a number of common Unix and Unix-alike
+platforms.  In addition, binary distributions are available for the most
+common Linux distributions and for Mac OS X  (XXX to be done XXX ).If you wish
+to install the server from sources, or if you want to build an ACNUC database,
+you will need several tools: programs are written in C thus you will need a
+means of compiling C (as gcc compilation tools For Linux or Unix , Apple
+Developer Tools  for MacOSX ). You need as well library zlib and sockets
+(standards on linux and unix). Basically if you are installing R from the
+sources, you should be able to build a ACNUC socket server. 
+
+
+\section{ACNUC sockets server binaries distributions. ( zap)}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Binaries are available for several machines: 
+
+\begin{itemize}
+	\item  Unix sunOS
+	\item  Linux RedHat
+	\item Darwin Mac OS
+\end{itemize}
+
+You can download the different distribution at this address: 
+(XXX to be done XXX ).
+
+Then you can install the socket server :
+
+Bla.. blah blah
+
+
+\section{Build the ACNUC sockets server from the sources.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+You can as well install the server from the sources
+
+\subsection{Download the sources.}
+\subsection{Build and install the ACNUC sockets server.}
+
+\section{Setting an ACNUC database to be queried by the server.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+An example of an ACNUC database is distributed with the SeqinR package.
+Then you may install the database as it follows:
+
+BlaBlahBla.
+
+\section{Setting the ACNUC sockets server for ACNUC databases.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Once the socket server is installed as well as an ACNUC database, the server
+should be set :
+
+\subsection{Using seqinR to query your local socket server.}
+
+\section{Building your own  ACNUC database.}
+
+One of the interest of a local server is to be able use your own ACNUC
+database.
+
+ \subsection{System requirements.}
+ 
+ACNUC runs on UNIX systems, Windows NT/95/98/00/XP, MacOS 9/X. Tested UNIX
+systems include SUN, Linux on PC, IBM RS/6000, Silicon Graphics, DEC Alpha,
+Fujitsu UXP/M. ACNUC should be easily installed on any other UNIX platforms. 
+
+\subsection{Database requirements.}
+
+ACNUC database are build from flat files in several possible format : EMBL, Genbank or
+SwissProt.
+
+\subsection{Download the ACNUC dababase management tools.}
+ 
+\subsection{Install the ACNUC dababase management tools.}
+
+\subsection{Database building}
+
+\section{Misc} 
+%%%%%%%%%%%%%
+
+Other tools for acnuc
+
+
+
+
+\SweaveInput{../config/sessionInfo.rnw}
+
+% END - DO NOT REMOVE THIS LINE
+
+%%%%%%%%%%%%  BIBLIOGRAPHY %%%%%%%%%%%%%%%%%
+\clearpage
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{plain}
+\bibliography{../config/book}
+\end{document}

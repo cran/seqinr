@@ -67,7 +67,7 @@ GC3(seq, ...)
 }
 \seealso{You can use \code{\link{s2c}} to convert a string into a vetor of single
 character and \code{\link{tolower}} to convert upper-case characters into
-lower-case characters.
+lower-case characters. Do not confuse with \code{\link{gc}} for garbage collection.
 }
 \author{D. Charif and L. Palmeira and J.R. Lobry}
 \examples{

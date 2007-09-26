@@ -128,8 +128,13 @@ for(part in frontmatter[-which(frontmatter=="../frontmatter/cover.tex")]) includ
 \mainmatter
 
 <<mainmatter, echo=F,results=tex, fig = F>>=
-mainmatter <- mainmatter[c(4,3,2,1,5,6)]
-for(part in mainmatter) includepart(part)
+includepart("../mainmatter/introduction.tex")
+includepart("../mainmatter/getseqflat.tex")
+includepart("../mainmatter/getseqacnuc.tex")
+includepart("../mainmatter/dealseq.tex")
+includepart("../mainmatter/acnuc_sockets.tex")
+includepart("../mainmatter/multivariate.tex")
+includepart("../mainmatter/nonparastats.tex")
 @
 
 

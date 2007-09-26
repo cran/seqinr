@@ -33,7 +33,7 @@ get.ncbi <- function(repository = "ftp://ftp.ncbi.nih.gov/genomes/Bacteria/"  )
   if( ftp.proxy.bck != "" ) # there is a proxy
   {
     warning("I'am trying to neutralize proxies")
-    Sys.putenv("no_proxy" = "") 
+    Sys.setenv("no_proxy" = "") 
   }
 #
 # END Proxy problem
@@ -69,7 +69,7 @@ get.ncbi <- function(repository = "ftp://ftp.ncbi.nih.gov/genomes/Bacteria/"  )
     cmd <- sprintf("ftp -v -n %s < %s", hostname, tmpname)
     brut <- readLines(pipe(cmd))
   }
-  else if( sysinfo=="Linux" ){
+  else if( sysinfo == "Linux" ){
     #
     # Build command file for ftp connection
     #
@@ -310,8 +310,9 @@ ncbi.fna.url <- function( get.ncbi.out = get.ncbi() )
     ficname <- unlist(strsplit(x[2],"\\.")) # split prefix and suffix
     ficname <- ficname[1] # keep prefix
     ficname <- paste( ficname, ".fna", collapse="", sep="")
-    urlname = paste("ftp://ftp.ncbi.nih.gov/genomes/Bacteria/", x[1],
+    urlname <- paste("ftp://ftp.ncbi.nih.gov/genomes/Bacteria/", x[1],
                  "/",ficname, collapse="", sep="")
+    return(urlname)
   }
   apply( get.ncbi.out, 1, build.url )  
 }
@@ -327,8 +328,9 @@ ncbi.gbk.url <- function( get.ncbi.out = get.ncbi() )
 {
   build.url <- function( x )
   {
-    urlname = paste("ftp://ftp.ncbi.nih.gov/genomes/Bacteria/", x[1],
+    urlname <- paste("ftp://ftp.ncbi.nih.gov/genomes/Bacteria/", x[1],
                  "/",x[2], collapse="", sep="")
+    return(urlname)
   }
   apply( get.ncbi.out, 1, build.url )  
 }
@@ -345,8 +347,9 @@ ncbi.ptt.url <- function( get.ncbi.out = get.ncbi() )
     ficname <- unlist(strsplit(x[2],"\\.")) # split prefix and suffix
     ficname <- ficname[1] # keep prefix
     ficname <- paste( ficname, ".ptt", collapse="", sep="")
-    urlname = paste("ftp://ftp.ncbi.nih.gov/genomes/Bacteria/", x[1],
+    urlname <- paste("ftp://ftp.ncbi.nih.gov/genomes/Bacteria/", x[1],
                  "/",ficname, collapse="", sep="")
+    return(urlname)
   }
   apply( get.ncbi.out, 1, build.url )  
 }

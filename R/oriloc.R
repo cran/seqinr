@@ -28,6 +28,10 @@ oriloc <- function(
    
     gb2fasta( tmpgbk, seq.fasta )
     gbk2g2( tmpgbk, g2.coord )
+    #
+    # gbk2g2 yields glimmer version 2.0 files, so force to version 2.0 in this case:
+    #
+    glimmer.version <- 2
   } 
 #  
 # Get first sequence from fasta file:
@@ -70,7 +74,7 @@ oriloc <- function(
     #
     # Circular permutation of a vector
     #
-    rotate <- function(x, rot=0) 
+    rotate <- function(x, rot = 0) 
     {
       n <- length(x)
       rot <- rot %% n
@@ -161,7 +165,7 @@ oriloc <- function(
   {
     Regression <- function(x, y, Li)
     {
-      a <- 0 ; b <- 0 ; c <- 0; l <- 0
+      a <- 0 ; b <- 0 ; c <- 0;
       for( m in seq_len(Li-1) ) # I think this should go to Li included
       {
         b <- b + y[m]^2
@@ -198,8 +202,8 @@ oriloc <- function(
 # Project DNAwalk points (x,y) onto orthogonal regression line
 #
     if (!require(ade4)) stop("oriloc requires ade4, but ade4 couldn't be loaded")
-    	pca <- dudi.pca( cbind(x,y), scann = FALSE, nf = 1, scale = FALSE, center = FALSE )
-    	rec <- reconst(pca)
+    	pca <- ade4::dudi.pca( cbind(x,y), scann = FALSE, nf = 1, scale = FALSE, center = FALSE )
+    	rec <- ade4::reconst(pca)
     	skew <- sign(rec$x)*sqrt(rec$x^2+rec$y^2)
   }
 #
