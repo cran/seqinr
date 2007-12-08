@@ -6,13 +6,13 @@
 This is a major command of the package. It executes all sequence retrievals using any selection criteria the data base allows.  The sequences are coming from ACNUC data base located on the web and they are transfered by socket. The command produces the list of all sequence names that fit the required criteria. The sequence names belong to the class of sequence \code{SeqAcnucWeb}.
 }
 \usage{
-query(listname, query, socket = "auto", invisible = TRUE, verbose = FALSE, virtual = FALSE)
+query(listname, query, socket = autosocket(), invisible = TRUE, verbose = FALSE, virtual = FALSE)
 }
 \arguments{
   \item{listname}{The name of the list as a quoted string of chars}
   \item{query}{A quoted string of chars containing the request with the syntax given in the details section}
-  \item{socket}{a socket of class connection and sockconn returned by \code{choosebank}.Default value (auto) means
-   that the socket will be set to to the socket component of the banknameSocket variable. }
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
   \item{invisible}{if \code{FALSE}, the result is returned visibly.}
   \item{verbose}{if \code{TRUE}, verbose mode is on}
   \item{virtual}{if \code{TRUE}, no attempt is made to retrieve the information about
@@ -67,15 +67,17 @@ criteria between escaped double quotes.
 }
 
 \value{
-  A list with the following components:
-  \item{bank}{the name of the bank that has been choosen by \code{choosebank.socket}}	
-  \item{call}{original call}
-  \item{name}{list name}
-  \item{nelem}{number of elements in the list on the server}
-  \item{typelist}{the type of the elemnts of the list. Could be SQ for a list of
+The result is directly assigned to the object \code{listname} in the user workspace.
+This is an objet of class \code{qaw}, a list with the following 6 components:
+
+  \item{call}{the original call}
+  \item{name}{the ACNUC list name}
+  \item{nelem}{the number of elements (for instance sequences) in the ACNUC list}
+  \item{typelist}{the type of the elements of the list. Could be SQ for a list of
     sequence names, KW for a list of keywords, SP for a list of species names.}
   \item{req}{a list of sequence names that fit the required criteria or \code{NA} when
     called with parameter \code{virtual} is \code{TRUE}}
+  \item{socket}{the socket connection that was used}
 }
 \references{ 
 To get the release date and content of all the databases located at the pbil, please look at 

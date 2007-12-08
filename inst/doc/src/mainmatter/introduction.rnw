@@ -89,11 +89,12 @@ release with the same format as the ACNUC book:
 }
 
 <<gbkinkm,fig=F, eval=T>>=
-acnucbooksize <- 4.5 #cm
-acnucbp <- 526506
+acnucbooksize <- 4.5 # cm
+acnucbp <- 526506 # bp
 choosebank("genbank") -> mybank
+closebank()
 mybank$details
-unlist(strsplit(mybank$details[2], split=" "))[1] -> bpbk
+unlist(strsplit(mybank$details[3], split=" "))[1] -> bpbk
 bpbk
 bpbk <- as.numeric(paste(unlist(strsplit(bpbk, split = ",")), collapse = ""))
 widthcm <- acnucbooksize*bpbk/acnucbp
@@ -105,10 +106,10 @@ kilometer long in ACNUC book format to print GenBank today (\today).
 
 \section{About R and CRAN}
 
-R \cite{R, RfromR} is a \emph{libre} language and environment for statistical computing and graphics 
+\Rlogo{} \cite{R, RfromR} is a \emph{libre} language and environment for statistical computing and graphics 
 which provides a wide variety of statistical and graphical techniques: linear and 
 nonlinear modelling, statistical tests, time series analysis, classification, clustering, etc. 
-Please consult the R project homepage at \texttt{http://www.R-project.org/} for 
+Please consult the \Rlogo{} project homepage at \texttt{http://www.R-project.org/} for 
 further information. 
 
 <<nmirrors, echo = FALSE, eval=T>>=
@@ -135,7 +136,7 @@ nmirrors <- function( url = paste("http://cran.r-project.org", "mirrors.html", s
 }
 @
 
-The Comprehensive R Archive Network, CRAN, is a network of servers 
+The Comprehensive \Rlogo{} Archive Network, CRAN, is a network of servers 
 around the world that store identical, up-to-date, versions of code and documentation 
 for R. At compilation time of this document, there were
 \Sexpr{ifelse(exists("nmirrors"), nmirrors()$nm, "???")} 
@@ -147,21 +148,23 @@ selected with the function \texttt{chooseCRANmirror()}.
 
 \section{About this document}
 
-In the terminology of the R project \cite{R, RfromR}, this document is a package \emph{vignette}.
+In the terminology of the \Rlogo{} project \cite{R, RfromR}, this document 
+is a package \emph{vignette}, which means that all code outputs present 
+here were actually obtained by runing them.
 The examples given thereafter were run under \texttt{\Sexpr{R.version.string}}
-on \Sexpr{date()} with Sweave \cite{Sweave}.
+on \Sexpr{date()} with Sweave \cite{Sweave}. There is a section at the end of
+each chapter called \textbf{Session Informations} that gives details about
+packages and package versions that were involved\footnote{
+Previous versions of \Rlogo{} and packages are available on CRAN mirrors,
+for instance at \url{http://cran.univ-lyon1.fr/src/contrib/Archive}.
+}.
 The last compiled version of this document is distributed along with the \seqinr{}
 package in the \texttt{/doc} folder. Once \seqinr{} has been installed, the
-full path to the package is given by the following R code :
+full path to the package is given by the following \Rlogo{} code :
 
-\begin{Schunk}
-\begin{Sinput}
- .find.package("seqinr")
-\end{Sinput}
-\begin{Soutput}
-[1] "/Users/lobry/Library/R/library/seqinr"
-\end{Soutput}
-\end{Schunk}
+<<whereiseqinr,fig=F>>=
+.find.package("seqinr")
+@ 
 
 
 \section{About sequin and \seqinr{}}
@@ -179,10 +182,10 @@ provide an efficient access to sequence databases under R.
 
 \section{About getting started}
 
-You need a computer connected to the Internet. First, install R on your computer.
+You need a computer connected to the Internet. First, install \Rlogo{} on your computer.
 There are distributions for Linux, Mac and Windows users
 on the CRAN (\texttt{http://cran.r-project.org}). Then, install the \texttt{ape}, 
-\texttt{ade4} and \texttt{seqinr} packages. This can be done directly in an R console
+\texttt{ade4} and \texttt{seqinr} packages. This can be done directly in an \Rlogo{} console
 with for instance the command \texttt{install.packages("seqinr")}. 
 Last, load the \seqinr{} package with:
 
@@ -204,24 +207,24 @@ with a question mark, as in \texttt{?aaa} and press enter.
 
 \section{About running R in batch mode}
 
-Although R is usually run in an interactive mode, some data pre-processing 
-and analyses could be too long. You can run your R code in batch mode
+Although \Rlogo{} is usually run in an interactive mode, some data pre-processing 
+and analyses could be too long. You can run your \Rlogo{} code in batch mode
 in a shell with a command that typically looks like :
 
 \begin{verbatim}
 unix$ R CMD BATCH input.R results.out &
 \end{verbatim}
 
-where \texttt{input.R} is a text file with the R code you want to run and
+where \texttt{input.R} is a text file with the \Rlogo{} code you want to run and
 \texttt{results.out} a text file to store the outputs. Note that in batch mode,
 the graphical user interface is not active so that some graphical devices 
 (\textit{e.g.} \texttt{x11}, \texttt{jpeg}, \texttt{png}) are not
 available (see the R FAQ \cite{RFAQ} for further details).
 
-It's worth noting that R uses the XDR representation of binary objects in binary saved files, 
-and these are portable across all R platforms. The \texttt{save()} and \texttt{load()}
+It's worth noting that \Rlogo{} uses the XDR representation of binary objects in binary saved files, 
+and these are portable across all \Rlogo{} platforms. The \texttt{save()} and \texttt{load()}
 functions are very efficient (because of their binary nature) for saving and restoring any 
-kind of R objects, in a platform independent way. To give a striking real example, at a given time
+kind of \Rlogo{} objects, in a platform independent way. To give a striking real example, at a given time
 on a given platform, it was about $4$ minutes long to import a numeric table with 70000 lines and 64 columns
 with the defaults settings of the \texttt{read.table()} function. Turning it into binary format,
 it was then about $8$ \emph{seconds} to restore it with the \texttt{load()} function.
@@ -278,7 +281,7 @@ If you do not consider the reproducibility of scientific results
 to be a serious problem in practice, then the paper by Jonathan Buckheit and David Donoho
 \cite{repro} is a must read. Molecular data are available in public databases, this is
 a necessary but not sufficient condition to allow for the reproducibility of results.
-Publishing the R source code that was used in your analyses is a simple way
+Publishing the \Rlogo{} source code that was used in your analyses is a simple way
 to greatly facilitate the reproduction of your results at the expense of no extra cost. 
 At the expense of a little extra cost, you may consider to set up a RWeb server
 so that even the laziest reviewer may reproduce your results just by clicking on
@@ -302,7 +305,7 @@ example(chargaff, ask = FALSE)
 \setkeys{Gin}{width=0.8\textwidth}
 
 This is a very specialised graph. The filled areas correspond to non-allowed values beause the sum 
-of the four bases frequencies cannot exceed 100 \%. The white areas correspond to possible values 
+of the four bases frequencies cannot exceed 100\%. The white areas correspond to possible values 
 (more exactly to the projection from $\mathbb{R}^4$ to the corresponding $\mathbb{R}^2$ 
 planes of the region of allowed values). The lines correspond to the very small subset of allowed 
 values for which we have in addition [A]=[T] and [C]=[G]. Points represent observed values in
@@ -328,7 +331,7 @@ tablecode(numcode = 2)
 \setkeys{Gin}{width=0.8\textwidth}
 
 As from \seqinr{} 1.0-4, it is possible to export the table of a genetic code into a \LaTeX~document,
-for instance table \ref{../tables/code3.tex} and table \ref{../tables/code4.tex} were automatically generated with the following R code:
+for instance table \ref{../tables/code3.tex} and table \ref{../tables/code4.tex} were automatically generated with the following \Rlogo{} code:
 
 <<latextablecode,fig=F,eval=T>>=
 tablecode(numcode = 3, latexfile = "../tables/code3.tex", size = "small")

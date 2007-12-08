@@ -9,6 +9,155 @@
 \maketitle
 % BEGIN - DO NOT REMOVE THIS LINE
 
+\section{How can I compute a score over a moving window?}
+
+As an illustration, suppose that we want to reproduce a part
+of figure 1 from \cite{LobryMBE96} whose screenshot is given
+just below:
+
+\noindent\includegraphics[width=\textwidth]{../figs/gcskewmbe96}
+
+The score represented here is the GC-skew computed in non-overlapping
+windows of 10 Kb for a 1.6 Mb sequence.
+We need a fragment of \textit{Escherchia coli} K12 chromosome from
+67.4 min to 4.1 min on the genetic map. Let's put this fragment
+into the string \texttt{myseq}:
+
+<<getmyseq,fig=F,eval=T>>=
+choosebank("greview")
+myseq1 <-gfrag("U00096", start = 3217270, length = 10^7)
+myseq2 <- gfrag("U00096", start = 1, length = 194133)
+closebank()
+myseq <- paste(myseq1, myseq2, sep = "")
+nchar(myseq)
+@ 
+
+This is not exactly the same sequence that was used in \cite{LobryMBE96}
+but very close to\footnote{
+The sequence used in \cite{LobryMBE96} was a 1,616,174 bp fragment obtained
+from the concatenation of nine overlapping sequences
+(U18997, U00039, L10328, M87049, L19201, U00006, U14003, D10483, D26562
+\cite{SofiaHJ1994, BurlandV1993, DanielsDL1992, PlunkettG1993, BlattnerFR1993, YuraT1992}).
+Ambiguities have been resolved since then and its was a chimeric sequence
+from K-12 strains MG1655 and W3110 \cite{HayashiK2006}, the sequence used here
+is from strain MG1655 only \cite{BlattnerFR1997}. 
+}. We define a function called \texttt{gcskew()} that computes our score 
+for a given string \texttt{x}:
+
+<<scoredef,fig=F>>=
+gcskew <- function(x){
+  if( !is.character(x) || length(x) > 1 ) stop("single string expected")
+  tmp <- tolower(s2c(x))
+  nC <- sum(tmp == "c")
+  nG <- sum(tmp == "g")
+  if( nC + nG == 0 ) return(NA)
+  return(100*(nC - nG)/(nC + nG))
+}
+gcskew("GCCC")
+gcskew("GCCCNNNNNN")
+@
+
+Note some defensive programming tricks used here:
+
+\begin{itemize}
+\item We check that the argument \texttt{x} is a single string.
+\item We expand it as vector of single chars with \texttt{s2c()} only within the
+      function to avoid big objects in the workspace.
+\item We force to lower case letters with \texttt{tolower()} so that we can use 
+      upper case letters too.
+\item We avoid division by zero and return \texttt{NA} in this case.
+\item We do not divide by the length of \texttt{x} but by the actual number
+      of C and G so that ambiguous bases such as N do not introduce biases.
+\end{itemize}
+
+
+We move now along the sequence:
+
+<<movingwindow,fig=F>>=
+
+
+step <- 10000
+wsize <- 10000
+starts <- seq(from = 1, to = nchar(myseq), by = step)
+starts <- starts[-length(starts)] # remove last one
+n <- length(starts)
+result <- numeric(n)
+for(i in seq_len(n)){
+	result[i] <- gcskew(substr(myseq, starts[i], starts[i] + wsize - 1))
+}
+@ 
+
+And we plot\footnote{
+This code is adapted from the code at \url{http://www.stat.auckland.ac.nz/~paul/RGraphics/chapter3.html} for
+figure 3.25 in Paul Murrell's book \cite{MurrellP2005}. This book is a must read if you are interested
+by \Rlogo{}'s \textit{force de frappe} in the graphic domain. 
+} the result:
+
+<<gcplot,fig=T,include=F,width=9.1,height=4.5>>=
+xx <- starts/1000
+yy <- result
+n <- length(result)
+hline <- 0
+
+plot (yy ~ xx, type="n", axes=FALSE, ann=FALSE, ylim = c(-10, 10))
+polygon(c(xx[1], xx, xx[n]), c(min(yy), yy, min(yy)), col = "black", border=NA)
+
+usr <- par("usr")
+rect(usr[1], usr[3], usr[2], hline, col="white", border=NA)
+
+lines(xx, yy)
+
+abline (h=hline)
+box()
+axis(1, at = seq(0,1600, by = 200))
+axis(2, las = 1) 
+title(xlab = "position (Kbp)", ylab = "(C-G)/(C+G) %", 
+main = expression(paste("GC skew in ", italic(Escherichia~~coli))))
+arrows(860, 5.5, 720, 0.5, length = 0.1, lwd = 2)
+text(860, 5.5, "origin of replication", pos = 4)
+@ 
+
+\noindent\includegraphics[width=\textwidth]{../figs/FAQ-gcplot}
+
+You can now play with the \texttt{wsize} and \texttt{step} parameter
+to explore the signal (but note that with overlapping windows your
+points are no more independent) or use all the smoothing tools
+available under \Rlogo{}. This is for instance what can be obtained
+with the same data with the \texttt{lowess()} function with two
+values for the smoothing parameter \texttt{f}:
+
+<<demolowess,fig=T,include=F,width=9.1,height=4.5>>=
+plot(xx,yy, col = "grey", type = "b", ylim = c(-10,10), las = 1, xaxt = "n",
+main = expression(paste("GC skew in ", italic(Escherichia~~coli))),
+xlab = "position (Kbp)", ylab = "(C-G)/(C+G) %")
+axis(1, at = seq(0,1600, by = 200))
+
+lines(smooth <- lowess(xx,yy, f = 0.05), lwd = 1)
+polycurve <- function(x, y, base.y = min(y), ...) polygon(x = c(min(x), x, max(x)), y = c(base.y, y, base.y), ...)
+up <- smooth$y > 0
+polycurve(smooth$x[up], smooth$y[up], base.y = 0, col = rgb(0,0,1,0.5))
+
+lines(lowess(xx,yy, f = 0.2), lwd = 2, col = "red")
+legend("topright", inset = 0.01, legend = c("f = 0.05", "f = 0.20"), lwd = c(1,2), col = c("black", "red"))
+abline(h=0)
+arrows(860, 5.5, 720, 0.5, length = 0.1, lwd = 2)
+text(860, 5.5, "origin of replication", pos = 4)
+@ 
+
+\noindent\includegraphics[width=\textwidth]{../figs/FAQ-demolowess}
+
+
+\section{How can I extract just a fragment from my sequence?}
+
+Use the generic function \texttt{getFrag()} :
+
+<<getFrag,fig=F>>=
+choosebank("emblTP")
+query("mylist", "AC=A00001")
+getFrag(mylist$req[[1]], begin = 10, end = 20)
+closebank()
+@ 
+
 \section{How do I compute a score on my sequences?}
 
 In the example below we want to compute the G+C content in third codon

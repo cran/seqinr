@@ -19,10 +19,10 @@ precodon = preaa, postcodon = postaa)
   \item{latexfile}{The name of a LaTex file if you want to redirect the output}
   \item{label}{The label for the LaTeX table}
   \item{size}{The LaTex size of characters for the LaTeX table}
-  \item{preaa}{A sting to insert before the amino-acid in the LaTeX table}
-  \item{postaa}{A sting to insert after the amino-acid in the LaTeX table}
-  \item{precodon}{A sting to insert before the codon in the LaTeX table}
-  \item{postcodon}{A sting to insert after the codon in the LaTeX table}
+  \item{preaa}{A string to insert before the amino-acid in the LaTeX table}
+  \item{postaa}{A string to insert after the amino-acid in the LaTeX table}
+  \item{precodon}{A string to insert before the codon in the LaTeX table}
+  \item{postcodon}{A string to insert after the codon in the LaTeX table}
   \item{caption}{The caption of the LaTeX table}
   \item{dia}{to produce a yellow/blue plot for slides}
 }

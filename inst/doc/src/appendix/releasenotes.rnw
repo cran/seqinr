@@ -11,6 +11,148 @@
 
 \section*{1.1 series}
 
+\subsection*{release 1.1-4}
+
+Minor release to fix problems found by Kurt Hornik.
+
+\begin{itemize}
+
+\item In the \texttt{DESCRIPTION} file \texttt{License: GPL (>= 2)} instead
+  of \texttt{License: GPL version 2 or newer}.
+ 
+\item The files \texttt{inst/doc/src/mainmatter/acnuc\_sockets.rnw .tex}
+  with non-portable file names were changed to \texttt{acnucsocket.rnw}
+  and \texttt{acnucsocket.tex}.
+
+\end{itemize}
+
+\subsection*{release 1.1-3}
+
+\begin{itemize}
+
+\item There is a new chapter to explain how to set up a
+  local ACNUC server on Unix-like platforms.
+
+\item New dataset \texttt{m16j} to make a GC skew plot as in
+  \cite{LobryMBE96}.
+
+\item New dataset \texttt{waterabs} giving the absorption of light 
+  by water. This dataset was compiled by Palmeira \cite{PalmeiraL2007}
+  from \cite{LitjensRA1999, QuickendenTI1980}.
+
+\item Generic functions \texttt{getAnnot()}, \texttt{getFrag()},
+  \texttt{getKeyword()}, \texttt{getLength()}, \texttt{getLocation()},
+  \texttt{getName()}, \texttt{getSequence()} and \texttt{getTrans()}
+  have gained methods to handle objects from class \texttt{list}
+  and \texttt{qaw}.
+
+\item Functions \texttt{getAttributsocket()} and \texttt{getNumber.socket()}
+  are now deprecated, a warning is issued.
+
+\item There is a new appendix in which all the examples protected
+  by a \texttt{dontrun} statment are forced to be executed.
+
+\item Function \texttt{read.fasta()} now supports comment lines
+  starting by a semicolon character in FASTA files. An example
+  of such a file is provided in \texttt{sequences/legacy.fasta}.
+  The argument \texttt{File} is now deprecated. There is
+  a new argument \texttt{seqonly} to import just the sequences
+  without names, annotations and coercion attempts. There is
+  a new argument \texttt{strip.desc} to remove the leading
+  '>' character in annotations (as in function \texttt{readFASTA}
+  from the Biostrings package \cite{Biostrings}). The FASTA file
+  example \texttt{someORF.fsa} from Biostrings is also added
+  for comparisons.
+
+\item Function \texttt{GC()} has gained a new argument \texttt{NA.GC}
+  defaulting to \texttt{NA} to say what should be returned when the
+  GC content cannot be computed from data (for instance with a
+  sequence like NNNNNNNNNNNN). The argument \texttt{oldGC} is now
+  deprecated and a warning is issued. Functions \texttt{GC1()},
+  \texttt{GC2()}, \texttt{GC3()} are now simple wrappers for the
+  more general \texttt{GCpos()} function. The new argument \texttt{frame}
+  allows to take the frame into account for CDS.
+
+\item Function \texttt{read.alignment()} has gained a new argument
+  \texttt{forceToLower} defaulting to TRUE to force lower case in
+  the character of the sequence (this is for a smoother interaction
+  with the package \texttt{ape}). The argument \texttt{File} is now
+  deprecated and a warning is issued when used instead of \texttt{file}. 
+  The example in the function \texttt{kaks()} has been corrected
+  to avoid this warning when reading the example files.
+
+\item New low level utility function \texttt{acnucclose()} and
+  \texttt{quitacnuc()} to close an ACNUC server. These functions
+  are called by \texttt{closebank()} so that a simple call to
+  it should be enough.
+
+\item New low level utility function \texttt{clientid()} to
+  send the client ID to an ACNUC server.
+
+\item New low level utility function \texttt{countfreelists()} to
+  get the number of free lists available in an ACNUC server.
+
+\item New low level utility function \texttt{knowndbs()} and its
+  shortcut \texttt{kdb()} to get a description of databases 
+  known by an ACNUC server.
+
+\item New low level utility function \texttt{autosocket()} to get the
+  socket connection to the last opened ACNUC database.
+
+\item New function \texttt{countsubseqs()} to get the number of 
+  subsequences in an ACNUC list.
+
+\item New function \texttt{savelist()} to save sequence names or 
+  accession numbers from an ACNUC list into a local file.
+
+\item New function \texttt{ghelp()} to get help from an ACNUC server.
+
+\item New function \texttt{modifylist()} to modify a previously existing 
+  ACNUC list by selecting sequences either by length, either by date, 
+  either for the presence of a given string in annotations.
+
+\item New low level function \texttt{getlistate()} to ask for 
+  information about an ACNUC list.
+
+\item New low level function \texttt{setlistname()} to set the name of 
+  a list from an ACNUC server.
+
+\item New function \texttt{residuecount()} to count the total number 
+  of residues (nucleotides or aminoacids) in all sequences of an ACNUC
+  list of specified rank.
+
+\item New function \texttt{isenum()} and its shortcut \texttt{isn()}
+  to get the ACNUC number of a sequence from its name or accession
+  number.
+
+\item New function \texttt{prettyseq()} to get a text representation 
+  of a sequence from an ACNUC server.
+
+\item New function \texttt{gfrag()} to extract sequence identified by 
+  name or by number from an ACNUC server.
+
+\item The details of the socket connection are no more stored in
+  the slot \texttt{socket} for objects of class \texttt{seqAcnucWeb}:
+  this slot is now deleted. As a consequence, the argument
+  \texttt{socket} in function \texttt{as.SeqAcnucWeb()} has been
+  removed and there is now a new
+  argument \texttt{socket = "auto"} in functions \texttt{getAnnot()},
+  \texttt{getFrag()}, \texttt{geyKeyword()}, \texttt{getLocation()},
+  and \texttt{getSequence()}. The default value \texttt{"auto"} means
+  that the details of the socket connection are taken automatically
+  when necessary from the last opened bank. The size of local lists
+  of sequences is reduced by about a third now as compared to the
+  previous version.
+
+\item New function \texttt{print.seqAcnucWeb()} to print objects from
+  class \texttt{seqAcnucWeb}.
+
+\item Internal function \texttt{parser.socket()} has been optimized and
+  is about four times faster now. This decreases the time needed by the
+  \texttt{query()} function.
+
+\end{itemize}
+
 \subsection*{release 1.1-2}
 
 

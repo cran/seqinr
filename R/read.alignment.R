@@ -1,9 +1,12 @@
 #
 # Read files of aligned sequences in various formats
 #
-read.alignment <- function(file, format, File = NULL)
+read.alignment <- function(file, format, forceToLower = TRUE, File = NULL)
 {
-  if(!is.null(File)) file <- File
+  if(!is.null(File)){
+    file <- File
+    warning("argument File is deprecated, use file instead")
+  }
   ali <- switch( format,
 	fasta = .Call("read_fasta_align", file, PACKAGE = "seqinr"), 
 	mase = .Call("read_mase", file, PACKAGE = "seqinr"),
@@ -12,6 +15,7 @@ read.alignment <- function(file, format, File = NULL)
 	clustal = .Call("read_clustal_align", file, PACKAGE = "seqinr")
   )
   ali <- lapply(ali, as.character)
+  if(forceToLower) ali[[3]] <- lapply(ali[[3]], tolower)
   if(format == "mase"){
     ali <- list(nb = as.numeric(ali[[1]]), nam = ali[[2]], seq = ali[[3]], com = ali[[4]]) 
   } else {

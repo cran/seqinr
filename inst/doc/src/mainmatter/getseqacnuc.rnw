@@ -37,9 +37,7 @@ This function initiates a remote access to an ACNUC database. Called without arg
 <<choixbanque1, eval=T>>=
 choosebank()
 @
-<<closesocket1,echo=F,results=hide,eval=T>>=
-close(getConnection(5))
-@ 
+ 
 
 Biological sequence databases are fast moving targets, and for publication purposes it is
 recommended to specify on which release you were working on when you made the job.
@@ -51,27 +49,17 @@ at the compilation time (\today) of this document:
 <<choixbanquemoreinfo, eval=T>>=
 choosebank(infobank = TRUE)[1:3, ]
 @
-<<closesocket2,echo=F,results=hide,eval=T>>=
-close(getConnection(5))
-@
+
 
 Note that there is a \texttt{status} column because a database could be unavailable
 for a while during updates. If you try call \texttt{choosebank(bank = "bankname")} 
 when the bank called \texttt{bankname} is off from server, you will get an explicit 
 error message stating that this bank is temporarily unavailable, for instance:
 
-%
-% Ca on est obligé de le mettre en dur parce que ca génère une erreur !
-%
-\begin{Schunk}
-\begin{Sinput}
- choosebank("off")
-\end{Sinput}
-\begin{Soutput}
-Error in choosebank("off") : Database with name -->off<-- is currently off for maintenance, 
-please try again later.
-\end{Soutput}
-\end{Schunk}
+<<choosebankoff>>=
+res <- try(choosebank("off"))
+cat(res)
+@ 
 
 Some special purpose databases are not listed by default. These are \textit{tagged} databases
 that are only listed if you provide an explicit \texttt{tagbank} argument to the \texttt{choosebank()}
@@ -83,41 +71,39 @@ available frozen databases at the default server are:
 <<frozen, eval=T>>=
 choosebank(tagbank = "TP", infobank = TRUE)
 @
-<<closesocket3,echo=F,results=hide,eval=T>>=
-close(getConnection(5))
-@
+
 
 Now, if you want to work with a given database, say GenBank, just call \texttt{choosebank()}
-with \texttt{"genbank"} as its first argument and store the result in a variable
-in the workspace, called for instance \texttt{mybank} in the example thereafter:
+with \texttt{"genbank"} as its first argument, the result is saved in the variable
+\texttt{banknameSocket} in the workspace:
 
 <<choixbanque2, eval=T>>=
-mybank <- choosebank("genbank")
-str(mybank)
+choosebank("genbank")
+str(banknameSocket)
+closebank()
 @
 
-The list returned by \texttt{choosebank()} here means that in the database
-called \texttt{\Sexpr{ifelse(exists("mybank"), mybank$bankname, "???")}} at the compilation time
+The components of \texttt{banknameSocket} means that in the database
+called \texttt{\Sexpr{ifelse(exists("banknameSocket"), banknameSocket$bankname, "???")}} at the compilation time
 of this document there were 
-\texttt{\Sexpr{ifelse(exists("mybank"), formatC(as.integer(mybank$totseqs), big.mark=","), "???")}}
+\texttt{\Sexpr{ifelse(exists("banknameSocket"), formatC(as.integer(banknameSocket$totseqs), big.mark=","), "???")}}
 sequences from
-\texttt{\Sexpr{ifelse(exists("mybank"), formatC(as.integer(mybank$totspecs), big.mark=","), "???")}}
+\texttt{\Sexpr{ifelse(exists("banknameSocket"), formatC(as.integer(banknameSocket$totspecs), big.mark=","), "???")}}
 species and a total of
-\texttt{\Sexpr{ifelse(exists("mybank"), formatC(as.integer(mybank$totkeys), big.mark=","), "???")}}
+\texttt{\Sexpr{ifelse(exists("banknameSocket"), formatC(as.integer(banknameSocket$totkeys), big.mark=","), "???")}}
 keywords. The status of the bank was
-\texttt{\Sexpr{ifelse(exists("mybank"), mybank$status, "???")}}, 
+\texttt{\Sexpr{ifelse(exists("banknameSocket"), banknameSocket$status, "???")}}, 
 and the release information was
-\texttt{\Sexpr{ifelse(exists("mybank"), mybank$release, "???")}}.
+\texttt{\Sexpr{ifelse(exists("banknameSocket"), banknameSocket$release, "???")}}.
 For specialized databases, some relevant informations are also given in the
 \texttt{details} component, for instance:
 
 <<exdetails,fig=F, eval=T>>=
+choosebank("taxobacgen")
+cat(banknameSocket$details, sep = "\n")
 closebank()
-choosebank("taxobacgen")$details -> moreinfo
-cat(moreinfo, sep = "\n")
 @
 
-The previous command has a side-effect that is worth mentioning. 
 As from \seqinr~1.0-3, the result of the \texttt{choosebank()} function is automatically
 stored in a global variable named \texttt{banknameSocket}, so that if no socket argument
 is given to the \texttt{query()} function, the last opened database will be used by default
@@ -140,26 +126,26 @@ display the number of taxa (\textit{i.e.} the number of nodes) in the species ta
 with each available database (including frozen databases). For this, we loop over available databases and 
 close them as soon as the information has been retrieved.
 
-<<taxaperbank,fig=T,eval=T, eval=T>>=
-banks <- c(choosebank(), choosebank(tagbank="TP"))
-ntaxa <- numeric(0) # there is a good reason for numeric 0
-for(i in banks){
-  ntaxa[i] <- as.numeric(choosebank(i)$totspecs)
-  closebank()
+<<taxaperbank,fig=F,eval=T>>=
+banks <- c(choosebank(), choosebank(tagbank = "TP"))
+nbanks <- length(banks)
+ntaxa <- numeric(nbanks) # pre-allocate
+for(i in seq_len(nbanks)){
+  bkopenres <- try(choosebank(banks[i]))
+  if(inherits(bkopenres, "try-error")){
+    ntaxa[i] <- NA
+  } else {
+    ntaxa[i] <- as.numeric(banknameSocket$totspecs)
+    closebank()
+  }
 }
+names(ntaxa) <- banks
+@ 
+<<plottaxaperbank,fig=T,eval=T>>=
 dotchart(log10(ntaxa[order(ntaxa)]), pch = 19,
 main = "Number of taxa in available databases",
 xlab = "Log10(number of taxa)")
 @
-<<closesocket4,fig=F,echo=F,results=hide,eval=T>>=
-showConnections()
-close(getConnection(8))
-close(getConnection(7))
-close(getConnection(6))
-close(getConnection(5))
-close(getConnection(4))
-showConnections()
-@ 
 
 \subsection{Make your query}
 
@@ -360,6 +346,11 @@ genomes, so that the winner is
 
 \end{description}
 
+<<closebangbk,fig=F>>=
+closebank()
+@ 
+
+
 \subsection{Extract sequences of interest}
 
 \subsubsection{Introduction}
@@ -377,7 +368,6 @@ For this section we set up the bank to \texttt{emblTP} which is a frozen
 subset of EMBL database to allow for the reproducibility of results.
 
 <<useemblTP, fig=F, eval=T>>=
-closebank()
 choosebank("emblTP")
 @
 
@@ -470,6 +460,9 @@ Therefore, when you are using the \texttt{getTrans()} function, you are automati
 to the \texttt{getTrans.SeqAcnucWeb()} function which knows how to take into account the relevant frame
 and genetic code for your coding sequence.
 
+<<closebanembltp,fig=F>>=
+closebank()
+@ 
 
 \subsubsection{Extacting sequences with \texttt{extractseqs()} (experimental)}
 
@@ -477,9 +470,19 @@ The timings here were from an home-ADSL connection, and are only indicative.
 For this section we set up the bank to \texttt{emblTP} which is a frozen
 subset of EMBL database to allow for the reproducibility of results.
 
-<<useemblTP, fig=F, eval=T>>=
-closebank()
+%
+% For some reason I don't understand all these should be in the same code chunk:
+%
+<<extractseq1, fig=F, eval=T>>=
+rm(list = ls(all = TRUE)) # clean workspace
+gc()
 (tcb <- system.time(choosebank("emblTP")))
+(tqu <- system.time(query("hsCDS", 
+  "sp=Homo sapiens AND t=cds AND o=nuclear AND NOT k=partial", virtual = TRUE)))
+(nseq <- hsCDS$nelem)
+showConnections()
+Sys.sleep(1) # wait a second
+(tex <- system.time(mycds <- extractseqs("hsCDS", verbose = TRUE)))
 @
 
 It was then about \Sexpr{ifelse(exists("tcb"), round(as.numeric(tcb[3])), "???")} 
@@ -487,23 +490,11 @@ seconds to select
 the relevant database. We suppose that the sequences we are interested in 
 are all the complete coding sequences from \textit{Homo sapiens} that
 are encoded in the nucleus (we don't want sequences from human mitochondrion). 
-We use a virtual query to speed up things:
-
-<<querycccv, fig=F, eval=T>>=
-(tqu <- system.time(query("hsCDS", 
-  "sp=Homo sapiens AND t=cds AND o=nuclear AND NOT k=partial", virtual = TRUE)))
-(nseq <- hsCDS$nelem)
-@
-
-It was then about \Sexpr{ifelse(exists("tqu"), round(as.numeric(tqu[3])), "???")} seconds 
+We have used a virtual query to speed up things:
+it was about \Sexpr{ifelse(exists("tqu"), round(as.numeric(tqu[3])), "???")} seconds 
 to create on the server a list of \Sexpr{ifelse(exists("nseq"), nseq, "???")}
-sequences. We download now the sequences in zlib compressed mode:
- 
-<<extractseq1,fig=F,eval=T>>=
-(tex <- system.time(mycds <- extractseqs("hsCDS")))
-@
-
-It was then about \Sexpr{ifelse(exists("tex"), round(as.numeric(tex[3])), "???")} seconds
+sequences. We have downloaded the sequences in zlib compressed mode:
+it was about \Sexpr{ifelse(exists("tex"), round(as.numeric(tex[3])), "???")} seconds
 to dowload the sequences in the object \texttt{mycds}, which looks like :
 
 <<mycdslook,fig=F,eval=T>>=
@@ -605,6 +596,10 @@ rug(x, col = "blue")
 polycurve <- function(x, y, base.y = min(y), ...) 
   polygon(x = c(min(x), x, max(x)), y = c(base.y, y, base.y), ...)
 polycurve(dstx$x, dstx$y, col = "yellow")
+@ 
+
+<<closebankextractseqs,fig=F>>=
+closebank()
 @ 
 
 \section{The query language}

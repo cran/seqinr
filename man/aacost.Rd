@@ -21,8 +21,7 @@ from table 1 in Akashi and Gojobori (2002). The G+C classes are from Lobry (1997
     \item{gc}{an ordered factor (l<m<h) for the G+C class of the amino-acid (see details)}
   }
 }
-\details{
-precursor metabolites: penP, ribose 5-phosphate; PRPP,
+\details{Precursor metabolites are: penP, ribose 5-phosphate; PRPP,
 5-phosphoribosyl pyrophosphate; eryP, erythrose 4-phosphate; 3pg,
 3-phosphoglycerate; pep, phospho\emph{enol}pyruvate; pyr, pyruvate;
 acCoA, acetyl-CoA; akg, alpha-ketoglutarate; oaa, oxaloacetate. Negative
@@ -30,12 +29,14 @@ signs on precursor metabolites indicate chemicals \emph{gained} through
 biosynthetic pathways. Costs of precursors reflect averages for growth on
 glucose, acetate, and malate (see Table 6 in the supporting information
 from Akashi and Gojobori 2002).\cr
+
 The levels l<m<h for the \code{gc} ordered factor stand for Low G+C, Middle G+C,
 High G+C amino-acid, respectively. The frequencies of Low G+C amino-acids
 monotonously decrease with G+C content. The frequencies of High G+C amino-
 acids monotonously increase with G+C content. The frequencies of Middle G+C
 amino-acids first increase and then decrease with G+C content. These G+C classes 
 are from Lobry (1997).\cr
+
 \code{example(aacost)} reproduces figure 2 from Lobry (2004).
 }
 \source{
@@ -43,10 +44,12 @@ Akashi, H, Gojobori, T. (2002) Metabolic efficiency and amino acid composition
 in the proteomes of \emph{Escherichia coli} and \emph{Bacillus subtilis}.
 \emph{Proceedings of the National Academy of Sciences of the United States of America}, 
 \bold{99}:3695-3700.\cr
+
 Lobry, J.R. (1997) Influence of genomic G+C content on average amino-acid composition 
 of proteins from 59 bacterial species. \emph{Gene}, \bold{205}:309-316.\cr
+
 Lobry, J.R. (2004) Life history traits and genome structure: aerobiosis and G+C content in bacteria. 
-{Lecture Notes in Computer Sciences}, \bold{3039}:679-686.
+\emph{Lecture Notes in Computer Sciences}, \bold{3039}:679-686.
 }
 \references{
 \code{citation("seqinr")}

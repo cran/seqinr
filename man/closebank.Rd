@@ -5,21 +5,23 @@
  This function tries to close a remote ACNUC database.
 }
 \usage{
-closebank(bank = NA, host = "pbil.univ-lyon1.fr", port = 5558, verbose = FALSE)
+closebank(socket = autosocket(), verbose = FALSE)
 }
 \arguments{
-  \item{bank}{ String. if \code{NA} the last opened database as given by banknameSocket
-    in the global environment will be closed.}
-  \item{host}{ String. Host name for port }
-  \item{port}{ Integer. The TCP port number }
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
   \item{verbose}{ Logical. If TRUE, verbose mode is on }
 }
 \references{
   \code{citation("seqinr")}
 }
+\author{J.R. Lobry }
+
 \seealso{ \code{\link{choosebank}}}
 \examples{
-  \dontrun{ choosebank("genbank") }
-  \dontrun{ closebank() }
+  \dontrun{# Need internet connection
+   choosebank("emblTP")
+   closebank()
+  }
 }
 \keyword{ manip }

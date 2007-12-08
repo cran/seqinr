@@ -93,7 +93,7 @@ uco(cds, index = "rscu")
 uco(s2c("aaannnttt"))
 
 ## Use a real coding sequence:
-rcds <- read.fasta(File = system.file("sequences/malM.fasta", package = "seqinr"))[[1]]
+rcds <- read.fasta(file = system.file("sequences/malM.fasta", package = "seqinr"))[[1]]
 uco( rcds, index = "freq")
 uco( rcds, index = "eff")
 uco( rcds, index = "rscu")

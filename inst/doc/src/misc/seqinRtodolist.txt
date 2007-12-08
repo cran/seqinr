@@ -1,14 +1,18 @@
+
+o Interfacer gfrag pour pouvoir extraire un fragment de sequence par
+   position.
+
 o Citer article Biochimie 2007 Delmotte & Gouy quand ref complete dispo
 
 o D'un e-mail de Manolo du 05-MARS-2007 :
   QUOTE
-  J'ai ajoutŽ 2 criteres de selection:
+  J'ai ajoute 2 criteres de selection:
   NS= et NK= pour mettre une espece ou un mot-cle (@ possible) dans une liste
   UNQUOTE
-  --> Mettre ˆ our la doc de query() et le manuel.
+  --> Mettre a jour la doc de query() et le manuel.
   
 o La phase est perdue quand on fait un GC2() ou un GC3(), la propager comme
-  pour getTrans.
+  pour getTrans. -- reponse partielle pour 1.1-3 : argument frame
   
 o Implementer getSequence(as.tring = TRUE) pour ne pas vectoriser les chaines
   de caracteres automatiquement pour les requestes Web. Une fois implemente dans
@@ -38,7 +42,6 @@ o Exemples de calculs d'indices d'usage du code dans la vignette du package
 o Il vaudrait mieux que les exemples de la vignette soient si possible fait
   sur des banques frozen, sauf a montrer l'interest des daily updates.
   
-o Mettre un fichier par fonction dans seqinr/R/ ?
 
 o Faire en sorte que les erreurs du serveur ne generent pas d'erreur (stop)
   pour pouvoir mettre les examples en run et pas en dontrun. Ne faire que des
@@ -51,9 +54,9 @@ o Mettre un note of caution dans la doc a propos des query(..., virtual = TRUE):
   les infos sont definitivement perdues si la socket est fermee.
  
 
-
 ------ PENDING --------
 
+o Mettre un fichier par fonction dans seqinr/R/ ? -- en cours
 
 o Le probleme du controsle trop strict sur acgt comme seuls chars acceptes. 
   Faire une option professionnelle read.fasta(checkIUPAC= c("dnastrict", "dnaambiguous",
@@ -65,6 +68,11 @@ o Mettre la doc a jour sur la gestion des caracteres ambigus dans la vignette.
 
 ------ TOUT CA, CA A DEJA ETE FAIT ---
 
+o faire de m16.seq un dataset standard (oriC chez E. coli). --> 1.1-3
+
+o NA.GC dans GC() -- Fait pour 1.1-3 JRL
+
+o Comment faire des fen^tres glissantes. Fait dans la FAQ pour 1.1-3
 
 o Fichier CITATION a modifier quand ref disponible. -- Fait pour 1.1-1 JRL
 

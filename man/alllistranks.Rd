@@ -8,14 +8,13 @@ ranks in an opened database.
 }
 
 \usage{
-alllistranks(socket = "auto", verbose = FALSE)
-alr(socket = "auto", verbose = FALSE)
+alllistranks(socket = autosocket(), verbose = FALSE)
+alr(socket = autosocket(), verbose = FALSE)
 }
 
 \arguments{
-  \item{socket}{a socket of class connection and sockconn returned by \code{choosebank}. 
-   Default value (auto) means
-   that the socket will be set to to the socket component of the banknameSocket variable. }
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
   \item{verbose}{if \code{TRUE}, verbose mode is on}
 }
 
@@ -38,22 +37,19 @@ alr(socket = "auto", verbose = FALSE)
 }
 
 \examples{
- \dontrun{
- # Need internet connection
- choosebank("genbank")
- query("tmp1", "sp=Borrelia burgdorferi", virtual=T)
- query("tmp2", "sp=Borrelia burgdorferi", virtual=T)
- query("tmp3", "sp=Borrelia burgdorferi", virtual=T)
- alr()
+ \dontrun{# Need internet connection
+ choosebank("emblTP")
+ query("tmp1", "sp=Borrelia burgdorferi", virtual = TRUE)
+ query("tmp2", "sp=Borrelia burgdorferi", virtual = TRUE)
+ query("tmp3", "sp=Borrelia burgdorferi", virtual = TRUE)
+ (result <- alllistranks())
+ stopifnot(result$count == 3)   # Three ACNUC lists
+ stopifnot(result$ranks == 2:4) # Starting at rank 2
  #
- # Should be:
+ # Summay of current lists defined on the ACNUC server:
  #
- # $count
- # [1] 3
- #
- # $ranks
- # [1] 2 3 4
- #
+ sapply(result$ranks, getliststate)
+ closebank()
  }
 }
 \keyword{utilities}

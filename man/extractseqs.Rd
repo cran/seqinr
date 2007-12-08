@@ -9,15 +9,14 @@
 
 \usage{
 
-extractseqs(listname,socket = "auto", format="fasta",operation="simple",feature="xx", bounds="xx", minbounds="xx", verbose = FALSE, nzlines=1000)
-exseq(listname,socket = "auto", format="fasta",operation="simple", feature="xx", bounds="xx", minbounds="xx", verbose = FALSE,  nzlines=1000)
+extractseqs(listname,socket = autosocket(), format="fasta",operation="simple",feature="xx", bounds="xx", minbounds="xx", verbose = FALSE, nzlines=1000)
+exseq(listname,socket = autosocket(), format="fasta",operation="simple", feature="xx", bounds="xx", minbounds="xx", verbose = FALSE,  nzlines=1000)
 }
 
 \arguments{
   \item{listname}{the name of list on server (may be a virtual list) }
-  \item{socket}{a socket of class connection and sockconn returned by \code{choosebank}. 
-   Default value (auto) means
-   that the socket will be set to to the socket component of the banknameSocket variable. }
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
   \item{format}{the format of output.Can be \code{acnuc}, \code{fasta},\code{flat} or \code{coordinates} }
   \item{operation}{the type of extraction. Can be  \code{simple}, \code{translate}, \code{fragment}, \code{feature} or \code{region}  }
   \item{feature}{-optional- the feature to be extracted (for operations "feature" or "region"): a feature table item (CDS, mRNA,...)}
@@ -74,13 +73,13 @@ Format "coordinates" extract coordinate data; start > end indicates the compleme
   \code{\link{getlistrank}}
 }
 \examples{
- \dontrun{
- # Need internet connection
- choosebank("swissprot")
- query("MyListName", "k=globin", virtual = T)
- MyList.fasta <- exseq("MyListName", verbose=T)
- #
- 
+ \dontrun{# Need internet connection
+ choosebank("swissprotTP")
+ query("mylist", "k=globin", virtual = TRUE)
+ mylist.fasta <- exseq("mylist", verbose = TRUE)
+ # 103 lines of FASTA 
+ stopifnot(length(mylist.fasta) == 103)
+ closebank()
  }
 }
 \keyword{utilities}

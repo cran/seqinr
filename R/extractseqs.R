@@ -10,7 +10,7 @@
 #                                                                                                 #
 ###################################################################################################
 
-extractseqs <- function( listname,socket = "auto", format="fasta",operation="simple", feature="xx", bounds="xx", minbounds="xx",verbose = FALSE, nzlines=1000){
+extractseqs <- function(listname, socket = autosocket(), format="fasta",operation="simple", feature="xx", bounds="xx", minbounds="xx",verbose = FALSE, nzlines=1000){
   if (.Platform$OS.type == "windows") {
   	stop(paste("This function is not implemented for windows.\n"))
 	}
@@ -19,11 +19,6 @@ extractseqs <- function( listname,socket = "auto", format="fasta",operation="sim
 
   if(verbose) cat("I'm checking the arguments...\n")
 
-  if (socket == "auto"){
-    if(verbose) cat("No socket were specified, using default.\n")
-    socket <- get("banknameSocket", .GlobalEnv)$socket
-    }
-    
   if( !inherits(socket, "sockconn") ) stop(paste("argument socket = ", socket, "is not a socket connection."))
   if( !is.character(listname) ) stop(paste("argument listname = ", listname, "is not a character string."))
   if(verbose) cat("... and everything is OK up to now.\n")

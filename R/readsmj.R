@@ -13,16 +13,9 @@
 #                                                                                                 #
 ###################################################################################################
 
-readsmj <- function(socket = "auto", num = 2, nl = 10, recnum.add = FALSE, nature.add = TRUE,
+readsmj <- function(socket = autosocket(), num = 2, nl = 10, recnum.add = FALSE, nature.add = TRUE,
 plong.add = FALSE, libel.add = FALSE, sname.add = FALSE, all.add = FALSE)
 { 
-  #
-  # Use default bank if no socket is given:
-  #
-  if(socket == "auto"){
-    socket <- get("banknameSocket", .GlobalEnv)$socket
-  }
-  
   #
   # Turn all flags to TRUE when requested:
   #

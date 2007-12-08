@@ -7,14 +7,14 @@
  provided.
 }
 \usage{
-getType(socket = "auto")
+getType(socket = autosocket())
 }
 \arguments{
-  \item{socket}{An object of class \code{connection} returned by 
-  \code{choosebank}. The default bank is used by when socket == "auto".}
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
 }
 \value{
-  It returns a list containing a short description for each sequence type.
+  a list containing a short description for each subsequence type.
 }
 \references{
   \code{citation("seqinr")}
@@ -24,7 +24,7 @@ getType(socket = "auto")
 \examples{
 \dontrun{
 # Need internet connection
-  choosebank("genbank")
-  geType()}
+  choosebank("emblTP")
+  getType()}
 }
 \keyword{utilities}

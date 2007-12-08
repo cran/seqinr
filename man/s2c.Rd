@@ -2,8 +2,9 @@
 \alias{s2c}
 \title{ conversion of a string into a vector of chars }
 \description{
-  This is a simple utility function to convert a string such
-as "BigBang" into a vector of chars such as "B" "i" "g" "B" "a" "n" "g"
+  This is a simple utility function to convert a single string such
+  as \code{"BigBang"} into a vector of chars such as
+  \code{c("B", "i", "g", "B", "a", "n", "g")}.
 }
 \usage{
 s2c(string)
@@ -12,7 +13,8 @@ s2c(string)
   \item{string}{ a string of chars }
 }
 \value{
-  a vector of chars
+  a vector of chars. If supplied argument is not a single string, a warning is
+  issued and NA returned.
 }
 \references{
   \code{citation("seqinr")}
@@ -20,6 +22,6 @@ s2c(string)
 \author{ J.R. Lobry }
 \seealso{ \code{\link{c2s}} }
 \examples{
-s2c( "BigBang" )
+stopifnot(all(s2c("BigBang") == c("B", "i", "g", "B", "a", "n", "g")))
 }
 \keyword{utilities}

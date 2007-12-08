@@ -123,19 +123,21 @@ release with the same format as the ACNUC book:
  acnucbooksize <- 4.5
  acnucbp <- 526506
  mybank <- choosebank("genbank")
+ closebank()
  mybank$details
 \end{Sinput}
 \begin{Soutput}
-[1] "GenBank Rel. 161 (15 August 2007) Last Updated: Sep 18, 2007"                  
-[2] "80,504,164,078 bases; 77,005,502 sequences; 4,420,131 subseqs; 477,596 refers."
-[3] "Software by M. Gouy, Lab. Biometrie et Biologie Evolutive, Universite Lyon I"  
+[1] "             ****     ACNUC Data Base Content      ****                         "
+[2] "         GenBank Rel. 162 (15 October 2007) Last Updated: Oct 30, 2007"          
+[3] "81,770,960,650 bases; 77,863,951 sequences; 4,534,640 subseqs; 481,662 refers."  
+[4] "Software by M. Gouy, Lab. Biometrie et Biologie Evolutive, Universite Lyon I "   
 \end{Soutput}
 \begin{Sinput}
- bpbk <- unlist(strsplit(mybank$details[2], split = " "))[1]
+ bpbk <- unlist(strsplit(mybank$details[3], split = " "))[1]
  bpbk
 \end{Sinput}
 \begin{Soutput}
-[1] "80,504,164,078"
+[1] "81,770,960,650"
 \end{Soutput}
 \begin{Sinput}
  bpbk <- as.numeric(paste(unlist(strsplit(bpbk, split = ",")), 
@@ -144,47 +146,54 @@ release with the same format as the ACNUC book:
  (widthkm <- widthcm/10^5)
 \end{Sinput}
 \begin{Soutput}
-[1] 6.88062
+[1] 6.988891
 \end{Soutput}
 \end{Schunk}
 
-It would be about 6.9
+It would be about 7
 kilometer long in ACNUC book format to print GenBank today (\today).
 
 \section{About R and CRAN}
 
-R \cite{R, RfromR} is a \emph{libre} language and environment for statistical computing and graphics 
+\Rlogo{} \cite{R, RfromR} is a \emph{libre} language and environment for statistical computing and graphics 
 which provides a wide variety of statistical and graphical techniques: linear and 
 nonlinear modelling, statistical tests, time series analysis, classification, clustering, etc. 
-Please consult the R project homepage at \texttt{http://www.R-project.org/} for 
+Please consult the \Rlogo{} project homepage at \texttt{http://www.R-project.org/} for 
 further information. 
 
 
-The Comprehensive R Archive Network, CRAN, is a network of servers 
+The Comprehensive \Rlogo{} Archive Network, CRAN, is a network of servers 
 around the world that store identical, up-to-date, versions of code and documentation 
 for R. At compilation time of this document, there were
-51 
+60 
 mirrors available 
-from 26 countries.
+from 29 countries.
 Please use the CRAN mirror nearest to you to minimize network load, they are
 listed at \texttt{http://cran.r-project.org/mirrors.html}, and can be directly
 selected with the function \texttt{chooseCRANmirror()}.
 
 \section{About this document}
 
-In the terminology of the R project \cite{R, RfromR}, this document is a package \emph{vignette}.
-The examples given thereafter were run under \texttt{R version 2.5.1 (2007-06-27)}
-on Tue Sep 18 13:12:18 2007 with Sweave \cite{Sweave}.
+In the terminology of the \Rlogo{} project \cite{R, RfromR}, this document 
+is a package \emph{vignette}, which means that all code outputs present 
+here were actually obtained by runing them.
+The examples given thereafter were run under \texttt{R version 2.6.0 (2007-10-03)}
+on Tue Oct 30 09:08:05 2007 with Sweave \cite{Sweave}. There is a section at the end of
+each chapter called \textbf{Session Informations} that gives details about
+packages and package versions that were involved\footnote{
+Previous versions of \Rlogo{} and packages are available on CRAN mirrors,
+for instance at \url{http://cran.univ-lyon1.fr/src/contrib/Archive}.
+}.
 The last compiled version of this document is distributed along with the \seqinr{}
 package in the \texttt{/doc} folder. Once \seqinr{} has been installed, the
-full path to the package is given by the following R code :
+full path to the package is given by the following \Rlogo{} code :
 
 \begin{Schunk}
 \begin{Sinput}
  .find.package("seqinr")
 \end{Sinput}
 \begin{Soutput}
-[1] "/Users/lobry/Library/R/library/seqinr"
+[1] "/Users/lobry/seqinr.Rcheck/seqinr"
 \end{Soutput}
 \end{Schunk}
 
@@ -204,10 +213,10 @@ provide an efficient access to sequence databases under R.
 
 \section{About getting started}
 
-You need a computer connected to the Internet. First, install R on your computer.
+You need a computer connected to the Internet. First, install \Rlogo{} on your computer.
 There are distributions for Linux, Mac and Windows users
 on the CRAN (\texttt{http://cran.r-project.org}). Then, install the \texttt{ape}, 
-\texttt{ade4} and \texttt{seqinr} packages. This can be done directly in an R console
+\texttt{ade4} and \texttt{seqinr} packages. This can be done directly in an \Rlogo{} console
 with for instance the command \texttt{install.packages("seqinr")}. 
 Last, load the \seqinr{} package with:
 
@@ -235,24 +244,24 @@ with a question mark, as in \texttt{?aaa} and press enter.
 
 \section{About running R in batch mode}
 
-Although R is usually run in an interactive mode, some data pre-processing 
-and analyses could be too long. You can run your R code in batch mode
+Although \Rlogo{} is usually run in an interactive mode, some data pre-processing 
+and analyses could be too long. You can run your \Rlogo{} code in batch mode
 in a shell with a command that typically looks like :
 
 \begin{verbatim}
 unix$ R CMD BATCH input.R results.out &
 \end{verbatim}
 
-where \texttt{input.R} is a text file with the R code you want to run and
+where \texttt{input.R} is a text file with the \Rlogo{} code you want to run and
 \texttt{results.out} a text file to store the outputs. Note that in batch mode,
 the graphical user interface is not active so that some graphical devices 
 (\textit{e.g.} \texttt{x11}, \texttt{jpeg}, \texttt{png}) are not
 available (see the R FAQ \cite{RFAQ} for further details).
 
-It's worth noting that R uses the XDR representation of binary objects in binary saved files, 
-and these are portable across all R platforms. The \texttt{save()} and \texttt{load()}
+It's worth noting that \Rlogo{} uses the XDR representation of binary objects in binary saved files, 
+and these are portable across all \Rlogo{} platforms. The \texttt{save()} and \texttt{load()}
 functions are very efficient (because of their binary nature) for saving and restoring any 
-kind of R objects, in a platform independent way. To give a striking real example, at a given time
+kind of \Rlogo{} objects, in a platform independent way. To give a striking real example, at a given time
 on a given platform, it was about $4$ minutes long to import a numeric table with 70000 lines and 64 columns
 with the defaults settings of the \texttt{read.table()} function. Turning it into binary format,
 it was then about $8$ \emph{seconds} to restore it with the \texttt{load()} function.
@@ -275,7 +284,7 @@ In the long term, however, you are a winner for the following reasons.
 
 Do not re-invent (there's a patent \cite{wheel} on it anyway).
 At the compilation time of this document there were 
-1125
+1165
 contributed packages available. Even if you don't want to be spoon-feed 
 \textit{{\`a} bouche ouverte}, 
 it's not a bad
@@ -306,7 +315,7 @@ If you do not consider the reproducibility of scientific results
 to be a serious problem in practice, then the paper by Jonathan Buckheit and David Donoho
 \cite{repro} is a must read. Molecular data are available in public databases, this is
 a necessary but not sufficient condition to allow for the reproducibility of results.
-Publishing the R source code that was used in your analyses is a simple way
+Publishing the \Rlogo{} source code that was used in your analyses is a simple way
 to greatly facilitate the reproduction of your results at the expense of no extra cost. 
 At the expense of a little extra cost, you may consider to set up a RWeb server
 so that even the laziest reviewer may reproduce your results just by clicking on
@@ -333,7 +342,7 @@ strand for 7 bacterial chromosomes.
 \setkeys{Gin}{width=0.8\textwidth}
 
 This is a very specialised graph. The filled areas correspond to non-allowed values beause the sum 
-of the four bases frequencies cannot exceed 100 \%. The white areas correspond to possible values 
+of the four bases frequencies cannot exceed 100\%. The white areas correspond to possible values 
 (more exactly to the projection from $\mathbb{R}^4$ to the corresponding $\mathbb{R}^2$ 
 planes of the region of allowed values). The lines correspond to the very small subset of allowed 
 values for which we have in addition [A]=[T] and [C]=[G]. Points represent observed values in
@@ -365,7 +374,7 @@ all genetic code variants are available :
 \setkeys{Gin}{width=0.8\textwidth}
 
 As from \seqinr{} 1.0-4, it is possible to export the table of a genetic code into a \LaTeX~document,
-for instance table \ref{../tables/code3.tex} and table \ref{../tables/code4.tex} were automatically generated with the following R code:
+for instance table \ref{../tables/code3.tex} and table \ref{../tables/code4.tex} were automatically generated with the following \Rlogo{} code:
 
 \begin{Schunk}
 \begin{Sinput}
@@ -449,23 +458,25 @@ of \Rlogo{}~outputs (including graphics) in a \LaTeX~document. In the same spiri
 is a package called \texttt{xtable} \cite{xtable} to coerce \Rlogo{}~data into \LaTeX~tables.
 
 
-\section{Session Informations}
+\section*{Session Informations}
 
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.5.1 (2007-06-27), \verb|i386-apple-darwin8.9.1|
+  \item R version 2.6.0 (2007-10-03), \verb|i386-apple-darwin8.10.1|
   \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-34, ade4~1.4-3, ape~1.9-4,
-    gee~4.13-12, lattice~0.15-11, nlme~3.1-83, seqinr~1.1-2,
-    xtable~1.4-3
+  \item Other packages: MASS~7.2-36, ade4~1.4-4, ape~2.0-1,
+    gee~4.13-13, lattice~0.16-5, nlme~3.1-85, seqinr~1.1-3,
+    xtable~1.5-1
+  \item Loaded via a namespace (and not attached): grid~2.6.0,
+    rcompgen~0.1-15, tools~2.6.0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Tue Sep 18 13:12:22 2007
+  \item \Rlogo{} compilation time was: Tue Oct 30 09:08:08 2007
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

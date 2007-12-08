@@ -633,8 +633,8 @@ g.names
 @
 
 \Seqinr{} has very few methods devoted to phylogenetic analyses but many are
-available in the \texttt{ape} package. This allows for a very fine tuning
-of the graphical outputs of the analyses thanks to the power of the R
+available in the \texttt{ape} package \cite{ape2004}. This allows for a very fine tuning
+of the graphical outputs of the analyses thanks to the power of the \Rlogo{}
 facilities. For instance, a natural question
 here would be to compare the topology of the tree of the hosts and their
 parasites to see if we have congruence between host and parasite evolution.
@@ -643,16 +643,18 @@ would be tedious with a program devoted to the display of a single phylogenetic
 tree at time, involving a lot of manual copy/paste operations, hard to reproduce,
 and then boring to maintain with data updates.
 
-How does it looks under R? First, we need to \emph{infer} the tree topologies
+How does it looks under \Rlogo{}? First, we need to \emph{infer} the 
+tree topologies
 from data. Let's try as an \emph{illustration} the famous neighbor-joining tree estimation 
 of Saitou and Nei \cite{nj} with Jukes and Cantor's correction \cite{JC}
 for multiple substitutions.
 
 <<calculnjsurJC,eval=T>>=
 library(ape)
-louse.JC <- dist.dna(x =  lapply(louse$seq, s2c) , model = "JC69")
-gopher.JC <- dist.dna(x =  lapply(gopher$seq, s2c) , model = "JC69")
-
+x.louse <- lapply(louse$seq, function(x) as.DNAbin(s2c(x)))
+x.gopher <- lapply(gopher$seq, function(x) as.DNAbin(s2c(x)))
+louse.JC <- dist.dna(x = x.louse, model = "JC69")
+gopher.JC <- dist.dna(x = x.gopher, model = "JC69")
 l <- nj(louse.JC)
 g <- nj(gopher.JC)
 @ 
@@ -693,17 +695,20 @@ par(op)
 OK, this may look a little bit obscure if you are not fluent in programming, but please
 try the following experiment. In your current working directory, that is in the
 directory given by the \texttt{getwd()} command, create a text file called
-\texttt{essai.r} with your favourite text editor, and copy/paste the previous R
+\texttt{essai.r} with your favourite text editor, and copy/paste the previous \Rlogo{}
 commands, that is :
 
 \tiny
 \begin{verbatim}
 louse <- read.alignment(system.file("sequences/louse.fasta", package = "seqinr"), format = "fasta")
 gopher <- read.alignment(system.file("sequences/gopher.fasta", package = "seqinr"), format = "fasta")
-l.names <- readLines("http://pbil.univ-lyon1.fr/software/SeqinR/Datasets/louse.names")
-g.names <- readLines("http://pbil.univ-lyon1.fr/software/SeqinR/Datasets/gopher.names")
-louse.JC <- dist.dna(x =  lapply(louse$seq, s2c), model = "JC69" )
-gopher.JC <- dist.dna(x =  lapply(gopher$seq, s2c), model = "JC69" )
+l.names <- readLines(system.file("sequences/louse.names", package = "seqinr"))
+g.names <- readLines(system.file("sequences/gopher.names", package = "seqinr"))
+library(ape)
+x.louse <- lapply(louse$seq, function(x) as.DNAbin(s2c(x)))
+x.gopher <- lapply(gopher$seq, function(x) as.DNAbin(s2c(x)))
+louse.JC <- dist.dna(x = x.louse, model = "JC69")
+gopher.JC <- dist.dna(x = x.gopher, model = "JC69")
 l <- nj(louse.JC)
 g <- nj(gopher.JC)
 g$tip.label <- paste(1:8, g.names)
@@ -713,7 +718,7 @@ par(mar=c(2,1,2,1))
 plot(g, adj = 0.8, cex = 1.4, use.edge.length=FALSE, 
   main = "gopher (host)", cex.main = 2)
 plot(l,direction="l", use.edge.length=FALSE, cex = 1.4,
-  main = "louse (parasite)", cex.main = 2)        
+  main = "louse (parasite)", cex.main = 2)       
 \end{verbatim} 
 \normalsize
 
@@ -735,10 +740,10 @@ obtain the following graph :
 
 \setkeys{Gin}{width=\textwidth}
 <<K80, fig=TRUE, echo=F, results=hide, width=16, height=8,eval=T>>=
-louse.JC <- dist.dna(x =  lapply(louse$seq, s2c))
-gopher.JC <- dist.dna(x =  lapply(gopher$seq, s2c))
-l <- nj(louse.JC)
-g <- nj(gopher.JC)
+louse.K80 <- dist.dna(x = x.louse, model = "K80")
+gopher.K80 <- dist.dna(x = x.gopher, model = "K80")
+l <- nj(louse.K80)
+g <- nj(gopher.K80)
 g$tip.label <- paste(1:8, g.names)
 l$tip.label <- paste(1:8, l.names)
 layout(matrix(data = 1:2, nrow = 1, ncol = 2), width=c(1.4, 1))
@@ -750,8 +755,8 @@ plot(l,direction="l", use.edge.length=FALSE, cex = 1.4,
 @
 \setkeys{Gin}{width=0.8\textwidth}
 
-Nice congruence, isn't it? Now, something even worst, there was a error in the
-aligned sequence set : the first base in the first sequence in the file
+Now, something even worst, there was a error in the
+aligned sequence set: the first base in the first sequence in the file
 \texttt{louse.fasta} is not a C but a T. To locate the file on your system,
 enter the following command:
 

@@ -1,111 +1,110 @@
 ################################################################################
 #
-#                                         plot.SeqAcnucWeb
+#                              plot.SeqAcnucWeb
 #
 ################################################################################
 
-plot.SeqAcnucWeb <- function(x,  type = "all", ...){
+plot.SeqAcnucWeb <- function(x, types = getType()$sname, socket = autosocket(), ...){
   verbose <- FALSE # a passer en argument si besoin est
   #
   # Check arguments:
   #
   if(!inherits(x, "SeqAcnucWeb")) stop("Sequence of class SeqAcnucWeb is needed")
-  
-  socket <- attr(x, "socket")
 
-  types <- getType()$sname
-  types <- types[-c(1,3)] # to remove 3'INT and 5'INT
+  #
+  # Save graphical parameters:
+  #
+  old.par <- par(no.readonly = TRUE)
+  on.exit(par(old.par))
+
   if(verbose) cat(paste("types:", types, sep = "\n"))
   
-  if(type == "all"){
-    ptype <- types
-  } else {
-    if(sum(type %in% types) != length(type)) stop("Please check the type argument !")
-    ptype <- type
-  }
+  #
+  # Get the parent sequence:
+  #
+  
+  GiveMeTheMotherSequence <- paste("me n=", x, sep = "") 
+  query(listname = "me", query = GiveMeTheMotherSequence, socket = socket)
+  MotherLength <- as.numeric(getLength(get("me", .GlobalEnv)$req[[1]]))
+  MotherName <- get("me", .GlobalEnv)$req[[1]]
+  if(verbose) cat("\nMotherLength = ", MotherLength)
 
   #
-  # Get parent sequence and plot organization:
+  # Plot organization:
   #
-  par(mfrow = c(2,1), lend = "butt")
-  
-  q <- paste("me n=", x, sep="")
-  
-  query(listname = "me", query = q, socket = socket)
-  l <- as.integer(getLength(get("me", .GlobalEnv)$req[[1]]))
-  if(verbose) cat("\nl = ", l)
-
-  cx <- c(0, 1.1*l)
-  cy <- c(0, 15)
+  par(mar = c(2.1, 0.1, 4.1, 0.1), lend = "square", ljoin = "mitre")
+  cx <- c(0, MotherLength)
+  cy <- c(0, 1)
   plot(cx, cy, ann = FALSE, type = "n", axes = FALSE)
-  axis(1, col.axis = "blue")
-  title(main = paste("Physical position (base) of the subsequences","\n","on the parent sequence",
-          get("me", .GlobalEnv)$req[[1]], sep=" "), font.main = 3, col.main = "blue")
-  mtext(paste("(length of the parent sequence = ", l, ")", sep=""), cex = 0.7, font = 3)
+  axis(1)
+  title(main = paste("Physical position of subsequences on the parent sequence",
+          MotherName, "(", MotherLength, "bp )", sep=" "))
 
-  # Si x est une sous séquence alors dire le type
+  #
+  # Look for subsequences:
+  #
+ 
+  GiveMeAllSubsequences <- paste("fi n=", MotherName, sep = "")
+  query(listname = "filles", query = GiveMeAllSubsequences, socket = socket)
 
-  if(get("me", .GlobalEnv)$req[[1]] != x){
-    if(verbose) cat("x est une sous-sequence\n")
-    writeLines(paste("isenum&name=",x,sep=""),socket,sep="\n")
-    res <- readLines( socket , n=1 )
-    writeLines(paste("readsub&num=",as.numeric(parser.socket(res)[1]),sep=""),socket,sep="\n")
-    res <- readLines( socket , n=1 )
-    writeLines(paste("readsmj&num=",as.numeric(parser.socket(res)[4]),"&nl=1",sep=""),socket,sep="\n")
-    res <- readLines( socket , n=2 )
-    ty <- substring(noquote(parser.socket(res[2]))[2],4,nchar(noquote(parser.socket(res[2]))[2])-1)
-    p <- getLocationSocket(socket,x)
-    lapply(p,function(x){rect(x[1],0,x[2],1,col="red", border="red", lend = "butt" )})
-    plot(c(0,l),c(0,10),type="n",axes=FALSE,ann=FALSE)
-    title("Legend",font.main=4)
-    legend(9,legend=ty,fill="red",bg="cornsilk",ncol = 1)
-    names(p) <- x
-    return(p)
-  } else{
-    if(verbose) cat("x n'est pas une sous-sequence\n")
-    q <- paste("fi n=", x, sep = "")
-    query(listname = "filles", query = q, socket = socket)
-    if(length(get("filles", .GlobalEnv)$req)==1 && get("filles", .GlobalEnv)$req == x){ 
-      rect(0,1,getLength(x),2,col= "red",border="red", lend = "butt")
-      legend(9,legend=x,fill="red",bg="cornsilk",ncol = 1)
-      return(list(x))
-    }
-    cou <- 0
-    rap <- numeric()
-    nb <- numeric()
-    posi <- list()
+  n <- length(types) # number of potential subsequences types
+  ispresent <- rep(FALSE, n) # will be TRUE if one or more subsequence of this type is found
+  nb <- numeric(n) # count of subsequences for available types
+  posi <- vector(mode = "list", length = n) # position of subsequences
     
-    for(i in seq_len(length(ptype))){
-      cou <- cou + 1
-      q <- paste("filles et t=", ptype[i], sep = "")
-      if(verbose) cat("query = ", q, "\n")
+  for(i in seq_len(n)){
+    q <- paste("filles et t=", types[i], sep = "")
+    if(verbose) cat("query = ", q, "\n")
 
-      query(socket = socket, listname = "tmp", query = q)
-      if(get("tmp", .GlobalEnv)$nelem != 0){
-        if(is.na(get("tmp", .GlobalEnv)$req[[1]]) || get("tmp", .GlobalEnv)$req[[1]] == x ){ 
-          cou <- cou-1
-        } else{  
-          u <- lapply(get("tmp", .GlobalEnv)$req, getLocation)
-          names(u) <- get("tmp", .GlobalEnv)$req
-          lapply(u, function(x){ lapply(x,function(x){rect(x[1],0+cou,x[2],1+cou,col=cou, border=cou, lend = "butt" )})})
-          rap[cou] <- i
-          nb[cou] <- length(u)
-          posi[[cou]] <- u
-        }
-      }
-    }
-    plot(c(0,l), c(0,10), type = "n", axes = FALSE, ann = FALSE)
-    title("Legend",font.main=4)
-    legend(9,legend=paste(ptype[rap],"(",nb,")",sep=""),fill= seq_len(cou),bg="cornsilk",ncol = 4)
-    par(mfrow=c(1,1))
-    resu = lapply(posi,function(x){lapply(x,unlist)})
-    names(resu) = ptype[rap]
-    return( resu )
+    result <- try(query(socket = socket, listname = "tmp", query = q))
+    if( inherits(result, "try-error")) next
+    if(get("tmp", .GlobalEnv)$nelem == 0) next
+    if(is.na(get("tmp", .GlobalEnv)$req[[1]])) next
+    if(get("tmp", .GlobalEnv)$req[[1]] == x ) next
+
+    ispresent[i] <- TRUE
+      
+    u <- lapply(get("tmp", .GlobalEnv)$req, getLocation)
+    names(u) <- get("tmp", .GlobalEnv)$req
+    nb[i] <- length(u)
+    posi[[i]] <- u
   }
+
+  #
+  # Draw subsequences:
+  #
+  posi <- posi[ispresent]
+  nb <- nb[ispresent]
+  types <- types[ispresent]
+  n <- length(types)
+  for(i in seq_len(n)){
+    for(j in seq_len(length(posi[[i]]))){
+      xleft <- posi[[i]][[j]][1]
+      ybottom <- (i - 1)/(n + 1)
+      xright <- posi[[i]][[j]][2]
+      ytop <- i/(n + 1)
+      rect(xleft, ybottom, xright, ytop, col = i, border = "black", lend = "square", ljoin = "mitre" )
+    }
+  }
+    
+  #
+  # Draw legend:
+  #
+  legend("top", legend = paste(types, "(", nb, ")", sep = ""), fill = seq_len(n), horiz = TRUE, bty = "n")
+
+  resu <- lapply(posi,function(x){lapply(x,unlist)})
+  names(resu) <- types
+
   #
   #  workspace cleanup
   #
+  
   rm("me", pos = .GlobalEnv)
   rm("filles", pos = .GlobalEnv)
   rm("tmp", pos = .GlobalEnv)
+  
+  #
+  # Return invisibly the result:
+  #
+  invisible(resu)
 }

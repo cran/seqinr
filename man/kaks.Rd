@@ -48,13 +48,13 @@ The method implemented here is noted LWL85 in the above paper.\cr
  #
  # Simple Toy example:
  #
- s <- read.alignment(File = system.file("sequences/test.phylip", package = "seqinr"), format = "phylip")
+ s <- read.alignment(file = system.file("sequences/test.phylip", package = "seqinr"), format = "phylip")
  kaks(s)
  #
  # Check numeric results on an simple test example:
  #
  data(AnoukResult)
- Anouk <- read.alignment(File = system.file("sequences/Anouk.fasta", package = "seqinr"), format = "fasta")	
+ Anouk <- read.alignment(file = system.file("sequences/Anouk.fasta", package = "seqinr"), format = "fasta")	
  if( ! all.equal(kaks(Anouk), AnoukResult) ) {
    warning("Poor numeric results with Anouk test file")
  } else {

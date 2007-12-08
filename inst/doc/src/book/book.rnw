@@ -10,18 +10,25 @@
 %
 % We use a dark blue for hyperlink color so that it prints well also in Black & White
 %
-% Note that the backref option doesn't seem to work
-%
 % This package *MUST* be the last one called
 %
 \definecolor{MyDarkBlue}{rgb}{0.1,0,0.35} 
-\usepackage[colorlinks = true, linkcolor = MyDarkBlue, anchorcolor = MyDarkBlue, 
+\usepackage[pdftex, colorlinks = true, linkcolor = MyDarkBlue, anchorcolor = MyDarkBlue, 
 citecolor = MyDarkBlue, filecolor = MyDarkBlue, menucolor = MyDarkBlue,
-pagecolor = MyDarkBlue, urlcolor = MyDarkBlue, backref = true]{hyperref}
+pagecolor = MyDarkBlue, urlcolor = MyDarkBlue, backref = page, plainpages=false]{hyperref}
 
 
 \setcounter{minitocdepth}{1}
 
+%
+% We need to load seqinR dev version here before the title to update to
+% the last version number automatically:
+%
+<<loadseqinrdev,echo=F,results=hide>>=
+# if seqinr was checked with "R CMD check seqinr", then this should load
+# the last development version:
+library(seqinr, lib = normalizePath("../../../../../seqinr.Rcheck"))
+@
 
 \title{\Seqinr{} \Sexpr{packageDescription("seqinr")$Version}: a contributed package to the \Rlogo{}~project 
 for statistical computing devoted to biological sequences retrieval and analysis}
@@ -85,12 +92,15 @@ includepart("../frontmatter/cover.tex", withminiTOC = F, withchapter=FALSE)
 \dominitoc
 \tableofcontents
 %
-% Get the list of *.tex files to be included from the fact that there is a corresponding *.rnw file
+% Get the list of *.tex files to be included from the fact that there is a corresponding *.rnw file.
+% This is automatic for the frontmatter and appendix section, but we need some manual inclusion
+% for the mainmatter section to keep chapter in appropriate order.
 %
 <<getfilelist,echo=F,results=hide,fig=F>>=
 rnw2tex <- function(directory){
-  x <- list.files(path = directory, pattern = ".rnw", full.names = TRUE)
-  return(sub("....$", ".tex", x))
+  files.rnw <- list.files(path = directory, pattern = glob2rx("*.rnw"), full.names = TRUE)
+  potential.tex.files <- sub("....$", ".tex", files.rnw)
+  return(potential.tex.files[file.exists(potential.tex.files)])
 }
 frontmatter <- rnw2tex("../frontmatter")
 mainmatter <- rnw2tex("../mainmatter")
@@ -127,18 +137,31 @@ for(part in frontmatter[-which(frontmatter=="../frontmatter/cover.tex")]) includ
 
 \mainmatter
 
+%
+% In R comments the observed compilation times in seconds for Sweaving the corresponding *.rnw file
+%
 <<mainmatter, echo=F,results=tex, fig = F>>=
-includepart("../mainmatter/introduction.tex")
-includepart("../mainmatter/getseqflat.tex")
-includepart("../mainmatter/getseqacnuc.tex")
-includepart("../mainmatter/dealseq.tex")
-includepart("../mainmatter/acnuc_sockets.tex")
-includepart("../mainmatter/multivariate.tex")
-includepart("../mainmatter/nonparastats.tex")
+includepart("../mainmatter/introduction.tex") #  9.3
+includepart("../mainmatter/getseqflat.tex")   #  47.6
+includepart("../mainmatter/getseqacnuc.tex")  #  763.4
+includepart("../mainmatter/dealseq.tex")      #  1
+includepart("../mainmatter/acnucsocket.tex")#  55.4
+includepart("../mainmatter/multivariate.tex") #  31.4
+includepart("../mainmatter/nonparastats.tex") #  36.7 (-> 374 eval=FALSE -> T)
 @
 
 
 \appendix
+
+%
+% FAQ.rnw  # 72
+% fdl.rnw  # 0.1   
+% releasenotes.rnw # 0.24
+% subsequences.rnw # 375
+% dontrun.rnw (not be sweaved, delete and touch) 
+% gencodes.rnw # 0.9
+% rundontrun.rnw # 259.5 (need two sweave passes)
+%
 
 <<appendix, echo=F,results=tex, fig = F>>=
 for(part in appendix) includepart(part, withminiTOC = F)

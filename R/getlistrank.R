@@ -8,17 +8,12 @@
 #                                                                                                 #
 ###################################################################################################
 
-getlistrank <- function(listname, socket = "auto", verbose = FALSE) {
+getlistrank <- function(listname, socket = autosocket(), verbose = FALSE) {
 
   #
   # Check arguments:
   #
   if(verbose) cat("I'm checking the arguments...\n")
-
-  if (socket == "auto"){
-    if(verbose) cat("No socket were specified, using default.\n")
-    socket <- get("banknameSocket", .GlobalEnv)$socket
-  }
   
   if( !inherits(socket, "sockconn") ) stop(paste("argument socket = ", socket, "is not a socket connection."))
   if(verbose) cat("... and everything is OK up to now.\n")

@@ -61,11 +61,12 @@ directory:
 \end{Sinput}
 \begin{Soutput}
  [1] "ATH1_pep_cm_20040228.fasta" "Anouk.fasta"               
- [3] "bb.fasta"                   "bordetella.fasta"          
- [5] "ct.fasta"                   "ecolicgpe5.fasta"          
- [7] "gopher.fasta"               "louse.fasta"               
- [9] "malM.fasta"                 "ortho.fasta"               
-[11] "seqAA.fasta"                "smallAA.fasta"             
+ [3] "Sakai.fasta"                "bb.fasta"                  
+ [5] "bordetella.fasta"           "ct.fasta"                  
+ [7] "ecolicgpe5.fasta"           "edl933.fasta"              
+ [9] "gopher.fasta"               "louse.fasta"               
+[11] "malM.fasta"                 "ortho.fasta"               
+[13] "seqAA.fasta"                "smallAA.fasta"             
 \end{Soutput}
 \end{Schunk}
 
@@ -429,8 +430,8 @@ which contains the sequences of 21,161 proteins.
      set.attributes = FALSE))
 \end{Sinput}
 \begin{Soutput}
- utilisateur   syst\350me \351coul\351 
-       6.334        0.052        6.390 
+utilisateur    syst`eme    'ecoul'e 
+     10.178       0.048      10.247 
 \end{Soutput}
 \end{Schunk}
 
@@ -447,8 +448,8 @@ in XDR binary format to read them faster later at will:
  system.time(load("ath.RData"))
 \end{Sinput}
 \begin{Soutput}
- utilisateur   syst\350me \351coul\351 
-       0.301        0.012        0.315 
+utilisateur    syst`eme    'ecoul'e 
+      0.392       0.009       0.402 
 \end{Soutput}
 \end{Schunk}
 
@@ -1354,8 +1355,8 @@ gopher hosts (a subset of rodents), see figure \ref{lousegopher} :
 \end{Schunk}
 
 \Seqinr{} has very few methods devoted to phylogenetic analyses but many are
-available in the \texttt{ape} package. This allows for a very fine tuning
-of the graphical outputs of the analyses thanks to the power of the R
+available in the \texttt{ape} package \cite{ape2004}. This allows for a very fine tuning
+of the graphical outputs of the analyses thanks to the power of the \Rlogo{}
 facilities. For instance, a natural question
 here would be to compare the topology of the tree of the hosts and their
 parasites to see if we have congruence between host and parasite evolution.
@@ -1364,7 +1365,8 @@ would be tedious with a program devoted to the display of a single phylogenetic
 tree at time, involving a lot of manual copy/paste operations, hard to reproduce,
 and then boring to maintain with data updates.
 
-How does it looks under R? First, we need to \emph{infer} the tree topologies
+How does it looks under \Rlogo{}? First, we need to \emph{infer} the 
+tree topologies
 from data. Let's try as an \emph{illustration} the famous neighbor-joining tree estimation 
 of Saitou and Nei \cite{nj} with Jukes and Cantor's correction \cite{JC}
 for multiple substitutions.
@@ -1372,8 +1374,10 @@ for multiple substitutions.
 \begin{Schunk}
 \begin{Sinput}
  library(ape)
- louse.JC <- dist.dna(x = lapply(louse$seq, s2c), model = "JC69")
- gopher.JC <- dist.dna(x = lapply(gopher$seq, s2c), model = "JC69")
+ x.louse <- lapply(louse$seq, function(x) as.DNAbin(s2c(x)))
+ x.gopher <- lapply(gopher$seq, function(x) as.DNAbin(s2c(x)))
+ louse.JC <- dist.dna(x = x.louse, model = "JC69")
+ gopher.JC <- dist.dna(x = x.gopher, model = "JC69")
  l <- nj(louse.JC)
  g <- nj(gopher.JC)
 \end{Sinput}
@@ -1422,17 +1426,20 @@ We now restore the old graphical settings that were previously saved:
 OK, this may look a little bit obscure if you are not fluent in programming, but please
 try the following experiment. In your current working directory, that is in the
 directory given by the \texttt{getwd()} command, create a text file called
-\texttt{essai.r} with your favourite text editor, and copy/paste the previous R
+\texttt{essai.r} with your favourite text editor, and copy/paste the previous \Rlogo{}
 commands, that is :
 
 \tiny
 \begin{verbatim}
 louse <- read.alignment(system.file("sequences/louse.fasta", package = "seqinr"), format = "fasta")
 gopher <- read.alignment(system.file("sequences/gopher.fasta", package = "seqinr"), format = "fasta")
-l.names <- readLines("http://pbil.univ-lyon1.fr/software/SeqinR/Datasets/louse.names")
-g.names <- readLines("http://pbil.univ-lyon1.fr/software/SeqinR/Datasets/gopher.names")
-louse.JC <- dist.dna(x =  lapply(louse$seq, s2c), model = "JC69" )
-gopher.JC <- dist.dna(x =  lapply(gopher$seq, s2c), model = "JC69" )
+l.names <- readLines(system.file("sequences/louse.names", package = "seqinr"))
+g.names <- readLines(system.file("sequences/gopher.names", package = "seqinr"))
+library(ape)
+x.louse <- lapply(louse$seq, function(x) as.DNAbin(s2c(x)))
+x.gopher <- lapply(gopher$seq, function(x) as.DNAbin(s2c(x)))
+louse.JC <- dist.dna(x = x.louse, model = "JC69")
+gopher.JC <- dist.dna(x = x.gopher, model = "JC69")
 l <- nj(louse.JC)
 g <- nj(gopher.JC)
 g$tip.label <- paste(1:8, g.names)
@@ -1442,7 +1449,7 @@ par(mar=c(2,1,2,1))
 plot(g, adj = 0.8, cex = 1.4, use.edge.length=FALSE, 
   main = "gopher (host)", cex.main = 2)
 plot(l,direction="l", use.edge.length=FALSE, cex = 1.4,
-  main = "louse (parasite)", cex.main = 2)        
+  main = "louse (parasite)", cex.main = 2)       
 \end{verbatim} 
 \normalsize
 
@@ -1466,8 +1473,8 @@ obtain the following graph :
 \includegraphics{../figs/getseqflat-K80}
 \setkeys{Gin}{width=0.8\textwidth}
 
-Nice congruence, isn't it? Now, something even worst, there was a error in the
-aligned sequence set : the first base in the first sequence in the file
+Now, something even worst, there was a error in the
+aligned sequence set: the first base in the first sequence in the file
 \texttt{louse.fasta} is not a C but a T. To locate the file on your system,
 enter the following command:
 
@@ -1476,7 +1483,7 @@ enter the following command:
  system.file("sequences/louse.fasta", package = "seqinr")
 \end{Sinput}
 \begin{Soutput}
-[1] "../../../../../seqinr.Rcheck/seqinr/sequences/louse.fasta"
+[1] "/Users/lobry/seqinr.Rcheck/seqinr/sequences/louse.fasta"
 \end{Soutput}
 \end{Schunk}
 
@@ -1486,18 +1493,26 @@ in your text editor, fix the error, go back to the \Rlogo{}~console to
 the updated dataset.
 
 
-\section{Session Informations}
+\section*{Session Informations}
 
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.5.1 (2007-06-27), \verb|i386-apple-darwin8.9.1|
+  \item R version 2.6.0 (2007-10-03), \verb|i386-apple-darwin8.10.1|
   \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-34, ade4~1.4-3, ape~1.9-4,
-    gee~4.13-12, lattice~0.15-11, nlme~3.1-83, seqinr~1.1-1,
-    xtable~1.4-3
+  \item Other packages: MASS~7.2-36, ade4~1.4-4, ape~2.0-1,
+    gee~4.13-13, lattice~0.16-5, nlme~3.1-85, seqinr~1.1-3,
+    xtable~1.5-1
+  \item Loaded via a namespace (and not attached): grid~2.6.0,
+    rcompgen~0.1-15, tools~2.6.0
+\end{itemize}
+There were two compilation steps:
+
+\begin{itemize}
+  \item \Rlogo{} compilation time was: Thu Nov  1 10:42:10 2007
+  \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
 

@@ -1,5 +1,5 @@
 
-\section{Session Informations}
+\section*{Session Informations}
 
 This part was compiled under the following \Rlogo{}~environment:
 

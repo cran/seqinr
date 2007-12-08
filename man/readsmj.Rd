@@ -6,13 +6,12 @@
  year, type, organelle, division, and db structure information.
 }
 \usage{
-readsmj(socket = "auto", num = 2, nl = 10, recnum.add = FALSE, nature.add = TRUE,
+readsmj(socket = autosocket(), num = 2, nl = 10, recnum.add = FALSE, nature.add = TRUE,
 plong.add = FALSE, libel.add = FALSE, sname.add = FALSE, all.add = FALSE)
 }
 \arguments{
-\itemize{
-  \item{socket}{An object of class \code{connection} returned by 
-  \code{choosebank}. The default bank is used by when socket == "auto".}
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
   \item{num}{rank number of first record.}
   \item{nl}{number of records to read.}
   \item{recnum.add}{to extract record numbers.}
@@ -24,7 +23,6 @@ plong.add = FALSE, libel.add = FALSE, sname.add = FALSE, all.add = FALSE)
   \item{sname.add}{to extract the short version of the name, that is without
                    the first two characters.}
   \item{all.add}{to extract all (all flags set to TRUE).}
-  }
 }
 
 \value{

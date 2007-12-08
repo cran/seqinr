@@ -11,7 +11,7 @@ biological sequence (DNA and protein) data. Include also
 utilities for sequence data management under the ACNUC system.
 }
 \author{
-Delphine Charif and Jean Lobry and Leonor Palmeira
+Delphine Charif and Jean R. Lobry and Anamaria Necsulea and Leonor Palmeira
 
 Maintainer: Simon Penel <penel@biomserv.univ-lyon1.fr>
 }

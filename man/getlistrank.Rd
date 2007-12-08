@@ -7,15 +7,14 @@ This is a low level function to get the rank of a list on server from its name.
 }
 
 \usage{
-getlistrank(listname, socket = "auto", verbose = FALSE)
-glr(listname, socket = "auto", verbose = FALSE)
+getlistrank(listname, socket = autosocket(), verbose = FALSE)
+glr(listname, socket = autosocket(), verbose = FALSE)
 }
 
 \arguments{
   \item{listname}{the name of list on server}
-  \item{socket}{a socket of class connection and sockconn returned by \code{choosebank}. 
-   Default value (auto) means
-   that the socket will be set to to the socket component of the banknameSocket variable. }
+  \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC
+                        database (default is a socket to the last opened database).}
   \item{verbose}{if \code{TRUE}, verbose mode is on}
 }
 
@@ -31,21 +30,17 @@ glr(listname, socket = "auto", verbose = FALSE)
 }
 \author{J.R. Lobry}
 \seealso{
-  \code{\link{choosebank}}, 
-  \code{\link{query}}
+  \code{\link{choosebank}}, \code{\link{query}}
 }
 
 \examples{
  \dontrun{
  # Need internet connection
- choosebank("genbank")
- query("MyListName", "sp=Borrelia burgdorferi", virtual=T)
- glr("MyListName")
- #
- # Should be:
- #
- # [1] 2
- #
+ choosebank("emblTP")
+ query("MyListName", "sp=Borrelia burgdorferi", virtual = TRUE)
+ (result <- getlistrank("MyListName"))
+ stopifnot(result == 2)
+ closebank()
  }
 }
 \keyword{utilities}

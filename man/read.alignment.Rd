@@ -6,15 +6,19 @@
  These formats are used to store nucleotide or protein multiple alignments. 
 }
 \usage{
-read.alignment(file, format, File = NULL)
+read.alignment(file, format, forceToLower = TRUE, File = NULL)
 }
 \arguments{
   \item{file}{the name of the file which the aligned sequences are to be read from. 
-  If it does not contain an absolute or relative path, the file name is relative 
-  to the current working directory, \code{\link{getwd}}. }
+    If it does not contain an absolute or relative path, the file name is relative 
+    to the current working directory, \code{\link{getwd}}. }
   \item{format}{a character string specifying the format of the file : \code{mase}, 
   \code{clustal}, \code{phylip}, \code{fasta} or \code{msf} }
-  \item{File}{synonymous of file maintained for backward compatibility.}
+  \item{forceToLower}{a logical defaulting to TRUE stating whether the returned
+    characters in the sequence should be in lower case (introduced in seqinR
+    release 1.1-3).}
+  \item{File}{synonymous of file maintained for backward compatibility.
+    As from seqinR 1.1-3 this argument is deprecated and a warning is issued.}
 }
 \details{
 
@@ -61,12 +65,12 @@ read.alignment(file, format, File = NULL)
    to 10 characters and may contain blanks. 
 }
    \item{"fasta"}{ Sequence in fasta format begins with a single-line 
-   description (distinguished bby a greater-than (>) symbol), followed 
+   description (distinguished by a greater-than (>) symbol), followed 
    by sequence data on the next line.
 }
 }
 \value{
-  It returns an object of class \code{alignment} which is a list with the following components:
+ An object of class \code{alignment} which is a list with the following components:
   \item{nb}{ the number of aligned sequences }
   \item{nam}{ a vector of strings containing the names of the aligned sequences } 
   \item{seq}{ a vector of strings containing the aligned sequences} 
@@ -76,6 +80,7 @@ read.alignment(file, format, File = NULL)
 \code{citation("seqinr")}
 }
 \author{ D. Charif, J.R. Lobry }
+\seealso{\code{\link{read.fasta}}, \code{\link{write.fasta}}, \code{\link{reverse.align}},\code{\link{dist.alignment}} }
 \examples{
 mase <- read.alignment(file = system.file("sequences/test.mase", package = "seqinr"), format = "mase")
 clustal <- read.alignment(file = system.file("sequences/test.aln", package = "seqinr"), format="clustal")

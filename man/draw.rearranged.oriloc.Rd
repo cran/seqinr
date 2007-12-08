@@ -29,8 +29,9 @@
 }
 
 \references{
-  Necsulea, A. and Lobry, J.R. (in prep) A novel method for assessing
-  the effect of replication on DNA base composition asymmetry.
+  Necsulea, A. and Lobry, J.R. (2007) A New Method for Assessing the 
+  Effect of Replication on DNA Base Composition Asymmetry.
+  \emph{Molecular Biology and Evolution}, \bold{24}:2169-2179.
 }
 \author{Jean R. Lobry and A. Necsulea }
 \seealso{ \code{\link{rearranged.oriloc}},

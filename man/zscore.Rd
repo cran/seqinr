@@ -87,11 +87,11 @@ zscore(sequence, simulations = NULL, modele, exact = FALSE, alphabet = s2c("acgt
 \author{ Leonor Palmeira }
 \seealso{ \code{\link{permutation}} }
 \examples{
-sequence=sample(s2c('acgt'),6000,rep=TRUE)
+sequence <- sample(x = s2c("acgt"), size = 6000, replace = TRUE)
 rho(sequence)
-zscore(sequence,modele='base')
-zscore(sequence,modele='base',exact=TRUE)
-zscore(sequence,modele='codon')
-zscore(sequence,1000,modele='syncodon')
+zscore(sequence, modele = "base")
+zscore(sequence, modele = "base", exact = TRUE)
+zscore(sequence, modele = "codon")
+zscore(sequence, simulations = 1000, modele = "syncodon")
 }
 \keyword{ utilities }

@@ -135,13 +135,8 @@ And finally inserted at the begining of the \LaTeX~file with:
 \end{verbatim}
 
 
-\section*{Session Informations}
+\SweaveInput{../config/sessionInfo.rnw}
 
-This part was compiled under the following \Rlogo{}~environment:
-
-<<sessionInfo, results=tex, echo = F>>=
-toLatex(sessionInfo())
-@
 
 % END - DO NOT REMOVE THIS LINE
 
