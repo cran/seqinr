@@ -38,10 +38,6 @@
 \item{...}{Further arguments are passed to the function \code{plot}.}
 }
 
-\details{
-  
-}
-
 \references{
 \code{citation("seqinr")}
 }

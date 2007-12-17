@@ -12,6 +12,8 @@
 
 \title{Generic function to get sequence data}
 \description{
+getSequence returns the sequence either as vector of single chararacters
+or as a single string of multiple characters.
 }
 \usage{
 getSequence(object, as.string = FALSE, ...)
@@ -19,7 +21,7 @@ getSequence(object, as.string = FALSE, ...)
 }
 \arguments{
   \item{object}{ an object of the class \code{\link{SeqAcnucWeb}}
-    or \code{\link{SeqFastadna}}, or \code{\link{SeqFastaAA}} or \code{\link{SeqFrag}} or a list of these objects, or an object f class \code{qaw} created by \code{\link{query}} }
+    or \code{\link{SeqFastadna}}, or \code{\link{SeqFastaAA}} or \code{\link{SeqFrag}} or a list of these objects, or an object of class \code{qaw} created by \code{\link{query}} }
   \item{as.string}{if TRUE sequences are returned as strings of multiple characters
     instead of a vector of single characters}
   \item{socket}{an object of class \code{sockconn} connecting to a remote ACNUC

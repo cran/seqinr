@@ -15,9 +15,6 @@ cfl(socket = autosocket())
                         database (default is a socket to the last opened database).}
 }
 
-\details{
-}
-
 \value{
 a list with the following 2 components:
 

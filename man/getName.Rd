@@ -11,6 +11,7 @@
 
 \title{Generic function to get the names of sequences}
 \description{
+GetName returns the sequence names.
 }
 \usage{
 getName(object, ...)

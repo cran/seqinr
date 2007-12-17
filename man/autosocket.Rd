@@ -8,8 +8,6 @@ the last opened ACNUC database for functions using sockets.
 \usage{
 autosocket()
 }
-\arguments{
-}
 
 \value{
 An object of class sockconn.

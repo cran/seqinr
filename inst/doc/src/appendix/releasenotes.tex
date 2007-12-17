@@ -41,6 +41,34 @@
 
 \section*{1.1 series}
 
+\subsection*{release 1.1-5}
+
+Minor release to fix mainly problems in the documentation.
+
+\begin{itemize}
+
+\item The argument section was empty in \texttt{autosocket.Rd}.
+
+\item The details section was empty in \texttt{countfreelists.Rd} and
+  \texttt{draw.oriloc.Rd}.
+
+\item The value section was empty in \texttt{gbk2g2.Rd}. The corresponding
+  function was changed to use a local file for the demo.
+
+\item The description section was missing in \texttt{getFrag.Rd},
+  \texttt{getLength.Rd}, \texttt{getName.Rd}, \texttt{getSequence.Rd}.
+
+\item Documentation of the function \texttt{dia.bactgensize()} to plot 
+  the distribution of bacterial genome size from GOLD data has been
+  ammended to credit sources \cite{gold1, gold2, gold3, gold4}. It
+  has gained a new argument \texttt{maxgensize} defaulting to 20000 
+  to remove outliers. It has also gained a new argument \texttt{source}
+  for the file to look for raw data, defaulting to an (outdated) local
+  copy so that the function can be called even when there is no internet
+  connection.
+
+\end{itemize}
+
 \subsection*{release 1.1-4}
 
 Minor release to fix problems found by Kurt Hornik.
@@ -559,7 +587,7 @@ This part was compiled under the following \Rlogo{}~environment:
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
   \item Other packages: MASS~7.2-38, ade4~1.4-5, ape~2.0-1,
-    gee~4.13-13, lattice~0.17-2, nlme~3.1-86, seqinr~1.1-3,
+    gee~4.13-13, lattice~0.17-2, nlme~3.1-86, seqinr~1.1-5,
     xtable~1.5-1
   \item Loaded via a namespace (and not attached): grid~2.6.1,
     rcompgen~0.1-17
@@ -567,7 +595,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sat Dec  8 16:36:56 2007
+  \item \Rlogo{} compilation time was: Sun Dec 16 15:32:50 2007
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

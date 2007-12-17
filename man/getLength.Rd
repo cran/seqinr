@@ -12,6 +12,7 @@
 
 \title{Generic function to get the length of sequences}
 \description{
+getLength returns the total number of bases or amino-acids in a sequence.
 }
 \usage{
 getLength(object, ...)
@@ -22,8 +23,8 @@ getLength(object, ...)
   \item{...}{further arguments passed to or from other methods}
 }
 \value{
-  \code{getLength} returns a numeric vector of length 1 giving the length of the
-    sequence.}
+  \code{getLength} returns a numeric vector giving the length of the
+    sequences.}
 \references{
   \code{citation("seqinr")}
 }

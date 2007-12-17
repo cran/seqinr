@@ -11,6 +11,34 @@
 
 \section*{1.1 series}
 
+\subsection*{release 1.1-5}
+
+Minor release to fix mainly problems in the documentation.
+
+\begin{itemize}
+
+\item The argument section was empty in \texttt{autosocket.Rd}.
+
+\item The details section was empty in \texttt{countfreelists.Rd} and
+  \texttt{draw.oriloc.Rd}.
+
+\item The value section was empty in \texttt{gbk2g2.Rd}. The corresponding
+  function was changed to use a local file for the demo.
+
+\item The description section was missing in \texttt{getFrag.Rd},
+  \texttt{getLength.Rd}, \texttt{getName.Rd}, \texttt{getSequence.Rd}.
+
+\item Documentation of the function \texttt{dia.bactgensize()} to plot 
+  the distribution of bacterial genome size from GOLD data has been
+  ammended to credit sources \cite{gold1, gold2, gold3, gold4}. It
+  has gained a new argument \texttt{maxgensize} defaulting to 20000 
+  to remove outliers. It has also gained a new argument \texttt{source}
+  for the file to look for raw data, defaulting to an (outdated) local
+  copy so that the function can be called even when there is no internet
+  connection.
+
+\end{itemize}
+
 \subsection*{release 1.1-4}
 
 Minor release to fix problems found by Kurt Hornik.

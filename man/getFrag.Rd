@@ -12,6 +12,8 @@
 
 \title{Generic function to extract sequence fragments}
 \description{
+getFrag is used to extract the sequence fragment starting at the \code{begin} position
+and ending at the \code{end} position.
 }
 \usage{
 getFrag(object, begin, end, ...)

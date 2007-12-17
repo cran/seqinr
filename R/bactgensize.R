@@ -1,94 +1,41 @@
 dia.bactgensize <- function(
   fit = 2, p = 0.5, m1 = 2000, sd1 = 600, m2 = 4500, sd2 = 1000, p3 = 0.05,
-  m3 = 9000, sd3 = 1000)
+  m3 = 9000, sd3 = 1000, maxgensize = 20000,
+  source = c(system.file("sequences/goldtable15Dec07.txt", package = "seqinr"),
+    "http://www.genomesonline.org/DBs/goldtable.txt"))
 {
-
-  archURL <- "http://www.genomesonline.org/search.cgi?orgcol=org&sizecol=size&goldstamp=ALL&gen_type=ALL&org_name1=genus&gensp=&org_domain=ARCHAEAL&org_status=ALL&size2=ALL&org_size=Kb&gen_gc=ALL&phylogeny2=ALL&gen_institution=ALL&gen_funding=ALL&gen_data=ALL&cont=ALL&gen_pheno=ALL&gen_eco=ALL&gen_disease=ALL&gen_relevance=ALL&gen_avail=ALL&selection=submit+search"
-  bactURL <- "http://www.genomesonline.org/search.cgi?orgcol=org&sizecol=size&goldstamp=ALL&gen_type=ALL&org_name1=genus&gensp=&org_domain=BACTERIAL&org_status=ALL&size2=ALL&org_size=Kb&gen_gc=ALL&phylogeny2=ALL&gen_institution=ALL&gen_funding=ALL&gen_data=ALL&cont=ALL&gen_pheno=ALL&gen_eco=ALL&gen_disease=ALL&gen_relevance=ALL&gen_avail=ALL&selection=submit+search"
-  bactdata <- readLines(bactURL)
-  archdata <- readLines(archURL)
-
 #
-# Heuristic: data are at the line of maximum length
+# Use local source by default:
 #
-
-  bactdata <- bactdata[which(max(nchar(bactdata))==nchar(bactdata))]
-  archdata <- archdata[which(max(nchar(archdata))==nchar(archdata))]
-
+  source <- source[1]
 #
-# Split by Table lines:
+# Build source of data string:
 #
-
-  bactdata <- unlist(strsplit(bactdata,split="<tr>"))
-  archdata <- unlist(strsplit(archdata,split="<tr>"))
-
+  if(source == system.file("sequences/goldtable15Dec07.txt", package = "seqinr")){
+    sodtxt <- "Source of data: GOLD (Genomes OnLine Database) 15 Dec 2007"
+  } else {
+    sodtxt <- paste("Source of data: GOLD (Genomes OnLine Database)",date())
+  }
 #
-# Keep only lines where genome size is documented:
+# Read data from GOLD:
 #
-
-  bactdata <- bactdata[grep(" Kb", bactdata)]
-  archdata <- archdata[grep(" Kb", archdata)]
-
-#
-# Heuristic: species names are in italic
-#
-
-  archnames <- unlist(strsplit(archdata,split="<i>"))
-  archnames <- archnames[grep("</i>", archnames)]
-  archnames <- strsplit(archnames, split="</i>")
-  archnames <- unlist(lapply(archnames,"[",1)) #Keep the first element
-  archnames <- strsplit(archnames,split="<br>")
-  archgenus <- unlist(lapply(archnames,"[",1))
-  archspecies <- unlist(lapply(archnames,"[",2))
-  if( length(archspecies) != length(archgenus) ) stop("length(archspecies) != length(archgenus)")
-
-
-  bactnames <- unlist(strsplit(bactdata,split="<i>"))
-  bactnames <- bactnames[grep("</i>", bactnames)]
-  bactnames <- strsplit(bactnames, split="</i>")
-  bactnames <- unlist(lapply(bactnames,"[",1)) #Keep the first element
-  bactnames <- strsplit(bactnames,split="<br>")
-  bactgenus <- unlist(lapply(bactnames,"[",1))
-  bactspecies <- unlist(lapply(bactnames,"[",2))
-  if( length(bactspecies) != length(bactgenus) ) stop("llength(bactspecies) != length(bactgenus)")
-
-#
-# Get genome size
-#
-
-  archgs <- unlist(strsplit(archdata, split="<th>"))
-  archgs <- archgs[grep(" Kb", archgs)]
-  archgs <- strsplit(archgs, split=" ")
-  archgs <- unlist(lapply(archgs, "[", 1))
-
-  bactgs <- unlist(strsplit(bactdata, split="<th>"))
-  bactgs <- bactgs[grep(" Kb", bactgs)]
-  bactgs <- strsplit(bactgs, split=" ")
-  bactgs <- unlist(lapply(bactgs, "[", 1))
-
-#
-# Check lengths consistency
-#
-
-  if( length(bactgs) != length(bactgenus) ) stop("length(bactgs) != length(bactgenus)")
-  if( length(archgs) != length(archgenus) ) stop("length(archgs) != length(archgenus)")
-
-#
-# Build data frame
-#
-
-  genus <- data.frame(c(archgenus, bactgenus))
-  species <- data.frame(c(archspecies, bactspecies))
-  gs <- data.frame(as.numeric(c(archgs, bactgs)))
-
-  tmp <- cbind(genus, species, gs)
-  data <- data.frame(tmp)
+  alldata <- read.table(source, header = TRUE, sep = "\t",
+                        comment.char = "", quote = "")
+  SUPERKINGDOM <- 1 # col number
+  kingdom <- alldata[, SUPERKINGDOM]
+  prodata <- alldata[ kingdom == "Archaea" | kingdom == "Bacteria", ]
+  data <- prodata[, c("GENUS", "SPECIES", "SIZE.kb.")]
   names(data) <- c("genus", "species", "gs")
-
-
+  data <- data[complete.cases(data), ]
+#
+# Remove data > maxgensize:
+#
+  data <- data[data$gs <= maxgensize, ]
+#
+# Use Kb scale
+#
   sizeKb <- data$gs
   n <- length(sizeKb)
-
 #
 # Graphics
 #
@@ -110,7 +57,7 @@ dia.bactgensize <- function(
     legend(x = max(sizeKb)/2, y = 0.75*max(hst$counts), lty=1,
       "Gaussian kernel density estimation")
       
-    mtext(paste("Source of data: GOLD (Genomes OnLine Database)",date()))
+    mtext(sodtxt)
   }
 ##########################################
 #
@@ -130,14 +77,15 @@ dia.bactgensize <- function(
       -sum(log(p*dnorm(obs,m1,sd1)+(1-p)*dnorm(obs,m2,sd2)))
     }
 
-    nlmres <- nlm(logvraineg, c(p, m1, sd1, m2, sd2), obs=sizeKb)
+    nlmres <- suppressWarnings(nlm(logvraineg, c(p, m1, sd1, m2, sd2), obs=sizeKb))
     estimate <- nlmres$estimate
 
     y1 <- vscale*estimate[1]*dnorm(x, estimate[2], estimate[3])
     y2 <- vscale*(1-estimate[1])*dnorm(x, estimate[4], estimate[5])
+    dst <- density(sizeKb)
 
-    hst <- hist(sizeKb, freq = TRUE, plot = FALSE, breaks = mybreaks)    
-    ymax <- max(y1, y2, hst$counts)
+    hst <- hist(sizeKb, plot = FALSE, breaks = mybreaks)    
+    ymax <- max(y1, y2, hst$counts, vscale*dst$y)
     
     
     hist(sizeKb, freq = TRUE, ylim=c(0,ymax),
@@ -164,12 +112,11 @@ dia.bactgensize <- function(
        e4 = round(estimate[4],1),
        e5 = round(estimate[5],1))))
        
-    dst <- density(sizeKb)
     lines(x=dst$x, y=vscale*dst$y)
     legend(x = max(sizeKb)/2, y = 0.75*ymax, lty=1,
        "Gaussian kernel density estimation")
        
-    mtext(paste("Source of data: GOLD (Genomes OnLine Database)",date()))
+    mtext(sodtxt)
   }
 ##########################################
 #
@@ -194,14 +141,14 @@ dia.bactgensize <- function(
              +p3*dnorm(obs,m3,sd3)))
     }
 
-    nlmres <- nlm(logvraineg, c(p, m1, sd1, m2, sd2, p3, m3, sd3), obs=sizeKb)
+    nlmres <- suppressWarnings(nlm(logvraineg, c(p, m1, sd1, m2, sd2, p3, m3, sd3), obs=sizeKb))
     estimate <- nlmres$estimate
 
     y1 <- vscale*estimate[1]*dnorm(x, estimate[2], estimate[3])
     y2 <- vscale*(1-estimate[1]-estimate[6])*dnorm(x, estimate[4], estimate[5])
     y3 <- vscale*estimate[6]*dnorm(x, estimate[7], estimate[8])
 
-    hst <- hist(sizeKb, freq = TRUE, plot = FALSE, breaks = mybreaks)    
+    hst <- hist(sizeKb, plot = FALSE, breaks = mybreaks)    
     ymax <- max(y1, y2, y3, hst$counts)
 
     hist(sizeKb, freq = TRUE, ylim=c(0,ymax),
@@ -240,7 +187,7 @@ dia.bactgensize <- function(
     legend(x = max(sizeKb)/2, y = 0.75*ymax, lty=1,
        "Gaussian kernel density estimation")
        
-    mtext(paste("Source of data: GOLD (Genomes OnLine Database)",date()))
+    mtext(sodtxt)
   }
 #
 # Return invisibly the dataset
