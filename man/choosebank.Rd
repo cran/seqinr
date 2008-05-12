@@ -10,18 +10,23 @@
   described in the section \code{references}.   
 }
 \usage{
-choosebank(bank = NA, host = "pbil.univ-lyon1.fr", port = 5558, verbose = FALSE,
-              timeout = 5, infobank = FALSE, tagbank = NA)
+choosebank(bank = NA, host = "pbil.univ-lyon1.fr", port = 5558, server = FALSE,
+                    blocking = TRUE, open = "a+", encoding = "", verbose = FALSE,
+                    timeout = 5, infobank = FALSE, tagbank = NA)
 }
 \arguments{
-  \item{bank}{ String. The name of the bank. If NA, \code{choosebank} will return the names of all database known by the server.}
-  \item{host}{ String. Host name for port}
-  \item{port}{ Integer. The TCP port number}
-  \item{verbose}{ Logical. If TRUE, verbose mode is on}
-  \item{timeout}{ Integer. The timeout in seconds for \code{socketConnection}. Default 5 seconds.}
-  \item{infobank}{ Logical. If \code{infobank} is TRUE and \code{bank} is \code{NA}, a data.frame 
+  \item{bank}{string. The name of the bank. If NA, \code{choosebank} will return the names of all database known by the server.}
+  \item{host}{string. Host name for port (see \code{\link{socketConnection}})}
+  \item{port}{integer. The TCP port number (see \code{\link{socketConnection}})}
+  \item{server}{logical. Should the socket be a client or a server? (see \code{\link{socketConnection}})}
+  \item{blocking}{logical. (see \code{\link{socketConnection}})}
+  \item{open}{string. A description of how to open the connection (see \code{\link{socketConnection}})}
+  \item{encoding}{string. The name of the encoding to be used. (see \code{\link{socketConnection}})}
+  \item{verbose}{logical. If TRUE, verbose mode is on}
+  \item{timeout}{integer. The timeout in seconds for \code{socketConnection}. Default 5 seconds.}
+  \item{infobank}{logical. If \code{infobank} is TRUE and \code{bank} is \code{NA}, a data.frame 
                    with all database informations will be returned}
-  \item{tagbank}{ String. If \code{bank} is \code{NA} and \code{tagbank} is documented, the names
+  \item{tagbank}{string. If \code{bank} is \code{NA} and \code{tagbank} is documented, the names
                   of special purposes databases are returned. Current allowed values are TP
                   for frozen databases (TP is an acronym for "travaux pratiques" which means practicals
                   in french, these databases are useful mainly for teaching so as to have stable results),

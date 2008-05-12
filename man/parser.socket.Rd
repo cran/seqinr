@@ -6,13 +6,15 @@
 Answers from server looks like : "code=0&lrank=2&count=150513&type=SQ&locus=F".
 }
 \usage{
-parser.socket(onelinefromserver)
+parser.socket(onelinefromserver, verbose = FALSE)
 }
 \arguments{
   \item{onelinefromserver}{a string}
+  \item{verbose}{logical, if TRUE mode verbose is on}
 }
 \value{
-A vector of mode character or NULL if \code{onelinefromserver} is NULL.
+A vector of mode character or NULL if \code{onelinefromserver} is NULL
+or if its length is 0.
 }
 \references{
 \code{citation("seqinr")}

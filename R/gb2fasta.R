@@ -34,7 +34,7 @@ gb2fasta <- function(source.file = "ftp://ftp.ncbi.nih.gov/genomes/Bacteria/Agro
                  substr(x,55,64),substr(x,66,75),sep="",collapse="")) } )
   names(input)<-NULL
   writeLines(input, confile )
-  closeAllConnections()
+  close(confile)
 }
 
 

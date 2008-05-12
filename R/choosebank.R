@@ -10,6 +10,10 @@
 choosebank <- function(bank = NA,
                        host = "pbil.univ-lyon1.fr",
                        port = 5558,
+                       server = FALSE,
+                       blocking = TRUE,
+                       open = "a+",
+                       encoding = "",
                        verbose = FALSE,
                        timeout = 5,
                        infobank = FALSE,
@@ -56,7 +60,8 @@ choosebank <- function(bank = NA,
   if(verbose) cat("I'm trying to open the socket connection...\n")
   oldtimeout <- getOption("timeout")
   options(timeout = timeout)
-  socket <- try( socketConnection( host = host, port = port, server = FALSE, blocking = TRUE))
+  socket <- try( socketConnection( host = host, port = port, server = server,
+                                  blocking = blocking, open = open, encoding = encoding))
   options(timeout = oldtimeout)
   if(inherits(socket, "try-error")) {
     errmess <- paste("I wasn't able to open the socket connection:\n",
@@ -78,7 +83,7 @@ choosebank <- function(bank = NA,
   #
   # Send client ID to server:
   #
-  clientid(socket = socket)
+  clientid(socket = socket, verbose = verbose)
            
   ###############################################################################
   #

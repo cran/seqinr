@@ -9,7 +9,88 @@
 \maketitle
 % BEGIN - DO NOT REMOVE THIS LINE
 
+\section*{Introduction}
+
+The release notes are listed in reverse chronological order:
+most recent on top.
+
 \section*{1.1 series}
+
+\subsection*{release 1.1-6}
+
+\begin{itemize}
+
+\item The construct \texttt{get(getOption("device"))(width = 18, height = 11)}
+  that was used in the example section for \texttt{data(prochlo)} is no
+  more valid since \Rlogo{}~2.8.0 (fall 2008). The example has been
+  restricted to work only with \texttt{X11}, \texttt{windows} and
+  \texttt{quartz} devices.
+
+\item As pointed by e-mail on 12 May 2008 by Indranuj Mukherjee there
+  was a bug in the function \texttt{oriloc()}: when called with a
+  \texttt{gbk = NULL} argument the function was trying to remove
+  non-existent files, yielding an error. The bug has been fixed and
+  the documentation of the function \texttt{oriloc()} has been
+  extended to better explain how to use the arguments \texttt{seq.fasta}
+  and \texttt{gbk}.
+
+\item A reference to \cite{GautierC1985} was missing in the documentation
+  of function \texttt{zscore()} for the codon model.
+
+\item As suggested by e-mail on 11 Mar 2008 by Christian Gautier,
+  the function \texttt{count()}
+  has gained a new argument \texttt{by} to control the window step,
+  allowing for instant to count dinucleotides in codon position III-I
+  in a coding sequence. The example section of the function documentation
+  has been extended to give an example of counting dinucleotides in
+  position III-I.
+
+<<exampleIIIpI>>=
+alldinuclIIIpI <- s2c("NNaaNatNttNtgNgtNtcNctNtaNagNggNgcNcgNgaNacNccNcaNN")
+(resIIIpI <- count(alldinuclIIIpI, word = 2, start = 2, by = 3))
+stopifnot(all( resIIIpI == 1))
+@ 
+
+\item Function \texttt{reverse.align()} has gained two arguments
+  \texttt{forceDNAtolower = TRUE} and \texttt{forceAAtolower = FALSE} 
+  that are passed to the functions used to read the sequences.
+  There is now a new dataset \texttt{revaligntest} used to check
+  the result in the example section of \texttt{reverse.align()}.
+
+\item As pointed by e-mail on 21 Feb 2008 by Oliver Keatinge Clay
+  function \texttt{modifylist()} failed to scan in GenBank FEATURES
+  annotation lines. There is now a new function called
+  \texttt{prepgetannots()}, aliased to \texttt{pga()}, that allows
+  to set up the annotation lines to be scanned. Called with default
+  arguments, this function turns on all annotation lines for scan.
+  This function can also be used to set up partly the annotation lines
+  to be returned by \texttt{getAnnot()}.
+
+\item Function \texttt{choosebank()} has gained four arguments
+  (\texttt{server}, \texttt{blocking}, \texttt{open}, \texttt{encoding})
+  that are passed to \texttt{socketConnection()}. The value of
+  the argument \texttt{verbose} is now passed to \texttt{clientid()}
+  which knows now how to handle it. The \texttt{encoding} argument
+  was introduced to fix a localization bug on Mac OS X which symptom was a
+  cryptic error message in \texttt{if (res[1] != "0") \{} after
+  a call to \texttt{choosebank()}. The culprit was an
+  \texttt{option(encoding = "latin1")} that was set up before
+  the call to \texttt{choosebank()} who called \texttt{socketConnection()}
+  with its default \texttt{encoding = getOption("encoding")},
+  preventing \texttt{readLines()} to read from the socket.
+  The bug was fixed by opening the socket with the native encoding,
+  which is the current default.
+
+\item As pointed by e-mail on 15 Jan 2008 by Stefanie Hartmann, the
+  argument \texttt{frame} in function \texttt{count()} was misleading
+  for someone with a molecular biology background. The argument has
+  been replaced by \texttt{start}. The old argument name is maintained
+  as an alias for backward compatibility. The example section has 
+  been extended to
+  give an example with the complete human mitochondrion sequence, the
+  corresponding fasta file (\texttt{humanMito.fasta}) has been added in the 
+  \texttt{sequences} directory.
+\end{itemize}
 
 \subsection*{release 1.1-5}
 
@@ -39,7 +120,7 @@ Minor release to fix mainly problems in the documentation.
 
 \end{itemize}
 
-\subsection*{release 1.1-4}
+\subsection*{release 1.1-4 (10-Dec-2007)}
 
 Minor release to fix problems found by Kurt Hornik.
 

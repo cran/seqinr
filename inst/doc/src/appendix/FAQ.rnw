@@ -13,15 +13,29 @@
 
 As an illustration, suppose that we want to reproduce a part
 of figure 1 from \cite{LobryMBE96} whose screenshot is given
-just below:
+is given in figure \ref{gcskewmbe96}.
 
-\noindent\includegraphics[width=\textwidth]{../figs/gcskewmbe96}
+\begin{figure}
+\centering\fbox{
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=\textwidth]{../figs/gcskewmbe96}
+\caption{Screenshot of a part of figure 1 from \cite{LobryMBE96}.
+  The GC-skew is computed in non-overlapping windows of 10 Kb
+  along a 1.6 Mb fragment of the \textit{Escherichia coli}
+  chromosome. The sequence is available with \texttt{data(m16j)}.}
+\label{gcskewmbe96}
+\end{minipage}
+}
+\end{figure}
 
-The score represented here is the GC-skew computed in non-overlapping
+
+The score here is the GC-skew computed in non-overlapping
 windows of 10 Kb for a 1.6 Mb sequence.
 We need a fragment of \textit{Escherchia coli} K12 chromosome from
-67.4 min to 4.1 min on the genetic map. Let's put this fragment
-into the string \texttt{myseq}:
+67.4 min to 4.1 min on the genetic map\footnote{
+The sequence is also directly available with \texttt{data(m16j)}.
+}. Let's put this fragment into the string \texttt{myseq}:
 
 <<getmyseq,fig=F,eval=T>>=
 choosebank("greview")
@@ -71,11 +85,9 @@ Note some defensive programming tricks used here:
 \end{itemize}
 
 
-We move now along the sequence:
+We move now along the sequence to compute the GC-skew:
 
 <<movingwindow,fig=F>>=
-
-
 step <- 10000
 wsize <- 10000
 starts <- seq(from = 1, to = nchar(myseq), by = step)
@@ -87,11 +99,11 @@ for(i in seq_len(n)){
 }
 @ 
 
-And we plot\footnote{
+The following code\footnote{
 This code is adapted from the code at \url{http://www.stat.auckland.ac.nz/~paul/RGraphics/chapter3.html} for
 figure 3.25 in Paul Murrell's book \cite{MurrellP2005}. This book is a must read if you are interested
 by \Rlogo{}'s \textit{force de frappe} in the graphic domain. 
-} the result:
+} was used to produce figure \ref{gcplot}.
 
 <<gcplot,fig=T,include=F,width=9.1,height=4.5>>=
 xx <- starts/1000
@@ -117,14 +129,24 @@ arrows(860, 5.5, 720, 0.5, length = 0.1, lwd = 2)
 text(860, 5.5, "origin of replication", pos = 4)
 @ 
 
-\noindent\includegraphics[width=\textwidth]{../figs/FAQ-gcplot}
+\begin{figure}
+\centering\fbox{
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=\textwidth]{../figs/FAQ-gcplot}
+\caption{Re-creation of figure \ref{gcskewmbe96} from scratch.}
+\label{gcplot}
+\end{minipage}
+}
+\end{figure}
 
-You can now play with the \texttt{wsize} and \texttt{step} parameter
+You can now play with the \texttt{wsize} and \texttt{step} parameters
 to explore the signal (but note that with overlapping windows your
 points are no more independent) or use all the smoothing tools
-available under \Rlogo{}. This is for instance what can be obtained
-with the same data with the \texttt{lowess()} function with two
-values for the smoothing parameter \texttt{f}:
+available under \Rlogo{}. Figure \ref{demolowess} shows for instance 
+what can be obtained with the \texttt{lowess()} function with two
+values for the smoothing parameter \texttt{f}. The corresponding code
+is as follows:
 
 <<demolowess,fig=T,include=F,width=9.1,height=4.5>>=
 plot(xx,yy, col = "grey", type = "b", ylim = c(-10,10), las = 1, xaxt = "n",
@@ -144,7 +166,17 @@ arrows(860, 5.5, 720, 0.5, length = 0.1, lwd = 2)
 text(860, 5.5, "origin of replication", pos = 4)
 @ 
 
-\noindent\includegraphics[width=\textwidth]{../figs/FAQ-demolowess}
+\begin{figure}
+\centering\fbox{
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=\textwidth]{../figs/FAQ-demolowess}
+\caption{Playing with the smoothing parameter \texttt{f} of
+  the \texttt{lowess()} function.}
+\label{demolowess}
+\end{minipage}
+}
+\end{figure}
 
 
 \section{How can I extract just a fragment from my sequence?}

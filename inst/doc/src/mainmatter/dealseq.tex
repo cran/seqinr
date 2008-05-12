@@ -16,6 +16,12 @@
 \DefineVerbatimEnvironment{Soutput}{Verbatim}
 {formatcom={\color{Soutput}},fontsize=\footnotesize, baselinestretch=0.75}
 %
+% This removes the extra spacing after code and output chunks in Sweave,
+% but keeps the spacing around the whole block.
+%
+\fvset{listparameters={\setlength{\topsep}{0pt}}}
+\renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+%
 % Rlogo
 %
 \newcommand{\Rlogo}{\protect\includegraphics[height=1.8ex,keepaspectratio]{../figs/Rlogo.pdf}}
@@ -42,45 +48,156 @@
 \section{Sequence classes}
 
 
-There are currently three classes of sequences, depending on the way they were obtained:
+There are currently 5 classes of sequences, depending on the way they were obtained:
 
 \begin{itemize}
-      \item {\bfseries seqFasta} is the class for the sequences that were imported from a fasta file
-      \item {\bfseries seqAcnucWeb} is the class for the sequences coming from an ACNUC database server
-      \item {\bfseries seqFrag} is the class for the sequences that are fragments of other sequences
+  \item {\bfseries SeqFastadna} is the class for nucleic acid sequences that were imported from a fasta file.
+  \item {\bfseries SeqFastaAA} is the class for amino-acid acid sequences that were imported from a fasta file.
+  \item {\bfseries seqAcnucWeb} is the class for the sequences coming from an ACNUC database server.
+  \item {\bfseries SeqFrag} is the class for the sequences that are fragments of other sequences.
+  \item {\bfseries qaw} is the class for the result of a call to the \texttt{query()} function.
 \end{itemize}
 
 \section{Generic methods for sequences}
 
-All sequence classes are sharing a common interface, so that there are very few method names we have to remember. 
-In addition, all classes have their specific as.ClassName method that return an instance of the class,
-and is.ClassName method to check whether an object belongs or not to the class. 
-Available methods are: 
-\\
-\\
-\begin{tabular}{|@{} c @{}|@{} c @{}|@{} c @{}|}
-\hline
-{\bfseries Methods} & {\bfseries Result} & {\bfseries Type of result} \\
+All sequence classes are sharing a common interface, so that there are very few method names we 
+have to remember. 
+In addition, all classes have their specific \texttt{as.ClassName} method that return an 
+instance of the class, and \texttt{is.ClassName} method to check whether an object belongs 
+or not to the class. Available methods are summarized in table \ref{tabmeth}.
+
+\begin{table} 
+\begin{tabular}{lll}
 \hline \hline
+{\bfseries Methods} & {\bfseries Result} & {\bfseries Type of result} \\
+\hline
 {\bfseries getFrag} & a sequence fragment & a sequence fragment \\
-\hline
 {\bfseries getSequence} & the sequence & vector of characters \\
-\hline
 {\bfseries getName} & the name of a sequence & string \\
-\hline
 {\bfseries getLength} & the length of a sequence & numeric vector \\
-\hline
 {\bfseries getTrans} & translation into amino-acids & vector of characters \\
-\hline
 {\bfseries getAnnot} & sequence annotations & vector of string \\
-\hline
 {\bfseries getLocation} & position of a Sequence on its parent sequence & list of numeric vector \\
-\hline
+\hline \hline
 \end{tabular}
+\caption{Available methods for sequence classes.}
+\label{tabmeth}
+\end{table}
+
+\subsection{From classes to methods}
+
+To obtain the list of methods available for a given class, try this at your \Rlogo{}~prompt:
+
+\begin{Schunk}
+\begin{Sinput}
+ methods(class = "SeqFastadna")
+\end{Sinput}
+\begin{Soutput}
+[1] getAnnot.SeqFastadna    getFrag.SeqFastadna     getLength.SeqFastadna  
+[4] getName.SeqFastadna     getSequence.SeqFastadna getTrans.SeqFastadna   
+[7] summary.SeqFastadna    
+\end{Soutput}
+\begin{Sinput}
+ methods(class = "SeqFastaAA")
+\end{Sinput}
+\begin{Soutput}
+[1] getAnnot.SeqFastaAA    getFrag.SeqFastaAA     getLength.SeqFastaAA  
+[4] getName.SeqFastaAA     getSequence.SeqFastaAA summary.SeqFastaAA    
+\end{Soutput}
+\begin{Sinput}
+ methods(class = "SeqAcnucWeb")
+\end{Sinput}
+\begin{Soutput}
+ [1] getAnnot.SeqAcnucWeb    getFrag.SeqAcnucWeb     getKeyword.SeqAcnucWeb 
+ [4] getLength.SeqAcnucWeb   getLocation.SeqAcnucWeb getName.SeqAcnucWeb    
+ [7] getSequence.SeqAcnucWeb getTrans.SeqAcnucWeb    plot.SeqAcnucWeb       
+[10] print.SeqAcnucWeb      
+\end{Soutput}
+\begin{Sinput}
+ methods(class = "SeqFrag")
+\end{Sinput}
+\begin{Soutput}
+[1] getFrag.SeqFrag     getLength.SeqFrag   getName.SeqFrag    
+[4] getSequence.SeqFrag getTrans.SeqFrag   
+\end{Soutput}
+\begin{Sinput}
+ methods(class = "qaw")
+\end{Sinput}
+\begin{Soutput}
+[1] getAnnot.qaw    getFrag.qaw     getKeyword.qaw  getLength.qaw  
+[5] getLocation.qaw getName.qaw     getSequence.qaw getTrans.qaw   
+[9] print.qaw      
+\end{Soutput}
+\end{Schunk}
+
+\subsection{From methods to classes}
+
+To obtain the list of classes for which a given method exists, try this at your \Rlogo{}~prompt:
+
+\begin{Schunk}
+\begin{Sinput}
+ methods(getFrag)
+\end{Sinput}
+\begin{Soutput}
+[1] getFrag.SeqAcnucWeb getFrag.SeqFastaAA  getFrag.SeqFastadna
+[4] getFrag.SeqFrag     getFrag.character   getFrag.default    
+[7] getFrag.list        getFrag.logical     getFrag.qaw        
+\end{Soutput}
+\begin{Sinput}
+ methods(getSequence)
+\end{Sinput}
+\begin{Soutput}
+[1] getSequence.SeqAcnucWeb getSequence.SeqFastaAA  getSequence.SeqFastadna
+[4] getSequence.SeqFrag     getSequence.character   getSequence.default    
+[7] getSequence.list        getSequence.logical     getSequence.qaw        
+\end{Soutput}
+\begin{Sinput}
+ methods(getName)
+\end{Sinput}
+\begin{Soutput}
+[1] getName.SeqAcnucWeb getName.SeqFastaAA  getName.SeqFastadna
+[4] getName.SeqFrag     getName.default     getName.list       
+[7] getName.logical     getName.qaw        
+\end{Soutput}
+\begin{Sinput}
+ methods(getLength)
+\end{Sinput}
+\begin{Soutput}
+[1] getLength.SeqAcnucWeb getLength.SeqFastaAA  getLength.SeqFastadna
+[4] getLength.SeqFrag     getLength.character   getLength.default    
+[7] getLength.list        getLength.logical     getLength.qaw        
+\end{Soutput}
+\begin{Sinput}
+ methods(getTrans)
+\end{Sinput}
+\begin{Soutput}
+[1] getTrans.SeqAcnucWeb getTrans.SeqFastadna getTrans.SeqFrag    
+[4] getTrans.character   getTrans.default     getTrans.list       
+[7] getTrans.logical     getTrans.qaw        
+\end{Soutput}
+\begin{Sinput}
+ methods(getAnnot)
+\end{Sinput}
+\begin{Soutput}
+[1] getAnnot.SeqAcnucWeb getAnnot.SeqFastaAA  getAnnot.SeqFastadna
+[4] getAnnot.default     getAnnot.list        getAnnot.logical    
+[7] getAnnot.qaw        
+\end{Soutput}
+\begin{Sinput}
+ methods(getLocation)
+\end{Sinput}
+\begin{Soutput}
+[1] getLocation.SeqAcnucWeb getLocation.default     getLocation.list       
+[4] getLocation.logical     getLocation.qaw        
+\end{Soutput}
+\end{Schunk}
+
 
 \section{Internal representation of sequences}
 
-The current mode of sequence storage is done with vectors of characters instead of strings.
+The default mode of sequence storage is done with vectors of characters instead of strings\footnote{
+This default behaviour can be neutralized by setting the \texttt{as.string} argument to TRUE.
+}.
 This is very convenient for the user because all \Rlogo{}~ tools to manipulate vectors are immediatly available. 
 The price to pay is that this storage mode is extremly expensive in terms of memory.
 They are two utilities called \texttt{s2c()} and \texttt{c2s()} that allows to convert strings into 
@@ -210,12 +327,27 @@ give some very simple examples:
 
 \begin{Schunk}
 \begin{Sinput}
- tota <- sum(myseq == "a")
+ (tota <- sum(myseq == "a"))
 \end{Sinput}
+\begin{Soutput}
+[1] 238
+\end{Soutput}
 \end{Schunk}
 
 The total number of \texttt{a} in our sequence is 238. Let's compare
-graphically the different base counts in our sequence :
+graphically the different base counts in our sequence. The following code was used to
+produce figure \ref{vecto2}:
+
+\begin{figure}
+\centering\fbox{
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=\textwidth]{../figs/dealseq-vecto2}
+\caption{Visual representation of the base counts in a nucleic acid sequence.}
+\label{vecto2}
+\end{minipage}
+}
+\end{figure}
 
 \begin{Schunk}
 \begin{Sinput}
@@ -225,7 +357,20 @@ graphically the different base counts in our sequence :
      main = paste("Base count in", myseqname))
 \end{Sinput}
 \end{Schunk}
-\includegraphics{../figs/dealseq-vecto2}
+
+The following code was used to display (\textit{cf} figure \ref{vecto3}) 
+the dinucleotide counts in the sequence:
+
+\begin{figure}
+\centering\fbox{
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=\textwidth]{../figs/dealseq-vecto3}
+\caption{Visual representation of dinucleotide counts in a nucleic acid sequence.}
+\label{vecto3}
+\end{minipage}
+}
+\end{figure}
 
 \begin{Schunk}
 \begin{Sinput}
@@ -234,7 +379,23 @@ graphically the different base counts in our sequence :
      pch = 19, main = paste("Dinucleotide count in", myseqname))
 \end{Sinput}
 \end{Schunk}
-\includegraphics{../figs/dealseq-vecto3}
+
+The following code was used to display (\textit{cf} figure \ref{vecto4}) 
+the codon usage in the sequence:
+
+\begin{figure}
+\centering\fbox{
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=\textwidth]{../figs/dealseq-vecto4}
+\caption{Visual representation of codon usage in a coding sequence with
+  the function \texttt{dotchart.uco()}. Codons are grouped by amino-acid
+  for a given genetic code. Black dots are the sums by synonymous codons,
+  that is the amino-acid count.}
+\label{vecto4}
+\end{minipage}
+}
+\end{figure}
 
 \begin{Schunk}
 \begin{Sinput}
@@ -242,8 +403,8 @@ graphically the different base counts in our sequence :
  dotchart.uco(codonusage, main = paste("Codon usage in", myseqname))
 \end{Sinput}
 \end{Schunk}
-\includegraphics{../figs/dealseq-vecto4}
 
+\clearpage
 
 \subsection{Sequences as strings}
 
@@ -256,10 +417,17 @@ of a given regular expression. Let's suppose we want to know where are the trinu
 \begin{Schunk}
 \begin{Sinput}
  mystring <- c2s(myseq)
- words.pos("cgt", mystring)
+ (cgt <- words.pos("cgt", mystring))
 \end{Sinput}
 \begin{Soutput}
  [1]  24  90 216 245 252 315 330 405 432 452 552 592 648 836 883
+\end{Soutput}
+\begin{Sinput}
+ substring(mystring, cgt, cgt + 2)
+\end{Sinput}
+\begin{Soutput}
+ [1] "cgt" "cgt" "cgt" "cgt" "cgt" "cgt" "cgt" "cgt" "cgt" "cgt" "cgt" "cgt"
+[13] "cgt" "cgt" "cgt"
 \end{Soutput}
 \end{Schunk}
 
@@ -268,20 +436,34 @@ Y (IUPAC code for pyrimidine) stands C or T:
 
 \begin{Schunk}
 \begin{Sinput}
- words.pos("cgt[ct]", mystring)
+ (cgty <- words.pos("cgt[ct]", mystring))
 \end{Sinput}
 \begin{Soutput}
  [1]  24 216 252 315 432 452 552 592 836 883
+\end{Soutput}
+\begin{Sinput}
+ substring(mystring, cgty, cgty + 3)
+\end{Sinput}
+\begin{Soutput}
+ [1] "cgtc" "cgtt" "cgtc" "cgtt" "cgtt" "cgtt" "cgtc" "cgtc" "cgtt" "cgtt"
 \end{Soutput}
 \end{Schunk}
 
 To look for all CpC dinucleotides separated by 3 or 4 bases:
 \begin{Schunk}
 \begin{Sinput}
- words.pos("cc.{3,4}cc", mystring)
+ (cc34cc <- words.pos("cc.{3,4}cc", mystring, perl = TRUE))
 \end{Sinput}
 \begin{Soutput}
-numeric(0)
+ [1]  72 119 176 177 539 577 578 638 677 682 730 731 736 881 882
+\end{Soutput}
+\begin{Sinput}
+ substring(mystring, cc34cc, cc34cc + 7)
+\end{Sinput}
+\begin{Soutput}
+ [1] "ccttgccg" "ccattcca" "cccagacc" "ccagacca" "cctatgcc" "cccgatcc"
+ [7] "ccgatccg" "ccagctcc" "ccgctcca" "ccagctcc" "cccgctcc" "ccgctccg"
+[13] "ccggcacc" "cccgttcc" "ccgttcca"
 \end{Soutput}
 \end{Schunk}
 
@@ -295,20 +477,19 @@ to short linear motifs.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.6.0 (2007-10-03), \verb|i386-apple-darwin8.10.1|
+  \item R version 2.8.0 Under development (unstable) (2008-05-11 r45672), \verb|i386-apple-darwin8.8.2|
   \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-36, ade4~1.4-4, ape~2.0-1,
-    gee~4.13-13, lattice~0.16-5, nlme~3.1-85, seqinr~1.1-3,
-    xtable~1.5-1
-  \item Loaded via a namespace (and not attached): grid~2.6.0,
-    rcompgen~0.1-15
+  \item Other packages: MASS~7.2-42, ade4~1.4-7, ape~2.2,
+    nlme~3.1-88, seqinr~1.1-6, xtable~1.5-2
+  \item Loaded via a namespace (and not attached): grid~2.8.0,
+    lattice~0.17-7, tools~2.8.0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Wed Nov  7 11:58:18 2007
+  \item \Rlogo{} compilation time was: Mon May 12 18:23:10 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

@@ -17,7 +17,8 @@
 
 modifylist <- function(listname, modlistname = listname,
                        operation, type = c("length", "date", "scan"),
-                       socket = autosocket(), virtual = FALSE){
+                       socket = autosocket(), virtual = FALSE,
+                       verbose = FALSE){
   #
   # Default is by length:
   #
@@ -26,7 +27,8 @@ modifylist <- function(listname, modlistname = listname,
   #
   # Build request:
   #
-  request <- paste("modifylist&lrank=", glr(listname), "&type=", type, "&operation=\"", operation, "\"", sep = "")
+  request <- paste("modifylist&lrank=", glr(listname, verbose = verbose), "&type=", type, "&operation=\"", operation, "\"", sep = "")
+  if(verbose) cat("-->", request, "<--\n")
   writeLines(request, socket, sep = "\n")
   answerFromServer <- readLines(socket, n = 1)
   #
@@ -39,6 +41,7 @@ modifylist <- function(listname, modlistname = listname,
   #
   # Build result:
   #
+  if(verbose) cat("Answer from server:", answerFromServer, "\n")
   resitem <- parser.socket(answerFromServer)
   if(resitem[1] != "0"){
     stop(paste("error code returned by server :", resitem[1]))

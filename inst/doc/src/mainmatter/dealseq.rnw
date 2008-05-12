@@ -12,45 +12,74 @@
 \section{Sequence classes}
 
 
-There are currently three classes of sequences, depending on the way they were obtained:
+There are currently 5 classes of sequences, depending on the way they were obtained:
 
 \begin{itemize}
-      \item {\bfseries seqFasta} is the class for the sequences that were imported from a fasta file
-      \item {\bfseries seqAcnucWeb} is the class for the sequences coming from an ACNUC database server
-      \item {\bfseries seqFrag} is the class for the sequences that are fragments of other sequences
+  \item {\bfseries SeqFastadna} is the class for nucleic acid sequences that were imported from a fasta file.
+  \item {\bfseries SeqFastaAA} is the class for amino-acid acid sequences that were imported from a fasta file.
+  \item {\bfseries seqAcnucWeb} is the class for the sequences coming from an ACNUC database server.
+  \item {\bfseries SeqFrag} is the class for the sequences that are fragments of other sequences.
+  \item {\bfseries qaw} is the class for the result of a call to the \texttt{query()} function.
 \end{itemize}
 
 \section{Generic methods for sequences}
 
-All sequence classes are sharing a common interface, so that there are very few method names we have to remember. 
-In addition, all classes have their specific as.ClassName method that return an instance of the class,
-and is.ClassName method to check whether an object belongs or not to the class. 
-Available methods are: 
-\\
-\\
-\begin{tabular}{|@{} c @{}|@{} c @{}|@{} c @{}|}
-\hline
-{\bfseries Methods} & {\bfseries Result} & {\bfseries Type of result} \\
+All sequence classes are sharing a common interface, so that there are very few method names we 
+have to remember. 
+In addition, all classes have their specific \texttt{as.ClassName} method that return an 
+instance of the class, and \texttt{is.ClassName} method to check whether an object belongs 
+or not to the class. Available methods are summarized in table \ref{tabmeth}.
+
+\begin{table} 
+\begin{tabular}{lll}
 \hline \hline
+{\bfseries Methods} & {\bfseries Result} & {\bfseries Type of result} \\
+\hline
 {\bfseries getFrag} & a sequence fragment & a sequence fragment \\
-\hline
 {\bfseries getSequence} & the sequence & vector of characters \\
-\hline
 {\bfseries getName} & the name of a sequence & string \\
-\hline
 {\bfseries getLength} & the length of a sequence & numeric vector \\
-\hline
 {\bfseries getTrans} & translation into amino-acids & vector of characters \\
-\hline
 {\bfseries getAnnot} & sequence annotations & vector of string \\
-\hline
 {\bfseries getLocation} & position of a Sequence on its parent sequence & list of numeric vector \\
-\hline
+\hline \hline
 \end{tabular}
+\caption{Available methods for sequence classes.}
+\label{tabmeth}
+\end{table}
+
+\subsection{From classes to methods}
+
+To obtain the list of methods available for a given class, try this at your \Rlogo{}~prompt:
+
+<<methodslisting,fig=F>>=
+methods(class = "SeqFastadna")
+methods(class = "SeqFastaAA")
+methods(class = "SeqAcnucWeb")
+methods(class = "SeqFrag")
+methods(class = "qaw")
+@ 
+
+\subsection{From methods to classes}
+
+To obtain the list of classes for which a given method exists, try this at your \Rlogo{}~prompt:
+
+<<classeslisting,fig=F>>=
+methods(getFrag)
+methods(getSequence)
+methods(getName)
+methods(getLength)
+methods(getTrans)
+methods(getAnnot)
+methods(getLocation)
+@ 
+
 
 \section{Internal representation of sequences}
 
-The current mode of sequence storage is done with vectors of characters instead of strings.
+The default mode of sequence storage is done with vectors of characters instead of strings\footnote{
+This default behaviour can be neutralized by setting the \texttt{as.string} argument to TRUE.
+}.
 This is very convenient for the user because all \Rlogo{}~ tools to manipulate vectors are immediatly available. 
 The price to pay is that this storage mode is extremly expensive in terms of memory.
 They are two utilities called \texttt{s2c()} and \texttt{c2s()} that allows to convert strings into 
@@ -128,30 +157,74 @@ are vectorized so that many things can be done without explicit looping. Let's
 give some very simple examples:
 
 <<vectorized1, eval=T>>=
-tota <- sum(myseq == "a")
+(tota <- sum(myseq == "a"))
 @
 
 The total number of \texttt{a} in our sequence is \Sexpr{ifelse(exists("tota"), tota, "???")}. Let's compare
-graphically the different base counts in our sequence :
+graphically the different base counts in our sequence. The following code was used to
+produce figure \ref{vecto2}:
 
-<<vecto2, height = 3, fig=TRUE, eval=T>>=
+\begin{figure}
+\centering\fbox{
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=\textwidth]{../figs/dealseq-vecto2}
+\caption{Visual representation of the base counts in a nucleic acid sequence.}
+\label{vecto2}
+\end{minipage}
+}
+\end{figure}
+
+<<vecto2, height = 3, fig=TRUE, include=F, eval=T>>=
 basecount <- table(myseq)
 myseqname <- getName(myseq)
 dotchart(basecount, xlim = c(0, max(basecount)), pch = 19,
   main = paste("Base count in",  myseqname))
 @
 
-<<vecto3, fig=TRUE, eval=T>>=
+The following code was used to display (\textit{cf} figure \ref{vecto3}) 
+the dinucleotide counts in the sequence:
+
+\begin{figure}
+\centering\fbox{
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=\textwidth]{../figs/dealseq-vecto3}
+\caption{Visual representation of dinucleotide counts in a nucleic acid sequence.}
+\label{vecto3}
+\end{minipage}
+}
+\end{figure}
+
+<<vecto3, fig=TRUE, include = F, eval=T>>=
 dinuclcount <- count(myseq, 2)
 dotchart(dinuclcount[order(dinuclcount)], xlim = c(0, max(dinuclcount)), pch = 19,
   main = paste("Dinucleotide count in",  myseqname))
 @
 
-<<vecto4, height = 10, fig=TRUE, eval=T>>=
+The following code was used to display (\textit{cf} figure \ref{vecto4}) 
+the codon usage in the sequence:
+
+\begin{figure}
+\centering\fbox{
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=\textwidth]{../figs/dealseq-vecto4}
+\caption{Visual representation of codon usage in a coding sequence with
+  the function \texttt{dotchart.uco()}. Codons are grouped by amino-acid
+  for a given genetic code. Black dots are the sums by synonymous codons,
+  that is the amino-acid count.}
+\label{vecto4}
+\end{minipage}
+}
+\end{figure}
+
+<<vecto4, height = 10, fig=TRUE, include = F, eval=T>>=
 codonusage <- uco(myseq)
 dotchart.uco(codonusage, main = paste("Codon usage in",  myseqname))
 @
 
+\clearpage
 
 \subsection{Sequences as strings}
 
@@ -163,19 +236,22 @@ of a given regular expression. Let's suppose we want to know where are the trinu
 
 <<cgt, eval=T>>=
 mystring <- c2s(myseq)
-words.pos("cgt", mystring)
+(cgt <- words.pos("cgt", mystring))
+substring(mystring, cgt, cgt+2)
 @
 
 We can also look for the fragment CpGpTpY to illustrate fuzzy matching because
 Y (IUPAC code for pyrimidine) stands C or T:
 
 <<fuzzy, eval=T>>=
-words.pos("cgt[ct]", mystring)
+(cgty <- words.pos("cgt[ct]", mystring))
+substring(mystring, cgty, cgty+3)
 @
 
 To look for all CpC dinucleotides separated by 3 or 4 bases:
 <<fuzzy2, eval=T>>=
-words.pos("cc.{3,4}cc", mystring)
+(cc34cc <- words.pos("cc.{3,4}cc", mystring, perl = TRUE))
+substring(mystring, cc34cc, cc34cc+7)
 @
 
 Virtually any pattern is easily encoded with a regular expression. This is

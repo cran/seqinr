@@ -1,0 +1,540 @@
+\documentclass{article}
+\input{../config/commontex}
+
+\title{The query language}
+
+\author{Lobry, J.R.}
+
+\begin{document}
+\SweaveInput{../config/commonrnw.rnw}
+\maketitle
+\tableofcontents
+% BEGIN - DO NOT REMOVE THIS LINE
+\label{querylang}
+
+\section{Where to find information}
+
+The last version of the documentation for the query language is available online
+at \url{http://pbil.univ-lyon1.fr/databases/acnuc/cfonctions.html#QUERYLANGUAGE}.
+This documentation has been imported within the documentation of the
+\texttt{query()} function, but the last available update is the online version.
+The query language is a specificity of the ACNUC system \cite{acnuc1984, acnuc1985,
+acnuc1985b, acnuc2007}.
+
+\section{Case sensitivity and ambiguities resolution}
+
+The query language is case insensitive, for instance:
+
+<<lowervsupper,fig=F,eval=T>>=
+choosebank("emblTP")
+query("lowercase", "sp=escherichia coli", virtual = TRUE)
+query("uppercase", "SP=Escherichia coli", virtual = TRUE)
+lowercase$nelem == uppercase$nelem
+closebank()
+@
+
+Three operators (AND, OR, NOT) 
+can be ambiguous because they can also occur within valid criterion values. 
+Such ambiguities can be solved by encapsulating elementary selection 
+criteria between escaped double quotes. For example:
+
+<<ambig,fig=F,eval=T>>=
+choosebank("emblTP")
+query("ambig","\"sp=Beak and feather disease virus\" AND \"au=ritchie\"", virtual = T)
+ambig$nelem
+closebank()
+@
+
+\section{Selection criteria}
+
+\subsection{Introduction}
+
+Selection criteria are in the form \texttt{c=something} (without space
+before the = sign) or \texttt{list\_name} where \texttt{list\_name} is a
+previously constructed list.
+
+\subsection{\texttt{SP=taxon}}
+
+This is used to select sequences attached to a given taxon or any other below in
+the tree. The at sign @ substitutes as a wildcard character for any zero or more 
+characters. Here are some examples:
+
+<<borreliaexample,fig=F,eval=T>>=
+choosebank("emblTP")
+query("bb","sp=Borrelia burgdorferi",virtual=T)
+bb$nelem
+query("borrelia","sp=Borrelia",virtual=T)
+borrelia$nelem
+closebank()
+@
+
+Here is an example of use of the wildcard @ to look for sapiens species:
+
+<<sapiens,fig=F,eval=T>>=
+choosebank("emblTP")
+query("sapiens","sp=@sapiens@",virtual=T)
+sapiens$nelem
+query("sapienspecies","PS sapiens")
+getName(sapienspecies)
+closebank()
+@
+
+\subsection{\texttt{TID=id}}
+
+This is used to select sequences attached attached to a given numerical 
+NCBI's taxonomy ID. For instance, the taxonomy ID for 
+\textit{Homo sapiens neanderthalensis} is 63221:
+
+\marginpar{\includegraphics[width=\marginparwidth]{../figs/hsn}\\
+\tiny{\textit{Homo neanderthalensis}. Source: wikipedia}}
+
+<<tidexample,fig=F,eval=T>>=
+choosebank("genbank")
+query("hsn","TID=63221", virtual=T)
+hsn$nelem
+query("hsnsp","PS hsn")
+getName(hsnsp)
+closebank()
+@
+
+\subsection{\texttt{K=keyword}}
+
+This is used to select sequences attached to a given keyword or any other below in
+the tree. The at sign @ substitutes as a wildcard character for any zero or more 
+characters. Example:
+
+<<exemplekw,fig=F,eval=T>>=
+ choosebank("emblTP")
+query("ecoliribprot","sp=escherichia coli AND k=rib@ prot@", virtual=T)
+ ecoliribprot$nelem
+closebank()
+@
+
+\subsection{\texttt{T=type}}
+
+This is used to select sequences of specified type. The list of available
+type for the currently opened database is given by function \texttt{getType()}:
+
+<<getTypeexample,fig=F,eval=T>>=
+choosebank("emblTP")
+getType()
+closebank()
+@
+
+For instance, to select all coding sequences from \textit{Homo sapiens} we can use:
+
+<<allhscds,fig=F,eval=T>>=
+choosebank("emblTP")
+query("hscds","sp=Homo sapiens AND t=cds", virtual=T)
+hscds$nelem
+closebank()
+@
+
+\subsection{\texttt{J=journal\_name}}
+
+This is used to select sequences published in journal specified using defined journal code.
+For instance to select all sequences published in \textit{Science}:
+
+<<allseqsfromscience,fig=F,eval=T>>=
+choosebank("emblTP")
+query("allseqsfromscience","J=Science", virtual=TRUE)
+allseqsfromscience$nelem
+closebank()
+@
+
+The list of available journal code can be obtained from the \texttt{readsmj()} function
+this way:
+
+<<journalcodes,fig=F,eval=T>>=
+choosebank("emblTP")
+nl <- readfirstrec(type = "SMJ")
+smj <- readsmj(nl = nl, all.add = TRUE)
+head(smj[!is.na(smj$nature) & smj$nature == "journal", c("sname","libel")])
+closebank()
+@
+
+\subsection{\texttt{R=refcode}}
+
+This is used to select sequences from a given bibliographical reference specified
+as \texttt{jcode/volume/page}. For instance, to select sequences associated
+with the first publication \cite{jrl0009} of the complete genome of \textit{Rickettsia prowazekii},
+we can use:
+
+<<refbibexample,fig=F,eval=T>>=
+choosebank("emblTP")
+query("rpro","R=Nature/396/133")
+getName(rpro)
+closebank()
+@
+
+\subsection{\texttt{AU=name}}
+
+This is used to select sequences having a specified author (only last name, no initial).
+
+<<authorexample,fig=F,eval=T>>=
+choosebank("emblTP")
+query("Graur","AU=Graur")
+Graur$nelem
+closebank()
+@
+
+\subsection{\texttt{AC=accession\_no}}
+
+This is used to select sequences attached to specified accession number.
+For instance if we are looking for sequences attached to the accession
+number AY382159:
+
+<<exampleAC,fig=F,eval=T>>=
+choosebank("emblTP")
+query("ACexample","AC=AY382159")
+getName(ACexample$req[[1]])
+annotations <- getAnnot(ACexample$req[[1]])
+cat(annotations, sep ="\n")
+closebank()
+@
+
+\subsection{\texttt{N=seq\_name}}
+
+This is used to select sequences of a given name\footnote{
+\textit{i.e.} what is documented in the ID or the LOCUS
+field}. Sequences names are not necessarily stable, so that it's almost always
+better to work with accession numbers. Anyway, the distinction between sequence names
+and accession numbers is on a vanishing way because they tend more and
+more to be the same thing (as in the example just below). 
+The use of the at sign @ to substitute as a wildcard character for any zero or more characters 
+is possible here.
+
+<<exampleN,fig=F,eval=T>>=
+choosebank("emblTP")
+query("Nexample","N=AY382159")
+getName(Nexample$req[[1]])
+annotations <- getAnnot(Nexample$req[[1]])
+cat(annotations, sep ="\n")
+closebank()
+@
+
+\subsection{\texttt{Y=year} or \texttt{Y>year} or \texttt{Y<year}}
+
+This is used to select sequences published in a given year (\texttt{Y=year}),
+or in a given year and after this year (\texttt{Y>year}), or in a given
+year and before this year (\texttt{Y<year}).
+
+<<exampleY,fig=F,eval=T>>=
+choosebank("emblTP")
+query("Yexample","Y=1999", virtual=TRUE)
+Yexample$nelem
+closebank()
+@
+
+\subsection{\texttt{O=organelle}}
+
+This is used to select sequences from specified organelle named following defined code 
+(\textit{e.g.}, chloroplast).
+The list of available organelle codes can be obtained from the \texttt{readsmj()} function
+this way:
+
+<<organellescodes,fig=F,eval=T>>=
+choosebank("genbank")
+ nl <- readfirstrec(type = "SMJ")
+  smj <- readsmj(nl = nl, all.add = TRUE)
+ smj[!is.na(smj$nature) & smj$nature == "organelle", c("sname","libel")]
+closebank()
+@
+
+To select for instance all sequences from chloroplast genome we can use:
+
+<<exampleO,fig=F,eval=T>>=
+choosebank("emblTP")
+query("Oexample","O=chloroplast", virtual=TRUE)
+Oexample$nelem
+closebank()
+@
+
+\subsection{\texttt{M=molecule}}
+
+This is used to select sequences according to the chemical nature of the
+sequenced molecule\footnote{as named in ID or LOCUS annotation records}.
+The list of available organelle code can be obtained from the \texttt{readsmj()} function
+this way:
+
+<<moleculescodes,fig=F,eval=T>>=
+choosebank("genbank")
+ nl <- readfirstrec(type = "SMJ")
+  smj <- readsmj(nl = nl, all.add = TRUE)
+ smj[!is.na(smj$nature) & smj$nature == "molecule", c("sname","libel")]
+closebank()
+@
+
+To select for instance all sequences sequenced from DNA we can use:
+
+<<exampleM,fig=F,eval=T>>=
+choosebank("emblTP")
+query("Mexample","M=DNA", virtual=TRUE)
+Mexample$nelem
+closebank()
+@
+
+\subsection{\texttt{ST=status}}
+
+This is used to select sequences from specified data class (EMBL) or review level (UniProt).
+The list of status codes can be obtained from the \texttt{readsmj()} function
+this way:
+
+<<emblstatus,fig=F,eval=T>>=
+choosebank("embl")
+ nl <- readfirstrec(type = "SMJ")
+  smj <- readsmj(nl = nl, all.add = TRUE)
+ smj[!is.na(smj$nature) & smj$nature == "status", c("sname","libel")]
+closebank()
+choosebank("swissprot")
+ nl <- readfirstrec(type = "SMJ")
+  smj <- readsmj(nl = nl, all.add = TRUE)
+ smj[!is.na(smj$nature) & smj$nature == "status", c("sname","libel")]
+closebank()
+@
+
+To select for instance all fully annotated sequences from Uniprot we can use:
+
+<<exampleST,fig=F,eval=T>>=
+choosebank("swissprot")
+query("STexample","ST=REVIEWED", virtual=TRUE)
+STexample$nelem
+closebank()
+@
+
+\subsection{\texttt{F=file\_name}}
+
+This is used to select sequences whose names are in a given file, one name per line.
+This is not directly implemented in seqinR, you have to use the function
+\texttt{crelistfromclientdata()} or its short form \texttt{clfcd()} for this purpose. Here is an example with
+a file of sequence names distributed with the seqinR package:
+
+<<filesqexample,fig=F,eval=T>>=
+choosebank("emblTP")
+fileSQ <- system.file("sequences/bb.mne", package = "seqinr")
+cat(readLines(fileSQ),sep="\n")
+clfcd("listSQ", file = fileSQ, type = "SQ")
+getName(listSQ)
+closebank()
+@
+
+
+\subsection{\texttt{FA=file\_name}}
+
+This is used to select sequences whose accession numbers are in a given file, one name per line.
+This is not directly implemented in seqinR, you have to use the function
+\texttt{crelistfromclientdata()} or its short form \texttt{clfcd()} for this purpose. Here is an example with
+a file of sequence accession numbers distributed with the seqinR package:
+
+<<fileACCexample,fig=F,eval=T>>=
+choosebank("emblTP")
+fileAC <- system.file("sequences/bb.acc", package = "seqinr")
+cat(readLines(fileAC),sep="\n")
+clfcd("listAC", file = fileAC, type = "AC")
+getName(listAC)
+closebank()
+@
+
+
+\subsection{\texttt{FK=file\_name}}
+
+This is used to produces the list of keywords named in given file, one keyword per line.
+This is not directly implemented in seqinR, you have to use the function
+\texttt{crelistfromclientdata()} or its short form \texttt{clfcd()} for this purpose. Here is an example with
+a file of keywords distributed with the seqinR package:
+
+<<fileKWexample,fig=F,eval=T>>=
+choosebank("emblTP")
+fileKW <- system.file("sequences/bb.kwd", package = "seqinr")
+cat(readLines(fileKW),sep="\n")
+clfcd("listKW", file = fileKW, type = "KW")
+getName(listKW) 
+closebank()
+@
+
+\subsection{\texttt{FS=file\_name}}
+
+This is used to produces the list of species named in given file, one species per line.
+This is not directly implemented in seqinR, you have to use the function
+\texttt{crelistfromclientdata()} or its short form \texttt{clfcd()} for this purpose. Here is an example with
+a file of species names distributed with the seqinR package:
+
+<<fileSPexample,fig=F,eval=T>>=
+choosebank("emblTP")
+fileSP <- system.file("sequences/bb.sp", package = "seqinr")
+cat(readLines(fileSP),sep="\n")
+clfcd("listSP", file = fileSP, type = "SP")
+getName(listSP) 
+closebank()
+@
+
+\subsection{\texttt{list\_name}}
+
+A list name can be re-used, for instance:
+
+<<examplereuselistname,fig=F,eval=T>>=
+choosebank("emblTP")
+query("MyFirstListName", "Y=2000", virtual = TRUE)
+MyFirstListName$nelem
+query("MySecondListName", "SP=Borrelia burgdorferi", virtual = TRUE)
+MySecondListName$nelem
+query("MyThirdListName", "MyFirstListName AND MySecondListName", virtual = TRUE)
+MyThirdListName$nelem
+closebank()
+@
+ 
+\section{Operators} 
+
+\subsection{\texttt{AND}}
+
+This is the binary operator for the logical and: a sequence belongs to the 
+resulting list if, and only if, it is present in both operands. To select
+for instance sequences from \textit{Borrelia burgdorferi} that are
+also coding sequences we can use:
+
+<<exampleAND,fig=F,eval=T>>=
+choosebank("emblTP")
+query("ANDexample","SP=Borrelia burgdorferi AND T=CDS", virtual=TRUE)
+ANDexample$nelem
+closebank()
+@
+
+
+\subsection{\texttt{OR}}
+
+This is the binary operator for the logical or: a sequence belongs to the 
+resulting list if it is present in at least one of the two operands. To select
+for instance sequences from \textit{Borrelia burgdorferi} or
+from \textit{Escherichia coli} we can use:
+
+<<exampleOR,fig=F,eval=T>>=
+choosebank("emblTP")
+query("ORexample","SP=Borrelia burgdorferi OR SP=Escherichia coli", virtual=TRUE)
+ORexample$nelem
+closebank()
+@
+
+\subsection{\texttt{NOT}}
+
+This is the unary operator for the logical negation. To select
+for instance sequences from \textit{Borrelia burgdorferi} that
+are not partial we can use:
+
+<<exampleOR,fig=F,eval=T>>=
+choosebank("emblTP")
+query("NOTexample","SP=Borrelia burgdorferi AND NOT K=PARTIAL", virtual=TRUE)
+NOTexample$nelem
+closebank()
+@
+
+\subsection{\texttt{PAR}}
+
+This is a unary operator to compute the list of parent sequences of a list
+of sequences. The reciprocal operator is \texttt{SUB}. To check
+the reciprocity we can use for instance:
+ 
+<<examplePAR,fig=F,eval=T>>=
+choosebank("emblTP")
+query("A","T=TRNA", virtual=TRUE)
+query("B","PAR A", virtual=TRUE)
+query("C","SUB B", virtual=TRUE)
+query("D","PAR C", virtual=TRUE)
+query("emptySet", "B AND NOT D", virtual=TRUE)
+emptySet$nelem
+closebank()
+@
+
+\subsection{\texttt{SUB}}
+
+This is a unary operator to add all subsequences of members of the single list operand.
+
+<<exampleSUB,fig=F,eval=T>>=
+choosebank("emblTP")
+query("SUBexample","AC=AE000783",virtual=T)
+SUBexample$nelem
+ query("SUBexample2","SUB SUBexample",virtual=T)
+SUBexample2$nelem
+closebank()
+@
+
+\subsection{\texttt{PS}}
+
+This unary operator is used to get the list of species attached to member 
+sequences of the operand list.
+
+<<examplePS,fig=F,eval=T>>=
+choosebank("emblTP")
+query("PSexample","K=hyperthermo@",virtual=T)
+query("PSexample2","PS PSexample")
+getName(PSexample2)
+closebank()
+@
+
+\subsection{\texttt{PK}}
+
+This unary operator is used to get the list of keywords attached to member sequences 
+of the operand list.
+
+<<examplePK,fig=F,eval=T>>=
+choosebank("emblTP")
+query("PKexample","AC=AE000783",virtual=T)
+query("PKexample2","PK PKexample")
+getName(PKexample2)
+closebank()
+@
+
+\subsection{\texttt{UN}}
+
+This unary operator is used to get the list of sequences attached to a list
+of species or keywords.
+
+<<exampleUN,fig=F,eval=T>>=
+choosebank("emblTP")
+fileSP <- system.file("sequences/bb.sp", package = "seqinr")
+cat(readLines(fileSP),sep="\n")
+clfcd("listSP", file = fileSP, type = "SP")
+query("UNexample", "UN listSP", virtual = TRUE)
+UNexample$nelem 
+closebank()
+@
+
+\subsection{\texttt{SD}}
+
+This unary operator computes the list of species placed in the tree below the members of the 
+species list operand.
+
+<<exampleSD,fig=F,eval=T>>=
+choosebank("emblTP")
+query("hominidae","SP=Hominidae",virtual=T)
+query("hsp","PS hominidae",virtual=T)
+hsp$nelem
+query("SDexample","SD hsp")
+getName(SDexample) 
+closebank()
+@
+
+\subsection{\texttt{KD}}
+
+This unary operator computes the list of keywords placed in the tree below the members of the 
+keywords list operand.
+
+<<exampleKD,fig=F,eval=T>>=
+choosebank("emblTP")
+query("cat","SP=Felis catus", virtual = TRUE)
+query("catkw","PK cat", virtual = TRUE)
+catkw$nelem
+query("KDexample","KD catkw", virtual = TRUE)
+KDexample$nelem
+closebank()
+@
+
+\SweaveInput{../config/sessionInfo.rnw}
+
+% END - DO NOT REMOVE THIS LINE
+
+%%%%%%%%%%%%  BIBLIOGRAPHY %%%%%%%%%%%%%%%%%
+\clearpage
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{plain}
+\bibliography{../config/book}
+\end{document}

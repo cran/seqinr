@@ -14,17 +14,18 @@ oriloc <- function(
   clean.tmp.files = TRUE,
   rot = 0)
 {
-  if( !missing(gbk) & ! is.null(gbk)) # Work directly with genbank file
+  aGBKfileWasGiven <- !missing(gbk) && !is.null(gbk)
+  if(aGBKfileWasGiven) # Work directly with genbank file
   {
-    if(substr(gbk,1,7)=="http://" | substr(gbk,1,6)=="ftp://" | substr(gbk,1,7)=="file://"){
-      tmpgbk <- tempfile(pattern = "oriloc_gbk")
+    tmpgbk <- tempfile(pattern = "orilocgbk")
+    if(substr(gbk,1,7)=="http://" || substr(gbk,1,6)=="ftp://" || substr(gbk,1,7)=="file://"){
       download.file( gbk, destfile = tmpgbk )
     }
     else{
-      tmpgbk <- gbk
+      file.copy(from = gbk, to = tmpgbk)
     }
-    seq.fasta <- tempfile(pattern = "oriloc_fasta")
-    g2.coord <- tempfile(pattern = "oriloc_g2")
+    seq.fasta <- tempfile(pattern = "orilocfasta")
+    g2.coord <- tempfile(pattern = "orilocg2")
    
     gb2fasta( tmpgbk, seq.fasta )
     gbk2g2( tmpgbk, g2.coord )
@@ -221,7 +222,7 @@ oriloc <- function(
 #
 # Delete temporary files if requested:
 #
-  if( !missing(gbk) && clean.tmp.files)
+  if(aGBKfileWasGiven && clean.tmp.files)
   {
     file.remove(tmpgbk)
     file.remove(seq.fasta)

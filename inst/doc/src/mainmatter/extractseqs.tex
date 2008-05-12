@@ -1,0 +1,351 @@
+\documentclass{article}
+\input{../config/commontex}
+
+\title{Importing zlib-compressed sequences}
+
+\author{Lobry, J.R.}
+
+\usepackage{/Library/Frameworks/R.framework/Resources/share/texmf/Sweave}
+\begin{document}
+%
+% To change the R input/output style:
+%
+\definecolor{Soutput}{rgb}{0,0,0.56}
+\definecolor{Sinput}{rgb}{0.56,0,0}
+\DefineVerbatimEnvironment{Sinput}{Verbatim}
+{formatcom={\color{Sinput}},fontsize=\footnotesize, baselinestretch=0.75}
+\DefineVerbatimEnvironment{Soutput}{Verbatim}
+{formatcom={\color{Soutput}},fontsize=\footnotesize, baselinestretch=0.75}
+%
+% This removes the extra spacing after code and output chunks in Sweave,
+% but keeps the spacing around the whole block.
+%
+\fvset{listparameters={\setlength{\topsep}{0pt}}}
+\renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+%
+% Rlogo
+%
+\newcommand{\Rlogo}{\protect\includegraphics[height=1.8ex,keepaspectratio]{../figs/Rlogo.pdf}}
+%
+% Shortcut for seqinR:
+%
+\newcommand{\seqinr}{\texttt{seqin\bf{R}}}
+\newcommand{\Seqinr}{\texttt{Seqin\bf{R}}}
+\fvset{fontsize= \scriptsize}
+%
+% R output options and libraries to be loaded.
+%
+%
+%  Sweave Options
+%
+% Put all figures in the fig folder and start the name with current file name.
+% Do not produce EPS files
+%
+
+
+\maketitle
+\tableofcontents
+% BEGIN - DO NOT REMOVE THIS LINE
+\label{extractseqs}
+\section{Introduction}
+
+There are two functions to get the sequences from an ACNUC server. 
+The first one, \texttt{getSequence()}, uses regular socket connections, the
+second one, \texttt{extractseqs()}, uses zlib compressed sockets,
+which is faster but the function is experimental and has not
+been extensively tested. This last function is not implemented for
+Windows platforms. \texttt{exseq()} is an alias for \texttt{extractseqs()}.
+
+The timings thereafter were from an home-ADSL connection, and are only indicative.
+For this chapter we set up the bank to \texttt{emblTP} which is a frozen
+subset of the EMBL database to allow for the reproducibility of results.
+
+\begin{Schunk}
+\begin{Sinput}
+ (tcb <- system.time(choosebank("emblTP")))
+\end{Sinput}
+\begin{Soutput}
+   user  system elapsed 
+  0.078   0.002   5.451 
+\end{Soutput}
+\end{Schunk}
+
+It was then about 5 
+seconds to select the relevant database.
+
+\section{Extacting 78,573 complete human nuclear CDS}
+
+We suppose that the sequences we are interested in 
+are all the complete coding sequences from \textit{Homo sapiens} that
+are encoded in the nucleus (we don't want sequences from human mitochondrion). 
+
+\begin{Schunk}
+\begin{Sinput}
+ (tqu <- system.time(query("hsCDS", "sp=Homo sapiens AND t=cds AND o=nuclear AND NOT k=partial", 
+     virtual = TRUE)))
+\end{Sinput}
+\begin{Soutput}
+   user  system elapsed 
+  0.002   0.000  10.054 
+\end{Soutput}
+\begin{Sinput}
+ (nseq <- hsCDS$nelem)
+\end{Sinput}
+\begin{Soutput}
+[1] 78573
+\end{Soutput}
+\begin{Sinput}
+ (tex <- system.time(mycds <- extractseqs("hsCDS")))
+\end{Sinput}
+\begin{Soutput}
+   user  system elapsed 
+ 14.638   1.420  90.581 
+\end{Soutput}
+\end{Schunk}
+ 
+We have used a virtual query to speed up things:
+it was about 10 seconds 
+to create on the server a list of 78573
+sequences. We have downloaded the sequences in zlib compressed mode:
+it was about 91 seconds
+to dowload the sequences in the object \texttt{mycds}, which looks like :
+
+\begin{Schunk}
+\begin{Sinput}
+ cat(head(mycds), sep = "\n")
+\end{Sinput}
+\begin{Soutput}
+>A00127.PE1             2217 residues
+ATGCGGGGTCCGAGCGGGGCTCTGTGGCTGCTCCTGGCTCTGCGCACCGTGCTCGGAGGC
+ATGGAGGTGCGGTGGTGCGCCACCTCGGACCCAGAGCAGCACAAGTGCGGCAACATGAGC
+GAGGCCTTCCGGGAAGCGGGCATCCAGCCCTCCCTCCTCTGCGTCCGGGGCACCTCCGCC
+GACCACTGCGTCCAGCTCATCGCGGCCCAGGAGGCTGACGCCATCACTCTGGATGGAGGA
+GCCATCTATGAGGCGGGAAAGGAGCACGGCCTGAAGCCGGTGGTGGGCGAAGTGTACGAT
+\end{Soutput}
+\begin{Sinput}
+ cat(tail(mycds), sep = "\n")
+\end{Sinput}
+\begin{Soutput}
+ATCACTGCGGCCCCAGAGAGAGAGGGCATAGGCCACGGCGGCCCCAAGCTATGCTGCACA
+CTGAGCTCCCTCAGCTCCGCTGCTGAGACTGGCCGGGACCCGCTGGACAGCGAGGAGGAG
+GCAACCAGCGGCGCCCAGGATGAACGTGGCCTGAAGCCGCCTTCCCGGGGCCAGTTTCCT
+TCCCTCTCAGCCAGGGATGCCTCGAGCAGCCACAGGGGCAGGAACGTCCTGACTGCCATC
+CTGCTGCTGCTGCGGGAGCTGGATGCAGAGGGGCTGGAGGCCGTGCAGCAGACTGTGGGC
+AGCCGGCTGCAGGCCCTGCGTGGGGAAGAGGTGCAGGAGCACGCCGAGTGA
+\end{Soutput}
+\end{Schunk}
+
+We save now the sequences in a local FASTA file for future use:
+
+\begin{Schunk}
+\begin{Sinput}
+ (twl <- system.time(writeLines(mycds, "mycds.fasta")))
+\end{Sinput}
+\begin{Soutput}
+   user  system elapsed 
+  0.887   0.741   2.875 
+\end{Soutput}
+\end{Schunk}
+
+It was then about 3 seconds
+to dump the sequences on a local file. We read the sequences as strings
+without setting attributes to save time:
+
+\begin{Schunk}
+\begin{Sinput}
+ (trf <- system.time(mycdss <- read.fasta("mycds.fasta", as.string = TRUE, 
+     set.attributes = FALSE)))
+\end{Sinput}
+\begin{Soutput}
+   user  system elapsed 
+ 25.853   0.703  28.019 
+\end{Soutput}
+\end{Schunk}
+
+It was then about 28 seconds
+to read the sequences as strings. We save them in XDR format:
+
+\begin{Schunk}
+\begin{Sinput}
+ (tsrd <- system.time(save(mycdss, file = "mycdss.RData")))
+\end{Sinput}
+\begin{Soutput}
+   user  system elapsed 
+ 40.935   0.357  42.696 
+\end{Soutput}
+\end{Schunk}
+
+It was then about 43 seconds
+to save the sequences in XDR format. How long is it to load the sequences
+from XDR format?
+
+\begin{Schunk}
+\begin{Sinput}
+ (tlrd <- system.time(load("mycdss.RData")))
+\end{Sinput}
+\begin{Soutput}
+   user  system elapsed 
+  1.378   0.042   1.459 
+\end{Soutput}
+\end{Schunk}
+
+It was then about 1 seconds
+to load the sequences from an XDR formated file. 
+
+\section{Extacting 78,573 complete human nuclear Proteins}
+
+Now, we also want the corresponding proteins. We download the translated 
+CDS from the server:
+
+\begin{Schunk}
+\begin{Sinput}
+ (texp <- system.time(myprot <- extractseqs("hsCDS", operation = "translate")))
+\end{Sinput}
+\begin{Soutput}
+   user  system elapsed 
+  2.912   0.700  56.590 
+\end{Soutput}
+\end{Schunk}
+
+It was then about 57 seconds
+to get the protein sequences from the server. The object \texttt{myprot} looks
+like:
+
+\begin{Schunk}
+\begin{Sinput}
+ cat(head(myprot), sep = "\n")
+\end{Sinput}
+\begin{Soutput}
+>A00127.PE1              739 residues
+MRGPSGALWLLLALRTVLGGMEVRWCATSDPEQHKCGNMSEAFREAGIQPSLLCVRGTSA
+DHCVQLIAAQEADAITLDGGAIYEAGKEHGLKPVVGEVYDQEVGTSYYAVAVVRRSSHVT
+IDTLKGVKSCHTGINRTVGWNVPVGYLVESGRLSVMGCDVLKAVSDYFGGSCVPGAGETS
+YSESLCRLCRGDSSGEGVCDKSPLERYYDYSGAFRCLAEGAGDVAFVKHSTVLENTDGKT
+LPSWGQALLSQDFELLCRDGSRADVTEWRQCHLARVPAHAVVVRADTDGGLIFRLLNEGQ
+\end{Soutput}
+\begin{Sinput}
+ cat(tail(myprot), sep = "\n")
+\end{Sinput}
+\begin{Soutput}
+>Z93322.PE1              257 residues
+MKLTRKMVLTRAKASELHSVRKLNCWGSRLTDISICQEMPSLEVITLSVNSISTLEPVSR
+CQRLSELYLRRNRIPSLAELFYLKGLPRLRVLWLAENPCCGTSPHRYRMTVLRTLPRLQK
+LDNQAVTEEELSRALSEGEEITAAPEREGIGHGGPKLCCTLSSLSSAAETGRDPLDSEEE
+ATSGAQDERGLKPPSRGQFPSLSARDASSSHRGRNVLTAILLLLRELDAEGLEAVQQTVG
+SRLQALRGEEVQEHAE*
+\end{Soutput}
+\end{Schunk}
+
+We save the protein sequences in a local FASTA file for future use:
+
+\begin{Schunk}
+\begin{Sinput}
+ (twl2 <- system.time(writeLines(myprot, "myprot.fasta")))
+\end{Sinput}
+\begin{Soutput}
+   user  system elapsed 
+  0.338   0.264   1.055 
+\end{Soutput}
+\end{Schunk}
+
+It was then about 1 seconds
+to dump the protein sequences on a local file. We read the sequences as strings
+without setting attributes to save time:
+
+\begin{Schunk}
+\begin{Sinput}
+ (trf2 <- system.time(myprots <- read.fasta("myprot.fasta", 
+     as.string = TRUE, set.attributes = FALSE)))
+\end{Sinput}
+\begin{Soutput}
+   user  system elapsed 
+ 11.247   0.195  11.679 
+\end{Soutput}
+\end{Schunk}
+
+It was then about 12 seconds
+to read the protein sequences as strings. We save them in XDR format:
+
+\begin{Schunk}
+\begin{Sinput}
+ (tsrd2 <- system.time(save(myprots, file = "myprots.RData")))
+\end{Sinput}
+\begin{Soutput}
+   user  system elapsed 
+  4.068   0.150   4.270 
+\end{Soutput}
+\end{Schunk}
+
+It was then about 4 seconds
+to save the protein sequences in XDR format. How long is it to load the 
+protein sequences from XDR format?
+
+\begin{Schunk}
+\begin{Sinput}
+ (tlrd2 <- system.time(load("myprots.RData")))
+\end{Sinput}
+\begin{Soutput}
+   user  system elapsed 
+  0.920   0.027   0.955 
+\end{Soutput}
+\end{Schunk}
+
+It was then about 1 seconds
+to load the protein sequences from an XDR formated file.
+
+\section{Sanity check}
+
+As a quick sanity check, we plot the distribution of protein size:
+
+\setkeys{Gin}{width=\textwidth}
+
+\begin{Schunk}
+\begin{Sinput}
+ x <- log10(nchar(myprots) - 1)
+ dstx <- density(x)
+ plot(dstx, main = paste("Protein size distribution in the human genome\nn = ", 
+     length(myprots), "proteins"), xlab = "Number of amino-acids in log 10 scale", 
+     las = 1)
+ polycurve <- function(x, y, base.y = min(y), ...) polygon(x = c(min(x), 
+     x, max(x)), y = c(base.y, y, base.y), ...)
+ polycurve(dstx$x, dstx$y, col = "yellow")
+\end{Sinput}
+\end{Schunk}
+\includegraphics{../figs/extractseqs-protsizeinhuman}
+
+\begin{Schunk}
+\begin{Sinput}
+ closebank()
+\end{Sinput}
+\end{Schunk}
+
+
+\section*{Session Informations}
+
+This part was compiled under the following \Rlogo{}~environment:
+
+\begin{itemize}
+  \item R version 2.8.0 Under development (unstable) (2008-05-11 r45672), \verb|i386-apple-darwin8.8.2|
+  \item Locale: \verb|C|
+  \item Base packages: base, datasets, grDevices, graphics, methods,
+    stats, utils
+  \item Other packages: MASS~7.2-42, ade4~1.4-7, ape~2.2,
+    nlme~3.1-88, seqinr~1.1-6, xtable~1.5-2
+  \item Loaded via a namespace (and not attached): grid~2.8.0,
+    lattice~0.17-7
+\end{itemize}
+There were two compilation steps:
+
+\begin{itemize}
+  \item \Rlogo{} compilation time was: Mon May 12 18:21:19 2008
+  \item \LaTeX{} compilation time was: \today
+\end{itemize}
+
+% END - DO NOT REMOVE THIS LINE
+
+%%%%%%%%%%%%  BIBLIOGRAPHY %%%%%%%%%%%%%%%%%
+\clearpage
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{plain}
+\bibliography{../config/book}
+\end{document}

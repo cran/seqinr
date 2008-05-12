@@ -17,6 +17,12 @@
 \DefineVerbatimEnvironment{Soutput}{Verbatim}
 {formatcom={\color{Soutput}},fontsize=\footnotesize, baselinestretch=0.75}
 %
+% This removes the extra spacing after code and output chunks in Sweave,
+% but keeps the spacing around the whole block.
+%
+\fvset{listparameters={\setlength{\topsep}{0pt}}}
+\renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+%
 % Rlogo
 %
 \newcommand{\Rlogo}{\protect\includegraphics[height=1.8ex,keepaspectratio]{../figs/Rlogo.pdf}}
@@ -49,8 +55,9 @@
 The FASTA format is very simple and widely used for simple import of
 biological sequences. It was used originally by the FASTA program \cite{FASTA}.
 It begins with a single-line description starting
-with a character \texttt{>}, followed by lines of sequence data
-of maximum 80 character each. Examples of files in FASTA format
+with a character \texttt{'>'}, followed by lines of sequence data
+of maximum 80 character each. Lines starting with a semi-colon
+character \texttt{';'} are comment lines. Examples of files in FASTA format
 are distributed with the \seqinr{} package in the \texttt{sequences}
 directory:
 
@@ -61,10 +68,10 @@ directory:
 \end{Sinput}
 \begin{Soutput}
  [1] "ATH1_pep_cm_20040228.fasta" "Anouk.fasta"               
- [3] "Sakai.fasta"                "bb.fasta"                  
- [5] "bordetella.fasta"           "ct.fasta"                  
- [7] "ecolicgpe5.fasta"           "edl933.fasta"              
- [9] "gopher.fasta"               "louse.fasta"               
+ [3] "bb.fasta"                   "bordetella.fasta"          
+ [5] "ct.fasta"                   "ecolicgpe5.fasta"          
+ [7] "gopher.fasta"               "humanMito.fasta"           
+ [9] "legacy.fasta"               "louse.fasta"               
 [11] "malM.fasta"                 "ortho.fasta"               
 [13] "seqAA.fasta"                "smallAA.fasta"             
 \end{Soutput}
@@ -83,6 +90,47 @@ MPRLFSYLLGVWLLLSQLPREIPGQSTNDFIKACGRELVRLWVEICGSVSWGRTALSLEE
 PQLETGPPAETMPSSITKDAEILKMMLEFVPNLPQELKATLSERQPSLRELQQSASKDSN
 LNFEEFKKIILNRQNEAEDKSLLELKNLGLDKHSRKKRLFRMTLSEKCCQVGCIRKDIAR
 LC*
+\end{Soutput}
+\end{Schunk}
+
+Here is an example of a FASTA file with comment lines:
+
+\begin{Schunk}
+\begin{Sinput}
+ cat(readLines(system.file("sequences/legacy.fasta", package = "seqinr")), 
+     sep = "\n")
+\end{Sinput}
+\begin{Soutput}
+>LEGACY  921 bp
+;
+; Example of a FASTA file using comment lines starting with a semicolon
+; as allowed in the original FASTA program:
+;
+;     if (line[0]!='>'&& line[0]!=';') {
+;      for (i=l_offset; (n<maxs && rn < sstop)&&
+;	     ((ic=qascii[line[i]&AAMASK])<EL); i++)
+;	if (ic<NA && ++rn > sstart) seq[n++]= ic;
+;      if (ic == ES || rn > sstop) break;
+;    }
+;
+; From file getseq.c in FASTA program version 35.2.5
+;
+ATGAAAATGAATAAAAGTCTCATCGTCCTCTGTTTATCAGCAGGGTTACTGGCAAGCGCG
+CCTGGAATTAGCCTTGCCGATGTTAACTACGTACCGCAAAACACCAGCGACGCGCCAGCC
+ATTCCATCTGCTGCGCTGCAACAACTCACCTGGACACCGGTCGATCAATCTAAAACCCAG
+ACCACCCAACTGGCGACCGGCGGCCAACAACTGAACGTTCCCGGCATCAGTGGTCCGGTT
+GCTGCGTACAGCGTCCCGGCAAACATTGGCGAACTGACCCTGACGCTGACCAGCGAAGTG
+AACAAACAAACCAGCGTTTTTGCGCCGAACGTGCTGATTCTTGATCAGAACATGACCCCA
+TCAGCCTTCTTCCCCAGCAGTTATTTCACCTACCAGGAACCAGGCGTGATGAGTGCAGAT
+CGGCTGGAAGGCGTTATGCGCCTGACACCGGCGTTGGGGCAGCAAAAACTTTATGTTCTG
+GTCTTTACCACGGAAAAAGATCTCCAGCAGACGACCCAACTGCTCGACCCGGCTAAAGCC
+TATGCCAAGGGCGTCGGTAACTCGATCCCGGATATCCCCGATCCGGTTGCTCGTCATACC
+ACCGATGGCTTACTGAAACTGAAAGTGAAAACGAACTCCAGCTCCAGCGTGTTGGTAGGA
+CCCTTATTTGGTTCCTCCGCTCCAGCTCCGGTTACGGTAGGTAACACGGCGGCACCAGCT
+GTGGCTGCACCCGCTCCGGCACCGGTGAAGAAAAGCGAGCCGATGCTCAACGACACGGAA
+AGTTATTTTAATACCGCGATCAAAAACGCTGTCGCGAAAGGTGATGTTGATAAGGCGTTA
+AAACTGCTTGATGAAGCTGAACGCTTGGGATCGACATCTGCCCGTTCCACCTTTATCAGC
+AGTGTAAAAGGCAAGGGGTAA
 \end{Soutput}
 \end{Schunk}
 
@@ -431,12 +479,15 @@ which contains the sequences of 21,161 proteins.
 \end{Sinput}
 \begin{Soutput}
 utilisateur    syst`eme    'ecoul'e 
-     10.178       0.048      10.247 
+      5.481       0.124       5.724 
 \end{Soutput}
 \end{Schunk}
 
-It's about one minute here to read 21,161 protein sequences. We save them
-in XDR binary format to read them faster later at will:
+It's about 10 seconds here to read 21,161 protein sequences. We save them
+in XDR binary format\footnote{
+this is a multi-platform compatible binary format: you can save data
+under unix and load them under Mac OS X, for instance, without problem.
+} to read them faster later at will:
 
 \begin{Schunk}
 \begin{Sinput}
@@ -449,11 +500,11 @@ in XDR binary format to read them faster later at will:
 \end{Sinput}
 \begin{Soutput}
 utilisateur    syst`eme    'ecoul'e 
-      0.392       0.009       0.402 
+      0.333       0.010       0.347 
 \end{Soutput}
 \end{Schunk}
 
-Now it's about one second to load the whole data set thanks to the XDR format.
+Now it's less than a second to load the whole data set thanks to the XDR format.
 The object size is about 15 Mo in RAM, that is something very close to
 the flat file size on disk:
 
@@ -478,7 +529,7 @@ that you are interested by the distribution of protein size in
 \textit{Arabidopsis thaliana}. There is an efficient vectorized function
 called \texttt{nchar()} that will do the job, we just have to remove
 one unit because of the stop codon which is translated as a star (*) in
-this data set. This is a simple and direct task under R:
+this data set. This is a simple and direct task under \Rlogo{}:
 
 \begin{Schunk}
 \begin{Sinput}
@@ -597,7 +648,7 @@ very close to the third quartile of the distribution:
 \end{Schunk}
 
 We want now to compute something relatively more complex,
-we want the Kyte and Doolittle\cite{KD} hydropathy score of our proteins
+we want the Kyte and Doolittle \cite{KD} hydropathy score of our proteins
 (aka GRAVY score). This is basically a linear form on amino
 acid frequencies:
 
@@ -739,55 +790,11 @@ glycine content. Let's define a vector of logicals to select the hydrophilines:
 \begin{Schunk}
 \begin{Sinput}
  hydrophilines <- fgly > 0.08 & kdath > 1
- names(ath)[hydrophilines]
+ head(names(ath)[hydrophilines])
 \end{Sinput}
 \begin{Soutput}
-  [1] "At1g02840.1" "At1g02840.2" "At1g02840.3" "At1g03320.1" "At1g03820.1"
-  [6] "At1g04450.1" "At1g12810.1" "At1g13020.1" "At1g13290.1" "At1g13890.1"
- [11] "At1g15270.1" "At1g15280.1" "At1g15280.2" "At1g15400.1" "At1g15400.2"
- [16] "At1g20220.1" "At1g21520.1" "At1g23530.1" "At1g23860.1" "At1g23860.2"
- [21] "At1g26210.1" "At1g27650.1" "At1g31750.1" "At1g42430.1" "At1g44478.1"
- [26] "At1g47970.1" "At1g48920.1" "At1g49680.1" "At1g50300.1" "At1g51510.1"
- [31] "At1g52300.1" "At1g52690.1" "At1g52690.2" "At1g52710.1" "At1g53160.1"
- [36] "At1g53160.2" "At1g53260.1" "At1g53645.1" "At1g54410.1" "At1g54926.1"
- [41] "At1g55310.1" "At1g56085.1" "At1g60650.1" "At1g60650.2" "At1g62045.1"
- [46] "At1g63310.1" "At1g64360.1" "At1g64370.1" "At1g67325.1" "At1g67870.1"
- [51] "At1g72050.1" "At1g72080.1" "At1g73350.1" "At1g75560.1" "At1g76010.1"
- [56] "At1g77030.1" "At1g77765.1" "At1g80000.1" "At1g80000.2" "At2g02160.1"
- [61] "At2g03440.1" "At2g04380.1" "At2g04870.1" "At2g07675.1" "At2g11910.1"
- [66] "At2g11910.2" "At2g13125.1" "At2g17950.1" "At2g19750.1" "At2g20430.1"
- [71] "At2g20760.1" "At2g21490.1" "At2g22080.1" "At2g22100.1" "At2g22820.1"
- [76] "At2g23110.1" "At2g24590.1" "At2g25990.1" "At2g27100.1" "At2g32710.1"
- [81] "At2g32710.2" "At2g33460.1" "At2g33690.1" "At2g34310.1" "At2g34310.2"
- [86] "At2g34310.3" "At2g35230.2" "At2g37340.1" "At2g37340.2" "At2g37340.3"
- [91] "At2g39855.2" "At2g40040.1" "At2g40080.1" "At2g40170.1" "At2g41730.1"
- [96] "At2g42190.1" "At2g43370.1" "At2g43970.2" "At2g44710.1" "At2g44820.1"
-[101] "At2g44820.2" "At2g46270.2" "At3g02480.1" "At3g05220.1" "At3g05220.2"
-[106] "At3g07195.1" "At3g10020.1" "At3g13570.1" "At3g13780.1" "At3g15270.1"
-[111] "At3g16040.1" "At3g16080.1" "At3g17160.1" "At3g17190.1" "At3g20910.1"
-[116] "At3g21270.1" "At3g21290.1" "At3g22660.1" "At3g23140.1" "At3g23380.1"
-[121] "At3g23390.1" "At3g24100.1" "At3g24740.1" "At3g25590.1" "At3g26400.1"
-[126] "At3g26420.1" "At3g29075.1" "At3g29470.1" "At3g29600.1" "At3g47120.1"
-[131] "At3g48180.1" "At3g49430.1" "At3g50320.1" "At3g50610.1" "At3g50670.1"
-[136] "At3g50690.1" "At3g50970.1" "At3g50980.1" "At3g51810.1" "At3g51940.1"
-[141] "At3g53500.1" "At3g53500.2" "At3g55460.1" "At3g56720.1" "At3g57930.1"
-[146] "At3g58070.1" "At3g60230.1" "At3g62790.1" "At3g63100.1" "At3g63400.1"
-[151] "At3g63400.2" "At4g02425.1" "At4g02430.2" "At4g07940.1" "At4g09840.1"
-[156] "At4g09850.1" "At4g09980.1" "At4g12610.1" "At4g12670.1" "At4g13560.1"
-[161] "At4g13615.1" "At4g14020.1" "At4g14320.1" "At4g16830.1" "At4g17520.1"
-[166] "At4g22740.1" "At4g22740.2" "At4g24500.1" "At4g24500.2" "At4g24680.1"
-[171] "At4g25340.1" "At4g25500.1" "At4g25500.2" "At4g26640.1" "At4g26640.2"
-[176] "At4g28870.1" "At4g28990.1" "At4g29390.1" "At4g31580.1" "At4g36600.1"
-[181] "At4g36730.1" "At4g36730.2" "At4g38710.1" "At5g02020.1" "At5g03990.1"
-[186] "At5g04290.1" "At5g11260.1" "At5g11970.1" "At5g12840.1" "At5g12840.2"
-[191] "At5g12840.3" "At5g12840.4" "At5g16470.1" "At5g17650.1" "At5g19960.1"
-[196] "At5g22040.1" "At5g22650.1" "At5g22650.2" "At5g26890.1" "At5g27690.1"
-[201] "At5g28610.1" "At5g28630.1" "At5g44200.1" "At5g47210.1" "At5g50830.1"
-[206] "At5g51840.1" "At5g52200.1" "At5g52310.1" "At5g52530.1" "At5g52530.2"
-[211] "At5g53820.1" "At5g55430.1" "At5g55640.1" "At5g55670.1" "At5g56670.1"
-[216] "At5g58040.1" "At5g58470.1" "At5g58470.2" "At5g59080.1" "At5g59950.1"
-[221] "At5g59950.3" "At5g60800.1" "At5g60880.1" "At5g61890.1" "At5g64130.1"
-[226] "At5g66400.1" "At5g66780.1" "At5g67190.1" "At5g67490.1" "AtMg00880"  
+[1] "At1g02840.1" "At1g02840.2" "At1g02840.3" "At1g03320.1" "At1g03820.1"
+[6] "At1g04450.1"
 \end{Soutput}
 \end{Schunk}
 
@@ -1374,10 +1381,8 @@ for multiple substitutions.
 \begin{Schunk}
 \begin{Sinput}
  library(ape)
- x.louse <- lapply(louse$seq, function(x) as.DNAbin(s2c(x)))
- x.gopher <- lapply(gopher$seq, function(x) as.DNAbin(s2c(x)))
- louse.JC <- dist.dna(x = x.louse, model = "JC69")
- gopher.JC <- dist.dna(x = x.gopher, model = "JC69")
+ louse.JC <- dist.dna(as.DNAbin(louse), model = "JC69")
+ gopher.JC <- dist.dna(as.DNAbin(gopher), model = "JC69")
  l <- nj(louse.JC)
  g <- nj(gopher.JC)
 \end{Sinput}
@@ -1436,10 +1441,8 @@ gopher <- read.alignment(system.file("sequences/gopher.fasta", package = "seqinr
 l.names <- readLines(system.file("sequences/louse.names", package = "seqinr"))
 g.names <- readLines(system.file("sequences/gopher.names", package = "seqinr"))
 library(ape)
-x.louse <- lapply(louse$seq, function(x) as.DNAbin(s2c(x)))
-x.gopher <- lapply(gopher$seq, function(x) as.DNAbin(s2c(x)))
-louse.JC <- dist.dna(x = x.louse, model = "JC69")
-gopher.JC <- dist.dna(x = x.gopher, model = "JC69")
+louse.JC <- dist.dna(as.DNAbin(louse), model = "JC69")
+gopher.JC <- dist.dna(as.DNAbin(gopher), model = "JC69")
 l <- nj(louse.JC)
 g <- nj(gopher.JC)
 g$tip.label <- paste(1:8, g.names)
@@ -1498,20 +1501,19 @@ the updated dataset.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.6.0 (2007-10-03), \verb|i386-apple-darwin8.10.1|
+  \item R version 2.8.0 Under development (unstable) (2008-05-11 r45672), \verb|i386-apple-darwin8.8.2|
   \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-36, ade4~1.4-4, ape~2.0-1,
-    gee~4.13-13, lattice~0.16-5, nlme~3.1-85, seqinr~1.1-3,
-    xtable~1.5-1
-  \item Loaded via a namespace (and not attached): grid~2.6.0,
-    rcompgen~0.1-15, tools~2.6.0
+  \item Other packages: MASS~7.2-42, ade4~1.4-7, ape~2.2,
+    nlme~3.1-88, seqinr~1.1-6, xtable~1.5-2
+  \item Loaded via a namespace (and not attached): grid~2.8.0,
+    lattice~0.17-7, tools~2.8.0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Thu Nov  1 10:42:10 2007
+  \item \Rlogo{} compilation time was: Mon May 12 17:55:29 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

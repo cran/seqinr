@@ -1,3 +1,5 @@
+o There should be an argument circular in function count() to handle
+   correctly the case of circular genomes.
 
 o Interfacer gfrag pour pouvoir extraire un fragment de sequence par
    position.

@@ -39,22 +39,19 @@
 
 \examples{
 
+\dontrun{
 ### Example for Chlamydia trachomatis ####
 
 ### Rearrange the chromosome and compute the nucleotide skews ###
 
-\dontrun{r.ori <- rearranged.oriloc(seq.fasta = system.file("sequences/ct.fasta",package = "seqinr"),
-    g2.coord = system.file("sequences/ct.coord",package = "seqinr"))}
+r.ori <- rearranged.oriloc(seq.fasta = system.file("sequences/ct.fasta", package = "seqinr"),
+    g2.coord = system.file("sequences/ct.coord", package = "seqinr"))
 
 ### Extract the breakpoints for the rearranged nucleotide skews ###
 
-\dontrun{breaks <- extract.breakpoints(r.ori, type = c("gcfw", "gcrev"), nbreaks = c(2, 2), gridsize = 50, it.max = 100)}
-
-
+breaks <- extract.breakpoints(r.ori, type = c("gcfw", "gcrev"), nbreaks = c(2, 2), gridsize = 50, it.max = 100)
 
 ### Draw the rearranged nucleotide skews and place the position of the breakpoints on the graphics ###
 
-\dontrun{draw.rearranged.oriloc(r.ori, breaks.gcfw = breaks$gcfw$breaks, breaks.gcrev = breaks$gcrev$breaks)}
+draw.rearranged.oriloc(r.ori, breaks.gcfw = breaks$gcfw$breaks, breaks.gcrev = breaks$gcrev$breaks)}
 }
-
-\keyword{utilities}

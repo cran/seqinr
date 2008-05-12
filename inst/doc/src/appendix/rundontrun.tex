@@ -16,6 +16,12 @@
 \DefineVerbatimEnvironment{Soutput}{Verbatim}
 {formatcom={\color{Soutput}},fontsize=\footnotesize, baselinestretch=0.75}
 %
+% This removes the extra spacing after code and output chunks in Sweave,
+% but keeps the spacing around the whole block.
+%
+\fvset{listparameters={\setlength{\topsep}{0pt}}}
+\renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+%
 % Rlogo
 %
 \newcommand{\Rlogo}{\protect\includegraphics[height=1.8ex,keepaspectratio]{../figs/Rlogo.pdf}}
@@ -55,14 +61,32 @@ This is the list of function that don't run for now and need to be fixed.
 
 \begin{Schunk}
 \begin{Sinput}
- stoplist <- c("reverse.align", "extractseqs")
+ stoplist <- c("reverse.align", "extractseqs", "acnucopen", 
+     "modifylist", "plot.SeqAcnucWeb", "draw.rearranged.oriloc")
 \end{Sinput}
 \end{Schunk}
 
-% GetFromSequence: see later
-% reverse.align: need clustalw on line, see later
-% extractseqs: strange behaviour when in Sweave document???
+Known problems are:
 
+\begin{enumerate}
+\item[reverse.align]{need clustalw on line, see later}
+\item[extractseqs]{strange behaviour when in Sweave document???}
+\item[acnucopen]{SUBINLNG was 60 and now 504}
+\item[modifylist]{Error : mylist\$nelem == 33 is not TRUE}
+\item[plot.SeqAcnucWeb]{Database with name -->hovernucl<-- is not known by server}
+\item[draw.rearranged.oriloc]{Very long (infinite loop?)}
+\end{enumerate}
+
+\section{Figure list}
+
+This is the list of functions that generates a graphical output.
+
+\begin{Schunk}
+\begin{Sinput}
+ figlist <- c("draw.rearranged.oriloc", "oriloc", "dia.bactgensize", 
+     "GC", "plot.SeqAcnucWeb")
+\end{Sinput}
+\end{Schunk}
 \section{Don't run generator}
 
 This code chunk generates the \texttt{dontrun.rnw} file that is included there after.
@@ -77,6 +101,9 @@ This file should be pre-existent, and two \texttt{Sweave()} passes are necessary
          2)
      if (fctname %in% stoplist) 
          next
+     withfig <- "F"
+     if (fctname %in% figlist) 
+         withfig <- "T"
      lines <- readLines(f)
      dontrun <- lines[which(substring(lines, 1, 3) == "##D")]
      if (length(dontrun) == 0) 
@@ -84,12 +111,20 @@ This file should be pre-existent, and two \texttt{Sweave()} passes are necessary
      dontrun <- sapply(dontrun, function(x) substr(x, 5, nchar(x)))
      writeLines(paste("\\subsection{\\texttt{", fctname, "()}}", 
          sep = ""), outfile)
-     writeLines(paste("<<", fctname, ",fig=F,keep.source=T>>=", 
-         sep = ""), outfile)
+     fctnamewithoutdots <- gsub("\\.", "", fctname)
+     writeLines(paste("<<", fctnamewithoutdots, ",fig=", withfig, 
+         ",keep.source=T>>=", sep = ""), outfile)
      writeLines(dontrun, outfile)
      writeLines("@", outfile)
  }
  close(outfile)
+\end{Sinput}
+\end{Schunk}
+
+
+\begin{Schunk}
+\begin{Sinput}
+ setwd(pwd)
 \end{Sinput}
 \end{Schunk}
 
@@ -141,6 +176,7 @@ This file should be pre-existent, and two \texttt{Sweave()} passes are necessary
  mtext("CPU time as function of options", outer = TRUE, line = 1, cex = 1.5)
 \end{Sinput}
 \end{Schunk}
+\includegraphics{../figs/rundontrun-GC}
 \subsection{\texttt{SeqAcnucWeb()}}
 \begin{Schunk}
 \begin{Sinput}
@@ -149,38 +185,6 @@ This file should be pre-existent, and two \texttt{Sweave()} passes are necessary
    query("mylist", "sp=felis catus et t=cds et o=mitochondrion")
    stopifnot(is.SeqAcnucWeb(mylist$req[[1]]))
    closebank()
-\end{Sinput}
-\end{Schunk}
-\subsection{\texttt{acnucopen()}}
-\begin{Schunk}
-\begin{Sinput}
-   mysocket <- socketConnection( host = "pbil.univ-lyon1.fr", 
-     port = 5558, server = FALSE, blocking = TRUE)
-   readLines(mysocket, n = 1) # OK acnuc socket started
-\end{Sinput}
-\begin{Soutput}
-[1] "OK acnuc socket started"
-\end{Soutput}
-\begin{Sinput}
-   acnucopen("emblTP", socket = mysocket) -> res
-   expected <- c("EMBL", "14138095", "236401", "1186228", "8", 
-     "16", "40", "40", "20", "20", "40", "60", "63")
-   stopifnot(all(unlist(res) == expected))
-   tryalreadyopen <- try(acnucopen("emblTP", socket = mysocket))
-   stopifnot(inherits(tryalreadyopen, "try-error"))
-   # Need a fresh socket because acnucopen() close it if error:
-   mysocket <- socketConnection( host = "pbil.univ-lyon1.fr", 
-     port = 5558, server = FALSE, blocking = TRUE)
-   tryoff <-  try(acnucopen("off", socket = mysocket))
-   stopifnot(inherits(tryoff, "try-error"))
-   mysocket <- socketConnection( host = "pbil.univ-lyon1.fr", 
-     port = 5558, server = FALSE, blocking = TRUE)
-   tryinexistent <-  try(acnucopen("tagadatagadatsointsoin", socket = mysocket))
-   stopifnot(inherits(tryinexistent, "try-error"))
-   mysocket <- socketConnection( host = "pbil.univ-lyon1.fr", 
-     port = 5558, server = FALSE, blocking = TRUE)
-   trycloseunopened <- try(acnucclose(mysocket))
-   stopifnot(inherits(trycloseunopened, "try-error"))
 \end{Sinput}
 \end{Schunk}
 \subsection{\texttt{alllistranks()}}
@@ -248,20 +252,19 @@ locus TRUE   TRUE   TRUE
    choosebank()
 \end{Sinput}
 \begin{Soutput}
- [1] "genbank"      "embl"         "emblwgs"      "swissprot"   
- [5] "ensembl"      "refseq"       "hobacnucl"    "hobacprot"   
- [9] "hovernucl"    "hoverprot"    "hogennucl"    "hogenprot"   
-[13] "hogen4nucl"   "hogen4prot"   "homolensprot" "homolensnucl"
-[17] "greview"      "HAMAPnucl"    "HAMAPprot"    "hoppsigen"   
-[21] "nurebnucl"    "nurebprot"    "taxobacgen"  
+ [1] "genbank"     "embl"        "emblwgs"     "swissprot"   "ensembl"    
+ [6] "refseq"      "nrsub"       "hobacnucl"   "hobacprot"   "hovergendna"
+[11] "hovergen"    "hogenom"     "hogenomdna"  "hogennucl"   "hogenprot"  
+[16] "hoverclnu"   "hoverclpr"   "homolens"    "homolensdna" "greview"    
+[21] "polymorphix" "emglib"      "HAMAPnucl"   "HAMAPprot"   "hoppsigen"  
+[26] "nurebnucl"   "nurebprot"   "taxobacgen" 
 \end{Soutput}
 \begin{Sinput}
    # Show frozen databases:
    choosebank(tag = "TP")
 \end{Sinput}
 \begin{Soutput}
-[1] "emblTP"      "swissprotTP" "hoverprotTP" "hovernuclTP" "emglib"     
-[6] "trypano"    
+[1] "emblTP"      "swissprotTP" "hoverprotTP" "hovernuclTP" "trypano"    
 \end{Soutput}
 \begin{Sinput}
    # Select a database:
@@ -410,13 +413,14 @@ locus FALSE    TRUE     TRUE     TRUE
   closebank() 
 \end{Sinput}
 \end{Schunk}
-\subsection{\texttt{draw.rearranged.oriloc()}}
+\subsection{\texttt{dia.bactgensize()}}
 \begin{Schunk}
 \begin{Sinput}
- r.ori <- rearranged.oriloc(seq.fasta = system.file("sequences/ct.fasta",package = "seqinr"),
-     g2.coord = system.file("sequences/ct.coord",package = "seqinr"))
+   # Need internet connection
+   dia.bactgensize(source = "http://www.genomesonline.org/DBs/goldtable.txt")
 \end{Sinput}
 \end{Schunk}
+\includegraphics{../figs/rundontrun-diabactgensize}
 \subsection{\texttt{extract.breakpoints()}}
 \begin{Schunk}
 \begin{Sinput}
@@ -955,107 +959,64 @@ $otheraccessmatches
    kdb()
 \end{Sinput}
 \begin{Soutput}
-           bank status
-1       genbank     on
-2          embl     on
-3       emblwgs     on
-4     swissprot     on
-5       ensembl     on
-6        refseq     on
-7     hobacnucl     on
-8     hobacprot     on
-9     hovernucl     on
-10    hoverprot     on
-11    hogennucl     on
-12    hogenprot     on
-13   hogen4nucl     on
-14   hogen4prot     on
-15 homolensprot     on
-16 homolensnucl     on
-17      greview     on
-18    HAMAPnucl     on
-19    HAMAPprot     on
-20    hoppsigen     on
-21    nurebnucl     on
-22    nurebprot     on
-23   taxobacgen     on
+          bank status
+1      genbank     on
+2         embl     on
+3      emblwgs     on
+4    swissprot     on
+5      ensembl     on
+6       refseq     on
+7        nrsub     on
+8    hobacnucl     on
+9    hobacprot     on
+10 hovergendna     on
+11    hovergen     on
+12     hogenom     on
+13  hogenomdna     on
+14   hogennucl     on
+15   hogenprot     on
+16   hoverclnu     on
+17   hoverclpr     on
+18    homolens     on
+19 homolensdna     on
+20     greview     on
+21 polymorphix     on
+22      emglib     on
+23   HAMAPnucl     on
+24   HAMAPprot     on
+25   hoppsigen     on
+26   nurebnucl     on
+27   nurebprot     on
+28  taxobacgen     on
                                                                             info
-1                  GenBank Rel. 162 (15 October 2007) Last Updated: Nov 30, 2007
-2            EMBL Library Release 92 (September 2007) Last Updated: Nov 30, 2007
-3               EMBL Whole Genome Shotgun sequences Release 92  (September 2007)
-4        UniProt Rel. 12 (SWISS-PROT 54 + TrEMBL 37): Last Updated: Nov 19, 2007
-5                                                   Ensembl databases release 41
+1                    GenBank Rel. 165 (15 April 2008) Last Updated: May 12, 2008
+2                EMBL Library Release 94 (March 2008) Last Updated: May 12, 2008
+3                   EMBL Whole Genome Shotgun sequences Release 94  (March 2008)
+4        UniProt Rel. 13 (SWISS-PROT 55 + TrEMBL 38): Last Updated: Apr 29, 2008
+5                       Ensembl Release 49\t     \t\t Last Updated: Apr 23, 2008
 6                        RefSeq 15.0 (1 January 2006) Last Updated: Jan 23, 2006
-7                        HOBACGEN - genomic data - Release 10 (February 12 2002)
-8                        HOBACGEN - protein data - Release 10 (February 12 2002)
-9  HOVERGEN - genomic data - Release 48 (May 24 2007) Last Updated: May 24, 2007
-10 HOVERGEN - protein data - Release 48 (May 24 2007) Last Updated: May 24, 2007
-11  HOGENOM - genomic data - Release 03 (Oct 14 2005) Last Updated: Nov  7, 2005
-12  HOGENOM - protein data - Release 03 (Oct 14 2005) Last Updated: Mar 10, 2006
-13 HOGENOM - genomic data - Release 04 (Sept 18,2007) Last Updated: Oct  2, 2007
-14 HOGENOM - protein data - Release 04 (Sept 18,2007) Last Updated: Nov  6, 2007
-15         HOMOLENS 3 - Homologous genes from Ensembl Last Updated: Jan 19, 2007
-16        HOMOLENS 3 Homologous genes from Ensembl 41 Last Updated: Jan 19, 2007
-17               EBI Genome Reviews. Acnuc Release 7. Last Updated: Feb 26, 2007
-18              HAMAP - Acnuc Release - Nucleotides - Last Updated: Jun  5, 2007
-19                   HAMAP - Acnuc Release -Proteins- Last Updated: Jun  5, 2007
-20                                                                     Hoppsigen
-21                   Nurebase 4.0 (26 September 2003) Last Updated: NOV 27, 2003
-22                   Nurebase 4.0 (26 September 2003) Last Updated: NOV 27, 2003
-23                                            TaxoBacGen Rel. 7 (September 2005)
-\end{Soutput}
-\begin{Sinput}
-   closebank()
-\end{Sinput}
-\end{Schunk}
-\subsection{\texttt{modifylist()}}
-\begin{Schunk}
-\begin{Sinput}
-   choosebank("emblTP")
-   query("mylist", "sp=felis catus et t=cds", virtual=TRUE)
-   mylist$nelem # 603 sequences
-\end{Sinput}
-\begin{Soutput}
-[1] 603
-\end{Soutput}
-\begin{Sinput}
-   stopifnot(mylist$nelem == 603)
-   # select sequences with at least 1000 bp:
-   modifylist("mylist", operation = ">1000", virtual = TRUE)
-   mylist$nelem # now, only 132 sequences
-\end{Sinput}
-\begin{Soutput}
-[1] 132
-\end{Soutput}
-\begin{Sinput}
-   stopifnot(mylist$nelem == 132)
-   # scan for "felis" in annotations:
-   modifylist("mylist", op = "felis", type = "scan", virtual = TRUE)
-   mylist$nelem # now, only 33 sequences
-\end{Sinput}
-\begin{Soutput}
-[1] 33
-\end{Soutput}
-\begin{Sinput}
-   stopifnot(mylist$nelem == 33)
-   # modify by date:
-   modifylist("mylist", op = "> 1/jul/2001", type = "date", virtual = TRUE)
-   mylist$nelem # now, only 15 sequences
-\end{Sinput}
-\begin{Soutput}
-[1] 15
-\end{Soutput}
-\begin{Sinput}
-   stopifnot(mylist$nelem == 15)
-   # Summary of current ACNUC lists, one list called MYLIST on sever:
-   sapply(alr()$rank, getliststate)
-\end{Sinput}
-\begin{Soutput}
-      [,1]    
-type  "SQ"    
-name  "MYLIST"
-count 15      
-locus FALSE   
+7                                    NRSub database release 10.1 (December 1997)
+8                        HOBACGEN - genomic data - Release 10 (February 12 2002)
+9                        HOBACGEN - protein data - Release 10 (February 12 2002)
+10 HOVERGEN - genomic data - Release 48 (May 24 2007) Last Updated: May 24, 2007
+11 HOVERGEN - protein data - Release 48 (May 24 2007) Last Updated: May 24, 2007
+12 HOGENOM - protein data - Release 04 (Sept 18,2007) Last Updated: Feb 27, 2008
+13 HOGENOM - genomic data - Release 04 (Sept 18,2007) Last Updated: Feb 21, 2008
+14  HOGENOM - genomic data - Release 03 (Oct 14 2005) Last Updated: Nov  7, 2005
+15  HOGENOM - protein data - Release 03 (Oct 14 2005) Last Updated: Mar 10, 2006
+16                      HOVERGEN CLEAN - genomic data - Release 46 (Jun 10 2004)
+17                      HOVERGEN CLEAN - protein data - Release 46 (Jun 10 2004)
+18         HOMOLENS 3 - Homologous genes from Ensembl Last Updated: Jan 19, 2007
+19        HOMOLENS 3 Homologous genes from Ensembl 41 Last Updated: Jan 19, 2007
+20              EBI Genome Reviews. Acnuc Release 2. Last Updated: June 19, 2005
+21                                         POLYBASE - Release 1  (June 20, 2003)
+22                                           EMGLib Release 5 (December 9, 2003)
+23                                                                   HAMAP nucl.
+24                                                                   HAMAP prot.
+25                                                                     Hoppsigen
+26                   Nurebase 4.0 (26 September 2003) Last Updated: NOV 27, 2003
+27                   Nurebase 4.0 (26 September 2003) Last Updated: NOV 27, 2003
+28                                            TaxoBacGen Rel. 7 (September 2005)
 \end{Soutput}
 \begin{Sinput}
    closebank()
@@ -1073,16 +1034,27 @@ locus FALSE
  plot(out$st, out$sk, type = "l", xlab = "Map position in Kb",
      ylab = "Cumulated composite skew", 
      main = expression(italic(Chlamydia~~trachomatis)~~complete~~genome))
+ #
+ # Example with a single GenBank file:
+ #
+ out2 <- oriloc(gbk=system.file("sequences/ct.gbk", package = "seqinr"))
+ draw.oriloc(out2)
 \end{Sinput}
 \end{Schunk}
-\subsection{\texttt{plot.SeqAcnucWeb()}}
+\includegraphics{../figs/rundontrun-oriloc}
+\subsection{\texttt{prepgatannots()}}
 \begin{Schunk}
 \begin{Sinput}
-   ### Need internet connection
-   choosebank("hovernucl")
-   query("list", "AC=AB000425")  
-   plot(list$req[[1]])
+ # Need internet connection
+   choosebank("genbank")
+   query("mylist","n=AQF16SRRN")
+   pga() # We want to scan all annotations, including FEATURES
+   modifylist("mylist", operation = "strain", type = "scan")
+   mylist$nelem # should be 1
 \end{Sinput}
+\begin{Soutput}
+[1] 1
+\end{Soutput}
 \end{Schunk}
 \subsection{\texttt{prettyseq()}}
 \begin{Schunk}
@@ -1152,9 +1124,9 @@ Genetic code used: NUG=AUN=M when initiation codon
 \end{Sinput}
 \begin{Soutput}
       AUT       BIB       ACC       SMJ       SUB       LOC       KEY 
-   165152    484468  79360574      4932  83935189  79794229   7401652 
+   169790    508579  87452125      5130  92540832  87594459   8490208 
      SPEC      SHRT       LNG       EXT       TXT 
-   503804 714581316  22543462   6989121    405605 
+   553777 785124999  24813697   7595136    441281 
 \end{Soutput}
 \end{Schunk}
 \subsection{\texttt{rearranged.oriloc()}}
@@ -1284,31 +1256,26 @@ Genetic code used: NUG=AUN=M when initiation codon
 \end{Soutput}
 \end{Schunk}
 
-\begin{Schunk}
-\begin{Sinput}
- setwd(pwd)
-\end{Sinput}
-\end{Schunk}
+
 
 \section*{Session Informations}
 
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.6.1 (2007-11-26), \verb|i386-apple-darwin8.10.1|
+  \item R version 2.8.0 Under development (unstable) (2008-05-11 r45672), \verb|i386-apple-darwin8.8.2|
   \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-38, ade4~1.4-4, ape~2.0-1,
-    gee~4.13-13, lattice~0.17-2, nlme~3.1-86, seqinr~1.1-3,
-    xtable~1.5-1
-  \item Loaded via a namespace (and not attached): grid~2.6.1,
-    rcompgen~0.1-17
+  \item Other packages: MASS~7.2-42, ade4~1.4-7, ape~2.2,
+    nlme~3.1-88, seqinr~1.1-6, xtable~1.5-2
+  \item Loaded via a namespace (and not attached): grid~2.8.0,
+    lattice~0.17-7
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sun Dec  2 17:49:23 2007
+  \item \Rlogo{} compilation time was: Mon May 12 17:41:42 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

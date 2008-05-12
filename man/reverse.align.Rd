@@ -7,8 +7,8 @@
 }
 \usage{
 reverse.align(nucl.file, protaln.file, input.format = 'fasta', out.file,
-output.format = 'fasta', align.prot = FALSE, numcode = 1,
-clustal.path = NULL)
+  output.format = 'fasta', align.prot = FALSE, numcode = 1,
+  clustal.path = NULL, forceDNAtolower = TRUE, forceAAtolower = FALSE)
 }
 \arguments{
   \item{nucl.file}{ A character string specifying the name of the FASTA format file containing the nucleotide sequences. }
@@ -26,8 +26,11 @@ clustal.path = NULL)
   \item{numcode}{The NCBI genetic code number for the translation of the
   nucleic sequences. By default the standard genetic code is used.}
   \item{clustal.path}{ The path of the ClustalW binary. This argument
-    only needs to be set
-  if \code{align.prot} is TRUE. }
+    only needs to be setif \code{align.prot} is TRUE. }
+  \item{forceDNAtolower}{logical passed to \code{\link{read.fasta}} for reading 
+     the nucleic acid file.}
+  \item{forceAAtolower}{logical passed to \code{\link{read.alignment}} for reading 
+     the aligned protein sequence file.}
 }
 \details{
   This function an alignment of nucleic protein-coding sequences using as a
@@ -69,32 +72,40 @@ clustal.path = NULL)
 # B. bronchiseptica):
 #
 
-triplet <- read.fasta(system.file('sequences/bordetella.fasta',package='seqinr'))
+nucl.file <- system.file('sequences/bordetella.fasta', package = 'seqinr')
+triplet <- read.fasta(nucl.file)
 
 # 
 # For this example, 'bordetella.pep.aln' contains the aligned protein
 # sequences, in the Clustal format:
 #
 
-triplet.pep<- read.alignment(system.file('sequences/bordetella.pep.aln',package='seqinr'),format='clustal')
+protaln.file <- system.file('sequences/bordetella.pep.aln', package = 'seqinr')
+triplet.pep<- read.alignment(protaln.file, format = 'clustal')
 
 #
-#
+# Call reverse.align for this example:
 #
 
-reverse.align(nucl.file=system.file('sequences/bordetella.fasta',package='seqinr'),
-protaln.file=system.file('sequences/bordetella.pep.aln',package='seqinr'),
-input.format='clustal', out.file='test.revalign')
+reverse.align(nucl.file = nucl.file, protaln.file = protaln.file,
+                     input.format = 'clustal', out.file = 'test.revalign')
+
+#
+# Simple sanity check against expected result:
+#
+
+res.new <- read.alignment("test.revalign", format = "fasta")
+data(revaligntest)
+stopifnot(identical(res.new, revaligntest))
 
 #
 # Alternatively, we can use ClustalW to align the translated nucleic
-#sequences. Here the ClustalW program is accessible simply by the
-#'clustalw' name.
+# sequences. Here the ClustalW program is accessible simply by the
+# 'clustalw' name.
 #
 
-\dontrun{reverse.align(nucl.file=system.file('sequences/bordetella.fasta',package='seqinr'),
-out.file='test.revalign.clustal', align.prot=TRUE, clustal.path='clustalw')}
-
-
+\dontrun{
+reverse.align(nucl.file = nucl.file, out.file = 'test.revalign.clustal', 
+  align.prot = TRUE, clustal.path = 'clustalw')}
 }
 \keyword{ manip }

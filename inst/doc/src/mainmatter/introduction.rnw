@@ -102,8 +102,20 @@ widthcm <- acnucbooksize*bpbk/acnucbp
 @
 
 It would be about \Sexpr{ifelse(exists("widthkm"), round(widthkm, 1), "???")}
-kilometer long in ACNUC book format to print GenBank today (\today).
-
+kilometer long in ACNUC book format to print GenBank today (\today). As a
+matter of comparison, our local universitary library buiding\footnote{
+Université de Lyon, F-69000, Lyon ; Université Lyon 1 ; 
+Biblioth$\grave{\mathrm{e}}$que Universitaire Sciences,
+18-25-27 Avenue Claude BERNARD,
+F-69622, Villeurbanne, France.
+} contains about
+4 km of books and journals.
+\marginpar{
+\includegraphics[width=\marginparwidth]{../figs/libraryBuilding}\\
+\tiny{Our local library building in 2007 has a capacity of about
+4 linear km of journals. That wouldn't be enough to store a printed
+version of GenBank. Picture by Lionel Clouzeau.}
+}
 \section{About R and CRAN}
 
 \Rlogo{} \cite{R, RfromR} is a \emph{libre} language and environment for statistical computing and graphics 

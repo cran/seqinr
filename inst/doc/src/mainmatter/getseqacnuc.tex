@@ -17,6 +17,12 @@
 \DefineVerbatimEnvironment{Soutput}{Verbatim}
 {formatcom={\color{Soutput}},fontsize=\footnotesize, baselinestretch=0.75}
 %
+% This removes the extra spacing after code and output chunks in Sweave,
+% but keeps the spacing around the whole block.
+%
+\fvset{listparameters={\setlength{\topsep}{0pt}}}
+\renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+%
 % Rlogo
 %
 \newcommand{\Rlogo}{\protect\includegraphics[height=1.8ex,keepaspectratio]{../figs/Rlogo.pdf}}
@@ -41,7 +47,7 @@
 \tableofcontents
 % BEGIN - DO NOT REMOVE THIS LINE
 
-\section{Introduction}
+\section*{Introduction}
 
 As a rule of thumb, after compression one nucleotide needs one octet
 of disk space storage (because you need also the annotations corresponding
@@ -57,7 +63,7 @@ interested in. This is done in three steps:
 We now give a full example of those three steps under the ACNUC system
 \cite{GautierC1982a, GautierC1982b, acnuc1984, acnuc1985, acnuc1985b}.
 
-\subsection{Choose a bank}
+\section{Choose a bank}
 
 Select the database from which you want to extract sequences with the \texttt{choosebank()} function.
 This function initiates a remote access to an ACNUC database. Called without arguments,
@@ -69,12 +75,12 @@ This function initiates a remote access to an ACNUC database. Called without arg
  choosebank()
 \end{Sinput}
 \begin{Soutput}
- [1] "genbank"      "embl"         "emblwgs"      "swissprot"   
- [5] "ensembl"      "refseq"       "hobacnucl"    "hobacprot"   
- [9] "hovernucl"    "hoverprot"    "hogennucl"    "hogenprot"   
-[13] "hogen4nucl"   "hogen4prot"   "homolensprot" "homolensnucl"
-[17] "greview"      "HAMAPnucl"    "HAMAPprot"    "hoppsigen"   
-[21] "nurebnucl"    "nurebprot"    "taxobacgen"  
+ [1] "genbank"     "embl"        "emblwgs"     "swissprot"   "ensembl"    
+ [6] "refseq"      "nrsub"       "hobacnucl"   "hobacprot"   "hovergendna"
+[11] "hovergen"    "hogenom"     "hogenomdna"  "hogennucl"   "hogenprot"  
+[16] "hoverclnu"   "hoverclpr"   "homolens"    "homolensdna" "greview"    
+[21] "polymorphix" "emglib"      "HAMAPnucl"   "HAMAPprot"   "hoppsigen"  
+[26] "nurebnucl"   "nurebprot"   "taxobacgen" 
 \end{Soutput}
 \end{Schunk}
  
@@ -95,10 +101,10 @@ at the compilation time (\today) of this document:
 1 genbank     on
 2    embl     on
 3 emblwgs     on
-                                                                 info
-1       GenBank Rel. 162 (15 October 2007) Last Updated: Oct 30, 2007
-2 EMBL Library Release 92 (September 2007) Last Updated: Oct 18, 2007
-3    EMBL Whole Genome Shotgun sequences Release 92  (September 2007)
+                                                             info
+1     GenBank Rel. 165 (15 April 2008) Last Updated: May 12, 2008
+2 EMBL Library Release 94 (March 2008) Last Updated: May 12, 2008
+3    EMBL Whole Genome Shotgun sequences Release 94  (March 2008)
 \end{Soutput}
 \end{Schunk}
 
@@ -152,16 +158,16 @@ with \texttt{"genbank"} as its first argument, the result is saved in the variab
 \end{Sinput}
 \begin{Soutput}
 List of 9
- $ socket  :Classes 'sockconn', 'connection'  atomic [1:1] 5
+ $ socket  :Classes 'sockconn', 'connection'  atomic [1:1] 6
   .. ..- attr(*, "conn_id")=<externalptr> 
  $ bankname: chr "genbank"
  $ banktype: chr "GENBANK"
- $ totseqs : num 82398592
- $ totspecs: num 496373
- $ totkeys : num 7273360
- $ release : chr "         GenBank Rel. 162 (15 October 2007) Last Updated: Oct 30, 2007"
+ $ totseqs : num 92540832
+ $ totspecs: num 553777
+ $ totkeys : num 8490208
+ $ release : chr "          GenBank Rel. 165 (15 April 2008) Last Updated: May 12, 2008"
  $ status  :Class 'AsIs'  chr "on"
- $ details : chr [1:4] "             ****     ACNUC Data Base Content      ****                         " "         GenBank Rel. 162 (15 October 2007) Last Updated: Oct 30, 2007" "81,770,960,650 bases; 77,863,951 sequences; 4,534,640 subseqs; 481,662 refers." "Software by M. Gouy, Lab. Biometrie et Biologie Evolutive, Universite Lyon I "
+ $ details : chr [1:4] "             ****     ACNUC Data Base Content      ****                         " "          GenBank Rel. 165 (15 April 2008) Last Updated: May 12, 2008" "90,620,951,454 bases; 87,387,352 sequences; 5,153,479 subseqs; 508,578 refers." "Software by M. Gouy, Lab. Biometrie et Biologie Evolutive, Universite Lyon I "
 \end{Soutput}
 \begin{Sinput}
  closebank()
@@ -171,15 +177,15 @@ List of 9
 The components of \texttt{banknameSocket} means that in the database
 called \texttt{genbank} at the compilation time
 of this document there were 
-\texttt{82,398,592}
+\texttt{92,540,832}
 sequences from
-\texttt{496,373}
+\texttt{553,777}
 species and a total of
-\texttt{7,273,360}
+\texttt{8,490,208}
 keywords. The status of the bank was
 \texttt{on}, 
 and the release information was
-\texttt{         GenBank Rel. 162 (15 October 2007) Last Updated: Oct 30, 2007}.
+\texttt{          GenBank Rel. 165 (15 April 2008) Last Updated: May 12, 2008}.
 For specialized databases, some relevant informations are also given in the
 \texttt{details} component, for instance:
 
@@ -263,7 +269,7 @@ close them as soon as the information has been retrieved.
 \end{Schunk}
 \includegraphics{../figs/getseqacnuc-plottaxaperbank}
 
-\subsection{Make your query}
+\section{Make your query}
 
 For this section, set up the default bank to GenBank, so that you don't have 
 to provide the sockets details for the \texttt{query()} function:
@@ -276,7 +282,8 @@ to provide the sockets details for the \texttt{query()} function:
 
 Then, you have to say what you want, that is to compose a query
 to select the subset of sequences you are interested in. The way to do this is
-documented under \texttt{?query}, we just give here a simple example. 
+documented under \texttt{?query}, we just give here a simple example
+(more details are given in chapter \ref{querylang} page \pageref{querylang}). 
 In the query below, we want to select all the coding sequences 
 (\texttt{t=cds}) from cat (\texttt{AND sp=felis catus}) that are not 
 (\texttt{AND NOT}) partial sequences (\texttt{k=partial}). 
@@ -299,7 +306,7 @@ let's see the name of the first ten of them:
 
 \begin{Schunk}
 \begin{Sinput}
- sapply(completeCatsCDS$req[1:10], getName)
+ getName(completeCatsCDS$req[1:10])
 \end{Sinput}
 \begin{Soutput}
  [1] "AB000483.PE1"    "AB000484.PE1"    "AB000485.PE1"    "AB004237"       
@@ -351,11 +358,17 @@ to get only the list of sequences that were published in 2004:
  length(ccc2004$req)
 \end{Sinput}
 \begin{Soutput}
-[1] 58
+[1] 59
+\end{Soutput}
+\begin{Sinput}
+ ccc2004$nelem
+\end{Sinput}
+\begin{Soutput}
+[1] 59
 \end{Soutput}
 \end{Schunk}
 
-Hence, there were 58 complete coding sequences published in 2004 for
+Hence, there were 59 complete coding sequences published in 2004 for
 \textit{Felis catus} in GenBank.
 
 As from release 1.0-3 of the \seqinr{} package, there is new parameter \texttt{virtual}
@@ -368,15 +381,15 @@ with many elements, for instance :
  allcds$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 4857947
+[1] 5534531
 \end{Soutput}
 \end{Schunk}
 
-There are therefore \texttt{4,857,947} coding
+There are therefore \texttt{5,534,531} coding
 sequences in this version of GenBank\footnote{
 which is stored in the \texttt{release} component of the object \texttt{banknameSocket}
 and current value is today (\today): \texttt{banknameSocket\$release = 
-         GenBank Rel. 162 (15 October 2007) Last Updated: Oct 30, 2007}.
+          GenBank Rel. 165 (15 April 2008) Last Updated: May 12, 2008}.
 }. 
 It would be long to get all the informations for the elements
 of this list, so we have set the parameter \texttt{virtual} to \texttt{TRUE} and the \texttt{req}
@@ -414,7 +427,7 @@ virtual list:
 \begin{Schunk}
 \begin{Sinput}
  query("small", "allcds et sp=mycoplasma genitalium")
- sapply(small$req, getName)[1:10]
+ getName(small$req[1:10])
 \end{Sinput}
 \begin{Soutput}
  [1] "AY191424" "AY386807" "AY386808" "AY386809" "AY386810" "AY386811"
@@ -433,10 +446,10 @@ current GenBank release.
  man$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 11260600
+[1] 11422715
 \end{Soutput}
 \end{Schunk}
-There are \texttt{11,260,600} sequences from \textit{Homo sapiens}.
+There are \texttt{11,422,715} sequences from \textit{Homo sapiens}.
 
 \item[\textbf{Sex.}] How many sequences are annotated with a keyword starting by sex?
 \begin{Schunk}
@@ -445,10 +458,10 @@ There are \texttt{11,260,600} sequences from \textit{Homo sapiens}.
  sex$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 1196
+[1] 1323
 \end{Soutput}
 \end{Schunk}
-There are \texttt{1,196} such sequences.
+There are \texttt{1,323} such sequences.
 
 \item[\textbf{tRNA.}] How many complete tRNA sequences are available?
 \begin{Schunk}
@@ -457,10 +470,10 @@ There are \texttt{1,196} such sequences.
  trna$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 254050
+[1] 290961
 \end{Soutput}
 \end{Schunk}
-There are \texttt{254,050} complete tRNA sequences.
+There are \texttt{290,961} complete tRNA sequences.
 
 \item[\textbf{Nature vs. Science.}] In which journal were the more sequences published?
 \begin{Schunk}
@@ -469,19 +482,19 @@ There are \texttt{254,050} complete tRNA sequences.
  nature$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 1533556
+[1] 1726999
 \end{Soutput}
 \begin{Sinput}
  query("science", "j=science", virtual = T)
  science$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 1284219
+[1] 1305042
 \end{Soutput}
 \end{Schunk}
-There are \texttt{1,533,556} sequences published
+There are \texttt{1,726,999} sequences published
 in \textit{Nature} and
-\texttt{1,284,219} sequences published in
+\texttt{1,305,042} sequences published in
 \textit{Science}, so that the winner is 
 \textit{Nature}.
 
@@ -496,10 +509,10 @@ in \textit{Nature} and
  smith$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 4107145
+[1] 4164669
 \end{Soutput}
 \end{Schunk}
-There are \texttt{4,107,145} such sequences.
+There are \texttt{4,164,669} such sequences.
 
 \item[\textbf{YK2.}] How many sequences were published after year 2000 (included)?
 \begin{Schunk}
@@ -508,10 +521,10 @@ There are \texttt{4,107,145} such sequences.
  yk2$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 66366478
+[1] 75803186
 \end{Soutput}
 \end{Schunk}
-There are \texttt{66,366,478} sequences published after year 2000.
+There are \texttt{75,803,186} sequences published after year 2000.
 
 \item[\textbf{Organelle contest.}] Do we have more sequences from chloroplast genomes or from mitochondion genomes?
 \begin{Schunk}
@@ -520,19 +533,19 @@ There are \texttt{66,366,478} sequences published after year 2000.
  chloro$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 151023
+[1] 174448
 \end{Soutput}
 \begin{Sinput}
  query("mito", "o=mitochondrion", virtual = T)
  mito$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 516327
+[1] 588090
 \end{Soutput}
 \end{Schunk}
-There are \texttt{151,023} sequences from
+There are \texttt{174,448} sequences from
 chloroplast genomes and
-\texttt{516,327} sequences from mitochondrion
+\texttt{588,090} sequences from mitochondrion
 genomes, so that the winner is 
 mitochondrion.
 
@@ -546,17 +559,17 @@ mitochondrion.
 \end{Schunk}
 
 
-\subsection{Extract sequences of interest}
+\section{Extract sequences of interest}
 
-\subsubsection{Introduction}
+\subsection{Introduction}
 
 There are two functions to get the sequences. The first one, 
 \texttt{getSequence()}, uses regular socket connections, the
-second one, \texttt{extractseq()}, uses zlib compressed sockets,
-which is faster but the function is experimental and has not
-been extensively tested.
+second one, \texttt{extractseqs()}, uses zlib compressed sockets,
+which is faster but the function is experimental (details in
+chapter \ref{extractseqs} page \pageref{extractseqs}).
 
-\subsubsection{Extacting sequences with \texttt{getSequence()}}
+\subsection{Extacting sequences with \texttt{getSequence()}}
 
 
 For this section we set up the bank to \texttt{emblTP} which is a frozen
@@ -609,9 +622,27 @@ They can also be coerced as string of character with the function \texttt{c2s()}
 \end{Soutput}
 \end{Schunk}
 
+We can also use the argument \texttt{as.string} to retrive sequences
+directly as strings:
+
+\begin{Schunk}
+\begin{Sinput}
+ substr(getSequence(completeCatsCDS$req[[1]], as.string = TRUE), 
+     1, 50)
+\end{Sinput}
+\begin{Soutput}
+[1] "atgaccaacattcgaaaatcacacccccttaccaaaattattaatcactc"
+\end{Soutput}
+\end{Schunk}
+
 Note that what is done by \texttt{getSequence()} is much more complex
-than a substring extraction because subsequences of biological interest are
-not necessarily contiguous or even on the same DNA strand. Consider for
+than a simple substring extraction because subsequences of biological 
+interest are not necessarily contiguous, nor on the same DNA strand,
+nor even from the same entry. 
+
+\subsection{Extracting sequences with trans-splicing}
+
+Consider for
 instance the following coding sequence from sequence \texttt{AE003734}:
 
 \begin{Schunk}
@@ -645,7 +676,6 @@ FT                   RSRLKTIGDDLYVTNDVHNHMGDNKRIEAAKAAGMLIHKKLSSLTAADKIQGSWKMDTE
 FT                   GNPDHLPKM"
 \end{Soutput}
 \end{Schunk}
-
 
 To get the coding sequence manually you would have join 5 different pieces 
 from \texttt{AE003734} and some of them are in the complementary strand. 
@@ -684,7 +714,7 @@ is the name of the sequence you wanted). Let see the first 50 base of this seque
 \end{Soutput}
 \end{Schunk}
 
-All the complex transsplicing operations have been done here. You can check that there is no
+All the complex trans-splicing operations have been done here. You can check that there is no
 in-frame stop codons\footnote{
 Stop codons are represented by the character \texttt{*} when translated into protein.} 
 with the \texttt{getTrans()} function to translate this coding sequence into protein:
@@ -738,1449 +768,75 @@ Therefore, when you are using the \texttt{getTrans()} function, you are automati
 to the \texttt{getTrans.SeqAcnucWeb()} function which knows how to take into account the relevant frame
 and genetic code for your coding sequence.
 
-\begin{Schunk}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
+\subsection{Extracting sequences from many entries}
 
-\subsubsection{Extacting sequences with \texttt{extractseqs()} (experimental)}
-
-The timings here were from an home-ADSL connection, and are only indicative.
-For this section we set up the bank to \texttt{emblTP} which is a frozen
-subset of EMBL database to allow for the reproducibility of results.
-
-%
-% For some reason I don't understand all these should be in the same code chunk:
-%
-\begin{Schunk}
-\begin{Sinput}
- rm(list = ls(all = TRUE))
- gc()
-\end{Sinput}
-\begin{Soutput}
-         used (Mb) gc trigger  (Mb) max used  (Mb)
-Ncells 244254  6.6    4195948 112.1  5860551 156.5
-Vcells 570263  4.4   29477531 224.9 37726935 287.9
-\end{Soutput}
-\begin{Sinput}
- (tcb <- system.time(choosebank("emblTP")))
-\end{Sinput}
-\begin{Soutput}
-utilisateur    syst`eme    'ecoul'e 
-      0.059       0.001       5.392 
-\end{Soutput}
-\begin{Sinput}
- (tqu <- system.time(query("hsCDS", "sp=Homo sapiens AND t=cds AND o=nuclear AND NOT k=partial", 
-     virtual = TRUE)))
-\end{Sinput}
-\begin{Soutput}
-utilisateur    syst`eme    'ecoul'e 
-      0.001       0.000      11.256 
-\end{Soutput}
-\begin{Sinput}
- (nseq <- hsCDS$nelem)
-\end{Sinput}
-\begin{Soutput}
-[1] 78573
-\end{Soutput}
-\begin{Sinput}
- showConnections()
-\end{Sinput}
-\begin{Soutput}
-  description                 class    mode text   isopen   can read
-3 "getseqacnuc.tex"           "file"   "w+" "text" "opened" "yes"   
-4 ""                          "file"   "w+" "text" "opened" "yes"   
-5 "->pbil.univ-lyon1.fr:5558" "socket" "a+" "text" "opened" "yes"   
-  can write
-3 "yes"    
-4 "yes"    
-5 "yes"    
-\end{Soutput}
-\begin{Sinput}
- Sys.sleep(1)
- (tex <- system.time(mycds <- extractseqs("hsCDS", verbose = TRUE)))
-\end{Sinput}
-\begin{Soutput}
-I'm checking the arguments...
-... and everything is OK up to now.
-Format is  fasta 
-Operation is  simple 
-The rank of the list  hsCDS is  2 .
-request :  extractseqs&lrank=2&format=fasta&operation=simple&zlib=T 
-Running getzlibsock... 
-'con' is a connection...
-Socket number is 5....
-Trying to get answer from socket...
-
--->[code=0]
-Socket answer is ok code=0(6)
-n=1000, nn=1000,nnn=1000
-Increasing memory...
-Increasing memory...
-Increasing memory...
-Increasing memory...
-Increasing memory...
-Increasing memory...
-Increasing memory...
-Increasing memory...
-Increasing memory...
-Increasing memory...
-Increasing memory...
-extractseqs successfully ended ...
-Number of lines     : 1799153
-Number of sequences : 78573
-extractseqs OK, program carry on...
-Ok, everything is fine!
-Closing socket close_sock_gz_r  status = 0
-utilisateur    syst`eme    'ecoul'e 
-      9.024       1.121      60.955 
-\end{Soutput}
-\end{Schunk}
-
-It was then about 5 
-seconds to select
-the relevant database. We suppose that the sequences we are interested in 
-are all the complete coding sequences from \textit{Homo sapiens} that
-are encoded in the nucleus (we don't want sequences from human mitochondrion). 
-We have used a virtual query to speed up things:
-it was about 11 seconds 
-to create on the server a list of 78573
-sequences. We have downloaded the sequences in zlib compressed mode:
-it was about 61 seconds
-to dowload the sequences in the object \texttt{mycds}, which looks like :
+Consider the following CDS from \texttt{M19233}:
 
 \begin{Schunk}
 \begin{Sinput}
- cat(head(mycds), sep = "\n")
+ query("multi", "AC=M19233 AND T=CDS")
+ cat(getAnnot(multi$req[[1]]), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
->A00127.PE1             2217 residues
-ATGCGGGGTCCGAGCGGGGCTCTGTGGCTGCTCCTGGCTCTGCGCACCGTGCTCGGAGGC
-ATGGAGGTGCGGTGGTGCGCCACCTCGGACCCAGAGCAGCACAAGTGCGGCAACATGAGC
-GAGGCCTTCCGGGAAGCGGGCATCCAGCCCTCCCTCCTCTGCGTCCGGGGCACCTCCGCC
-GACCACTGCGTCCAGCTCATCGCGGCCCAGGAGGCTGACGCCATCACTCTGGATGGAGGA
-GCCATCTATGAGGCGGGAAAGGAGCACGGCCTGAAGCCGGTGGTGGGCGAAGTGTACGAT
-\end{Soutput}
-\begin{Sinput}
- cat(tail(mycds), sep = "\n")
-\end{Sinput}
-\begin{Soutput}
-ATCACTGCGGCCCCAGAGAGAGAGGGCATAGGCCACGGCGGCCCCAAGCTATGCTGCACA
-CTGAGCTCCCTCAGCTCCGCTGCTGAGACTGGCCGGGACCCGCTGGACAGCGAGGAGGAG
-GCAACCAGCGGCGCCCAGGATGAACGTGGCCTGAAGCCGCCTTCCCGGGGCCAGTTTCCT
-TCCCTCTCAGCCAGGGATGCCTCGAGCAGCCACAGGGGCAGGAACGTCCTGACTGCCATC
-CTGCTGCTGCTGCGGGAGCTGGATGCAGAGGGGCTGGAGGCCGTGCAGCAGACTGTGGGC
-AGCCGGCTGCAGGCCCTGCGTGGGGAAGAGGTGCAGGAGCACGCCGAGTGA
-\end{Soutput}
-\end{Schunk}
-
-We save now the sequences in a local FASTA file for future use:
-
-\begin{Schunk}
-\begin{Sinput}
- (twl <- system.time(writeLines(mycds, "mycds.fasta")))
-\end{Sinput}
-\begin{Soutput}
-utilisateur    syst`eme    'ecoul'e 
-      0.875       0.791       2.764 
-\end{Soutput}
-\end{Schunk}
-
-It was then about 3 seconds
-to dump the sequences on a local file. We read the sequences as strings
-without setting attributes to save time:
-
-\begin{Schunk}
-\begin{Sinput}
- (trf <- system.time(mycdss <- read.fasta("mycds.fasta", as.string = TRUE, 
-     set.attributes = FALSE)))
-\end{Sinput}
-\begin{Soutput}
-utilisateur    syst`eme    'ecoul'e 
-     34.280       0.308      34.792 
-\end{Soutput}
-\end{Schunk}
-
-It was then about 35 seconds
-to read the sequences as strings. We save them in XDR format:
-
-\begin{Schunk}
-\begin{Sinput}
- (tsrd <- system.time(save(mycdss, file = "mycdss.RData")))
-\end{Sinput}
-\begin{Soutput}
-utilisateur    syst`eme    'ecoul'e 
-     38.849       0.338      39.813 
-\end{Soutput}
-\end{Schunk}
-
-It was then about 40 seconds
-to save the sequences in XDR format. How long is it to load the sequences
-from XDR format?
-
-\begin{Schunk}
-\begin{Sinput}
- (tlrd <- system.time(load("mycdss.RData")))
-\end{Sinput}
-\begin{Soutput}
-utilisateur    syst`eme    'ecoul'e 
-      1.764       0.041       1.813 
-\end{Soutput}
-\end{Schunk}
-
-It was then about 2 seconds
-to load the sequences from an XDR formated file. Now, we also want the
-corresponding proteins. We download the translated CDS from the server:
-
-\begin{Schunk}
-\begin{Sinput}
- (texp <- system.time(myprot <- extractseqs("hsCDS", operation = "translate")))
-\end{Sinput}
-\begin{Soutput}
-utilisateur    syst`eme    'ecoul'e 
-      3.680       0.647      60.748 
-\end{Soutput}
-\end{Schunk}
-
-It was then about 61 seconds
-to get the protein sequences from the server. The object \texttt{myprot} looks
-like:
-
-\begin{Schunk}
-\begin{Sinput}
- cat(head(myprot), sep = "\n")
-\end{Sinput}
-\begin{Soutput}
->A00127.PE1              739 residues
-MRGPSGALWLLLALRTVLGGMEVRWCATSDPEQHKCGNMSEAFREAGIQPSLLCVRGTSA
-DHCVQLIAAQEADAITLDGGAIYEAGKEHGLKPVVGEVYDQEVGTSYYAVAVVRRSSHVT
-IDTLKGVKSCHTGINRTVGWNVPVGYLVESGRLSVMGCDVLKAVSDYFGGSCVPGAGETS
-YSESLCRLCRGDSSGEGVCDKSPLERYYDYSGAFRCLAEGAGDVAFVKHSTVLENTDGKT
-LPSWGQALLSQDFELLCRDGSRADVTEWRQCHLARVPAHAVVVRADTDGGLIFRLLNEGQ
-\end{Soutput}
-\begin{Sinput}
- cat(tail(myprot), sep = "\n")
-\end{Sinput}
-\begin{Soutput}
->Z93322.PE1              257 residues
-MKLTRKMVLTRAKASELHSVRKLNCWGSRLTDISICQEMPSLEVITLSVNSISTLEPVSR
-CQRLSELYLRRNRIPSLAELFYLKGLPRLRVLWLAENPCCGTSPHRYRMTVLRTLPRLQK
-LDNQAVTEEELSRALSEGEEITAAPEREGIGHGGPKLCCTLSSLSSAAETGRDPLDSEEE
-ATSGAQDERGLKPPSRGQFPSLSARDASSSHRGRNVLTAILLLLRELDAEGLEAVQQTVG
-SRLQALRGEEVQEHAE*
-\end{Soutput}
-\end{Schunk}
-
-We save the protein sequences in a local FASTA file for future use:
-
-\begin{Schunk}
-\begin{Sinput}
- (twl2 <- system.time(writeLines(myprot, "myprot.fasta")))
-\end{Sinput}
-\begin{Soutput}
-utilisateur    syst`eme    'ecoul'e 
-      0.330       0.274       0.605 
-\end{Soutput}
-\end{Schunk}
-
-It was then about 1 seconds
-to dump the protein sequences on a local file. We read the sequences as strings
-without setting attributes to save time:
-
-\begin{Schunk}
-\begin{Sinput}
- (trf2 <- system.time(myprots <- read.fasta("myprot.fasta", 
-     as.string = TRUE, set.attributes = FALSE)))
-\end{Sinput}
-\begin{Soutput}
-utilisateur    syst`eme    'ecoul'e 
-     22.588       0.148      22.859 
-\end{Soutput}
-\end{Schunk}
-
-It was then about 23 seconds
-to read the protein sequences as strings. We save them in XDR format:
-
-\begin{Schunk}
-\begin{Sinput}
- (tsrd2 <- system.time(save(myprots, file = "myprots.RData")))
-\end{Sinput}
-\begin{Soutput}
-utilisateur    syst`eme    'ecoul'e 
-      3.766       0.154       4.282 
-\end{Soutput}
-\end{Schunk}
-
-It was then about 4 seconds
-to save the protein sequences in XDR format. How long is it to load the 
-protein sequences from XDR format?
-
-\begin{Schunk}
-\begin{Sinput}
- (tlrd2 <- system.time(load("myprots.RData")))
-\end{Sinput}
-\begin{Soutput}
-utilisateur    syst`eme    'ecoul'e 
-      1.092       0.027       1.121 
-\end{Soutput}
-\end{Schunk}
-
-It was then about 1 seconds
-to load the protein sequences from an XDR formated file.
-
-%Summary in a table -- bof bof
-
-As a quick sanity check, we plot the distribution of protein size:
-
-\setkeys{Gin}{width=\textwidth}
-
-\begin{Schunk}
-\begin{Sinput}
- x <- log10(nchar(myprots) - 1)
- dstx <- density(x)
- plot(dstx, main = paste("Protein size distribution in the human genome\nn = ", 
-     length(myprots), "proteins"), xlab = "Number of amino-acids in log 10 scale", 
-     las = 1)
- rug(x, col = "blue")
- polycurve <- function(x, y, base.y = min(y), ...) polygon(x = c(min(x), 
-     x, max(x)), y = c(base.y, y, base.y), ...)
- polycurve(dstx$x, dstx$y, col = "yellow")
-\end{Sinput}
-\end{Schunk}
-\includegraphics{../figs/getseqacnuc-protsizeinhuman}
-
-\begin{Schunk}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\section{The query language}
-
-
-\subsection{Where to find information}
-
-The last version of the documentation for the query language is available online
-at \url{http://pbil.univ-lyon1.fr/databases/acnuc/cfonctions.html#QUERYLANGUAGE}.
-This documentation has been imported within the documentation of the
-\texttt{query()} function, but the last available update is the online version.
-
-\subsection{Case sensitivity and ambiguities resolution}
-
-The query language is case insensitive, for instance:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("lowercase", "sp=escherichia coli", virtual = TRUE)
- query("uppercase", "SP=Escherichia coli", virtual = TRUE)
- lowercase$nelem == uppercase$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] TRUE
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-Three operators (AND, OR, NOT) 
-can be ambiguous because they can also occur within valid criterion values. 
-Such ambiguities can be solved by encapsulating elementary selection 
-criteria between escaped double quotes. For example:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("ambig", "\"sp=Beak and feather disease virus\" AND \"au=ritchie\"", 
-     virtual = T)
- ambig$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 18
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsection{Selection criteria}
-
-\subsubsection{Introduction}
-
-Selection criteria are in the form \texttt{c=something} (without space
-before the = sign) or \texttt{list\_name} where \texttt{list\_name} is a
-previously constructed list.
-
-\subsubsection{\texttt{SP=taxon}}
-
-This is used to select sequences attached to a given taxon or any other below in
-the tree. The at sign @ substitutes as a wildcard character for any zero or more 
-characters. Here are some examples:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("bb", "sp=Borrelia burgdorferi", virtual = T)
- bb$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 1682
-\end{Soutput}
-\begin{Sinput}
- query("borrelia", "sp=Borrelia", virtual = T)
- borrelia$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 3173
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-Here is an example of use of the wildcard @ to look for sapiens species:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("sapiens", "sp=@sapiens@", virtual = T)
- sapiens$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 2216556
-\end{Soutput}
-\begin{Sinput}
- query("sapienspecies", "PS sapiens")
- sapply(sapienspecies$req, getName)
-\end{Sinput}
-\begin{Soutput}
- [1] "HOMO SAPIENS"                            
- [2] "HOMO SAPIENS NEANDERTHALENSIS"           
- [3] "HOMO SAPIENS X HUMAN PAPILLOMAVIRUS TYPE"
- [4] "HOMO SAPIENS X SIMIAN VIRUS 40"          
- [5] "HOMO SAPIENS X HUMAN ENDOGENOUS RETROVIR"
- [6] "HOMO SAPIENS X HUMAN T-CELL LYMPHOTROPIC"
- [7] "HEPATITIS B VIRUS X HOMO SAPIENS"        
- [8] "HOMO SAPIENS X HEPATITIS B VIRUS"        
- [9] "HOMO SAPIENS X HUMAN IMMUNODEFICIENCY VI"
-[10] "SYNTHETIC CONSTRUCT X HOMO SAPIENS"      
-[11] "HUMAN PAPILLOMAVIRUS X HOMO SAPIENS"     
-[12] "MUS SP. X HOMO SAPIENS"                  
-[13] "HOMO SAPIENS X HUMAN PAPILLOMAVIRUS"     
-[14] "HOMO SAPIENS X HUMAN ADENOVIRUS TYPE 5"  
-[15] "HOMO SAPIENS X HERV-H/ENV62"             
-[16] "HOMO SAPIENS X HERV-H/ENV60"             
-[17] "HOMO SAPIENS X HERV-H/ENV59"             
-[18] "EXPRESSION VECTOR PTH-HIN X HOMO SAPIENS"
-[19] "ADENO-ASSOCIATED VIRUS 2 X HOMO SAPIENS" 
-[20] "SIMIAN VIRUS 40 X HOMO SAPIENS"          
-[21] "HOMO SAPIENS X MUS MUSCULUS"             
-[22] "HOMO SAPIENS X INFLUENZA B VIRUS (B/LEE/"
-[23] "MUS MUSCULUS X HOMO SAPIENS"             
-[24] "CRICETULUS GRISEUS X HOMO SAPIENS"       
-[25] "TRYPANOSOMA CRUZI X HOMO SAPIENS"        
-[26] "HOMO SAPIENS X TRYPANOSOMA CRUZI"        
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsubsection{\texttt{TID=id}}
-
-This is used to select sequences attached attached to a given numerical 
-NCBI's taxonomy ID. For instance, the taxonomy ID for 
-\textit{Homo sapiens neanderthalensis} is 63221:
-
-\marginpar{\includegraphics[width=\marginparwidth]{../figs/hsn}\\
-\tiny{\textit{Homo neanderthalensis}. Source: wikipedia}}
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("genbank")
- query("hsn", "TID=63221", virtual = T)
- hsn$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 1337
-\end{Soutput}
-\begin{Sinput}
- query("hsnsp", "PS hsn")
- sapply(hsnsp$req, getName)
-\end{Sinput}
-\begin{Soutput}
-[1] "HOMO SAPIENS NEANDERTHALENSIS"
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsubsection{\texttt{K=keyword}}
-
-This is used to select sequences attached to a given keyword or any other below in
-the tree. The at sign @ substitutes as a wildcard character for any zero or more 
-characters. Example:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("ecoliribprot", "sp=escherichia coli AND k=rib@ prot@", 
-     virtual = T)
- ecoliribprot$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 105
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsubsection{\texttt{T=type}}
-
-This is used to select sequences of specified type. The list of available
-type for the currently opened database is given by function \texttt{getType()}:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- getType()
-\end{Sinput}
-\begin{Soutput}
-        sname                                  libel
-2661      CDS              .PE protein coding region
-2662       ID                            Locus entry
-2663 MISC_RNA .RN other structural RNA coding region
-2664     RRNA          .RR Ribosomal RNA coding gene
-2665    SCRNA              .SC small cytoplasmic RNA
-2666    SNRNA                  .SN small nuclear RNA
-2667     TRNA           .TR Transfer RNA coding gene
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-For instance, to select all coding sequences from \textit{Homo sapiens} we can use:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("hscds", "sp=Homo sapiens AND t=cds", virtual = T)
- hscds$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 150513
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsubsection{\texttt{J=journal\_name}}
-
-This is used to select sequences published in journal specified using defined journal code.
-For instance to select all sequences published in \textit{Science}:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("allseqsfromscience", "J=Science", virtual = TRUE)
- allseqsfromscience$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 930397
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-The list of available journal code can be obtained from the \texttt{readsmj()} function
-this way:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- nl <- readfirstrec(type = "SMJ")
- smj <- readsmj(nl = nl, all.add = TRUE)
- head(smj[!is.na(smj$nature) & smj$nature == "journal", c("sname", 
-     "libel")])
-\end{Sinput}
-\begin{Soutput}
-                sname                                                libel
-21                ABP                                   Acta Biochim. Pol.
-22  ABSTR-SOCNEUROSCI                              Abstr. - Soc. Neurosci.
-23 ABSTRGENMEETAMSOCM                Abstr. Gen. Meet. Am. Soc. Microbiol.
-24 ABSTRMIDWINTERRESM Abstr. Midwinter Res. Meet. Assoc. Res. Otolaryngol.
-25 ACTAAGRICSCANDAANI                      Acta Agric. Scand. A Anim. Sci.
-26 ACTABIOCHIMBIOPHYS                          Acta Biochim. Biophys. Sin.
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsubsection{\texttt{R=refcode}}
-
-This is used to select sequences from a given bibliographical reference specified
-as \texttt{jcode/volume/page}. For instance, to select sequences associated
-with the first publication \cite{jrl0009} of the complete genome of \textit{Rickettsia prowazekii},
-we can use:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("rpro", "R=Nature/396/133")
- sapply(rpro$req, getName)
-\end{Sinput}
-\begin{Soutput}
-[1] "RPDNAOMPB" "RPXX01"    "RPXX02"    "RPXX03"    "RPXX04"   
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsubsection{\texttt{AU=name}}
-
-This is used to select sequences having a specified author (only last name, no initial).
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("Graur", "AU=Graur")
- Graur$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 48
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsubsection{\texttt{AC=accession\_no}}
-
-This is used to select sequences attached to specified accession number.
-For instance if we are looking for sequences attached to the accession
-number AY382159:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("ACexample", "AC=AY382159")
- getName(ACexample$req[[1]])
-\end{Sinput}
-\begin{Soutput}
-[1] "AY382159"
-\end{Soutput}
-\begin{Sinput}
- annotations <- getAnnot(ACexample$req[[1]])
- cat(annotations, sep = "\n")
-\end{Sinput}
-\begin{Soutput}
-ID   AY382159   standard; genomic DNA; PRO; 783 BP.
-XX
-AC   AY382159;
-XX
-SV   AY382159.1
-XX
-DT   08-OCT-2003 (Rel. 77, Created)
-DT   08-OCT-2003 (Rel. 77, Last updated, Version 1)
-XX
-DE   Borrelia burgdorferi strain FP1 OspA gene, partial cds.
-XX
-KW   .
-XX
-OS   Borrelia burgdorferi (Lyme disease spirochete)
-OC   Bacteria; Spirochaetes; Spirochaetales; Spirochaetaceae; Borrelia;
-OC   Borrelia burgdorferi group.
-XX
-RN   [1]
-RP   1-783
-RA   Hao Q., Wan K.;
-RT   ;
-RL   Submitted (03-SEP-2003) to the EMBL/GenBank/DDBJ databases.
-RL   Department of Lyme Spirochetosis, CDC, Beijing 102206, China
-XX
-FH   Key             Location/Qualifiers
-FH
-FT   source          1..783
-FT                   /db_xref="taxon:139"
-FT                   /mol_type="genomic DNA"
-FT                   /organism="Borrelia burgdorferi"
-FT                   /strain="FP1"
-FT   CDS             <1..>783
+FT   CDS             join(M17883.1:988..1155,M17883.1:1504..1650,
+FT                   M17883.1:2451..2648,M17883.1:3098..3328,625..758)
 FT                   /codon_start=1
-FT                   /transl_table=11
-FT                   /product="OspA"
-FT                   /protein_id="AAQ89576.1"
-FT                   /translation="ALIACKQNVSSLDEKNSASVDLPGEMKVLVSKEKDKDGKYSLKAT
-FT                   VDKLELKGTSDKNNGSGTLEGEKTDKSKAKLTISDDLSKTTFEVFKEDGKTLVSRKVSS
-FT                   KDKTSTDEMFNEKGELSAKTMTRENGTKLEYTEMKSDGTGKTKEVLKNFTLEGRVANDK
-FT                   VTLEVKEGTVTLSKEIAKSGEVTVALNDTNTTQATKKTGAWDSKTSTLTISVNSKKTTQ
-FT                   LVFTKQDTITVQKYDSAGTNLEGTAVEIKTLDELKNALK"
-XX
-SQ   Sequence 783 BP; 342 A; 124 C; 145 G; 172 T; 0 other;
+FT                   /db_xref="GOA:Q13763"
+FT                   /db_xref="TrEMBL:Q13763"
+FT                   /partial
+FT                   /gene="AMY1A"
+FT                   /product="alpha-amylase"
+FT                   /protein_id="AAA57345.1"
+FT                   /translation="MKLFWLLFTIGFCWAQYSSNTQQGRTSIVHLFEWRWVDIALECER
+FT                   YLAPKGFGGVQVSPPNENVAIHNPFRPWWERYQPVSYKLCTRSGNEDEFRNMVTRCNNV
+FT                   GVRIYVDAVINHMCGNAVSAGTSSTCGSYFNPGSRDFPAVPYSGWDFNDGKCKTGSGDI
+FT                   ENYNDATQVRDCRLSGLLDPALGKDYVRSKIAEYMNHLIDIGVAGFRIDASKHMWPGDI
+FT                   KAILDKLHNLNSNWFPEGSKPFIYQEVIDLGGEPIKSSDYFGNGRVTEFKYGAKLGTVI
+FT                   RKWTGEKMSYL"
 \end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
 \end{Schunk}
 
-\subsubsection{\texttt{N=seq\_name}}
-
-This is used to select sequences of a given name\footnote{
-\textit{i.e.} what is documented in the ID or the LOCUS
-field}. Sequences names are not necessarily stable, so that it's almost always
-better to work with accession numbers. Anyway, the distinction between sequence names
-and accession numbers is on a vanishing way because they tend more and
-more to be the same thing (as in the example just below). 
-The use of the at sign @ to substitute as a wildcard character for any zero or more characters 
-is possible here.
+The CDS here is obtained by joining pieces from different entries,
+but this is not a problem:
 
 \begin{Schunk}
 \begin{Sinput}
- choosebank("emblTP")
- query("Nexample", "N=AY382159")
- getName(Nexample$req[[1]])
+ getTrans(multi$req[[1]])
 \end{Sinput}
 \begin{Soutput}
-[1] "AY382159"
+  [1] "M" "K" "L" "F" "W" "L" "L" "F" "T" "I" "G" "F" "C" "W" "A" "Q" "Y" "S"
+ [19] "S" "N" "T" "Q" "Q" "G" "R" "T" "S" "I" "V" "H" "L" "F" "E" "W" "R" "W"
+ [37] "V" "D" "I" "A" "L" "E" "C" "E" "R" "Y" "L" "A" "P" "K" "G" "F" "G" "G"
+ [55] "V" "Q" "V" "S" "P" "P" "N" "E" "N" "V" "A" "I" "H" "N" "P" "F" "R" "P"
+ [73] "W" "W" "E" "R" "Y" "Q" "P" "V" "S" "Y" "K" "L" "C" "T" "R" "S" "G" "N"
+ [91] "E" "D" "E" "F" "R" "N" "M" "V" "T" "R" "C" "N" "N" "V" "G" "V" "R" "I"
+[109] "Y" "V" "D" "A" "V" "I" "N" "H" "M" "C" "G" "N" "A" "V" "S" "A" "G" "T"
+[127] "S" "S" "T" "C" "G" "S" "Y" "F" "N" "P" "G" "S" "R" "D" "F" "P" "A" "V"
+[145] "P" "Y" "S" "G" "W" "D" "F" "N" "D" "G" "K" "C" "K" "T" "G" "S" "G" "D"
+[163] "I" "E" "N" "Y" "N" "D" "A" "T" "Q" "V" "R" "D" "C" "R" "L" "S" "G" "L"
+[181] "L" "D" "P" "A" "L" "G" "K" "D" "Y" "V" "R" "S" "K" "I" "A" "E" "Y" "M"
+[199] "N" "H" "L" "I" "D" "I" "G" "V" "A" "G" "F" "R" "I" "D" "A" "S" "K" "H"
+[217] "M" "W" "P" "G" "D" "I" "K" "A" "I" "L" "D" "K" "L" "H" "N" "L" "N" "S"
+[235] "N" "W" "F" "P" "E" "G" "S" "K" "P" "F" "I" "Y" "Q" "E" "V" "I" "D" "L"
+[253] "G" "G" "E" "P" "I" "K" "S" "S" "D" "Y" "F" "G" "N" "G" "R" "V" "T" "E"
+[271] "F" "K" "Y" "G" "A" "K" "L" "G" "T" "V" "I" "R" "K" "W" "T" "G" "E" "K"
+[289] "M" "S" "Y" "L"
 \end{Soutput}
 \begin{Sinput}
- annotations <- getAnnot(Nexample$req[[1]])
- cat(annotations, sep = "\n")
+ table(aaa(getTrans(multi$req[[1]])))
 \end{Sinput}
 \begin{Soutput}
-ID   AY382159   standard; genomic DNA; PRO; 783 BP.
-XX
-AC   AY382159;
-XX
-SV   AY382159.1
-XX
-DT   08-OCT-2003 (Rel. 77, Created)
-DT   08-OCT-2003 (Rel. 77, Last updated, Version 1)
-XX
-DE   Borrelia burgdorferi strain FP1 OspA gene, partial cds.
-XX
-KW   .
-XX
-OS   Borrelia burgdorferi (Lyme disease spirochete)
-OC   Bacteria; Spirochaetes; Spirochaetales; Spirochaetaceae; Borrelia;
-OC   Borrelia burgdorferi group.
-XX
-RN   [1]
-RP   1-783
-RA   Hao Q., Wan K.;
-RT   ;
-RL   Submitted (03-SEP-2003) to the EMBL/GenBank/DDBJ databases.
-RL   Department of Lyme Spirochetosis, CDC, Beijing 102206, China
-XX
-FH   Key             Location/Qualifiers
-FH
-FT   source          1..783
-FT                   /db_xref="taxon:139"
-FT                   /mol_type="genomic DNA"
-FT                   /organism="Borrelia burgdorferi"
-FT                   /strain="FP1"
-FT   CDS             <1..>783
-FT                   /codon_start=1
-FT                   /transl_table=11
-FT                   /product="OspA"
-FT                   /protein_id="AAQ89576.1"
-FT                   /translation="ALIACKQNVSSLDEKNSASVDLPGEMKVLVSKEKDKDGKYSLKAT
-FT                   VDKLELKGTSDKNNGSGTLEGEKTDKSKAKLTISDDLSKTTFEVFKEDGKTLVSRKVSS
-FT                   KDKTSTDEMFNEKGELSAKTMTRENGTKLEYTEMKSDGTGKTKEVLKNFTLEGRVANDK
-FT                   VTLEVKEGTVTLSKEIAKSGEVTVALNDTNTTQATKKTGAWDSKTSTLTISVNSKKTTQ
-FT                   LVFTKQDTITVQKYDSAGTNLEGTAVEIKTLDELKNALK"
-XX
-SQ   Sequence 783 BP; 342 A; 124 C; 145 G; 172 T; 0 other;
+Ala Arg Asn Asp Cys Gln Glu Gly His Ile Leu Lys Met Phe Pro Ser Thr Trp Tyr 
+ 15  16  19  17   8   7  14  28   6  17  18  16   6  15  14  21  12  10  14 
+Val 
+ 19 
 \end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
 \end{Schunk}
 
-\subsubsection{\texttt{Y=year} or \texttt{Y>year} or \texttt{Y<year}}
+There is no stop codon here because the sequence is partial.
 
-This is used to select sequences published in a given year (\texttt{Y=year}),
-or in a given year and after this year (\texttt{Y>year}), or in a given
-year and before this year (\texttt{Y<year}).
 
 \begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("Yexample", "Y=1999", virtual = TRUE)
- Yexample$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 955274
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsubsection{\texttt{O=organelle}}
-
-This is used to select sequences from specified organelle named following defined code 
-(\textit{e.g.}, chloroplast).
-The list of available organelle codes can be obtained from the \texttt{readsmj()} function
-this way:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("genbank")
- nl <- readfirstrec(type = "SMJ")
- smj <- readsmj(nl = nl, all.add = TRUE)
- smj[!is.na(smj$nature) & smj$nature == "organelle", c("sname", 
-     "libel")]
-\end{Sinput}
-\begin{Soutput}
-             sname                    libel
-3657   CHLOROPLAST       Chloroplast genome
-3658 MITOCHONDRION     Mitochondrial genome
-3659   NUCLEOMORPH       Nucleomorph genome
-3660       PLASTID non-green plastid genome
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-To select for instance all sequences from chloroplast genome we can use:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("Oexample", "O=chloroplast", virtual = TRUE)
- Oexample$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 65011
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsubsection{\texttt{M=molecule}}
-
-This is used to select sequences according to the chemical nature of the
-sequenced molecule\footnote{as named in ID or LOCUS annotation records}.
-The list of available organelle code can be obtained from the \texttt{readsmj()} function
-this way:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("genbank")
- nl <- readfirstrec(type = "SMJ")
- smj <- readsmj(nl = nl, all.add = TRUE)
- smj[!is.na(smj$nature) & smj$nature == "molecule", c("sname", 
-     "libel")]
-\end{Sinput}
-\begin{Soutput}
-    sname                                       libel
-4    CRNA                                        <NA>
-5     DNA                   Sequenced molecule is DNA
-6    MRNA                  sequenced molecule is mRNA
-7     RNA                   Sequenced molecule is RNA
-8    RRNA                  sequenced molecule is rRNA
-9   SCRNA sequenced molecule is small cytoplasmic RNA
-10 SNORNA   sequenced molecule is small nucleolar RNA
-11  SNRNA     sequenced molecule is small nuclear RNA
-12   TRNA                  sequenced molecule is tRNA
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-To select for instance all sequences sequenced from DNA we can use:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("Mexample", "M=DNA", virtual = TRUE)
- Mexample$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 7421752
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsubsection{\texttt{ST=status}}
-
-This is used to select sequences from specified data class (EMBL) or review level (UniProt).
-The list of status codes can be obtained from the \texttt{readsmj()} function
-this way:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("embl")
- nl <- readfirstrec(type = "SMJ")
- smj <- readsmj(nl = nl, all.add = TRUE)
- smj[!is.na(smj$nature) & smj$nature == "status", c("sname", 
-     "libel")]
-\end{Sinput}
-\begin{Soutput}
-  sname                                        libel
-1   ANN                     Annotated CON data class
-2   EST           Expressed Sequence Tags data class
-3   GSS            Genome Survey Sequence data class
-4   HTC              High Throughput cDNA data class
-5   HTG High Throughput Genome sequencing data class
-6   PAT                            Patent data class
-7   STD                          standard data class
-8   STS              Sequence Tagged Site data class
-9   TPA            Third Party Annotation data class
-\end{Soutput}
-\begin{Sinput}
- closebank()
- choosebank("swissprot")
- nl <- readfirstrec(type = "SMJ")
- smj <- readsmj(nl = nl, all.add = TRUE)
- smj[!is.na(smj$nature) & smj$nature == "status", c("sname", 
-     "libel")]
-\end{Sinput}
-\begin{Soutput}
-       sname                                                  libel
-1   REVIEWED Entry was reviewed and annotated by UniProtKB curators
-2 UNREVIEWED                               Computer-annotated entry
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-To select for instance all fully annotated sequences from Uniprot we can use:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("swissprot")
- query("STexample", "ST=REVIEWED", virtual = TRUE)
- STexample$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 285335
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsubsection{\texttt{F=file\_name}}
-
-This is used to select sequences whose names are in a given file, one name per line.
-This is not directly implemented in seqinR, you have to use the function
-\texttt{crelistfromclientdata()} or its short form \texttt{clfcd()} for this purpose. Here is an example with
-a file of sequence names distributed with the seqinR package:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- fileSQ <- system.file("sequences/bb.mne", package = "seqinr")
- cat(readLines(fileSQ), sep = "\n")
-\end{Sinput}
-\begin{Soutput}
-A04009.OSPA
-A04009.OSPB
-A22442
-A24006
-A24008
-A24010
-A24012
-A24014
-A24016
-A33362
-A67759.PE1
-AB011063
-AB011064
-AB011065
-AB011066
-AB011067
-AB035616
-AB035617
-AB035618
-AB041949.VLSE
-\end{Soutput}
-\begin{Sinput}
- clfcd("listSQ", file = fileSQ, type = "SQ")
- sapply(listSQ$req, getName)
-\end{Sinput}
-\begin{Soutput}
- [1] "A04009.OSPA"   "A04009.OSPB"   "A22442"        "A24006"       
- [5] "A24008"        "A24010"        "A24012"        "A24014"       
- [9] "A24016"        "A33362"        "A67759.PE1"    "AB011063"     
-[13] "AB011064"      "AB011065"      "AB011066"      "AB011067"     
-[17] "AB035616"      "AB035617"      "AB035618"      "AB041949.VLSE"
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-
-\subsubsection{\texttt{FA=file\_name}}
-
-This is used to select sequences whose accession numbers are in a given file, one name per line.
-This is not directly implemented in seqinR, you have to use the function
-\texttt{crelistfromclientdata()} or its short form \texttt{clfcd()} for this purpose. Here is an example with
-a file of sequence accession numbers distributed with the seqinR package:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- fileAC <- system.file("sequences/bb.acc", package = "seqinr")
- cat(readLines(fileAC), sep = "\n")
-\end{Sinput}
-\begin{Soutput}
-AY382159
-AY382160
-AY491412
-AY498719
-AY498720
-AY498721
-AY498722
-AY498723
-AY498724
-AY498725
-AY498726
-AY498727
-AY498728
-AY498729
-AY499181
-AY500379
-AY500380
-AY500381
-AY500382
-AY500383
-\end{Soutput}
-\begin{Sinput}
- clfcd("listAC", file = fileAC, type = "AC")
- sapply(listAC$req, getName)
-\end{Sinput}
-\begin{Soutput}
- [1] "AY382159" "AY382160" "AY491412" "AY498719" "AY498720" "AY498721"
- [7] "AY498722" "AY498723" "AY498724" "AY498725" "AY498726" "AY498727"
-[13] "AY498728" "AY498729" "AY499181" "AY500379" "AY500380" "AY500381"
-[19] "AY500382" "AY500383"
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-
-\subsubsection{\texttt{FK=file\_name}}
-
-This is used to produces the list of keywords named in given file, one keyword per line.
-This is not directly implemented in seqinR, you have to use the function
-\texttt{crelistfromclientdata()} or its short form \texttt{clfcd()} for this purpose. Here is an example with
-a file of keywords distributed with the seqinR package:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- fileKW <- system.file("sequences/bb.kwd", package = "seqinr")
- cat(readLines(fileKW), sep = "\n")
-\end{Sinput}
-\begin{Soutput}
-PLASMID
-CIRCULAR
-PARTIAL
-5'-PARTIAL
-3'-PARTIAL
-MOTA GENE
-MOTB GENE
-DIVISION PRO
-GYRB GENE
-JOINING REGION
-FTSA GENE
-RPOB GENE
-RPOC GENE
-FLA GENE
-DNAJ GENE
-TUF GENE
-PGK GENE
-RUVA GENE
-RUVB GENE
-PROMOTER REGION
-\end{Soutput}
-\begin{Sinput}
- clfcd("listKW", file = fileKW, type = "KW")
- sapply(listKW$req, getName)
-\end{Sinput}
-\begin{Soutput}
- [1] "PLASMID"         "CIRCULAR"        "PARTIAL"         "5'-PARTIAL"     
- [5] "3'-PARTIAL"      "MOTA GENE"       "MOTB GENE"       "DIVISION PRO"   
- [9] "GYRB GENE"       "JOINING REGION"  "FTSA GENE"       "RPOB GENE"      
-[13] "RPOC GENE"       "FLA GENE"        "DNAJ GENE"       "TUF GENE"       
-[17] "PGK GENE"        "RUVA GENE"       "RUVB GENE"       "PROMOTER REGION"
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsubsection{\texttt{FS=file\_name}}
-
-This is used to produces the list of species named in given file, one species per line.
-This is not directly implemented in seqinR, you have to use the function
-\texttt{crelistfromclientdata()} or its short form \texttt{clfcd()} for this purpose. Here is an example with
-a file of species names distributed with the seqinR package:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- fileSP <- system.file("sequences/bb.sp", package = "seqinr")
- cat(readLines(fileSP), sep = "\n")
-\end{Sinput}
-\begin{Soutput}
-BORRELIA ANSERINA
-BORRELIA CORIACEAE
-BORRELIA PARKERI
-BORRELIA TURICATAE
-BORRELIA HERMSII
-BORRELIA CROCIDURAE
-BORRELIA LONESTARI
-BORRELIA HISPANICA
-BORRELIA BARBOURI
-BORRELIA THEILERI
-BORRELIA DUTTONII
-BORRELIA MIYAMOTOI
-BORRELIA PERSICA
-BORRELIA RECURRENTIS
-BORRELIA BURGDORFERI
-BORRELIA AFZELII
-BORRELIA GARINII
-BORRELIA ANDERSONII
-BORRELIA VALAISIANA
-BORRELIA JAPONICA
-\end{Soutput}
-\begin{Sinput}
- clfcd("listSP", file = fileSP, type = "SP")
- sapply(listSP$req, getName)
-\end{Sinput}
-\begin{Soutput}
- [1] "BORRELIA ANSERINA"    "BORRELIA CORIACEAE"   "BORRELIA PARKERI"    
- [4] "BORRELIA TURICATAE"   "BORRELIA HERMSII"     "BORRELIA CROCIDURAE" 
- [7] "BORRELIA LONESTARI"   "BORRELIA HISPANICA"   "BORRELIA BARBOURI"   
-[10] "BORRELIA THEILERI"    "BORRELIA DUTTONII"    "BORRELIA MIYAMOTOI"  
-[13] "BORRELIA PERSICA"     "BORRELIA RECURRENTIS" "BORRELIA BURGDORFERI"
-[16] "BORRELIA AFZELII"     "BORRELIA GARINII"     "BORRELIA ANDERSONII" 
-[19] "BORRELIA VALAISIANA"  "BORRELIA JAPONICA"   
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsubsection{\texttt{list\_name}}
-
-A list name can be re-used, for instance:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("MyFirstListName", "Y=2000", virtual = TRUE)
- MyFirstListName$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 885225
-\end{Soutput}
-\begin{Sinput}
- query("MySecondListName", "SP=Borrelia burgdorferi", virtual = TRUE)
- MySecondListName$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 1682
-\end{Soutput}
-\begin{Sinput}
- query("MyThirdListName", "MyFirstListName AND MySecondListName", 
-     virtual = TRUE)
- MyThirdListName$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 131
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
- 
-\subsection{Operators} 
-
-\subsubsection{\texttt{AND}}
-
-This is the binary operator for the logical and: a sequence belongs to the 
-resulting list if, and only if, it is present in both operands. To select
-for instance sequences from \textit{Borrelia burgdorferi} that are
-also coding sequences we can use:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("ANDexample", "SP=Borrelia burgdorferi AND T=CDS", virtual = TRUE)
- ANDexample$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 3218
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-
-\subsubsection{\texttt{OR}}
-
-This is the binary operator for the logical or: a sequence belongs to the 
-resulting list if it is present in at least one of the two operands. To select
-for instance sequences from \textit{Borrelia burgdorferi} or
-from \textit{Escherichia coli} we can use:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("ORexample", "SP=Borrelia burgdorferi OR SP=Escherichia coli", 
-     virtual = TRUE)
- ORexample$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 28584
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsubsection{\texttt{NOT}}
-
-This is the unary operator for the logical negation. To select
-for instance sequences from \textit{Borrelia burgdorferi} that
-are not partial we can use:
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("NOTexample", "SP=Borrelia burgdorferi AND NOT K=PARTIAL", 
-     virtual = TRUE)
- NOTexample$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 3266
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsubsection{\texttt{PAR}}
-
-This is a unary operator to compute the list of parent sequences of a list
-of sequences. The reciprocal operator is \texttt{SUB}. To check
-the reciprocity we can use for instance:
- 
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("A", "T=TRNA", virtual = TRUE)
- query("B", "PAR A", virtual = TRUE)
- query("C", "SUB B", virtual = TRUE)
- query("D", "PAR C", virtual = TRUE)
- query("emptySet", "B AND NOT D", virtual = TRUE)
- emptySet$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 0
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsubsection{\texttt{SUB}}
-
-This is a unary operator to add all subsequences of members of the single list operand.
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("SUBexample", "AC=AE000783", virtual = T)
- SUBexample$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 70
-\end{Soutput}
-\begin{Sinput}
- query("SUBexample2", "SUB SUBexample", virtual = T)
- SUBexample2$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 943
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsubsection{\texttt{PS}}
-
-This unary operator is used to get the list of species attached to member 
-sequences of the operand list.
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("PSexample", "K=hyperthermo@", virtual = T)
- query("PSexample2", "PS PSexample")
- sapply(PSexample2$req, getName)
-\end{Sinput}
-\begin{Soutput}
-[1] "BACILLUS LICHENIFORMIS" "DESULFUROCOCCUS"       
-[3] "PYROCOCCUS FURIOSUS"   
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsubsection{\texttt{PK}}
-
-This unary operator is used to get the list of keywords attached to member sequences 
-of the operand list.
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("PKexample", "AC=AE000783", virtual = T)
- query("PKexample2", "PK PKexample")
- sapply(PKexample2$req, getName)
-\end{Sinput}
-\begin{Soutput}
-[1] "DIVISION PRO" "CDS"          "RRNA"         "TRNA"        
-[5] "SOURCE"       "RELEASE 75"  
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsubsection{\texttt{UN}}
-
-This unary operator is used to get the list of sequences attached to a list
-of species or keywords.
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- fileSP <- system.file("sequences/bb.sp", package = "seqinr")
- cat(readLines(fileSP), sep = "\n")
-\end{Sinput}
-\begin{Soutput}
-BORRELIA ANSERINA
-BORRELIA CORIACEAE
-BORRELIA PARKERI
-BORRELIA TURICATAE
-BORRELIA HERMSII
-BORRELIA CROCIDURAE
-BORRELIA LONESTARI
-BORRELIA HISPANICA
-BORRELIA BARBOURI
-BORRELIA THEILERI
-BORRELIA DUTTONII
-BORRELIA MIYAMOTOI
-BORRELIA PERSICA
-BORRELIA RECURRENTIS
-BORRELIA BURGDORFERI
-BORRELIA AFZELII
-BORRELIA GARINII
-BORRELIA ANDERSONII
-BORRELIA VALAISIANA
-BORRELIA JAPONICA
-\end{Soutput}
-\begin{Sinput}
- clfcd("listSP", file = fileSP, type = "SP")
- query("UNexample", "UN listSP", virtual = TRUE)
- UNexample$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 2786
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsubsection{\texttt{SD}}
-
-This unary operator computes the list of species placed in the tree below the members of the 
-species list operand.
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("hominidae", "SP=Hominidae", virtual = T)
- query("hsp", "PS hominidae", virtual = T)
- hsp$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 19
-\end{Soutput}
-\begin{Sinput}
- query("SDexample", "SD hsp")
- sapply(SDexample$req, getName)
-\end{Sinput}
-\begin{Soutput}
- [1] "HOMINIDAE"                      "PONGO"                         
- [3] "PONGO PYGMAEUS"                 "PONGO PYGMAEUS ABELII"         
- [5] "PONGO PYGMAEUS PYGMAEUS"        "PONGO SP."                     
- [7] "HOMO/PAN/GORILLA GROUP"         "GORILLA"                       
- [9] "GORILLA GORILLA"                "GORILLA GORILLA BERINGEI"      
-[11] "GORILLA GORILLA GRAUERI"        "GORILLA GORILLA GORILLA"       
-[13] "GORILLA GORILLA UELLENSIS"      "PAN"                           
-[15] "PAN TROGLODYTES"                "PAN TROGLODYTES SCHWEINFURTHII"
-[17] "PAN TROGLODYTES TROGLODYTES"    "PAN TROGLODYTES VERUS"         
-[19] "PAN TROGLODYTES VELLEROSUS"     "PAN PANISCUS"                  
-[21] "HOMO"                           "HOMO SAPIENS"                  
-[23] "HOMO SAPIENS NEANDERTHALENSIS" 
-\end{Soutput}
-\begin{Sinput}
- closebank()
-\end{Sinput}
-\end{Schunk}
-
-\subsubsection{\texttt{KD}}
-
-This unary operator computes the list of keywords placed in the tree below the members of the 
-keywords list operand.
-
-\begin{Schunk}
-\begin{Sinput}
- choosebank("emblTP")
- query("cat", "SP=Felis catus", virtual = TRUE)
- query("catkw", "PK cat", virtual = TRUE)
- catkw$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 540
-\end{Soutput}
-\begin{Sinput}
- query("KDexample", "KD catkw", virtual = TRUE)
- KDexample$nelem
-\end{Sinput}
-\begin{Soutput}
-[1] 572
-\end{Soutput}
 \begin{Sinput}
  closebank()
 \end{Sinput}
@@ -2192,20 +848,19 @@ keywords list operand.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.6.0 (2007-10-03), \verb|i386-apple-darwin8.10.1|
+  \item R version 2.8.0 Under development (unstable) (2008-05-11 r45672), \verb|i386-apple-darwin8.8.2|
   \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-36, ade4~1.4-4, ape~2.0-1,
-    gee~4.13-13, lattice~0.16-5, nlme~3.1-85, seqinr~1.1-3,
-    xtable~1.5-1
-  \item Loaded via a namespace (and not attached): grid~2.6.0,
-    rcompgen~0.1-15
+  \item Other packages: MASS~7.2-42, ade4~1.4-7, ape~2.2,
+    nlme~3.1-88, seqinr~1.1-6, xtable~1.5-2
+  \item Loaded via a namespace (and not attached): grid~2.8.0,
+    lattice~0.17-7, tools~2.8.0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Tue Oct 30 17:41:35 2007
+  \item \Rlogo{} compilation time was: Mon May 12 18:07:53 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

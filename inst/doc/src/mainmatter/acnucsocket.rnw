@@ -49,7 +49,7 @@ An example of an ACNUC database is available on the PBIL ftp server  at this url
 \url{ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z}.
  
 You may install the database as it follows:
-Let ACNUC\_HOME be the base directory for ACNUC intallation.
+Let \texttt{ACNUC\_HOME} be the base directory for ACNUC installation.
 
 <<makeACNUCHOME,fig=F,eval=T>>=
 dir.create("./ACNUC_HOME", showWarning = FALSE)
@@ -93,12 +93,12 @@ ACNUC_HOME/ACNUC_DB/demoacnuc/index
 ACNUC_HOME/ACNUC_DB/demoacnuc/flat_files
 \end{verbatim}
 
-The directory ACNUC<\_HOME/ACNUC\_DB/demoacnuc contains: 
+The directory \texttt{ACNUC\_HOME/ACNUC\_DB/demoacnuc} contains: 
 <<showacnuchomecontent,fig=F,eval=T>>=
 dir("./ACNUC_HOME/ACNUC_DB/demoacnuc")
 @ 
-These directories  contains respectively:
 
+These directories contain respectively:
 
 <<showacnuchomecontent2,fig=F,eval=T>>=
 dir("./ACNUC_HOME/ACNUC_DB/demoacnuc/index")
@@ -106,8 +106,8 @@ dir("./ACNUC_HOME/ACNUC_DB/demoacnuc/flat_files")
 @ 
 
 
-This database contains the complete genome of \textit{Escherichia coli K12 W3110} and
-\textit{Saccharomyces cerevesiae}.
+This database contains the complete genome of \textit{Escherichia coli} 
+K12 W3110 and \textit{Saccharomyces cerevesiae}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Build the ACNUC sockets server from the sources.}
@@ -164,10 +164,7 @@ dir("./ACNUC_HOME/ACNUC_SOFT/")
 dir("./ACNUC_HOME/ACNUC_SOFT/racnucd/")
 @ 
 
-Go into ACNUC\_HOME/ACNUC\_SOFT/racnucd/ and type;
-\begin{verbatim}
-make
-\end{verbatim}
+Go into \texttt{ACNUC\_HOME/ACNUC\_SOFT/racnucd/} and type \texttt{make}.
 This should create the \textbf{racnucd} executable.
 
 <<makeracuc,fig=F,eval=T>>=
@@ -294,8 +291,8 @@ for example:
 
 <<trylocalserver,fig=F,eval=T>>=
 library(seqinr)
-system("hostname", intern = TRUE) -> hostname
-hostname
+#system("hostname", intern = TRUE) -> hostname
+hostname <- "localhost"
 choosebank(host = hostname,port=49152, info = TRUE)
 @ 
 
@@ -306,7 +303,7 @@ You can query the database. For example:
 choosebank(bank = "demoacnuc",host = hostname,port=49152)
 query("mylist", "k=rib@ prot@")
 mylist$nelem
-sapply(mylist$req, getName)
+getName(mylist$req)
 @ 
 
 

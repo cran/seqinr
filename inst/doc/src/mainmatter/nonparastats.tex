@@ -4,7 +4,7 @@
 \title{Nonparametric statistics}
 \author{Palmeira, L. \and Lobry, J.R.}
 
-\usepackage{/Library/Frameworks/R.framework/Versions/2.6/Resources/share/texmf/Sweave}
+\usepackage{/Library/Frameworks/R.framework/Resources/share/texmf/Sweave}
 \begin{document}
 %
 % To change the R input/output style:
@@ -15,6 +15,12 @@
 {formatcom={\color{Sinput}},fontsize=\footnotesize, baselinestretch=0.75}
 \DefineVerbatimEnvironment{Soutput}{Verbatim}
 {formatcom={\color{Soutput}},fontsize=\footnotesize, baselinestretch=0.75}
+%
+% This removes the extra spacing after code and output chunks in Sweave,
+% but keeps the spacing around the whole block.
+%
+\fvset{listparameters={\setlength{\topsep}{0pt}}}
+\renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
 %
 % Rlogo
 %
@@ -743,12 +749,12 @@ can be established, we can use the \texttt{base} model.
 Let's have a look at what these different statistics can show. First,
 we will extract a CDS sequence of \textit{Escherichia coli}'s
 chromosome from the Genome Reviews database. Let's use, for instance, 
-the CDS with accession number \texttt{U00096.PE448}:
+the following CDS:
 
 \begin{Schunk}
 \begin{Sinput}
  choosebank("greview")
- query("coli", "N=U00096.PE448")
+ query("coli", "N=U00096 ET T=CDS ET K=2.3.1.79@")
  sequence <- getSequence(coli$req[[1]])
  annot <- getAnnot(coli$req[[1]])
  closebank()
@@ -757,26 +763,30 @@ the CDS with accession number \texttt{U00096.PE448}:
 \begin{Soutput}
 FT   CDS             complement(478591..479142)
 FT                   /codon_start=1
-FT                   /gene="maa"
-FT                   /locus_tag="b0459"
-FT                   /product="Maltose O-acetyltransferase "
-FT                   /EC_number="2.3.1.79"
-FT                   /function="maltose O-acetyltransferase activity "
-FT                   /protein_id="AAC73561.1"
-FT                   /db_xref="EMBL:AAB40214.1"
-FT                   /db_xref="EMBL:CAA11147.1"
-FT                   /db_xref="EcoGene:EG14239"
-FT                   /db_xref="GO:0008925"
-FT                   /db_xref="InterPro:IPR001451"
-FT                   /db_xref="InterPro:IPR011004"
-FT                   /db_xref="PDB:1OCX"
-FT                   /db_xref="UniParc:UPI000002EA96"
-FT                   /db_xref="UniProtKB/Swiss-Prot:P77791"
+FT                   /gene="maa {UniProt/Swiss-Prot:P77791}"
+FT                   /locus_tag="b0459 {UniProt/Swiss-Prot:P77791}"
+FT                   /product="Maltose O-acetyltransferase
+FT                   {UniProt/Swiss-Prot:P77791}"
+FT                   /EC_number="2.3.1.79 {UniProt/Swiss-Prot:P77791}"
+FT                   /function="maltose O-acetyltransferase activity
+FT                   {GO:0008925}"
+FT                   /protein_id="AAC73561.1 {EMBL:U00096}"
+FT                   /db_xref="EMBL:AAB40214.1 {UniProt/Swiss-Prot:P77791}"
+FT                   /db_xref="EMBL:CAA11147.1 {UniProt/Swiss-Prot:P77791}"
+FT                   /db_xref="EcoGene:EG14239 {UniProt/Swiss-Prot:P77791}"
+FT                   /db_xref="GO:0008925 {GOA:P77791}"
+FT                   /db_xref="HOGENOM:HBG023156 {HogenProt:P77791}"
+FT                   /db_xref="InterPro:IPR001451 {UniProt/Swiss-Prot:P77791}"
+FT                   /db_xref="InterPro:IPR011004 {UniProt/Swiss-Prot:P77791}"
+FT                   /db_xref="UniParc:UPI000002EA96 {EMBL:AAC73561}"
+FT                   /db_xref="UniProt/Swiss-Prot:P77791 {EMBL:U00096}"
 FT                   /transl_table=11
 FT                   /translation="MSTEKEKMIAGELYRSADETLSRDRLRARQLIHRYNHSLAEEHTL
 FT                   RQQILADLFGQVTEAYIEPTFRCDYGYNIFLGNNFFANFDCVMLDVCPIRIGDNCMLAP
 FT                   GVHIYTATHPIDPVARNSGAELGKPVTIGNNVWIGGRAVINPGVTIGDNVVVASGAVVT
 FT                   KDVPDNVVVGGNPARIIKKL"
+FT                   /%(C+G)="CG<50%"
+FT                   /note="C+G content in third codon positions = 47.8 % "
 \end{Soutput}
 \end{Schunk}
 
@@ -897,23 +907,7 @@ to UV wavelengths differ and depend on the micro-organism
 \end{center}
 \end{table}
 
-%% %% \begin{figure}
-%% %%    \begin{minipage}[c]{.46\linewidth}
-%% <<sensitivity1, eval = TRUE, echo = FALSE, fig = TRUE,eval=T>>=
-%% pie(c(0.59,0.34,0.07),labels=c('T-T(59\%)','C-T(34\%)','C-C(7\%)'),col=c('lightblue','purple','royalblue'),main="Escherichia coli")
-%% @
-%% %%   \end{minipage} \hfill
-%% %%    \begin{minipage}[c]{.46\linewidth}
-%% <<sensitivity2, eval = TRUE, echo = FALSE, fig = TRUE,eval=T>>=
-%% pie(c(0.71,0.24,0.05),labels=c('T-T(71\%)','C-T(24\%)','C-C(5\%)'),col=c('lightblue','purple','royalblue'),main="Haemophilus influenzae")
-%% @ 
-%% %%    \end{minipage} \hfill
-%% %%    \begin{minipage}[c]{.46\linewidth}
-%% <<sensitivity3, eval = TRUE, echo = FALSE, fig = TRUE,eval=T>>=
-%% pie(c(0.19,0.55,0.26),labels=c('T-T(19\%)','C-T(55\%)','C-C(26\%)'),col=c('lightblue','purple','royalblue'),main="Micrococcus lysodeikticus")
-%% @
-%% %%    \end{minipage}
-%% %% \end{figure}
+
 
 The hypothesis presented by Singer and Ames \cite{Singer} is that
 pyrimidine dinucleotides are avoided in light-exposed micro-organisms.
@@ -1206,7 +1200,87 @@ Figure \ref{prochlo} shows that there is no difference between the
 relative abundances of pyrimidine dinucleotides in these three
 strains. We can say that pyrimidine dinucleotides are not avoided, and
 that the hypothesis by Singer and Ames \cite{Singer} no longer stands
-\cite{UV}.
+\cite{UV}. The following code was used to produce figure 
+\ref{fromdataprochlo} that summarizes the relationship between
+pyrimidine dinucleotides and UV-exposure.
+
+%
+% Manually produced with 
+% png("tmp.png",width=18,height=11,units="in",res=72)
+%
+\begin{Schunk}
+\begin{Sinput}
+ data(prochlo)
+ par(oma = c(0, 0, 3, 0), mfrow = c(1, 2), mar = c(5, 4, 0, 
+     0), cex = 1.5)
+ example(waterabs, ask = FALSE)
+ abline(v = 260, lwd = 2, col = "red")
+ par(mar = c(5, 0, 0, 2))
+ plot(seq(-5, 3, by = 1), seq(0, 150, length = 9), col = "white", 
+     ann = FALSE, axes = FALSE, xaxs = "i", yaxs = "i")
+ axis(1, at = c(-1.96, 0, 1.96), labels = c(-1.96, 0, 1.96))
+ lines(rep(-1.96, 2), c(0, 150), lty = 2)
+ lines(rep(1.96, 2), c(0, 150), lty = 2)
+ title(xlab = "zscore distribution", cex = 1.5, adj = 0.65)
+ selcol <- c(6, 8, 14, 16)
+ z5 <- prochlo$BX548174[, selcol]
+ z120 <- prochlo$AE017126[, selcol]
+ z135 <- prochlo$BX548175[, selcol]
+ todo <- function(who, xx, col = "black", bottom, loupe) {
+     dst <- density(who[, xx])
+     sel <- which(dst$x >= -3)
+     lines(dst$x[sel], dst$y[sel] * loupe + (bottom), col = col)
+ }
+ todo2 <- function(who, bottom, loupe) {
+     todo(who, "CC", "blue", bottom, loupe)
+     todo(who, "CT", "red", bottom, loupe)
+     todo(who, "TC", "green", bottom, loupe)
+     todo(who, "TT", "black", bottom, loupe)
+ }
+ todo3 <- function(bottom, who, leg, loupe = 90) {
+     lines(c(-5, -3), c(150 - leg, bottom + 20))
+     rect(-3, bottom, 3, bottom + 40)
+     text(-2.6, bottom + 38, paste(leg, "m"))
+     todo2(who, bottom, loupe)
+ }
+ todo3(bottom = 110, who = z5, leg = 5)
+ todo3(bottom = 50, who = z120, leg = 120)
+ todo3(bottom = 5, who = z135, leg = 135)
+ legend(-4.5, 110, c("CpC", "CpT", "TpC", "TpT"), lty = 1, 
+     pt.cex = cex, col = c("blue", "red", "green", "black"))
+ mtext(expression(paste("Dinucleotide composition for three ", 
+     italic("Prochlorococcus marinus"), " ecotypes")), outer = TRUE, 
+     cex = 2, line = 1)
+\end{Sinput}
+\end{Schunk}
+
+\begin{figure}
+\centering\fbox{
+\begin{minipage}{\textwidth}
+\centering
+\includegraphics[width=\textwidth]{../figs/prochlo}
+   \caption{This figure is from figure 2.7 in \cite{PalmeiraL2007},
+    see also the example section in \texttt{data(prochlo)}. The left
+    panel represents the absorbtion of light by pure water in the visible
+    spectrum (gradient in color) and in the near UV (gradient in gray
+    scale). Corresponding data were compiled from \cite{QuickendenTI1980}
+    and \cite{LitjensRA1999}. For DNA, the biological relevant wavelength
+    is at 260 nm (red vertical line) corresponding to its maximum for
+    light absorbtion. The right panel shows the distribution of the
+    $z$-codon statistic for the four pyrimidine dinucleotides (\textit{viz}
+    CpC CpT TpC TpT) for the 
+    coding sequences of three different ecotypes (5 m, 120 m, 135 m) of 
+    \textit{Prochlorococcus marinus}. The complete genome sequences 
+    accession numbers are BX548175 (\textit{P. marinus} MIT9313 
+    \cite{RocapG2003} 5 m, high UV exposure), AE017126 (\textit{P. marinus}
+    SS120 strain CCMP1375 \cite{DufresneA2003} 120 m, low UV exposure) 
+    and BX548174 (\textit{P. marinus} MED4 \cite{RocapG2003} 135 m, 
+    low UV exposure).
+}
+\label{fromdataprochlo}
+\end{minipage}
+}
+\end{figure}
 
 
 \section*{Session Informations}
@@ -1214,20 +1288,20 @@ that the hypothesis by Singer and Ames \cite{Singer} no longer stands
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.6.0 (2007-10-03), \verb|i386-apple-darwin8.10.1|
-  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8|
+  \item R version 2.8.0 Under development (unstable) (2008-05-11 r45672), \verb|i386-apple-darwin8.8.2|
+  \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-36, ade4~1.4-4, ape~2.0-1,
-    gee~4.13-13, lattice~0.16-5, nlme~3.1-85, quadprog~1.4-11,
-    seqinr~1.1-3, tseries~0.10-11, xtable~1.5-1, zoo~1.4-0
-  \item Loaded via a namespace (and not attached): grid~2.6.0,
-    tools~2.6.0
+  \item Other packages: MASS~7.2-42, ade4~1.4-7, ape~2.2,
+    nlme~3.1-88, quadprog~1.4-11, seqinr~1.1-6, tseries~0.10-15,
+    xtable~1.5-2, zoo~1.5-3
+  \item Loaded via a namespace (and not attached): grid~2.8.0,
+    lattice~0.17-7, tools~2.8.0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sat Nov 24 19:01:55 2007
+  \item \Rlogo{} compilation time was: Sun May 18 12:51:37 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

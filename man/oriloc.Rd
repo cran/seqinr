@@ -13,8 +13,17 @@ oriloc(seq.fasta = system.file("sequences/ct.fasta", package ="seqinr"),
 oldoriloc = FALSE, gbk = NULL, clean.tmp.files = TRUE, rot = 0)
 }
 \arguments{
-  \item{seq.fasta}{ the name of a file which contains the dna sequence
-of a bacterial chromosome in fasta format }
+  \item{seq.fasta}{ the name of a file which contains the DNA sequence
+    of a bacterial chromosome in fasta format. The default value,
+   \code{system.file("sequences/ct.fasta", package ="seqinr")}, is
+    to use the fasta file \code{ct.fasta} which is distributed in the
+    \code{sequences} folder in the seqinR package. This is the file
+    for the complete genome sequence of \emph{Chlamydia trachomatis}
+    that was used in Frank and Lobry (2000). You can replace
+    this by something like \code{seq.fasta = "myseq.fasta"} to work
+    with your own data if the file \code{myseq.fasta} is present in
+    the current working directory (see \code{\link{getwd}}), or give
+    a full path access to the sequence file (see \code{\link{file.choose}}).}
   \item{g2.coord}{ the name of file which contains the output of
 glimmer program (*.predict in glimmer version 3)}
   \item{glimmer.version}{glimmer version used, could be 2 or 3}

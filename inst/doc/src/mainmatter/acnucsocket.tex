@@ -16,6 +16,12 @@
 \DefineVerbatimEnvironment{Soutput}{Verbatim}
 {formatcom={\color{Soutput}},fontsize=\footnotesize, baselinestretch=0.75}
 %
+% This removes the extra spacing after code and output chunks in Sweave,
+% but keeps the spacing around the whole block.
+%
+\fvset{listparameters={\setlength{\topsep}{0pt}}}
+\renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+%
 % Rlogo
 %
 \newcommand{\Rlogo}{\protect\includegraphics[height=1.8ex,keepaspectratio]{../figs/Rlogo.pdf}}
@@ -79,7 +85,7 @@ An example of an ACNUC database is available on the PBIL ftp server  at this url
 \url{ftp://pbil.univ-lyon1.fr/pub/seqinr/demoacnuc/acnucdatabase.tar.Z}.
  
 You may install the database as it follows:
-Let ACNUC\_HOME be the base directory for ACNUC intallation.
+Let \texttt{ACNUC\_HOME} be the base directory for ACNUC installation.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -131,7 +137,7 @@ ACNUC_HOME/ACNUC_DB/demoacnuc/index
 ACNUC_HOME/ACNUC_DB/demoacnuc/flat_files
 \end{verbatim}
 
-The directory ACNUC<\_HOME/ACNUC\_DB/demoacnuc contains: 
+The directory \texttt{ACNUC\_HOME/ACNUC\_DB/demoacnuc} contains: 
 \begin{Schunk}
 \begin{Sinput}
  dir("./ACNUC_HOME/ACNUC_DB/demoacnuc")
@@ -140,8 +146,8 @@ The directory ACNUC<\_HOME/ACNUC\_DB/demoacnuc contains:
 [1] "flat_files" "index"     
 \end{Soutput}
 \end{Schunk}
-These directories  contains respectively:
 
+These directories contain respectively:
 
 \begin{Schunk}
 \begin{Sinput}
@@ -167,8 +173,8 @@ These directories  contains respectively:
 \end{Schunk}
 
 
-This database contains the complete genome of \textit{Escherichia coli K12 W3110} and
-\textit{Saccharomyces cerevesiae}.
+This database contains the complete genome of \textit{Escherichia coli} 
+K12 W3110 and \textit{Saccharomyces cerevesiae}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Build the ACNUC sockets server from the sources.}
@@ -249,10 +255,7 @@ Now you sould get the following directory:
 \end{Soutput}
 \end{Schunk}
 
-Go into ACNUC\_HOME/ACNUC\_SOFT/racnucd/ and type;
-\begin{verbatim}
-make
-\end{verbatim}
+Go into \texttt{ACNUC\_HOME/ACNUC\_SOFT/racnucd/} and type \texttt{make}.
 This should create the \textbf{racnucd} executable.
 
 \begin{Schunk}
@@ -412,16 +415,16 @@ Finaly, in the ACNUC\_HOME/ACNUC\_SOFT/racnucd/ directory, lauche the server as 
  system("ps | grep racnucd", intern = TRUE)
 \end{Sinput}
 \begin{Soutput}
-[1] "29658  p1  S+     0:00.01 ./racnucd racnucd.new"  
-[2] "29659  p1  S+     0:00.01 sh -c ps | grep racnucd"
-[3] "29661  p1  U+     0:00.00 grep racnucd"           
+[1] " 9415  p2  S+     0:00.01 ./racnucd racnucd.new"  
+[2] " 9416  p2  S+     0:00.01 sh -c ps | grep racnucd"
+[3] " 9418  p2  S+     0:00.00 grep racnucd"           
 \end{Soutput}
 \begin{Sinput}
  cat(readLines("racnucd.log"), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
 *******************************************************
-Start of remote acnuc server : Fri Nov 23 17:30:55 2007
+Start of remote acnuc server : Mon May 12 18:24:47 2008
 \end{Soutput}
 \begin{Sinput}
  setwd(pwd)
@@ -446,13 +449,7 @@ for example:
 \begin{Schunk}
 \begin{Sinput}
  library(seqinr)
- hostname <- system("hostname", intern = TRUE)
- hostname
-\end{Sinput}
-\begin{Soutput}
-[1] "sueoka.local"
-\end{Soutput}
-\begin{Sinput}
+ hostname <- "localhost"
  choosebank(host = hostname, port = 49152, info = TRUE)
 \end{Sinput}
 \begin{Soutput}
@@ -476,7 +473,7 @@ You can query the database. For example:
 [1] 39
 \end{Soutput}
 \begin{Sinput}
- sapply(mylist$req, getName)
+ getName(mylist$req)
 \end{Sinput}
 \begin{Soutput}
  [1] "AP009048.PE25"   "AP009048.PE405"  "AP009048.PE830"  "AP009048.PE3223"
@@ -576,14 +573,14 @@ This should create the ACNUC management tools and ACNUC querying tools.
 \end{Sinput}
 \begin{Soutput}
  [1] "acnuc2fasta"         "acnuc2fasta.c"       "acnucf2c.c"         
- [4] "acnucf2c.o"          "arbrebin.c"          "arbrebin.o"         
- [7] "bit.c"               "bit.o"               "compressnewdiv"     
-[10] "compressnewdiv.c"    "connectindex"        "connectindex.c"     
-[13] "conv_to_bigannots"   "conv_to_bigannots.c" "coperations.c"      
-[16] "dir_acnuc.h"         "dir_io.c"            "dir_io.h"           
-[19] "dir_io.o"            "dynlist.c"           "dynlist.o"          
-[22] "extract.c"           "extract.o"           "fortran_ex.f"       
-[25] "gbemgener"           "gbemgener.c"         "gestion_acnuc.c"    
+ [4] "acnucf2c.o"          "acnucgener"          "acnucgener.c"       
+ [7] "arbrebin.c"          "arbrebin.o"          "bit.c"              
+[10] "bit.o"               "compressnewdiv"      "compressnewdiv.c"   
+[13] "connectindex"        "connectindex.c"      "conv_to_bigannots"  
+[16] "conv_to_bigannots.c" "coperations.c"       "dir_acnuc.h"        
+[19] "dir_io.c"            "dir_io.h"            "dir_io.o"           
+[22] "dynlist.c"           "dynlist.o"           "extract.c"          
+[25] "extract.o"           "fortran_ex.f"        "gestion_acnuc.c"    
 [28] "gestion_acnuc.o"     "hashacc.c"           "hashacc.o"          
 [31] "initf"               "initf.c"             "libcacnuc.a"        
 [34] "lngbit.c"            "lngbit.o"            "makefile"           
@@ -596,12 +593,12 @@ This should create the ACNUC management tools and ACNUC querying tools.
 [55] "renamediv"           "renamediv.c"         "simext.h"           
 [58] "smjytload"           "smjytload.c"         "sortsubseq"         
 [61] "sortsubseq.c"        "supold"              "supold.c"           
-[64] "swgener"             "swgener.c"           "testmatchindex"     
-[67] "testmatchindex.c"    "two_banks.c"         "two_banks.o"        
-[70] "updatehelp"          "updatehelp.c"        "use_acnuc.c"        
-[73] "use_acnuc.o"         "utilgener.c"         "utilgener.h"        
-[76] "utilgener.o"         "utilgener2.c"        "utilgener2.o"       
-[79] "utilquery.c"         "utilquery.o"        
+[64] "testmatchindex"      "testmatchindex.c"    "two_banks.c"        
+[67] "two_banks.o"         "updatehelp"          "updatehelp.c"       
+[70] "use_acnuc.c"         "use_acnuc.o"         "utilgener.c"        
+[73] "utilgener.h"         "utilgener.o"         "utilgener2.c"       
+[76] "utilgener2.o"        "utilquery.c"         "utilquery.o"        
+[79] "voyage"              "voyage.c"           
 \end{Soutput}
 \begin{Sinput}
  setwd(pwd)
@@ -702,19 +699,23 @@ flat file: escherichia_uniprot.dat
  ->/Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files/escherichia_uniprot.dat
  
 Begin to build index...
-Fri Nov 23 17:31:29 CET 2007
+Mon May 12 18:25:29 CEST 2008
 =====================================
 Initialise
 Normal end.
 
 =====================================
 Generation des index
-Program started at Fri Nov 23 17:31:30 2007
+Program started at Mon May 12 18:25:31 2008
 
 New division created: escherichia_uniprot
+Removing updated sequences
+0 modified sequences removed
+Loading acc nos started at Mon May 12 18:25:31 2008
+finished at Mon May 12 18:25:31 2008
 Start loading ncbi species taxonomy
 Warning: file $acnuctaxo/id.report not found
-Sequence loading started at Fri Nov 23 17:31:30 2007
+Sequence loading started at Mon May 12 18:25:31 2008
 
 ---->3MG1_ECOLI
 ---->3MG2_ECOLI
@@ -733,21 +734,17 @@ Sequence loading started at Fri Nov 23 17:31:30 2007
 ---->A5A605_ECOLI
 ---->A5A607_ECOLI
 ---->A5A609_ECOLI
----->A5A611_ECOLI
----->A5A612_ECOLI
----->A5A613_ECOLI
----->A5A614_ECOLI
 \end{Soutput}
 \begin{Sinput}
  cat(tail(readLines("build.log"), 50), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
----->ZRAS_ECOLI
----->ZUPT_ECOLI
----->ZUR_ECOLI
-Program finished at Fri Nov 23 17:31:34 2007
+Program finished at Mon May 12 18:25:35 2008
 
-lues=4461  chargees=4461  difference=0 seqs/second=1115.25
+write_quick_meres...done
+
+lues=4461  chargees=4461  difference=0
+seqs/second=1115.25
 
 =====================================
 run newordalphab
@@ -773,7 +770,7 @@ Normal end
 
 =====================================
 run updatehelp
-Fri Nov 23 17:31:36 CET 2007
+Mon May 12 18:25:39 CEST 2008
 Index have been sucessfully build.
 =====================================
  
@@ -791,7 +788,7 @@ Command? (or H for help)
 List name,  or H(elp) ?  [LIST1] Name of file to write list content? [default= list1.mne] 
 Command? (or H for help)
 End of ACNUC retrieval program
-    4461    4461  182901 test.mn
+    4461    4461   93681 test.mn
 \end{Soutput}
 \begin{Sinput}
  setwd(pwd)
@@ -895,9 +892,8 @@ computer try:
 \end{Sinput}
 \begin{Soutput}
  [1] "CITATION"    "CONTENTS"    "DESCRIPTION" "INDEX"       "Meta"       
- [6] "R"           "R-ex"        "data"        "demo"        "doc"        
-[11] "exec"        "help"        "html"        "latex"       "libs"       
-[16] "man"         "sequences"  
+ [6] "R"           "R-ex"        "data"        "doc"         "help"       
+[11] "html"        "latex"       "libs"        "man"         "sequences"  
 \end{Soutput}
 \begin{Sinput}
  setwd("./doc/src/config")
@@ -905,8 +901,8 @@ computer try:
 \end{Sinput}
 \begin{Soutput}
 [1] "atxy.sty"                   "authors.tex"               
-[3] "book.bib"                   "book.bib.~1.1.2.24.~"      
-[5] "commonrnw.rnw"              "commonrnw.rnw.~1.1.2.1.~"  
+[3] "book.bib"                   "book.bib.~1.1.2.31.~"      
+[5] "commonrnw.rnw"              "commonrnw.rnw.~1.1.2.2.~"  
 [7] "commontex.tex"              "sessionInfo.rnw"           
 [9] "sessionInfo.rnw.~1.1.2.2.~"
 \end{Soutput}
@@ -932,20 +928,19 @@ computer try:
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.6.0 (2007-10-03), \verb|i386-apple-darwin8.10.1|
+  \item R version 2.8.0 Under development (unstable) (2008-05-11 r45672), \verb|i386-apple-darwin8.8.2|
   \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-36, ade4~1.4-4, ape~2.0-1,
-    gee~4.13-13, lattice~0.16-5, nlme~3.1-85, seqinr~1.1-3,
-    xtable~1.5-1
-  \item Loaded via a namespace (and not attached): grid~2.6.0,
-    rcompgen~0.1-15
+  \item Other packages: MASS~7.2-42, ade4~1.4-7, ape~2.2,
+    nlme~3.1-88, seqinr~1.1-6, xtable~1.5-2
+  \item Loaded via a namespace (and not attached): grid~2.8.0,
+    lattice~0.17-7, tools~2.8.0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Fri Nov 23 17:31:37 2007
+  \item \Rlogo{} compilation time was: Mon May 12 18:25:39 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

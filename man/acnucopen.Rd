@@ -11,7 +11,7 @@ These are low level functions to start and stop a remote access to an ACNUC data
 \usage{
 acnucopen(db, socket, challenge = NA)
 acnucclose(socket)
-clientid(id = paste("seqinr_", packageDescription("seqinr")$Version, sep = ""), socket)
+clientid(id = paste("seqinr_", packageDescription("seqinr")$Version, sep = ""), socket, verbose = FALSE)
 quitacnuc(socket)
 }
 
@@ -20,6 +20,7 @@ quitacnuc(socket)
   \item{socket}{an object of class \code{sockconn} connecting to an ACNUC server}
   \item{challenge}{unimplemented yet}
   \item{id}{client ID definition defaulting to seqinr + package version number}
+  \item{verbose}{logical, if TRUE mode verbose is on}
 }
 
 \details{

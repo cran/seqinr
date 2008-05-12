@@ -19,8 +19,9 @@
 The FASTA format is very simple and widely used for simple import of
 biological sequences. It was used originally by the FASTA program \cite{FASTA}.
 It begins with a single-line description starting
-with a character \texttt{>}, followed by lines of sequence data
-of maximum 80 character each. Examples of files in FASTA format
+with a character \texttt{'>'}, followed by lines of sequence data
+of maximum 80 character each. Lines starting with a semi-colon
+character \texttt{';'} are comment lines. Examples of files in FASTA format
 are distributed with the \seqinr{} package in the \texttt{sequences}
 directory:
 
@@ -32,6 +33,12 @@ Here is an example of a FASTA file:
 
 <<fastaexample,fig=F>>=
 cat(readLines(system.file("sequences/seqAA.fasta", package = "seqinr")), sep = "\n")
+@
+
+Here is an example of a FASTA file with comment lines:
+
+<<fastaexamplelegacy,fig=F>>=
+cat(readLines(system.file("sequences/legacy.fasta", package = "seqinr")), sep = "\n")
 @
 
 \subsection{The function \texttt{read.fasta()}}
@@ -192,8 +199,11 @@ athfile <- system.file("sequences/ATH1_pep_cm_20040228.fasta", package = "seqinr
 system.time(ath <- read.fasta(athfile, seqtype = "AA", as.string = TRUE, set.attributes = FALSE))
 @
 
-It's about one minute here to read 21,161 protein sequences. We save them
-in XDR binary format to read them faster later at will:
+It's about 10 seconds here to read 21,161 protein sequences. We save them
+in XDR binary format\footnote{
+this is a multi-platform compatible binary format: you can save data
+under unix and load them under Mac OS X, for instance, without problem.
+} to read them faster later at will:
 
 <<saveath,fig=F,eval=T>>=
 save(ath, file = "ath.RData")
@@ -202,7 +212,7 @@ save(ath, file = "ath.RData")
 system.time(load("ath.RData"))
 @
 
-Now it's about one second to load the whole data set thanks to the XDR format.
+Now it's less than a second to load the whole data set thanks to the XDR format.
 The object size is about 15 Mo in RAM, that is something very close to
 the flat file size on disk:
 
@@ -217,7 +227,7 @@ that you are interested by the distribution of protein size in
 \textit{Arabidopsis thaliana}. There is an efficient vectorized function
 called \texttt{nchar()} that will do the job, we just have to remove
 one unit because of the stop codon which is translated as a star (*) in
-this data set. This is a simple and direct task under R:
+this data set. This is a simple and direct task under \Rlogo{}:
 
 <<athdistriprotsize,fig=T,eval=T>>=
 nres <- nchar(ath) - 1
@@ -284,7 +294,7 @@ summary(fgly)
 @
 
 We want now to compute something relatively more complex,
-we want the Kyte and Doolittle\cite{KD} hydropathy score of our proteins
+we want the Kyte and Doolittle \cite{KD} hydropathy score of our proteins
 (aka GRAVY score). This is basically a linear form on amino
 acid frequencies:
 
@@ -369,7 +379,7 @@ glycine content. Let's define a vector of logicals to select the hydrophilines:
 
 <<hydrophilinesindex,fig=F,eval=T>>=
 hydrophilines <- fgly > 0.08 & kdath > 1
-names(ath)[hydrophilines]
+head(names(ath)[hydrophilines])
 @
 
 Check with a simple graph that there is no mistake here:
@@ -651,10 +661,8 @@ for multiple substitutions.
 
 <<calculnjsurJC,eval=T>>=
 library(ape)
-x.louse <- lapply(louse$seq, function(x) as.DNAbin(s2c(x)))
-x.gopher <- lapply(gopher$seq, function(x) as.DNAbin(s2c(x)))
-louse.JC <- dist.dna(x = x.louse, model = "JC69")
-gopher.JC <- dist.dna(x = x.gopher, model = "JC69")
+louse.JC <- dist.dna(as.DNAbin(louse), model = "JC69")
+gopher.JC <- dist.dna(as.DNAbin(gopher), model = "JC69")
 l <- nj(louse.JC)
 g <- nj(gopher.JC)
 @ 
@@ -705,10 +713,8 @@ gopher <- read.alignment(system.file("sequences/gopher.fasta", package = "seqinr
 l.names <- readLines(system.file("sequences/louse.names", package = "seqinr"))
 g.names <- readLines(system.file("sequences/gopher.names", package = "seqinr"))
 library(ape)
-x.louse <- lapply(louse$seq, function(x) as.DNAbin(s2c(x)))
-x.gopher <- lapply(gopher$seq, function(x) as.DNAbin(s2c(x)))
-louse.JC <- dist.dna(x = x.louse, model = "JC69")
-gopher.JC <- dist.dna(x = x.gopher, model = "JC69")
+louse.JC <- dist.dna(as.DNAbin(louse), model = "JC69")
+gopher.JC <- dist.dna(as.DNAbin(gopher), model = "JC69")
 l <- nj(louse.JC)
 g <- nj(gopher.JC)
 g$tip.label <- paste(1:8, g.names)
@@ -740,8 +746,8 @@ obtain the following graph :
 
 \setkeys{Gin}{width=\textwidth}
 <<K80, fig=TRUE, echo=F, results=hide, width=16, height=8,eval=T>>=
-louse.K80 <- dist.dna(x = x.louse, model = "K80")
-gopher.K80 <- dist.dna(x = x.gopher, model = "K80")
+louse.K80 <- dist.dna(x = as.DNAbin(louse), model = "K80")
+gopher.K80 <- dist.dna(x = as.DNAbin(gopher), model = "K80")
 l <- nj(louse.K80)
 g <- nj(gopher.K80)
 g$tip.label <- paste(1:8, g.names)
