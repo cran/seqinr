@@ -8,13 +8,19 @@
 }
 \usage{
 read.fasta(file = system.file("sequences/ct.fasta", package = "seqinr"), 
-  seqtype = "DNA", File = NULL, as.string = FALSE, forceDNAtolower = TRUE,
-  set.attributes = TRUE, legacy.mode = TRUE, seqonly = FALSE, strip.desc = FALSE)
+  seqtype = c("DNA", "AA"), File = NULL, as.string = FALSE, forceDNAtolower = TRUE,
+  set.attributes = TRUE, legacy.mode = TRUE, seqonly = FALSE, strip.desc = FALSE,
+  bfa = FALSE, sizeof.longlong = .Machine$sizeof.longlong,
+  endian = .Platform$endian, apply.mask = TRUE)
 }
 \arguments{
   \item{file}{ The name of the file which the sequences in fasta format are to be 
-  read from}
-  \item{seqtype}{ the nature of the sequence: \code{DNA} or \code{AA} }
+  read from. If it does not contain an absolute or relative path, the file name is relative 
+    to the current working directory, \code{\link{getwd}}. The default here is to
+    read the \code{ct.fasta} file which is present in the \code{sequences} folder
+   of the seqinR package.}
+  \item{seqtype}{ the nature of the sequence: \code{DNA} or \code{AA}, defaulting
+    to \code{DNA} }
   \item{File}{ Synonymous of file. As from seqinR >= 1.1-3 this argument
   is deprecated and a warning is issued}
   \item{as.string}{ if TRUE sequences are returned as a string instead of a
@@ -28,6 +34,18 @@ read.fasta(file = system.file("sequences/ct.fasta", package = "seqinr"),
    by a factor 3)}
   \item{strip.desc}{if TRUE the '>' at the beginning of the description lines is removed
   in the annotations of the sequences}
+  \item{bfa}{logical. If TRUE the fasta file is in MAQ binary format (see details). 
+    Only for DNA sequences.}
+  \item{sizeof.longlong}{the number of bytes in a C \code{long long} type.
+    Only relevant for \code{bfa = TRUE}. See \code{\link{.Machine}}}
+  \item{endian}{character string, \code{"big"} or \code{"little"}, giving the 
+    endianness of the processor in use. Only relevant for \code{bfa = TRUE}.
+     See \code{\link{.Platform}}}
+  \item{apply.mask}{logical defaulting to \code{TRUE}. Only relevant for 
+  \code{bfa = TRUE}. When this flag is \code{TRUE} the mask in the MAQ
+  binary format is used to replace non acgt characters in the sequence
+  by the n character. For pure acgt sequences (without gaps or ambiguous
+  bases) turning this to \code{FALSE} will save time.}
 }
 \details{
   FASTA is a widely used format in biology, some FASTA files are distributed
@@ -38,6 +56,13 @@ read.fasta(file = system.file("sequences/ct.fasta", package = "seqinr"),
   are ignored, as in the original FASTA program (Pearson and Lipman 1988).
   The sequence name is just after the '>' up to the next space ' ' character,
   trailling infos are ignored for the name but saved in the annotations.
+
+  The MAQ fasta binary format was introduced in seqinR 1.1-7 and has not
+  been extensively tested. This format is used in the MAQ (Mapping and 
+  Assembly with Qualities) software (\url{http://maq.sourceforge.net/}).
+  In this format the four nucleotides are coded with two bits and the
+  sequence is stored as a vector of C \code{unsigned long long}. There
+  is in addition a mask to locate non-acgt characters.
 }
 \value{
   By default \code{read.fasta} return a list of vector of chars. Each element 
@@ -48,6 +73,8 @@ read.fasta(file = system.file("sequences/ct.fasta", package = "seqinr"),
   Pearson, W.R. and Lipman, D.J. (1988) Improved tools for biological 
   sequence comparison. \emph{Proceedings of the National Academy 
   of Sciences of the United States of America}, \bold{85}:2444-2448
+
+  FIXME: a reference to MAQ when published.
 
   \code{citation("seqinr")}
 }
@@ -117,5 +144,18 @@ read.fasta(file = system.file("sequences/ct.fasta", package = "seqinr"),
   legacyfile <- system.file("sequences/legacy.fasta", package = "seqinr")
   legacyseq <- read.fasta(file = legacyfile, as.string = TRUE)
   stopifnot( nchar(legacyseq) == 921 )
+#
+# Example of a MAQ binary fasta file produced with maq fasta2bfa ct.fasta ct.bfa
+# on a platform where .Platform$endian == "little" and .Machine$sizeof.longlong == 8
+#
+  fastafile <- system.file("sequences/ct.fasta", package = "seqinr")
+  bfafile <- system.file("sequences/ct.bfa", package = "seqinr")
+
+  original <- read.fasta(fastafile, as.string = TRUE, set.att = FALSE)
+  bfavers <- read.fasta(bfafile, as.string = TRUE, set.att = FALSE, bfa = TRUE,
+    endian = "little", sizeof.longlong = 8)
+  if(!identical(original, bfavers)){
+     warning(paste("trouble reading bfa file with endian =", .Platform$endian, 
+    "and sizeof.longlong =", .Machine$sizeof.longlong))
+  }
 }
-\keyword{ manip }

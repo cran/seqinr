@@ -59,7 +59,8 @@ zscore(sequence, simulations = NULL, modele, exact = FALSE, alphabet = s2c("acgt
 
   The \code{codon} model allows for random sequence generation by
   shuffling (with/without replacement) of codons. Analytical
-  computation is available for this model.
+  computation is available for this model (Gautier, C., Gouy, M. and
+  Louail, S. (1985)).
 
   The \code{syncodon} model allows for random sequence generation
   by shuffling (with/without replacement) of synonymous codons.
@@ -68,21 +69,24 @@ zscore(sequence, simulations = NULL, modele, exact = FALSE, alphabet = s2c("acgt
   a table containing the computed statistic for each dinucleotide
 }
 \references{
-  \code{citation("seqinr")}
+  Gautier, C., Gouy, M. and Louail, S. (1985) Non-parametric statistics
+  for nucleic acid sequence study. \emph{Biochimie}, \bold{67}:449-453.
   
   Karlin S. and Cardon LR. (1994) Computational DNA sequence analysis.
-  \emph{Annu Rev Microbiol}, \bold{48}:619-54.
-
-  Palmeira, L., Guéguen, L. and Lobry JR. (2006) UV-targeted dinucleotides
-  are not depleted in light-exposed Prokaryotic genomes.
-  \emph{Molecular Biology and Evolution},
-  \bold{23}:2214-2219.\cr
-  \url{http://mbe.oxfordjournals.org/cgi/reprint/23/11/2214}\cr\cr
+  \emph{Annu Rev Microbiol}, \bold{48}:619-654.
 
   Schbath, S. (1995) Étude asymptotique du nombre d'occurrences d'un
   mot dans une chaîne de Markov et application à la recherche de mots
   de fréquence exceptionnelle dans les séquences d'ADN.
   \emph{Thèse de l'Université René Descartes, Paris V}
+
+  Palmeira, L., Guéguen, L. and Lobry, J.R. (2006) UV-targeted dinucleotides
+  are not depleted in light-exposed Prokaryotic genomes.
+  \emph{Molecular Biology and Evolution},
+  \bold{23}:2214-2219.
+  \url{http://mbe.oxfordjournals.org/cgi/reprint/23/11/2214}
+
+  \code{citation("seqinr")}
 }
 \author{ Leonor Palmeira }
 \seealso{ \code{\link{permutation}} }

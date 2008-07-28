@@ -61,7 +61,8 @@ number \ref{dinu}).
 \subsection{Introduction}
 
 Those rank statistics are those that were available under the ANALSEQ
-software \cite{analseq, acnuc1984}. We consider here a sequence
+software \cite{analseq, acnuc1984}. Formulae were taken from \cite{ChasseJL1988}.
+We consider here a sequence
 of booleans, for instance:
 
 \begin{Schunk}
@@ -410,10 +411,10 @@ $$
 ***-------***----    ==> CC high (30)
 \end{verbatim}
 
-Noting $\left[x\right]$ the floor of $x$, we have:
+Noting $\lfloor x \rfloor$ the floor of $x$, we have:
 
 $$
-\mathrm{E(CC)} = \mathrm{\frac{(N+1)\left[\frac{M}{2}\right]\left[\frac{M+1}{2}\right]}{M+1}}
+\mathrm{E(CC)} = \mathrm{\frac{(N+1)\lfloor\frac{M}{2}\rfloor\lfloor\frac{M+1}{2}\rfloor}{M+1}}
 $$
 
 and
@@ -807,14 +808,16 @@ version (seqinR 1.1-1 and previous versions) incorporated an
 approximation for large sequences. This has been possible with the
 help of Sophie Schbath \cite{Schbath-thesis}, and the new version of
 this calculation can be obtained with the argument \texttt{exact} 
-set to \texttt{TRUE} (\texttt{FALSE} being the default). The following
+set to \texttt{TRUE} (\texttt{FALSE} being the default). 
+The analytical solution for the \texttt{codon} model is from \cite{GautierC1985}.
+The following
 code was used to produce figure \ref{dinuclcoli}:
 
 \begin{Schunk}
 \begin{Sinput}
  rhocoli <- rho(sequence)
  zcolibase <- zscore(sequence, model = "base", exact = TRUE)
- zcolicodon <- zscore(sequence, model = "codon")
+ zcolicodon <- zscore(sequence, model = "codon", exact = TRUE)
  par(mfrow = c(3, 1), lend = "butt", oma = c(0, 0, 2, 0), mar = c(3, 
      4, 0, 2))
  col <- c("green", "blue", "orange", "red")
@@ -1288,20 +1291,20 @@ pyrimidine dinucleotides and UV-exposure.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.8.0 Under development (unstable) (2008-05-11 r45672), \verb|i386-apple-darwin8.8.2|
-  \item Locale: \verb|C|
+  \item R version 2.7.1 (2008-06-23), \verb|i386-apple-darwin8.8.2|
+  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-42, ade4~1.4-7, ape~2.2,
-    nlme~3.1-88, quadprog~1.4-11, seqinr~1.1-6, tseries~0.10-15,
-    xtable~1.5-2, zoo~1.5-3
-  \item Loaded via a namespace (and not attached): grid~2.8.0,
-    lattice~0.17-7, tools~2.8.0
+  \item Other packages: MASS~7.2-42, ade4~1.4-9, ape~2.2-1,
+    nlme~3.1-89, quadprog~1.4-11, seqinr~1.1-7, tseries~0.10-15,
+    xtable~1.5-2, zoo~1.5-4
+  \item Loaded via a namespace (and not attached): grid~2.7.1,
+    lattice~0.17-8, tools~2.7.1
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sun May 18 12:51:37 2008
+  \item \Rlogo{} compilation time was: Thu Jul 17 14:47:41 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

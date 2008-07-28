@@ -1,3 +1,5 @@
+o Find the correct references for the nonparametric statistics.
+
 o There should be an argument circular in function count() to handle
    correctly the case of circular genomes.
 

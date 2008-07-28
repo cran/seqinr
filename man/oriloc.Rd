@@ -13,7 +13,7 @@ oriloc(seq.fasta = system.file("sequences/ct.fasta", package ="seqinr"),
 oldoriloc = FALSE, gbk = NULL, clean.tmp.files = TRUE, rot = 0)
 }
 \arguments{
-  \item{seq.fasta}{ the name of a file which contains the DNA sequence
+  \item{seq.fasta}{Character: the name of a file which contains the DNA sequence
     of a bacterial chromosome in fasta format. The default value,
    \code{system.file("sequences/ct.fasta", package ="seqinr")}, is
     to use the fasta file \code{ct.fasta} which is distributed in the
@@ -24,15 +24,24 @@ oldoriloc = FALSE, gbk = NULL, clean.tmp.files = TRUE, rot = 0)
     with your own data if the file \code{myseq.fasta} is present in
     the current working directory (see \code{\link{getwd}}), or give
     a full path access to the sequence file (see \code{\link{file.choose}}).}
-  \item{g2.coord}{ the name of file which contains the output of
-glimmer program (*.predict in glimmer version 3)}
-  \item{glimmer.version}{glimmer version used, could be 2 or 3}
-  \item{oldoriloc}{ logical to be set at TRUE to reproduce the
+  \item{g2.coord}{Character: the name of file which contains the output of
+    glimmer program (\code{*.predict} in glimmer version 3)}
+  \item{glimmer.version}{Numeric: glimmer version used, could be 2 or 3}
+  \item{oldoriloc}{Logical: to be set at TRUE to reproduce the
 (deprecated) outputs of previous (publication date: 2000) version 
-of the oriloc program }
-  \item{gbk}{ the URL of a file in GenBank format}
-  \item{clean.tmp.files}{ Logical, if TRUE temporary files are removed }
-  \item{rot}{ Integer, with zero default value, used to permute circurlarly the genome. }
+of the oriloc program.}
+  \item{gbk}{Character: the URL of a file in GenBank format. When provided
+    \code{oriloc} use as input a single GenBank file instead of the \code{seq.fasta}
+    and the \code{g2.coord}. A local temporary copy of the GenBank file is
+    made with \code{\link{download.file}} if \code{gbk} starts with
+    \code{http://} or \code{ftp://} or \code{file://} and whith
+    \code{\link{file.copy}} otherwise. The local copy is then used as
+    input for \code{\link{gb2fasta}} and \code{\link{gbk2g2}} to produce
+    a fasta file and a glimmer-like (version 2) file, respectively, to be used
+    by oriloc instead of \code{seq.fasta} and \code{g2.coord} .}
+  \item{clean.tmp.files}{Logical: if TRUE temporary files generated when
+    working with a GenBank file are removed.}
+  \item{rot}{Integer, with zero default value, used to permute circurlarly the genome. }
 }
 \details{
 The method builds on the fact that there are compositional asymmetries between
@@ -126,6 +135,14 @@ out <- oriloc()
 plot(out$st, out$sk, type = "l", xlab = "Map position in Kb",
     ylab = "Cumulated composite skew", 
     main = expression(italic(Chlamydia~~trachomatis)~~complete~~genome))
+#
+# Example with a single GenBank file:
+#
+out2 <- oriloc(gbk=system.file("sequences/ct.gbk", package = "seqinr"))
+draw.oriloc(out2)
+#
+# (some warnings are generated because of join in features and a gene that
+# wrap around the genome)
+#
 }
 }
-\keyword{utilities}

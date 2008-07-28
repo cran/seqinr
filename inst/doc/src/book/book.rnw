@@ -51,9 +51,13 @@ for statistical computing devoted to biological sequences retrieval and analysis
 
 <<includepart, echo=F, fig=F>>=
 includepart <- function(filename, withminiTOC = FALSE, withchapter = TRUE){
+
+  cat(paste("%%%%% begin of", filename), sep = "\n")
   infile <- file(description = filename, open = "r")
+
   data <- readLines(infile)
   close(infile)
+  
 #
 # Cleanup
 #
@@ -80,6 +84,8 @@ includepart <- function(filename, withminiTOC = FALSE, withchapter = TRUE){
 #
   cat("\\clearpage", sep = "\n")
   cat("\\color{black}", sep = "\n")
+  cat(paste("%%%%% end of", filename), sep = "\n")
+  return("%%%% return %%%%")
 }
 @
 
@@ -146,9 +152,13 @@ for(part in frontmatter[-which(frontmatter=="../frontmatter/cover.tex")]) includ
 %
 % In R comments the observed compilation times in seconds for Sweaving the corresponding *.rnw file
 %
-<<mainmatter, echo=F,results=tex, fig = F,eval=T>>=
-includepart("../mainmatter/introduction.tex") #  9.3
+<<introduction, echo=F,results=tex, fig = F,eval=T>>=
+includepart("../mainmatter/introduction.tex")
+@ 
+<<getseqflat, echo=F,results=tex, fig = F,eval=T>>=
 includepart("../mainmatter/getseqflat.tex")   #  47.6 .. 45.8
+@ 
+<<getseqacnuc, echo=F,results=tex, fig = F,eval=T>>=
 includepart("../mainmatter/getseqacnuc.tex")  #  68 sans taxaperbank, 251 avec 
 includepart("../mainmatter/querylang.tex")    #  273
 includepart("../mainmatter/extractseqs.tex")  #  233

@@ -74,13 +74,22 @@ read.alignment(file, format, forceToLower = TRUE, File = NULL)
   \item{nb}{ the number of aligned sequences }
   \item{nam}{ a vector of strings containing the names of the aligned sequences } 
   \item{seq}{ a vector of strings containing the aligned sequences} 
-  \item{com}{ a vector of strings containing the commentaries for each sequence or \code{NA} if there is no comments }
+  \item{com}{ a vector of strings containing the commentaries for each sequence or \code{NA} if there are no comments }
 }
 \references{ 
 \code{citation("seqinr")}
 }
 \author{ D. Charif, J.R. Lobry }
-\seealso{\code{\link{read.fasta}}, \code{\link{write.fasta}}, \code{\link{reverse.align}},\code{\link{dist.alignment}} }
+\seealso{
+To read aligned sequences in NEXUS format, see the function 
+\code{\link[CompPairWise]{read.nexus}} in the \code{CompPairWise} package.
+The NEXUS format is mainly used by the non-GPL commercial PAUP
+software.
+
+Related functions: \code{\link{as.matrix.alignment}}, \code{\link{read.fasta}}, 
+\code{\link{write.fasta}}, \code{\link{reverse.align}}, \code{\link{dist.alignment}}.
+
+ }
 \examples{
 mase <- read.alignment(file = system.file("sequences/test.mase", package = "seqinr"), format = "mase")
 clustal <- read.alignment(file = system.file("sequences/test.aln", package = "seqinr"), format="clustal")
@@ -88,4 +97,4 @@ phylip <- read.alignment(file = system.file("sequences/test.phylip", package = "
 msf <- read.alignment(file = system.file("sequences/test.msf", package = "seqinr"), format = "msf")
 fasta <- read.alignment(file = system.file("sequences/Anouk.fasta", package = "seqinr"), format = "fasta")
 }
-\keyword{ manip }
+

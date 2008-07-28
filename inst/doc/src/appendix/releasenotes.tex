@@ -52,6 +52,77 @@ most recent on top.
 
 \section*{1.1 series}
 
+\subsection*{release 1.1-7}
+
+\begin{itemize}
+
+\item As suggested by Kurt Hornik two extra \texttt{cr} in the
+  documentation file for \texttt{ec999} were deleted.
+
+\item Function \texttt{read.fasta()} has gained four new arguments
+  (\textit{viz.} \texttt{bfa}, \texttt{sizeof.longlong},
+  \texttt{endian}, \texttt{apply.mask}) to read DNA binary fasta
+  files in MAQ format. There is a new \texttt{ct.bfa} file
+  in the \texttt{sequences} folder to check for the MAQ format
+  reading.
+
+\item New dataset \texttt{pK} for the values for the side chain of 
+  charged amino acids from various sources compiled by Joanna Kiraga
+  \cite{KiragaJ2008}.
+
+\item Function \texttt{words.pos()} has gained new arguments that
+  are passed to \texttt{regexpr()} including the dot-dot-dot
+  argument in case of need in the future. The documentation has
+  been modified to better explain the difference with the standard
+  \texttt{gregexpr()} function.
+
+\item As pointed by e-mail on 28 May 2008 by Kim Milferstedt a
+  function to compute the consensus for a set of aligned sequences
+  would be helpful. There is now a function \texttt{consensus()}
+  aliased to \texttt{con()} for this. The input is either an object
+  from class \texttt{alignment} or a matrix of characters. The
+  output is either a consensus sequence (using the majority rule,
+  the majority rule with a threshold, or IUPAC symbols for RNA
+  and DNA sequences) or a profile, that is a matrix with the count 
+  of each possible character at each position in the alignment.
+
+\item In the documentation of the \texttt{read.alignment()} function
+  a link was added to the \texttt{read.nexus()} function from the
+  \texttt{ComPairWise} package \cite{ComPairWise}.
+
+\item New function \texttt{bma()} to find the IUPAC symbol corresponding
+  to a nucleic sequence.
+
+\item New function \texttt{as.matrix.alignment()} to convert an
+  alignment into a object of class \texttt{matrix}.
+
+\item The encoding of line ends in the example file \texttt{test.mase}
+  is now an unix-like one.
+
+\item As pointed by e-mail on 31 May 2008 by Marie S{\'e}mon there was
+  no convenient function to compute the Codon Adaptation Index \cite{CAI}.
+  A new function \texttt{cai()} was introduced with the aim of reproducing
+  exactly the results from the program \texttt{codonW} that was written
+  by John Peden during his PhD thesis \cite{codonW} under the supervision 
+  of P.M. Sharp (the most authorative source for CAI computation). A new 
+  dataset \texttt{caitab} that was hard-encoded in \texttt{codonW} for
+  the \texttt{w} values for some species (\textit{viz}
+  \textit{Escherichia coli}, \textit{Bacillus subtilis},
+  \textit{Saccharomyces cerevisiae}) was added. Care was taken to credit
+  original sources. The \textit{E. coli} data that was uncredited is
+  from \cite{CAI}. The \textit{B. subtilis} data that was uncredited
+  is from \cite{ShieldsDC1987} (see the note of caution in \texttt{?caitab}
+  before using this one directly to compute CAI in \textit{B. subtilis}). 
+  The \textit{S. cerevisiae} data that was
+  credited to \cite{SharpPM1991} dates back from \cite{CAI}. A new
+  text file \texttt{scuco.txt} produced by \texttt{codonW} was added
+  in the \texttt{sequences} folder to check that the CAI results from
+  \texttt{cai()} are consistents with thoses from \texttt{codonW} version
+  1.4.4 (03-MAR-2005). This legacy file is used in the example section of
+  the \texttt{cai()} function.
+
+\end{itemize}
+
 \subsection*{release 1.1-6}
 
 \begin{itemize}
@@ -677,19 +748,20 @@ now possible.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.8.0 Under development (unstable) (2008-05-11 r45672), \verb|i386-apple-darwin8.8.2|
+  \item R version 2.7.1 (2008-06-23), \verb|i386-apple-darwin8.8.2|
   \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-42, ade4~1.4-7, ape~2.2,
-    nlme~3.1-88, seqinr~1.1-6, xtable~1.5-2
-  \item Loaded via a namespace (and not attached): grid~2.8.0,
-    lattice~0.17-7
+  \item Other packages: MASS~7.2-42, ade4~1.4-9, ape~2.2-1,
+    nlme~3.1-89, quadprog~1.4-11, seqinr~1.1-7, tseries~0.10-15,
+    xtable~1.5-2, zoo~1.5-4
+  \item Loaded via a namespace (and not attached): grid~2.7.1,
+    lattice~0.17-8
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Mon May 12 15:26:09 2008
+  \item \Rlogo{} compilation time was: Mon Jul 28 11:13:26 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

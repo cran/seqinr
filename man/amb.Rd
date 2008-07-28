@@ -32,7 +32,8 @@ at: \url{http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html}
 }
 \author{ J.R. Lobry }
 
-\seealso{Use \code{\link{tolower}} to change upper case letters into
+\seealso{See \code{\link{bma}} for the reverse operation. 
+Use \code{\link{tolower}} to change upper case letters into
 lower case letters.}
 
 \examples{

@@ -12,7 +12,7 @@ sequence.
  \item{ECFOLE.FOLE    }{chr [1:672] "A" "T" "G" "C" ...}
  \item{ECMSBAG.MSBA   }{chr [1:1749] "A" "T" "G" "C" ...}
  \item{ECNARZYW-C.NARV}{chr [1:681] "A" "T" "G" "A" ...}
- \item{...            }{ \cr... TRUNCATED ...\cr }
+ \item{...            }{ ... TRUNCATED ... }
  \item{XYLEECOM.MALK  }{chr [1:1116] "A" "T" "G" "G" ...}
  \item{XYLEECOM.LAMB  }{chr [1:1341] "A" "T" "G" "A" ...}
  \item{XYLEECOM.MALM  }{chr [1:921] "A" "T" "G" "A" ...}

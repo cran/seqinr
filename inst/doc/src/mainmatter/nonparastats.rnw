@@ -25,7 +25,8 @@ number \ref{dinu}).
 \subsection{Introduction}
 
 Those rank statistics are those that were available under the ANALSEQ
-software \cite{analseq, acnuc1984}. We consider here a sequence
+software \cite{analseq, acnuc1984}. Formulae were taken from \cite{ChasseJL1988}.
+We consider here a sequence
 of booleans, for instance:
 
 <<x,fig=F>>=
@@ -276,10 +277,10 @@ $$
 ***-------***----    ==> CC high (30)
 \end{verbatim}
 
-Noting $\left[x\right]$ the floor of $x$, we have:
+Noting $\lfloor x \rfloor$ the floor of $x$, we have:
 
 $$
-\mathrm{E(CC)} = \mathrm{\frac{(N+1)\left[\frac{M}{2}\right]\left[\frac{M+1}{2}\right]}{M+1}}
+\mathrm{E(CC)} = \mathrm{\frac{(N+1)\lfloor\frac{M}{2}\rfloor\lfloor\frac{M+1}{2}\rfloor}{M+1}}
 $$
 
 and
@@ -565,13 +566,15 @@ version (seqinR 1.1-1 and previous versions) incorporated an
 approximation for large sequences. This has been possible with the
 help of Sophie Schbath \cite{Schbath-thesis}, and the new version of
 this calculation can be obtained with the argument \texttt{exact} 
-set to \texttt{TRUE} (\texttt{FALSE} being the default). The following
+set to \texttt{TRUE} (\texttt{FALSE} being the default). 
+The analytical solution for the \texttt{codon} model is from \cite{GautierC1985}.
+The following
 code was used to produce figure \ref{dinuclcoli}:
 
 <<dinuclcoli, echo = TRUE, fig = TRUE,include=F,eval=T>>=
 rhocoli <- rho(sequence)
 zcolibase <- zscore(sequence, model = 'base', exact = TRUE)
-zcolicodon <- zscore(sequence,model = 'codon')
+zcolicodon <- zscore(sequence,model = 'codon', exact = TRUE)
 par(mfrow = c(3, 1), lend = "butt", oma = c(0,0,2,0), mar = c(3,4,0,2))
 col <- c("green", "blue", "orange", "red")
 plot(rhocoli - 1, ylim = c(-0.5,0.5), las = 1, 

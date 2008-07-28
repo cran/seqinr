@@ -16,6 +16,12 @@
 \DefineVerbatimEnvironment{Soutput}{Verbatim}
 {formatcom={\color{Soutput}},fontsize=\footnotesize, baselinestretch=0.75}
 %
+% This removes the extra spacing after code and output chunks in Sweave,
+% but keeps the spacing around the whole block.
+%
+\fvset{listparameters={\setlength{\topsep}{0pt}}}
+\renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+%
 % Rlogo
 %
 \newcommand{\Rlogo}{\protect\includegraphics[height=1.8ex,keepaspectratio]{../figs/Rlogo.pdf}}
@@ -188,20 +194,20 @@ And finally inserted at the begining of the \LaTeX~file with:
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.6.2 (2008-02-08), \verb|i386-apple-darwin8.10.1|
+  \item R version 2.7.1 (2008-06-23), \verb|i386-apple-darwin8.8.2|
   \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
   \item Base packages: base, datasets, grDevices, graphics, grid,
     methods, stats, utils
-  \item Other packages: MASS~7.2-40, XML~1.93-2, ade4~1.4-5,
-    ape~2.1, gee~4.13-13, grImport~0.2-4, lattice~0.17-4,
-    nlme~3.1-86, seqinr~1.1-6, xtable~1.5-2
-  \item Loaded via a namespace (and not attached): rcompgen~0.1-17,
-    tools~2.6.2
+  \item Other packages: MASS~7.2-42, XML~1.95-3, ade4~1.4-9,
+    ape~2.2-1, grImport~0.2-4, nlme~3.1-89, quadprog~1.4-11,
+    seqinr~1.1-7, tseries~0.10-15, xtable~1.5-2, zoo~1.5-4
+  \item Loaded via a namespace (and not attached): lattice~0.17-8,
+    tools~2.7.1
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sun Feb 24 09:45:44 2008
+  \item \Rlogo{} compilation time was: Mon Jul 28 11:19:28 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

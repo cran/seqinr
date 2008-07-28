@@ -5,28 +5,28 @@
 \code{word.pos} searches all the occurences of the motif \code{pattern}
 within the sequence \code{text} and returns their positions. This
 function is based on \code{regexp} allowing thus for complex motif searches.
+The main difference with \code{\link{gregexpr}} is that non disjoint matches
+are reported here.
 }
 \usage{
-words.pos(pattern, text, extended = TRUE, perl = FALSE)
+words.pos(pattern, text, ignore.case = FALSE, extended = FALSE,
+                      perl = TRUE, fixed = FALSE, useBytes = TRUE, ...)
 }
 \arguments{
-  \item{pattern}{character string containing a regular expression to be
-matched in the given character vector.}
+  \item{pattern}{character string containing a \link{regular expression} (or character string for \code{fixed = TRUE}) to be matched in the given character vector.}
   \item{text}{ a character vector where matches are sought. }
-  \item{extended}{if `TRUE', extended regular expression matching is used,
-and if `FALSE' basic regular expressions are used.
+  \item{ignore.case}{if \code{FALSE}, the pattern matching is case sensitive and if \code{TRUE}, case is ignored during matching.}
+  \item{extended}{if \code{TRUE}, extended regular expression matching is used,
+and if \code{FALSE} basic regular expressions are used.
  }
   \item{perl}{logical. Should perl-compatible regexps be used if available?
-Has priority over `extended' }
+Has priority over \code{extended}.}
+  \item{fixed}{logical. If \code{TRUE}, pattern is a string to be matched as is. Overrides all conflicting arguments.}
+  \item{useBytes}{logical. If \code{TRUE} the matching is done byte-by-byte rather than character-by-character.}
+  \item{...}{arguments passed to \code{\link{regexpr}}.}
 }
 \details{
-The regular expressions used are those specified by POSIX 1003.2,
-either extended or basic, depending on the value of the `extended'
-argument, unless `perl = TRUE' when they are those of PCRE, \url{
-ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/}.\cr
-`perl=TRUE' will only be available if R was compiled against 
- PCRE: this is detected at configure time.  All Unix and Windows
-system should have it.
+Default parameter values have been tuned for speed when working biological sequences.
 }
 \value{
 a vector of positions for which the motif \code{pattern} was
@@ -44,5 +44,9 @@ words.pos("tag", myseq) # Should be 3
 words.pos("ga", myseq)  # Should be 5 7
 # How to specify ambiguous base ? Look for YpR motifs by
 words.pos("[ct][ag]", myseq) # Should be 1 3
+#
+# Show the difference with gregexpr:
+#
+words.pos("toto", "totototo")           # 1 3 5 (three overlapping matches)
+unlist(gregexpr("toto",  "totototo")) # 1 5    (two disjoint matches)
 }
-\keyword{ utilities }

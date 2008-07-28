@@ -19,7 +19,7 @@ autosocket <- function(){
   # Check that the socket connection status is OK:
   #
   status <- summary(socket)
-  if(status[["class"]] != "socket") stop("socket is not a socket")
+  if(status[["class"]] != "sockconn") stop("socket is not a sockconn")
   if(status[["opened"]] != "opened") stop("socket is not openend")
   if(status[["can read"]] != "yes") stop("can't read on socket")
   if(status[["can write"]] != "yes") stop("can't write on socket")
