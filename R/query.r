@@ -6,7 +6,13 @@
 
 query <- function(listname, query, socket = autosocket(), invisible = TRUE, verbose = FALSE, virtual = FALSE) 
 {
-
+  #
+  # Use list1 as listname if the argument is missing:
+  #
+  if(missing(query)){
+    query <- listname
+    listname <- "list1"
+  }
   #
   # Check arguments:
   #
@@ -113,3 +119,12 @@ query <- function(listname, query, socket = autosocket(), invisible = TRUE, verb
   assign(listname, result, env = .GlobalEnv)
 }
 
+#
+# Print method:
+#
+
+print.qaw <- function(x, ...)
+{
+  if(is.null(x$call$query)) x$call$query <- x$call$listname
+  cat(x$nelem, x$type, "for", x$call$query)
+}

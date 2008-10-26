@@ -60,7 +60,7 @@ computed this way:
 %
 % Data saved in *.RData format to avoid long computation
 %
-<<getdatafomensemble,fig=F,eval=FALSE>>=
+<<getdatafomensemble,fig=F,eval=TRUE>>=
 choosebank("ensembl")
 n <- 201
 res <- rep(-1,10*n)

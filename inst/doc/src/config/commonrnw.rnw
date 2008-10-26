@@ -36,7 +36,7 @@ r["CRAN"] <- "http://cran.univ-lyon1.fr"
 options(repos = r)
 # if seqinr was checked with "R CMD check seqinr", then this should load
 # the last development version:
-library(seqinr, lib = normalizePath("../../../../../seqinr.Rcheck"))
+library(seqinr, lib = normalizePath("../../../../../pkg.Rcheck"))
 library(xtable)
 library(ade4)
 library(ape)

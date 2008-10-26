@@ -1,3 +1,9 @@
+%
+% Try with R --vanilla if doesn't work
+% Then under R:  Sweave("book.rnw",sty=T);system("pdflatex book.tex");system("bibtex book")
+% Note that this supposes that all *.rnw were previously compiled to have figures
+% and tables available in the local repository.
+%
 \documentclass[a4paper]{book}
 \input{../config/commontex}
 %
@@ -28,9 +34,10 @@
 % the last version number automatically:
 %
 <<loadseqinrdev,echo=F,results=hide>>=
-# if seqinr was checked with "R CMD check seqinr", then this should load
+# Assuming seqinr sources are from the SVN repository, then
+# if seqinr was checked with "R CMD check pkg", then this should load
 # the last development version:
-library(seqinr, lib = normalizePath("../../../../../seqinr.Rcheck"))
+library(seqinr, lib = normalizePath("../../../../../pkg.Rcheck"))
 @
 
 \title{\Seqinr{} \Sexpr{packageDescription("seqinr")$Version}: a contributed package to the \Rlogo{}~project 
@@ -85,7 +92,6 @@ includepart <- function(filename, withminiTOC = FALSE, withchapter = TRUE){
   cat("\\clearpage", sep = "\n")
   cat("\\color{black}", sep = "\n")
   cat(paste("%%%%% end of", filename), sep = "\n")
-  return("%%%% return %%%%")
 }
 @
 
@@ -166,6 +172,7 @@ includepart("../mainmatter/dealseq.tex")      #  1
 includepart("../mainmatter/acnucsocket.tex")  #  55.4
 includepart("../mainmatter/multivariate.tex") #  31.4
 includepart("../mainmatter/nonparastats.tex") #  36.7 (-> 374 eval=FALSE -> T)
+includepart("../mainmatter/risa.tex") #  draft
 @
 
 \part{Appendix}

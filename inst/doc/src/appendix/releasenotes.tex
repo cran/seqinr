@@ -50,6 +50,39 @@
 The release notes are listed in reverse chronological order:
 most recent on top.
 
+\section*{2.0 series}
+
+\subsection*{release 2.0-0}
+
+\begin{itemize}
+
+\item New draft chapter about making RISA \textit{in silico} added.
+
+\item Objects from class \texttt{qaw} created after a call to the
+  \texttt{query()} function have gained a new generic \texttt{print}
+  method to focus on the most important information: number
+  of sequences in the list, list type and the corresponding request.
+
+\item Function \texttt{query()} now allows a missing \texttt{listname}
+  argument. In this case, \texttt{list1} is used to store the
+  result.
+
+\item Function \texttt{autosocket()} has been changed to behave more
+  friendly with outdated R versions. This is essentially a backward
+  compatibility issue that will not be maintained in the future.
+  The function \texttt{autosocket()} works hard to check that everything
+  is OK with the last opened database, especially with the socket
+  infos available in \texttt{banknameSocket\$socket} thru its 
+  \texttt{summary()} generic. In old R versions (\textit{e.g.} 2.6.2) this
+  was returning \texttt{socket} instead of \texttt{sockconn} for the
+  class, yielding an error in seqinR 1.1-7. The old result is now
+  allowed but a warning is issued.
+
+\end{itemize}
+
+The 2.0 series started in summer 2008 along with the moving
+of the seqinr sources on R-forge.
+
 \section*{1.1 series}
 
 \subsection*{release 1.1-7}
@@ -713,7 +746,7 @@ A BibTeX entry for LaTeX users is
   }
 
 Note that the orginal article updated is available in the
-/Users/lobry/seqinr.Rcheck/seqinr/doc/ folder in PDF format
+/Users/lobry/seqinr/pkg.Rcheck/seqinr/doc/ folder in PDF format
 \end{Soutput}
 \end{Schunk}
 
@@ -748,20 +781,20 @@ now possible.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.7.1 (2008-06-23), \verb|i386-apple-darwin8.8.2|
+  \item R version 2.8.0 (2008-10-20), \verb|i386-apple-darwin8.8.2|
   \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-42, ade4~1.4-9, ape~2.2-1,
-    nlme~3.1-89, quadprog~1.4-11, seqinr~1.1-7, tseries~0.10-15,
-    xtable~1.5-2, zoo~1.5-4
-  \item Loaded via a namespace (and not attached): grid~2.7.1,
-    lattice~0.17-8
+  \item Other packages: MASS~7.2-44, ade4~1.4-9, ape~2.2-2,
+    nlme~3.1-89, quadprog~1.4-11, seqinr~2.0-0, tseries~0.10-16,
+    xtable~1.5-4, zoo~1.5-4
+  \item Loaded via a namespace (and not attached): grid~2.8.0,
+    lattice~0.17-15
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Mon Jul 28 11:13:26 2008
+  \item \Rlogo{} compilation time was: Sun Oct 26 18:37:04 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

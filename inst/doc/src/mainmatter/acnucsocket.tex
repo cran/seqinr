@@ -397,7 +397,7 @@ setenv  demoacnuc       'ACNUC_HOME/ACNUC_DB/demoacnuc/index ACNUC_HOME/ACNUC_DB
  cat(dbplaces, sep = "\n")
 \end{Sinput}
 \begin{Soutput}
-setenv demoacnuc '/Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/demoacnuc/index /Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/demoacnuc/flat_files'
+setenv demoacnuc '/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/demoacnuc/index /Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/demoacnuc/flat_files'
 \end{Soutput}
 \end{Schunk}
 
@@ -415,16 +415,16 @@ Finaly, in the ACNUC\_HOME/ACNUC\_SOFT/racnucd/ directory, lauche the server as 
  system("ps | grep racnucd", intern = TRUE)
 \end{Sinput}
 \begin{Soutput}
-[1] " 9415  p2  S+     0:00.01 ./racnucd racnucd.new"  
-[2] " 9416  p2  S+     0:00.01 sh -c ps | grep racnucd"
-[3] " 9418  p2  S+     0:00.00 grep racnucd"           
+[1] "28875  p3  S+     0:00.01 ./racnucd racnucd.new"  
+[2] "28876  p3  S+     0:00.01 sh -c ps | grep racnucd"
+[3] "28878  p3  S+     0:00.00 grep racnucd"           
 \end{Soutput}
 \begin{Sinput}
  cat(readLines("racnucd.log"), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
 *******************************************************
-Start of remote acnuc server : Mon May 12 18:24:47 2008
+Start of remote acnuc server : Sun Oct 26 18:13:16 2008
 \end{Soutput}
 \begin{Sinput}
  setwd(pwd)
@@ -686,36 +686,36 @@ You can copy this file in ACNUC\_HOME/ACNUC\_DB/mydb and execute it by typing::
 \begin{Soutput}
  Build a protein database in:
  ============================
- ->/Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb
+ ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb
  
 ACNUC environment:
- ->/Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/index
- ->/Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files
+ ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/index
+ ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files
  
 ACNUC tools in:
- ->/Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/../../ACNUC_SOFT/tools
+ ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/../../ACNUC_SOFT/tools
  
 flat file: escherichia_uniprot.dat
- ->/Users/lobry/seqinr/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files/escherichia_uniprot.dat
+ ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files/escherichia_uniprot.dat
  
 Begin to build index...
-Mon May 12 18:25:29 CEST 2008
+Sun Oct 26 18:13:52 CET 2008
 =====================================
 Initialise
 Normal end.
 
 =====================================
 Generation des index
-Program started at Mon May 12 18:25:31 2008
+Program started at Sun Oct 26 18:13:53 2008
 
 New division created: escherichia_uniprot
 Removing updated sequences
 0 modified sequences removed
-Loading acc nos started at Mon May 12 18:25:31 2008
-finished at Mon May 12 18:25:31 2008
+Loading acc nos started at Sun Oct 26 18:13:53 2008
+finished at Sun Oct 26 18:13:53 2008
 Start loading ncbi species taxonomy
 Warning: file $acnuctaxo/id.report not found
-Sequence loading started at Mon May 12 18:25:31 2008
+Sequence loading started at Sun Oct 26 18:13:53 2008
 
 ---->3MG1_ECOLI
 ---->3MG2_ECOLI
@@ -739,12 +739,12 @@ Sequence loading started at Mon May 12 18:25:31 2008
  cat(tail(readLines("build.log"), 50), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
-Program finished at Mon May 12 18:25:35 2008
+Program finished at Sun Oct 26 18:13:56 2008
 
 write_quick_meres...done
 
 lues=4461  chargees=4461  difference=0
-seqs/second=1115.25
+seqs/second=1487.00
 
 =====================================
 run newordalphab
@@ -770,7 +770,7 @@ Normal end
 
 =====================================
 run updatehelp
-Mon May 12 18:25:39 CEST 2008
+Sun Oct 26 18:13:58 CET 2008
 Index have been sucessfully build.
 =====================================
  
@@ -884,7 +884,7 @@ computer try:
  (seqinrloc <- normalizePath(.path.package("seqinr")))
 \end{Sinput}
 \begin{Soutput}
-[1] "/Users/lobry/seqinr.Rcheck/seqinr"
+[1] "/Users/lobry/seqinr/pkg.Rcheck/seqinr"
 \end{Soutput}
 \begin{Sinput}
  setwd(seqinrloc)
@@ -900,11 +900,8 @@ computer try:
  dir()
 \end{Sinput}
 \begin{Soutput}
-[1] "atxy.sty"                   "authors.tex"               
-[3] "book.bib"                   "book.bib.~1.1.2.31.~"      
-[5] "commonrnw.rnw"              "commonrnw.rnw.~1.1.2.2.~"  
-[7] "commontex.tex"              "sessionInfo.rnw"           
-[9] "sessionInfo.rnw.~1.1.2.2.~"
+[1] "atxy.sty"        "book.bib"        "commonrnw.rnw"   "commontex.tex"  
+[5] "sessionInfo.rnw"
 \end{Soutput}
 \begin{Sinput}
  cat(readLines("book.bib", n = 5), sep = "\n")
@@ -928,19 +925,20 @@ computer try:
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.8.0 Under development (unstable) (2008-05-11 r45672), \verb|i386-apple-darwin8.8.2|
+  \item R version 2.8.0 (2008-10-20), \verb|i386-apple-darwin8.8.2|
   \item Locale: \verb|C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-42, ade4~1.4-7, ape~2.2,
-    nlme~3.1-88, seqinr~1.1-6, xtable~1.5-2
+  \item Other packages: MASS~7.2-44, ade4~1.4-9, ape~2.2-2,
+    nlme~3.1-89, quadprog~1.4-11, seqinr~2.0-0, tseries~0.10-16,
+    xtable~1.5-4, zoo~1.5-4
   \item Loaded via a namespace (and not attached): grid~2.8.0,
-    lattice~0.17-7, tools~2.8.0
+    lattice~0.17-15, tools~2.8.0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Mon May 12 18:25:39 2008
+  \item \Rlogo{} compilation time was: Sun Oct 26 18:13:58 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

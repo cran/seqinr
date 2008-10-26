@@ -3,7 +3,12 @@
 \title{ Pairwise Distances from Aligned Protein or DNA/RNA Sequences }
 \description{
   These functions compute a matrix of pairwise distances from aligned sequences 
-  using similarity (Fitch matrix) or identity matrix.
+  using similarity (Fitch matrix, for protein sequences only) or identity matrix 
+  (for protein and DNA sequences).
+  The resulting matrix contains the squared root of the pairwise distances.
+  For example, if identity between 2 sequences is 80%, the matrix will gives
+  the squared root of (1.0 - 0.8) i.e. 0.4472136.
+
 }
 \usage{
 dist.alignment(x, matrix = c("similarity", "identity"))
@@ -30,5 +35,6 @@ Fitch, W.M. (1966) Mutation values for the interconversion of amino acid pair.
  myseqs <- read.alignment(file = system.file("sequences/test.mase", 
  package = "seqinr"), format = "mase")
  dist.alignment(myseqs, matrix = "identity" )
+ as.matrix(dist.alignment(myseqs, matrix = "identity" ))
 }
 \keyword{ manip }

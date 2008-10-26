@@ -1,14 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
 ##########################################################################
 #
 # SeqFastadna:
@@ -83,5 +73,12 @@ as.SeqFrag <- function(object, begin, end, name){
 
 is.SeqFrag <- function(object) inherits(object, "SeqFrag")
 
+#
+# Query Acnuw Web (qaw class)
+#
 
+print.qaw <- function(x, ...)
+{
+  cat(x$nelem, x$type, "for", list1$call$query)
+}
 	

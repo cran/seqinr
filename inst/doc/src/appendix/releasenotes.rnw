@@ -14,6 +14,39 @@
 The release notes are listed in reverse chronological order:
 most recent on top.
 
+\section*{2.0 series}
+
+\subsection*{release 2.0-0}
+
+\begin{itemize}
+
+\item New draft chapter about making RISA \textit{in silico} added.
+
+\item Objects from class \texttt{qaw} created after a call to the
+  \texttt{query()} function have gained a new generic \texttt{print}
+  method to focus on the most important information: number
+  of sequences in the list, list type and the corresponding request.
+
+\item Function \texttt{query()} now allows a missing \texttt{listname}
+  argument. In this case, \texttt{list1} is used to store the
+  result.
+
+\item Function \texttt{autosocket()} has been changed to behave more
+  friendly with outdated R versions. This is essentially a backward
+  compatibility issue that will not be maintained in the future.
+  The function \texttt{autosocket()} works hard to check that everything
+  is OK with the last opened database, especially with the socket
+  infos available in \texttt{banknameSocket\$socket} thru its 
+  \texttt{summary()} generic. In old R versions (\textit{e.g.} 2.6.2) this
+  was returning \texttt{socket} instead of \texttt{sockconn} for the
+  class, yielding an error in seqinR 1.1-7. The old result is now
+  allowed but a warning is issued.
+
+\end{itemize}
+
+The 2.0 series started in summer 2008 along with the moving
+of the seqinr sources on R-forge.
+
 \section*{1.1 series}
 
 \subsection*{release 1.1-7}

@@ -32,10 +32,10 @@ for(b in banknames){
     next
   }
   bankdetails <- sapply(banknameSocket$details, stresc, USE.NAMES = FALSE)
-  cat("\\subsection{Bank details}", sep = "\n")
+  cat("\\textbf{Bank details}", sep = "\n")
   cat(bankdetails, sep = "\\\\\n")
   cat("\n")
-  cat("\\subsection{Type names}", sep = "\n")
+  cat("\\textbf{Type names}", sep = "\n")
   types <- getType()
   if(is.null(nrow(types))){
     cat("There are no subsequence type in this database", sep = "\n")

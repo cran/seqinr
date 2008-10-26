@@ -232,7 +232,7 @@ locus TRUE   TRUE   TRUE
 \end{Sinput}
 \begin{Soutput}
                 description                       class 
-"->pbil.univ-lyon1.fr:5558"                    "socket" 
+"->pbil.univ-lyon1.fr:5558"                  "sockconn" 
                        mode                        text 
                        "a+"                      "text" 
                      opened                    can read 
@@ -989,10 +989,10 @@ $otheraccessmatches
 27   nurebprot     on
 28  taxobacgen     on
                                                                             info
-1                    GenBank Rel. 165 (15 April 2008) Last Updated: May 12, 2008
-2                EMBL Library Release 94 (March 2008) Last Updated: May 12, 2008
-3                   EMBL Whole Genome Shotgun sequences Release 94  (March 2008)
-4        UniProt Rel. 13 (SWISS-PROT 55 + TrEMBL 38): Last Updated: Apr 29, 2008
+1                   GenBank Rel. 167 (15 August 2008) Last Updated: Oct 26, 2008
+2            EMBL Library Release 96 (September 2008) Last Updated: Oct 25, 2008
+3               EMBL Whole Genome Shotgun sequences Release 96  (September 2008)
+4        UniProt Rel. 14 (SWISS-PROT 56 + TrEMBL 39): Last Updated: Aug 28, 2008
 5                       Ensembl Release 49\t     \t\t Last Updated: Apr 23, 2008
 6                        RefSeq 15.0 (1 January 2006) Last Updated: Jan 23, 2006
 7                                    NRSub database release 10.1 (December 1997)
@@ -1006,8 +1006,8 @@ $otheraccessmatches
 15  HOGENOM - protein data - Release 03 (Oct 14 2005) Last Updated: Mar 10, 2006
 16                      HOVERGEN CLEAN - genomic data - Release 46 (Jun 10 2004)
 17                      HOVERGEN CLEAN - protein data - Release 46 (Jun 10 2004)
-18         HOMOLENS 3 - Homologous genes from Ensembl Last Updated: Jan 19, 2007
-19        HOMOLENS 3 Homologous genes from Ensembl 41 Last Updated: Jan 19, 2007
+18   HOMOLENS 4 - Homologous genes from Ensembl(49)\t Last Updated: Jul  4, 2008
+19    HOMOLENS 4 - Homologous genes from Ensembl(49)\tLast Updated: Jul  4, 2008
 20              EBI Genome Reviews. Acnuc Release 2. Last Updated: June 19, 2005
 21                                         POLYBASE - Release 1  (June 20, 2003)
 22                                           EMGLib Release 5 (December 9, 2003)
@@ -1091,6 +1091,18 @@ Genetic code used: NUG=AUN=M when initiation codon
 "A06937"     "34"      "0"      "1" 
 \end{Soutput}
 \end{Schunk}
+\subsection{\texttt{print.qaw()}}
+\begin{Schunk}
+\begin{Sinput}
+   ### Need internet connection
+   choosebank("emblTP")
+   query("sp=felis catus")       
+   list1
+\end{Sinput}
+\begin{Soutput}
+4732 SQ for sp=felis catus
+\end{Soutput}
+\end{Schunk}
 \subsection{\texttt{query()}}
 \begin{Schunk}
 \begin{Sinput}
@@ -1124,9 +1136,9 @@ Genetic code used: NUG=AUN=M when initiation codon
 \end{Sinput}
 \begin{Soutput}
       AUT       BIB       ACC       SMJ       SUB       LOC       KEY 
-   169790    508579  87452125      5130  92540832  87594459   8490208 
+   174467    525954  96474557      5351 102053262  99964643   9391212 
      SPEC      SHRT       LNG       EXT       TXT 
-   553777 785124999  24813697   7595136    441281 
+   598454 894561842  28901625   8301690    477859 
 \end{Soutput}
 \end{Schunk}
 \subsection{\texttt{rearranged.oriloc()}}
@@ -1263,19 +1275,20 @@ Genetic code used: NUG=AUN=M when initiation codon
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.8.0 Under development (unstable) (2008-05-11 r45672), \verb|i386-apple-darwin8.8.2|
-  \item Locale: \verb|C|
+  \item R version 2.8.0 (2008-10-20), \verb|i386-apple-darwin8.8.2|
+  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-42, ade4~1.4-7, ape~2.2,
-    nlme~3.1-88, seqinr~1.1-6, xtable~1.5-2
+  \item Other packages: MASS~7.2-44, ade4~1.4-9, ape~2.2-2,
+    nlme~3.1-89, quadprog~1.4-11, seqinr~2.0-0, tseries~0.10-16,
+    xtable~1.5-4, zoo~1.5-4
   \item Loaded via a namespace (and not attached): grid~2.8.0,
-    lattice~0.17-7
+    lattice~0.17-15
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Mon May 12 17:41:42 2008
+  \item \Rlogo{} compilation time was: Sun Oct 26 18:44:17 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

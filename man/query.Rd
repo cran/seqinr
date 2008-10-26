@@ -1,6 +1,5 @@
 \name{query}
 \alias{query}
-\alias{print.qaw}
 \title{To get a list of sequence names from an ACNUC data base located on the web}
 \description{
 This is a major command of the package. It executes all sequence retrievals using any selection criteria the data base allows.  The sequences are coming from ACNUC data base located on the web and they are transfered by socket. The command produces the list of all sequence names that fit the required criteria. The sequence names belong to the class of sequence \code{SeqAcnucWeb}.

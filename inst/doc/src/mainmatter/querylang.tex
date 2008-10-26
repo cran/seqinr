@@ -195,7 +195,7 @@ NCBI's taxonomy ID. For instance, the taxonomy ID for
  hsn$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 1338
+[1] 1339
 \end{Soutput}
 \begin{Sinput}
  query("hsnsp", "PS hsn")
@@ -534,10 +534,10 @@ this way:
 \end{Sinput}
 \begin{Soutput}
              sname                    libel
-3756   CHLOROPLAST       Chloroplast genome
-3757 MITOCHONDRION     Mitochondrial genome
-3758   NUCLEOMORPH       Nucleomorph genome
-3759       PLASTID non-green plastid genome
+3827   CHLOROPLAST       Chloroplast genome
+3828 MITOCHONDRION     Mitochondrial genome
+3829   NUCLEOMORPH       Nucleomorph genome
+3830       PLASTID non-green plastid genome
 \end{Soutput}
 \begin{Sinput}
  closebank()
@@ -623,16 +623,17 @@ this way:
      "libel")]
 \end{Sinput}
 \begin{Soutput}
-  sname                                        libel
-1   ANN                     Annotated CON data class
-2   EST           Expressed Sequence Tags data class
-3   GSS            Genome Survey Sequence data class
-4   HTC              High Throughput cDNA data class
-5   HTG High Throughput Genome sequencing data class
-6   PAT                            Patent data class
-7   STD                          standard data class
-8   STS              Sequence Tagged Site data class
-9   TPA            Third Party Annotation data class
+   sname                                        libel
+1    ANN                     Annotated CON data class
+2    EST           Expressed Sequence Tags data class
+3    GSS            Genome Survey Sequence data class
+4    HTC              High Throughput cDNA data class
+5    HTG High Throughput Genome sequencing data class
+6    PAT                            Patent data class
+7    STD                          standard data class
+8    STS              Sequence Tagged Site data class
+9    TPA            Third Party Annotation data class
+10   TSA    Transcriptome Shotgun Assembly data class
 \end{Soutput}
 \begin{Sinput}
  closebank()
@@ -661,7 +662,7 @@ To select for instance all fully annotated sequences from Uniprot we can use:
  STexample$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 362782
+[1] 392667
 \end{Soutput}
 \begin{Sinput}
  closebank()
@@ -1183,19 +1184,20 @@ keywords list operand.
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.8.0 Under development (unstable) (2008-05-11 r45672), \verb|i386-apple-darwin8.8.2|
-  \item Locale: \verb|C|
+  \item R version 2.8.0 (2008-10-20), \verb|i386-apple-darwin8.8.2|
+  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-42, ade4~1.4-7, ape~2.2,
-    nlme~3.1-88, seqinr~1.1-6, xtable~1.5-2
+  \item Other packages: MASS~7.2-44, ade4~1.4-9, ape~2.2-2,
+    nlme~3.1-89, quadprog~1.4-11, seqinr~2.0-0, tseries~0.10-16,
+    xtable~1.5-4, zoo~1.5-4
   \item Loaded via a namespace (and not attached): grid~2.8.0,
-    lattice~0.17-7, tools~2.8.0
+    lattice~0.17-15, tools~2.8.0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Mon May 12 18:14:12 2008
+  \item \Rlogo{} compilation time was: Sun Oct 26 18:04:21 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 
