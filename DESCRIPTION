@@ -1,6 +1,6 @@
 Package: seqinr
-Version: 2.0-0
-Date: 2008-10-26
+Version: 2.0-1
+Date: 2008-12-12
 Title: Biological Sequences Retrieval and Analysis 
 Author: Delphine Charif and Jean R. Lobry and Anamaria Necsulea and Leonor Palmeira and Simon Penel
 Maintainer: Simon Penel <penel@biomserv.univ-lyon1.fr>
@@ -12,4 +12,5 @@ Description: Exploratory data analysis and data visualization
 License: GPL (>= 2)
 URL: http://seqinr.r-forge.r-project.org/, Mailing list: http://r-forge.r-project.org/mail/?group_id=220
 ZipData:no
-Packaged: Mon Oct 27 05:01:26 2008; theussl
+Revision: 1514
+Packaged: Sat Dec 13 05:25:30 2008; theussl

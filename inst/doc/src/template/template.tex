@@ -16,6 +16,12 @@
 \DefineVerbatimEnvironment{Soutput}{Verbatim}
 {formatcom={\color{Soutput}},fontsize=\footnotesize, baselinestretch=0.75}
 %
+% This removes the extra spacing after code and output chunks in Sweave,
+% but keeps the spacing around the whole block.
+%
+\fvset{listparameters={\setlength{\topsep}{0pt}}}
+\renewenvironment{Schunk}{\vspace{\topsep}}{\vspace{\topsep}}
+%
 % Rlogo
 %
 \newcommand{\Rlogo}{\protect\includegraphics[height=1.8ex,keepaspectratio]{../figs/Rlogo.pdf}}
@@ -57,15 +63,15 @@ the hierarchy to show the content of the \texttt{src} folder:
  getwd()
 \end{Sinput}
 \begin{Soutput}
-[1] "/Users/lobry/seqinr/inst/doc/src/template"
+[1] "/Users/lobry/seqinr/pkg/inst/doc/src/template"
 \end{Soutput}
 \begin{Sinput}
  setwd("..")
  dir()
 \end{Sinput}
 \begin{Soutput}
- [1] "CVS"         "appendix"    "book"        "config"      "figs"       
- [6] "frontmatter" "mainmatter"  "misc"        "tables"      "template"   
+[1] "appendix"    "book"        "config"      "figs"        "frontmatter"
+[6] "mainmatter"  "misc"        "tables"      "template"   
 \end{Soutput}
 \begin{Sinput}
  setwd("template")
@@ -378,11 +384,12 @@ The current list of \Rlogo{}~packages is as follows:
  cat(crnw[grep("library", crnw)], sep = "\n")
 \end{Sinput}
 \begin{Soutput}
-library(seqinr, lib = "../../../../../seqinr.Rcheck")
+library(seqinr, lib = normalizePath("../../../../../pkg.Rcheck"))
 library(xtable)
 library(ade4)
 library(ape)
 library(MASS)
+library(tseries)
 \end{Soutput}
 \end{Schunk}
 
@@ -426,7 +433,7 @@ are re-defined in the \texttt{commonrnw.rnw} file so that the
  getwd()
 \end{Sinput}
 \begin{Soutput}
-[1] "/Users/lobry/seqinr/inst/doc/src/template"
+[1] "/Users/lobry/seqinr/pkg/inst/doc/src/template"
 \end{Soutput}
 \end{Schunk}
 
@@ -475,7 +482,7 @@ Name & Current value\\
 \hline
 \texttt{.CurFileName} & \texttt{template.rnw}\\
 \texttt{.PrefixName} & \texttt{template}\\
-\texttt{.RversionName} & \texttt{R version 2.5.1 (2007-06-27)}\\
+\texttt{.RversionName} & \texttt{R version 2.8.0 (2008-10-20)}\\
 \hline \hline
 \end{tabular}
 \vspace{0.2cm}
@@ -513,7 +520,7 @@ run \texttt{Sweave()} with \texttt{template.rnw} as argument:
  getwd()
 \end{Sinput}
 \begin{Soutput}
-[1] "/Users/lobry/seqinr/inst/doc/src/template"
+[1] "/Users/lobry/seqinr/pkg/inst/doc/src/template"
 \end{Soutput}
 \end{Schunk}
 \begin{Schunk}
@@ -583,23 +590,25 @@ You should obtain the PDF of the present document (\texttt{template.pdf}).
 
 
 
-\section{Session Informations}
+\section*{Session Informations}
 
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.5.1 (2007-06-27), \verb|i386-apple-darwin8.9.1|
-  \item Locale: \verb|C|
+  \item R version 2.8.0 (2008-10-20), \verb|i386-apple-darwin8.8.2|
+  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
   \item Base packages: base, datasets, grDevices, graphics, methods,
     stats, utils
-  \item Other packages: MASS~7.2-34, ade4~1.4-3, ape~1.9-4,
-    gee~4.13-12, lattice~0.15-11, nlme~3.1-83, seqinr~1.1-2,
-    xtable~1.4-3
+  \item Other packages: MASS~7.2-44, ade4~1.4-9, ape~2.2-2,
+    nlme~3.1-89, quadprog~1.4-11, seqinr~2.0-1, tseries~0.10-16,
+    xtable~1.5-4, zoo~1.5-4
+  \item Loaded via a namespace (and not attached): grid~2.8.0,
+    lattice~0.17-15, tools~2.8.0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Mon Sep  3 11:15:42 2007
+  \item \Rlogo{} compilation time was: Mon Nov  3 18:31:27 2008
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

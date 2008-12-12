@@ -9,7 +9,7 @@ The main difference with \code{\link{gregexpr}} is that non disjoint matches
 are reported here.
 }
 \usage{
-words.pos(pattern, text, ignore.case = FALSE, extended = FALSE,
+words.pos(pattern, text, ignore.case = FALSE, extended = TRUE,
                       perl = TRUE, fixed = FALSE, useBytes = TRUE, ...)
 }
 \arguments{

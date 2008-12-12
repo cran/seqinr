@@ -1,4 +1,4 @@
-words.pos <- function(pattern, text, ignore.case = FALSE, extended = FALSE,
+words.pos <- function(pattern, text, ignore.case = FALSE, extended = TRUE,
                       perl = TRUE, fixed = FALSE, useBytes = TRUE, ...)
 {
   position <- regexpr(pattern, text, ignore.case, extended, perl, fixed, useBytes, ...)[1]

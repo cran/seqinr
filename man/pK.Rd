@@ -11,9 +11,6 @@ This compilation of pK values is from Joanna Kiraga (2008).
   six sources in column. The rownames are the one-letter code
   for amino-acids.
 }
-\details{
-
-}
 \source{
 Table 2 in Kiraga (2008).
 }

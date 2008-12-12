@@ -16,6 +16,21 @@ most recent on top.
 
 \section*{2.0 series}
 
+\subsection*{release 2.0-1}
+
+\begin{itemize}
+
+\item The useless \texttt{itemize} in the argument section of
+  documentation file \texttt{stresc.Rd} is now deleted.
+
+\item In function \texttt{words.pos()} the default value for parameter
+  \texttt{extended} was changed from FALSE to TRUE to avoid warnings.
+
+\item New experimental function \texttt{read.abif()} to import files
+  in ABIF format (\texttt{*.fsa}, (\texttt{*.ab1}).
+
+\end{itemize}
+
 \subsection*{release 2.0-0}
 
 \begin{itemize}
