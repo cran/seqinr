@@ -1,6 +1,10 @@
 read.abif <- function(filename, max.bytes.in.file = file.info(filename)$size, 
   pied.de.pilote = 1.2, verbose = FALSE){
   #
+  # Suppress warnings when reading strings with internal nul character:
+  #
+  RTC <- function(x, ...) suppressWarnings(rawToChar(x, ...))
+  #
   # Define some shortcuts:
   #
   SInt32 <- function(f, ...) readBin(f, what = "integer", signed = TRUE, endian = "big", size = 4, ...)
@@ -26,7 +30,7 @@ read.abif <- function(filename, max.bytes.in.file = file.info(filename)$size,
   # Header section is 128 bytes long, located at a fixed position at the
   # beginning of the file. We essentially need the number of item and dataoffset
   #
-  res$Header$abif <- rawToChar(rawdata[1:4])
+  res$Header$abif <- RTC(rawdata[1:4])
   if(res$Header$abif != "ABIF") stop("file not in ABIF format")
   if(verbose) print("OK: File is in ABIF format")
 
@@ -34,7 +38,7 @@ read.abif <- function(filename, max.bytes.in.file = file.info(filename)$size,
   if(verbose) print(paste("File in ABIF version", res$Header$version/100))
   
   res$Header$DirEntry.name <- rawdata[7:10]
-  if(verbose) print(paste("DirEntry name: ", rawToChar(res$Header$DirEntry.name)))
+  if(verbose) print(paste("DirEntry name: ", RTC(res$Header$DirEntry.name)))
 
   res$Header$DirEntry.number <- SInt32(rawdata[11:14])
   if(verbose) print(paste("DirEntry number: ", res$Header$DirEntry.number))
@@ -73,7 +77,7 @@ read.abif <- function(filename, max.bytes.in.file = file.info(filename)$size,
   for(i in seq_len(res$Header$numelements)){
     deb <- (i-1)*res$Header$DirEntry.elementsize + dataoffset
     direntry <- rawdata[deb:(deb + res$Header$DirEntry.elementsize)]
-    dirdf[i, "name"] <- rawToChar(direntry[1:4])
+    dirdf[i, "name"] <- RTC(direntry[1:4])
     dirdf[i, "tagnumber"] <- SInt32(direntry[5:8])
     dirdf[i, "elementtype"] <- SInt16(direntry[9:10])
     dirdf[i, "elementsize"] <- SInt16(direntry[11:12])
@@ -109,7 +113,7 @@ read.abif <- function(filename, max.bytes.in.file = file.info(filename)$size,
     # unsigned 8 bits integer:
     if(elementtype == 1) res$Data[[i]] <- UInt8(data, n = numelements)
     # char or signed 8 bits integer
-    if(elementtype == 2) res$Data[[i]] <- suppressWarnings(rawToChar(data))
+    if(elementtype == 2) res$Data[[i]] <- RTC(data)
     # unsigned 16 bits integer:
     if(elementtype == 3) res$Data[[i]] <- UInt16(data, n = numelements)
     # short:
@@ -132,11 +136,11 @@ read.abif <- function(filename, max.bytes.in.file = file.info(filename)$size,
     # pString:
     if(elementtype == 18){
       n <- SInt8(rawdata[debinraw])
-      pString <- rawToChar(rawdata[(debinraw+1):(debinraw+n)])
+      pString <- RTC(rawdata[(debinraw+1):(debinraw+n)])
       res$Data[[i]] <- pString
     }
     # cString:
-    if(elementtype == 19) res$Data[[i]] <- rawToChar(data[1:(length(data) - 1) ])
+    if(elementtype == 19) res$Data[[i]] <- RTC(data[1:(length(data) - 1) ])
     # user:
     if(elementtype >= 1024) res$Data[[i]] <- data
     # legacy:

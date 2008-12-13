@@ -35,6 +35,7 @@ getTrans(object, sens = "F", NAstring = "X", ambiguous = FALSE, ...)
 \details{
  The following genetic codes are described here. The number preceding each code 
  corresponds to \code{numcode}. 
+  \describe{
   \item{1}{ standard }
   \item{2}{ vertebrate.mitochondrial }
   \item{3}{ yeast.mitochondrial }
@@ -52,6 +53,7 @@ getTrans(object, sens = "F", NAstring = "X", ambiguous = FALSE, ...)
   \item{21}{ trematode.mitochondrial }
   \item{22}{ scenedesmus.mitochondrial }
   \item{23}{ hraustochytrium.mitochondria }
+  }
 }
 \value{
   For a single sequence an object of class \code{character} containing the characters

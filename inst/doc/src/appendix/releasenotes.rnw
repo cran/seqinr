@@ -16,6 +16,29 @@ most recent on top.
 
 \section*{2.0 series}
 
+\subsection*{release 2.0-2}
+
+\begin{itemize}
+
+\item New ABIF format related functions: \texttt{plotabif()} to plot
+electrophoregrams with optonial internal size standard and optional
+allelic ladder, \texttt{peakabif()} to locate peaks in electrophoregrams,
+\texttt{plotladder()} to display an observed allelic ladder.
+
+\item New datasets \texttt{gs500liz} for size standards, \texttt{identifiler}
+for allelic ladder names, \texttt{ECH} for allelic ladder raw data and
+\texttt{JLO} for forensic genetic profile raw data. The last one is
+now used as a quality check for the \texttt{read.abif()} function.
+
+\item A new folder called \texttt{abif} has been created under the
+\texttt{inst} folder. The purpose of this folder is to contain examples
+of files in ABIF format so that the results of the \texttt{read.abif()} 
+function can be checked against expected results for quality check.
+It contains for now two duplicated genetic profiles and two allelic
+ladders from the same batch experiment.
+
+\end{itemize}
+
 \subsection*{release 2.0-1}
 
 \begin{itemize}

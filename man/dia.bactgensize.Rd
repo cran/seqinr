@@ -35,9 +35,11 @@ superposition of three normal distributions.
 }
 \value{
   An invisible dataframe with three components:
+
   \item{genus }{genus name}
   \item{species }{species names}
   \item{gs }{genome size in Kb}
+  
 }
 \references{
 Please cite the following references when using data from GOLD:
@@ -53,7 +55,7 @@ a monitor of genome projects world-wide.
 Liolios, K., Tavernarakis, N., Hugenholtz, P., Kyrpides, N.C. (2006)
 The Genomes On Line Database (GOLD) v.2: a monitor of genome
 projects worldwide.
-\emph{Nucleic Acids Research}, \bold {34}:D332-D334.\cr
+\emph{Nucleic Acids Research}, \bold{34}:D332-D334.\cr
 
 Liolios, K., Mavrommatis, K., Tavernarakis, N., Kyrpides, N.C. (2008)
 The Genomes On Line Database (GOLD) in 2007: status of genomic 

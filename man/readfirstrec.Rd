@@ -17,6 +17,7 @@ readfirstrec(socket = autosocket(), type)
 \details{
 Available index files are:
 
+  \describe{
 	\item{AUT}{AUTHOR one record for each author name (last name only, no initials)}
 	\item{BIB}{BIBLIO one record for each reference}
 	\item{ACC}{ACCESS one record for each accession number}
@@ -30,6 +31,7 @@ Available index files are:
 	\item{LNG}{LONGL one record for each group of SUBINLNG elements of a long list}
 	\item{EXT}{EXTRACT (for nucleotide databases only) one record for each exon of each subsequence}
 	\item{TXT}{TEXT one lrtxt-character record for each label of a species, keyword, or SMJYT}
+  }
 }
 \value{
   The record count of ACNUC index file, or NA if missing (typically when 

@@ -26,7 +26,7 @@ con(matali, method = c( "majority", "threshold", "IUPAC", "profile"),
    to \code{\link{bma}}.}
 }
 \details{
-
+  \describe{
   \item{"majority"}{The character with the higher frequency is returned as the
   consensus character.}
 
@@ -41,7 +41,7 @@ con(matali, method = c( "majority", "threshold", "IUPAC", "profile"),
 
   \item{"profile"}{With this method a matrix with the count of each possible
   character at each position is returned.}
-
+  }
 \code{con} is a short form for \code{consensus}.
 
 }

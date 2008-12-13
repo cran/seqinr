@@ -35,4 +35,3 @@ case of problem (non existent sequence for instance).
   closebank()	
   }
 }
-\keyword{ utilities }

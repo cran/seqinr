@@ -21,7 +21,7 @@ read.alignment(file, format, forceToLower = TRUE, File = NULL)
     As from seqinR 1.1-3 this argument is deprecated and a warning is issued.}
 }
 \details{
-
+  \describe{
    \item{"mase"}{The mase format is used to store nucleotide or protein 
    multiple alignments. The beginning of the file must contain a header 
    containing at least one line (but the content of this header may be 
@@ -67,6 +67,7 @@ read.alignment(file, format, forceToLower = TRUE, File = NULL)
    \item{"fasta"}{ Sequence in fasta format begins with a single-line 
    description (distinguished by a greater-than (>) symbol), followed 
    by sequence data on the next line.
+}
 }
 }
 \value{

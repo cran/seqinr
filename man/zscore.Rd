@@ -16,7 +16,7 @@ zscore(sequence, simulations = NULL, modele, exact = FALSE, alphabet = s2c("acgt
 \arguments{
   \item{sequence}{ A nucleic acids sequence }
   \item{simulations}{ If \code{NULL}, analytical solution is computed
-    when available (models \code{base} and {codon}). Otherwise, it
+    when available (models \code{base} and \code{codon}). Otherwise, it
     should be the number of permutations for the z-score computation }
   \item{modele}{ A string of characters describing the model chosen for
     the random generation }

@@ -37,5 +37,9 @@ Last visited on 03-NOV-2008.
 \seealso{\code{\link{readBin}} which is used here to import the binary file and \code{\link{file.info}} to
 get the size of the file.}
 \examples{
-# An example is needed here (read a file and check with data(something)
+# Quality check:
+data(JLO)
+JLO.check <- read.abif(system.file("abif/2_FAC321_0000205983_B02_004.fsa", 
+  package = "seqinr"))
+stopifnot(identical(JLO, JLO.check))
 }

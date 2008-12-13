@@ -24,18 +24,16 @@ modifylist(listname, modlistname = listname, operation, type = c("length", "date
 \details{
 Example of possible values for the argument \code{operation}: 
 
+  \describe{
   \item{length}{as in  "> 10000"    or    "< 500"}
   \item{date}{as in   "> 1/jul/2001"   or   "< 30/AUG/98"}
   \item{scan}{specify the string to be searched for}
-
+  }
 Character < is to be understood as <= and > likewise.
 }
 
 \value{
 The result is directly assigned to the object \code{modlistname} in the user workspace.
-This is an objet of class \code{qaw}, a list with the following 6 components:
-
-The result is directly assigned to the object \code{listname} in the user workspace.
 This is an objet of class \code{qaw}, a list with the following 6 components:
 
   \item{call}{the original call}
@@ -46,7 +44,7 @@ This is an objet of class \code{qaw}, a list with the following 6 components:
   \item{req}{a list of sequence names that fit the required criteria or \code{NA} when
     called with parameter \code{virtual} is \code{TRUE}}
   \item{socket}{the socket connection that was used}
-
+  
 }
 \references{ \url{http://pbil.univ-lyon1.fr/databases/acnuc.html}
 
