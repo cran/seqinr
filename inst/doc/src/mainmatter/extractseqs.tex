@@ -5,7 +5,7 @@
 
 \author{Lobry, J.R.}
 
-\usepackage{/Library/Frameworks/R.framework/Resources/share/texmf/Sweave}
+\usepackage{Sweave}
 \begin{document}
 %
 % To change the R input/output style:
@@ -66,7 +66,7 @@ subset of the EMBL database to allow for the reproducibility of results.
 \end{Sinput}
 \begin{Soutput}
    user  system elapsed 
-  0.073   0.002   5.550 
+  0.083   0.005   5.603 
 \end{Soutput}
 \end{Schunk}
 
@@ -86,7 +86,7 @@ are encoded in the nucleus (we don't want sequences from human mitochondrion).
 \end{Sinput}
 \begin{Soutput}
    user  system elapsed 
-  0.001   0.000  12.840 
+  0.002   0.000  15.358 
 \end{Soutput}
 \begin{Sinput}
  (nseq <- hsCDS$nelem)
@@ -99,15 +99,15 @@ are encoded in the nucleus (we don't want sequences from human mitochondrion).
 \end{Sinput}
 \begin{Soutput}
    user  system elapsed 
- 13.884   1.350  88.041 
+ 13.876   1.207  96.945 
 \end{Soutput}
 \end{Schunk}
  
 We have used a virtual query to speed up things:
-it was about 13 seconds 
+it was about 15 seconds 
 to create on the server a list of 78573
 sequences. We have downloaded the sequences in zlib compressed mode:
-it was about 88 seconds
+it was about 97 seconds
 to dowload the sequences in the object \texttt{mycds}, which looks like :
 
 \begin{Schunk}
@@ -143,7 +143,7 @@ We save now the sequences in a local FASTA file for future use:
 \end{Sinput}
 \begin{Soutput}
    user  system elapsed 
-  0.883   0.816   3.471 
+  0.875   0.732   3.183 
 \end{Soutput}
 \end{Schunk}
 
@@ -158,7 +158,7 @@ without setting attributes to save time:
 \end{Sinput}
 \begin{Soutput}
    user  system elapsed 
- 23.774   0.644  25.491 
+ 24.219   0.612  25.184 
 \end{Soutput}
 \end{Schunk}
 
@@ -171,11 +171,11 @@ to read the sequences as strings. We save them in XDR format:
 \end{Sinput}
 \begin{Soutput}
    user  system elapsed 
- 41.192   0.330  42.113 
+ 41.262   0.319  42.904 
 \end{Soutput}
 \end{Schunk}
 
-It was then about 42 seconds
+It was then about 43 seconds
 to save the sequences in XDR format. How long is it to load the sequences
 from XDR format?
 
@@ -185,7 +185,7 @@ from XDR format?
 \end{Sinput}
 \begin{Soutput}
    user  system elapsed 
-  1.367   0.038   1.427 
+  1.378   0.038   1.425 
 \end{Soutput}
 \end{Schunk}
 
@@ -203,11 +203,11 @@ CDS from the server:
 \end{Sinput}
 \begin{Soutput}
    user  system elapsed 
-  2.846   0.651  57.206 
+  2.642   0.613  52.865 
 \end{Soutput}
 \end{Schunk}
 
-It was then about 57 seconds
+It was then about 53 seconds
 to get the protein sequences from the server. The object \texttt{myprot} looks
 like:
 
@@ -244,7 +244,7 @@ We save the protein sequences in a local FASTA file for future use:
 \end{Sinput}
 \begin{Soutput}
    user  system elapsed 
-  0.334   0.288   1.017 
+  0.331   0.253   0.862 
 \end{Soutput}
 \end{Schunk}
 
@@ -259,7 +259,7 @@ without setting attributes to save time:
 \end{Sinput}
 \begin{Soutput}
    user  system elapsed 
- 10.366   0.183  10.745 
+ 10.283   0.172  10.566 
 \end{Soutput}
 \end{Schunk}
 
@@ -272,7 +272,7 @@ to read the protein sequences as strings. We save them in XDR format:
 \end{Sinput}
 \begin{Soutput}
    user  system elapsed 
-  4.087   0.166   4.317 
+  4.048   0.142   4.214 
 \end{Soutput}
 \end{Schunk}
 
@@ -286,7 +286,7 @@ protein sequences from XDR format?
 \end{Sinput}
 \begin{Soutput}
    user  system elapsed 
-  0.917   0.029   0.992 
+  0.913   0.024   0.942 
 \end{Soutput}
 \end{Schunk}
 
@@ -322,25 +322,29 @@ As a quick sanity check, we plot the distribution of protein size:
 
 \section*{Session Informations}
 
+\begin{scriptsize}
+
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.8.0 (2008-10-20), \verb|i386-apple-darwin8.8.2|
+  \item R version 2.9.0 (2009-04-17), \verb|i386-apple-darwin8.11.1|
   \item Locale: \verb|C|
-  \item Base packages: base, datasets, grDevices, graphics, methods,
-    stats, utils
-  \item Other packages: MASS~7.2-44, ade4~1.4-9, ape~2.2-2,
-    nlme~3.1-89, quadprog~1.4-11, seqinr~2.0-0, tseries~0.10-16,
-    xtable~1.5-4, zoo~1.5-4
-  \item Loaded via a namespace (and not attached): grid~2.8.0,
-    lattice~0.17-15
+  \item Base packages: base, datasets, grDevices, graphics, grid,
+    methods, stats, utils
+  \item Other packages: MASS~7.2-46, XML~2.3-0, ade4~1.4-11,
+    ape~2.3, grImport~0.4-3, quadprog~1.4-11, seqinr~2.0-3,
+    tseries~0.10-18, xtable~1.5-5, zoo~1.5-5
+  \item Loaded via a namespace (and not attached): gee~4.13-13,
+    lattice~0.17-22, nlme~3.1-90
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sun Oct 26 18:10:20 2008
+  \item \Rlogo{} compilation time was: Thu Apr 23 11:49:34 2009
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
+
+\end{scriptsize}
 
 % END - DO NOT REMOVE THIS LINE
 

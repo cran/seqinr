@@ -39,7 +39,7 @@ data(ECH)
   # Extract from internal size standard chanel number 5 the location 
   # of 14 peaks:
   #
-ECH.maxis <- peakabif(ECH, 5, npeak = 14, tmin = 2.7, thres = 0.1, fig = FALSE)
+ECH.maxis <- peakabif(ECH, 5, npeak = 14, tmin = 2.7, thres = 0.1, fig = FALSE)$maxis
   #
   # Load data about the expected size of peaks in bp for calibration:
   #

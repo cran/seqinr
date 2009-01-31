@@ -9,7 +9,7 @@ getTrans.default <- function(object, sens = "F", NAstring = "X", ambiguous = FAL
     stop(paste("no getTrans method for objects of class:", class(object)))
 
 getTrans.list <- function(object, sens = "F", NAstring = "X", ambiguous = FALSE, ...)
-  sapply(seq_len(length(object)),
+  lapply(seq_len(length(object)),
     function(i) getTrans(object[[i]], sens = sens, NAstring = NAstring, ambiguous = ambiguous, ...))
 
 getTrans.character <- function(object, sens = "F", NAstring = "X", ambiguous = FALSE, ..., frame = 0, numcode = 1)

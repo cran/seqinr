@@ -14,7 +14,8 @@ peakabif <- function(abifdata,
   method = "monoH.FC", ...) {
   	
 	y[y < thres] <- 0
-	maxis <- starts <- stops <- numeric(npeak)
+	heights <- surfaces <- maxis <- starts <- stops <- numeric(npeak)
+	
 	innoise <- TRUE
 	pkidx <- 1
 	for (i in 1:length(y)) {
@@ -43,6 +44,8 @@ peakabif <- function(abifdata,
 		}
 		spfun <- splinefun(x, y[x], method = method)
 		maxis[i] <- optimize(spfun, interval = range(x), maximum = TRUE)$maximum
+		heights[i] <- spfun(maxis[i])
+		surfaces[i] <- integrate(spfun, starts[i], stops[i])$value
 		if (fig) {
 			plot(x/tscale + tmin, y[x], type = "p", las = 1, ylim = range(y), ...)
 			abline(h = thres, col = "red")
@@ -52,5 +55,5 @@ peakabif <- function(abifdata,
 	}
 	if(fig) mtext(paste(deparse(substitute(abifdata)), ",",
 	  DATA, ", tmin =", tmin, ", tmax =", tmax, ", thres =", thres, ", npeak =", npeak, ", yscale = ", yscale), side = 3, outer = TRUE)
-	invisible(maxis + tmin*tscale)
+	invisible(list(maxis = maxis + tmin*tscale, heights = yscale*heights, surfaces = yscale*surfaces))
 }

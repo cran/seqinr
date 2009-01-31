@@ -1,6 +1,6 @@
 \name{peakabif}
 \alias{peakabif}
-\title{Peak location extraction for ABIF data}
+\title{Extraction of Peak locations, Heights and Surfaces from ABIF data}
 \description{
   Simple peak location for data imported with the \code{\link{read.abif}} function
   using cubic spline interpolation.
@@ -40,7 +40,8 @@ peakabif(abifdata,
   \item{...}{arguments forwarded to \code{\link{plot}}}
 }
 \value{
-  Returns invisibly the unscaled values for the location of peaks.
+  Returns invisibly a list with the unscaled values for the locations of peaks,
+  heights of peaks and surfaces of peaks.
 }
 \references{
   \code{citation("seqinr")}
@@ -56,6 +57,6 @@ peakabif(abifdata,
 }
 \examples{
 data(JLO)
-JLO.maxis <- peakabif(JLO, 5, npeak = 14, tmin = 2.7, thres = 0.1)
+JLO.maxis <- peakabif(JLO, 5, npeak = 14, tmin = 2.7, thres = 0.1)$maxis
 }
 

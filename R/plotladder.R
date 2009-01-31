@@ -6,7 +6,7 @@ plotladder <- function(abifdata, chanel, calibr, allele.names = "identifiler", n
   tmp <- get(allele.names)[chanel]
   
   if(is.null(npeak)) npeak <- length(unlist(tmp))
-  x <- calibr(peakabif(abifdata, chanel, npeak = npeak, ...))
+  x <- calibr(peakabif(abifdata, chanel, npeak = npeak, ...)$maxis)
   n <- length(x)
   
   par(mfrow = c(1,1), mar = c(5,0,4,0)+0.1)

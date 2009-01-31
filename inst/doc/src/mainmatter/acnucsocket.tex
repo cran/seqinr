@@ -4,7 +4,7 @@
 \title{Installation of a local ACNUC socket server and of a local ACNUC database on your machine.}
 \author{Penel, S.}
 
-\usepackage{/Library/Frameworks/R.framework/Resources/share/texmf/Sweave}
+\usepackage{Sweave}
 \begin{document}
 %
 % To change the R input/output style:
@@ -415,16 +415,16 @@ Finaly, in the ACNUC\_HOME/ACNUC\_SOFT/racnucd/ directory, lauche the server as 
  system("ps | grep racnucd", intern = TRUE)
 \end{Sinput}
 \begin{Soutput}
-[1] "28875  p3  S+     0:00.01 ./racnucd racnucd.new"  
-[2] "28876  p3  S+     0:00.01 sh -c ps | grep racnucd"
-[3] "28878  p3  S+     0:00.00 grep racnucd"           
+[1] "27474  p2  S+     0:00.01 ./racnucd racnucd.new"  
+[2] "27475  p2  S+     0:00.01 sh -c ps | grep racnucd"
+[3] "27477  p2  S+     0:00.00 grep racnucd"           
 \end{Soutput}
 \begin{Sinput}
  cat(readLines("racnucd.log"), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
 *******************************************************
-Start of remote acnuc server : Sun Oct 26 18:13:16 2008
+Start of remote acnuc server : Thu Apr 23 11:53:08 2009
 \end{Soutput}
 \begin{Sinput}
  setwd(pwd)
@@ -572,33 +572,26 @@ This should create the ACNUC management tools and ACNUC querying tools.
  dir()
 \end{Sinput}
 \begin{Soutput}
- [1] "acnuc2fasta"         "acnuc2fasta.c"       "acnucf2c.c"         
- [4] "acnucf2c.o"          "acnucgener"          "acnucgener.c"       
- [7] "arbrebin.c"          "arbrebin.o"          "bit.c"              
-[10] "bit.o"               "compressnewdiv"      "compressnewdiv.c"   
-[13] "connectindex"        "connectindex.c"      "conv_to_bigannots"  
-[16] "conv_to_bigannots.c" "coperations.c"       "dir_acnuc.h"        
-[19] "dir_io.c"            "dir_io.h"            "dir_io.o"           
-[22] "dynlist.c"           "dynlist.o"           "extract.c"          
-[25] "extract.o"           "fortran_ex.f"        "gestion_acnuc.c"    
-[28] "gestion_acnuc.o"     "hashacc.c"           "hashacc.o"          
-[31] "initf"               "initf.c"             "libcacnuc.a"        
-[34] "lngbit.c"            "lngbit.o"            "makefile"           
-[37] "mdshrt_lng.c"        "mdshrt_lng.o"        "misc_acnuc.c"       
-[40] "misc_acnuc.o"        "ncbitaxo.h"          "newordalphab"       
-[43] "newordalphab.c"      "pretty_seq.c"        "pretty_seq.o"       
-[46] "proc_requete.c"      "proc_requete.o"      "query"              
-[49] "query.c"             "query.o"             "readidreport.c"     
-[52] "readidreport.o"      "readncbitaxo"        "readncbitaxo.c"     
-[55] "renamediv"           "renamediv.c"         "simext.h"           
-[58] "smjytload"           "smjytload.c"         "sortsubseq"         
-[61] "sortsubseq.c"        "supold"              "supold.c"           
-[64] "testmatchindex"      "testmatchindex.c"    "two_banks.c"        
-[67] "two_banks.o"         "updatehelp"          "updatehelp.c"       
-[70] "use_acnuc.c"         "use_acnuc.o"         "utilgener.c"        
-[73] "utilgener.h"         "utilgener.o"         "utilgener2.c"       
-[76] "utilgener2.o"        "utilquery.c"         "utilquery.o"        
-[79] "voyage"              "voyage.c"           
+ [1] "acnuc2fasta.c"       "acnucf2c.c"          "acnucf2c.o"         
+ [4] "acnucgener.c"        "arbrebin.c"          "arbrebin.o"         
+ [7] "bit.c"               "bit.o"               "compressnewdiv.c"   
+[10] "connectindex.c"      "conv_to_bigannots.c" "coperations.c"      
+[13] "dir_acnuc.h"         "dir_io.c"            "dir_io.h"           
+[16] "dir_io.o"            "dynlist.c"           "dynlist.o"          
+[19] "extract.c"           "fortran_ex.f"        "gestion_acnuc.c"    
+[22] "gestion_acnuc.o"     "hashacc.c"           "hashacc.o"          
+[25] "initf.c"             "libcacnuc.a"         "lngbit.c"           
+[28] "lngbit.o"            "makefile"            "mdshrt_lng.c"       
+[31] "mdshrt_lng.o"        "misc_acnuc.c"        "misc_acnuc.o"       
+[34] "ncbitaxo.h"          "newordalphab.c"      "pretty_seq.c"       
+[37] "proc_requete.c"      "query.c"             "readncbitaxo.c"     
+[40] "renamediv.c"         "simext.h"            "smjytload.c"        
+[43] "sortsubseq.c"        "supold.c"            "testmatchindex.c"   
+[46] "two_banks.c"         "two_banks.o"         "updatehelp.c"       
+[49] "use_acnuc.c"         "use_acnuc.o"         "utilgener.c"        
+[52] "utilgener.h"         "utilgener.o"         "utilgener2.c"       
+[55] "utilgener2.o"        "utilquery.c"         "utilquery.o"        
+[58] "voyage.c"           
 \end{Soutput}
 \begin{Sinput}
  setwd(pwd)
@@ -699,96 +692,64 @@ flat file: escherichia_uniprot.dat
  ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files/escherichia_uniprot.dat
  
 Begin to build index...
-Sun Oct 26 18:13:52 CET 2008
+Thu Apr 23 11:53:24 CEST 2009
 =====================================
 Initialise
-Normal end.
 
 =====================================
 Generation des index
-Program started at Sun Oct 26 18:13:53 2008
-
-New division created: escherichia_uniprot
-Removing updated sequences
-0 modified sequences removed
-Loading acc nos started at Sun Oct 26 18:13:53 2008
-finished at Sun Oct 26 18:13:53 2008
-Start loading ncbi species taxonomy
-Warning: file $acnuctaxo/id.report not found
-Sequence loading started at Sun Oct 26 18:13:53 2008
-
----->3MG1_ECOLI
----->3MG2_ECOLI
----->6PGD_ECOLI
----->6PGL_ECOLI
----->A4UR75_ECOLI
----->A4UR76_ECOLI
----->A4UR77_ECOLI
----->A4UR78_ECOLI
----->A4UR79_ECOLI
----->A4UR80_ECOLI
----->A4UR81_ECOLI
----->A4UR83_ECOLI
----->A4UR84_ECOLI
----->A4UR86_ECOLI
----->A5A605_ECOLI
----->A5A607_ECOLI
----->A5A609_ECOLI
-\end{Soutput}
-\begin{Sinput}
- cat(tail(readLines("build.log"), 50), sep = "\n")
-\end{Sinput}
-\begin{Soutput}
-Program finished at Sun Oct 26 18:13:56 2008
-
-write_quick_meres...done
-
-lues=4461  chargees=4461  difference=0
-seqs/second=1487.00
 
 =====================================
 run newordalphab
 
-Sorting file SUBSEQ.NEW
-Writing list of loci and unvalid seqs
-Sorting file SMJYT.NEW
-Computing sequence hashing
-Writing SPECIES.NEW
-Writing KEYWORDS.NEW
-Writing hashing data
-Short lists of keywords and info records
-Sorting file ACCESS.NEW
-Sorting file BIBLIO.NEW
-Writing LOCUS.NEW and lists of access#s and refers
-Sorting file AUTHOR.NEW
-Writing lists of seqs and authors for refers
-Writing lists of refers for authors
-Writing tree structure of keywords
-Writing tree structure of species
-Replacing old index files by new ones
-Normal end
 
 =====================================
 run updatehelp
-Sun Oct 26 18:13:58 CET 2008
+Thu Apr 23 11:53:24 CEST 2009
 Index have been sucessfully build.
 =====================================
  
 Testing the index:
 ==================
-Opening a flat database in 2 divisions
-Sorry, no help available for this command: CONT
-[27 free lists available]
+\end{Soutput}
+\begin{Sinput}
+ cat(tail(readLines("build.log"), 50), sep = "\n")
+\end{Sinput}
+\begin{Soutput}
+ Build a protein database in:
+ ============================
+ ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb
+ 
+ACNUC environment:
+ ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/index
+ ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files
+ 
+ACNUC tools in:
+ ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/../../ACNUC_SOFT/tools
+ 
+flat file: escherichia_uniprot.dat
+ ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files/escherichia_uniprot.dat
+ 
+Begin to build index...
+Thu Apr 23 11:53:24 CEST 2009
+=====================================
+Initialise
 
-Command? (or H for help)
-Enter your selection criteria, or H(elp) (EX: sp=equus and k=globin@)
-List LIST1 contains 4461 sequences 
+=====================================
+Generation des index
 
-Command? (or H for help)
-List name,  or H(elp) ?  [LIST1] Name of file to write list content? [default= list1.mne] 
-Command? (or H for help)
-End of ACNUC retrieval program
-    4461    4461   93681 test.mn
+=====================================
+run newordalphab
+
+
+=====================================
+run updatehelp
+Thu Apr 23 11:53:24 CEST 2009
+Index have been sucessfully build.
+=====================================
+ 
+Testing the index:
+==================
 \end{Soutput}
 \begin{Sinput}
  setwd(pwd)
@@ -892,16 +853,17 @@ computer try:
 \end{Sinput}
 \begin{Soutput}
  [1] "CITATION"    "CONTENTS"    "DESCRIPTION" "INDEX"       "Meta"       
- [6] "R"           "R-ex"        "data"        "doc"         "help"       
-[11] "html"        "latex"       "libs"        "man"         "sequences"  
+ [6] "R"           "R-ex"        "abif"        "data"        "doc"        
+[11] "help"        "html"        "latex"       "libs"        "man"        
+[16] "sequences"  
 \end{Soutput}
 \begin{Sinput}
  setwd("./doc/src/config")
  dir()
 \end{Sinput}
 \begin{Soutput}
-[1] "atxy.sty"        "book.bib"        "commonrnw.rnw"   "commontex.tex"  
-[5] "sessionInfo.rnw"
+[1] "atxy.sty"        "authors.tex"     "book.bib"        "commonrnw.rnw"  
+[5] "commontex.tex"   "sessionInfo.rnw"
 \end{Soutput}
 \begin{Sinput}
  cat(readLines("book.bib", n = 5), sep = "\n")
@@ -922,25 +884,29 @@ computer try:
 
 \section*{Session Informations}
 
+\begin{scriptsize}
+
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.8.0 (2008-10-20), \verb|i386-apple-darwin8.8.2|
+  \item R version 2.9.0 (2009-04-17), \verb|i386-apple-darwin8.11.1|
   \item Locale: \verb|C|
-  \item Base packages: base, datasets, grDevices, graphics, methods,
-    stats, utils
-  \item Other packages: MASS~7.2-44, ade4~1.4-9, ape~2.2-2,
-    nlme~3.1-89, quadprog~1.4-11, seqinr~2.0-0, tseries~0.10-16,
-    xtable~1.5-4, zoo~1.5-4
-  \item Loaded via a namespace (and not attached): grid~2.8.0,
-    lattice~0.17-15, tools~2.8.0
+  \item Base packages: base, datasets, grDevices, graphics, grid,
+    methods, stats, utils
+  \item Other packages: MASS~7.2-46, XML~2.3-0, ade4~1.4-11,
+    ape~2.3, grImport~0.4-3, quadprog~1.4-11, seqinr~2.0-3,
+    tseries~0.10-18, xtable~1.5-5, zoo~1.5-5
+  \item Loaded via a namespace (and not attached): gee~4.13-13,
+    lattice~0.17-22, nlme~3.1-90, tools~2.9.0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sun Oct 26 18:13:58 2008
+  \item \Rlogo{} compilation time was: Thu Apr 23 11:53:24 2009
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
+
+\end{scriptsize}
 
 % END - DO NOT REMOVE THIS LINE
 

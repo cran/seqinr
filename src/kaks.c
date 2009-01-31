@@ -1,27 +1,15 @@
 #include <R.h>
 #include <Rdefines.h>
 
-/********************************************************************/
-/****************************** LWL93 *******************************/
-/********************************************************************/
-
-/* Le programme lwl93 calcule les taus de substitutions synonymes */
-/* et non-synonymes au sens de Li (1993, J.M.E.36. 96-99) entre */
-/* toutes les paires de sequences d'un fichier mase. La sortie est */
-/* un ou deux fichier .num contenant les Ka et/ou Ks avec/sans leurs */
-/* variances. */
-
-int code_mt = 0; /* Not used yet */
+int code_mt = 0; /* Not implemented yet */
 
 void reresh(char **, int, int);
 void prefastlwl(double **, double **, double **, double **, double **, double **, double **, double **, double **, double **);
-int fastlwl(char **, int, int, double **, double **, double **, double **, double **, double **, double **, double **, double **, double **, double **, double **, double **);
-
-
+int fastlwl(char **, int, int, double **, double **, double **, double **, double **, double **, double **, double **, 
+            double **, double **, double **, double **, double **);
 
 SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 {
-
   char **seqIn; /* local working copy of sequences */
   char **seq;   /* pointer to original sequences from R object */
   double *tl0[64], *tl1[64], *tl2[64], *tti0[64], *tti1[64], *tti2[64], *ttv0[64], *ttv1[64], *ttv2[64];
@@ -51,13 +39,12 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 		     { .128, .040, .128, .382, .128, .128, .128, .128, .343, .040, .128, .343, .343, .343, .382, .382, .343, .343, .343 },
 		     {.040, .040, .040, .343, .040, .040, .040, .040, .128, .040, .128, .343, .343, .343, .343, .382, .128, .343, .382 }};
 
-
   SEXP rka;
   SEXP rks;
   SEXP rvka;
   SEXP rvks;
   SEXP res;
-/*  SEXP lsequtil; The effective number of sites used, to be implemented */
+/*  SEXP lsequtil; The effective number of sites used, not used yet */
 
   debugon = INTEGER_VALUE(debugkaks);
   totseqs = INTEGER_VALUE(nbseq);
@@ -148,9 +135,6 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
   PROTECT(rks = NEW_NUMERIC(totseqs*totseqs));
   PROTECT(rvka = NEW_NUMERIC(totseqs*totseqs));
   PROTECT(rvks = NEW_NUMERIC(totseqs*totseqs));
-  
-  
-
 
 
 	for (i = 2; i < 21; i++) {
@@ -168,33 +152,34 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 
 /******************************************************************************/
 /*                                                                            */
-/* Replace codons with ambiguous bases with ---                               */
+/* Replace codons with non ACGT bases with ---                                */
 /*                                                                            */
 /******************************************************************************/
 
-	for (i=0;i<totseqs;i++){
-		for(j=0;j<lgseq;j++){
-			if ((*(seqIn[i]+j)!='A') && (*(seqIn[i]+j)!='G') && (*(seqIn[i]+j)!='C') && (*(seqIn[i]+j)!='T') && (*(seqIn[i]+j)!='-') ) {
-				if (j%3==0) {
-					*(seqIn[i]+j)='-';
-					*(seqIn[i]+j+1)='-';
-					*(seqIn[i]+j+2)='-';
-				}
-
-				if (j%3==1) {
-					*(seqIn[i]+j)='-';
-					*(seqIn[i]+j+1)='-';
-					*(seqIn[i]+j-1)='-';
-				}
-
-				if (j%3==2) {
-					*(seqIn[i]+j)='-';
-					*(seqIn[i]+j-1)='-';
-					*(seqIn[i]+j-2)='-';
-				}
-			}
-		}
+  for (i = 0 ; i < totseqs ; i++){
+    for(j = 0 ; j < lgseq ; j++){
+      if ((*(seqIn[i] + j) != 'A') && (*(seqIn[i] + j) != 'G') && (*(seqIn[i] + j) != 'C') && (*(seqIn[i] + j) != 'T') ) {
+        /* Base in first codon position */
+        if (j % 3 == 0) {
+	  *(seqIn[i] + j) = '-';
+	  *(seqIn[i] + j + 1) = '-';
+	  *(seqIn[i] + j + 2) = '-';
 	}
+        /* Base in second codon position */
+	if (j % 3 == 1) {
+	  *(seqIn[i] + j) = '-';
+	  *(seqIn[i] + j + 1) = '-';
+	  *(seqIn[i] + j - 1) = '-';
+	}
+        /* Base in third codon position */
+	if (j % 3 == 2) {
+	  *(seqIn[i] + j) = '-';
+	  *(seqIn[i] + j - 1) = '-';
+	  *(seqIn[i] + j - 2) = '-';
+	}
+      }
+    }
+  }
 
 /******************************************************************************/
 /*                                                                            */
@@ -317,121 +302,93 @@ int num(char *cod)
 }
 
 
-
-
-
-int fastlwl(char **seq, int nbseq, int lgseq, double **ka, double **ks, double **tti0, double **tti1, double **tti2, double **ttv0, double **ttv1, double **ttv2, double **tl0, double **tl1, double **tl2, double **vka, double **vks)
+int fastlwl(char **seq, int nbseq, int lgseq, double **ka, double **ks, 
+            double **tti0, double **tti1, double **tti2, double **ttv0, 
+            double **ttv1, double **ttv2, double **tl0, double **tl1, 
+            double **tl2, double **vka, double **vks)
 {
+  const double trois = 3.0;
+  double l[3], a[3], b[3], p[3], q[3], ti[3], tv[3], cc[3],
+	 aaa[3], bb[3], flgseq, va[3], vb[3],es1,es2;
+  char cod1[3], cod2[3];
+  int i, j, ii, num1, num2, sat, sat1, sat2;
 
-	const double     trois = 3.0;
-	double           l[3], a[3], b[3], p[3], q[3], ti[3], tv[3], cc[3],
-	                aaa[3], bb[3], flgseq, va[3], vb[3],es1,es2;
-	char            cod1[3], cod2[3];
-	int             i, j, ii, num1, num2,
-	                sat, sat1, sat2;
+  sat = sat1 = sat2 = 2;
+  /*
+     Internal check at C level: this should be no more be necessary, I'll keep it just in case. JRL - 26-APR-2009
+  */
+  flgseq = (double) lgseq;
+  if (flgseq / trois != lgseq / 3) {
+    REprintf("Fatal error: the number of nucleotide after gap removal is not a multiple of 3.\nPlease report this bug on the seqinr diffusion list.\n");
+    return(0); /* Should be R's NA but an int is returned by fastlwl */
+  }
+  for (i = 0; i < nbseq - 1; i++) {
+    for (j = i + 1; j < nbseq; j++) {
+      l[0] = l[1] = l[2] = 0;
+      ti[0] = ti[1] = ti[2] = tv[0] = tv[1] = tv[2] = 0;
+      for (ii = 0; ii < lgseq / 3; ii++) {
+        cod1[0] = *(seq[i] + 3 * ii);
+        cod1[1] = *(seq[i] + 3 * ii + 1);
+	cod1[2] = *(seq[i] + 3 * ii + 2);
+	cod2[0] = *(seq[j] + 3 * ii);
+	cod2[1] = *(seq[j] + 3 * ii + 1);
+	cod2[2] = *(seq[j] + 3 * ii + 2);
+	num1 = num(cod1);
+	num2 = num(cod2);
+	l[0] += *(tl0[num1] + num2);
+	l[1] += *(tl1[num1] + num2);
+	l[2] += *(tl2[num1] + num2);
+	ti[0] += *(tti0[num1] + num2);
+	ti[1] += *(tti1[num1] + num2);
+	ti[2] += *(tti2[num1] + num2);
+	tv[0] += *(ttv0[num1] + num2);
+	tv[1] += *(ttv1[num1] + num2);
+	tv[2] += *(ttv2[num1] + num2);
+      }
+      for (ii = 0; ii < 3; ii++) {
+	p[ii] = ti[ii] / l[ii];
+	q[ii] = tv[ii] / l[ii];
+	aaa[ii] = 1 / (1 - 2 * p[ii] - q[ii]);
+	bb[ii] = 1 / (1 - 2 * q[ii]);
+	cc[ii] = (aaa[ii] + bb[ii]) / 2;
+        if (bb[ii] <= 0) {
+	  b[ii] = 10;
+	} else {
+	  b[ii] = 0.5 * (double) log(bb[ii]);
+        }
+	if ((aaa[ii] <= 0) || (bb[ii] <= 0)) {
+	  a[ii] = 10;
+	} else {
+	  a[ii] = 0.5 * (double) log(aaa[ii]) - 0.25 * log(bb[ii]);
+        }
+        es1 = aaa[ii] * aaa[ii] * p[ii] + cc[ii] * cc[ii] * q[ii];
+        es2 = (aaa[ii] * p[ii] + cc[ii] * q[ii]) * ( aaa[ii] * p[ii] + cc[ii] * q[ii]);
+        va[ii] = (aaa[ii] * aaa[ii] * p[ii] + cc[ii] * cc[ii] * q[ii] - (aaa[ii] * p[ii] + cc[ii] * q[ii]) * ( aaa[ii] * p[ii] + cc[ii] * q[ii])) / l[ii];
+        vb[ii] = bb[ii] * bb[ii] * q[ii] * (1 - q[ii]) / l[ii];
+      }
 
-	sat = sat1 = sat2 = 2;
-	flgseq = (double) lgseq;
-	if (flgseq / trois != lgseq / 3) {
-		error("Nombre de nt non multiple de trois.\n");
-	}
-	/*
-	  Note from Jean Lobry : I have included this test at the R level, but I keep the test active at the C
-	  level just in case...
-	*/
-	for (i = 0; i < nbseq - 1; i++) {
-		for (j = i + 1; j < nbseq; j++) {
-			l[0] = l[1] = l[2] = 0;
-			ti[0] = ti[1] = ti[2] = tv[0] = tv[1] = tv[2] = 0;
-
-	     		for (ii = 0; ii < lgseq / 3; ii++) {
-				cod1[0] = *(seq[i] + 3 * ii);
-				cod1[1] = *(seq[i] + 3 * ii + 1);
-				cod1[2] = *(seq[i] + 3 * ii + 2);
-				cod2[0] = *(seq[j] + 3 * ii);
-				cod2[1] = *(seq[j] + 3 * ii + 1);
-				cod2[2] = *(seq[j] + 3 * ii + 2);
-				num1 = num(cod1);
-				num2 = num(cod2);
-				l[0] += *(tl0[num1] + num2);
-				l[1] += *(tl1[num1] + num2);
-				l[2] += *(tl2[num1] + num2);
-				ti[0] += *(tti0[num1] + num2);
-				ti[1] += *(tti1[num1] + num2);
-				ti[2] += *(tti2[num1] + num2);
-				tv[0] += *(ttv0[num1] + num2);
-				tv[1] += *(ttv1[num1] + num2);
-				tv[2] += *(ttv2[num1] + num2);
-			}
-
-
-
-			for (ii = 0; ii < 3; ii++) {
-				p[ii] = ti[ii] / l[ii];
-				q[ii] = tv[ii] / l[ii];
-				aaa[ii] = 1 / (1 - 2 * p[ii] - q[ii]);
-				bb[ii] = 1 / (1 - 2 * q[ii]);
-				cc[ii] = (aaa[ii] + bb[ii]) / 2;
-
-				if (bb[ii] <= 0) {
-					b[ii] = 10;
-				} else
-					b[ii] = 0.5 * (double) log(bb[ii]);
-
-				if ((aaa[ii] <= 0) || (bb[ii] <= 0)) {
-					a[ii] = 10;
-				} else
-					a[ii] = 0.5 * (double) log(aaa[ii]) - 0.25 * log(bb[ii]);
-
-
-
-
-es1=aaa[ii] * aaa[ii] * p[ii] + cc[ii] * cc[ii] * q[ii];
-es2=(aaa[ii] * p[ii] + cc[ii] * q[ii]) * ( aaa[ii] * p[ii] + cc[ii] * q[ii]);
-
-				va[ii] = (aaa[ii] * aaa[ii] * p[ii] + cc[ii] * cc[ii] * q[ii] - (aaa[ii] * p[ii] + cc[ii] * q[ii]) * ( aaa[ii] * p[ii] + cc[ii] * q[ii])) / l[ii];
-
-
-				vb[ii] = bb[ii] * bb[ii] * q[ii] * (1 - q[ii]) / l[ii];
-
-
-			}
-
-
-
-			if ((a[1] != 10) && (a[2] != 10) && (b[2] != 10)){
-				ks[i][j] = (l[1] * a[1] + l[2] * a[2]) / (l[2] + l[1]) + b[2];
-				vks[i][j] = (l[1] * l[1]  * va[1] + l[2] * l[2] * va[2]) /  ((l[1] + l[2]) * (l[1]+l[2])) + vb[2] - bb[2] * q[2] * (2 * aaa[2] * p[2] - cc[2] * (1 - q[2]))/(l[1]+l[2]);
-			}
-			else {
-				sat1 = 1;
-				vks[i][j]=ks[i][j] = 9.999999;
-
-			}
-
-			if ((a[0] != 10) && (b[0] != 10) && (b[1] != 10)){
-				ka[i][j] = a[0] + (l[0] * b[0] + l[1] * b[1]) / (l[0] + l[1]);
-				vka[i][j] = (l[0] * l[0]  * vb[0] + l[1] * l[1] * vb[1]) /  ((l[1] + l[0]) * (l[1]+l[0])) + va[0] - bb[0] * q[0] * (2 * aaa[0] * p[0] - cc[0] * (1 - q[0]))/(l[1]+l[0]);
-	}
-
-		else {
-				vka[i][j]=ka[i][j] = 9.999999;
-				sat2 = 1;
-			}
-
-
-		}
-	}
-	if (sat1 == 1)
-		sat = 1;
-	if (sat2 == 1)
-		sat = 0;
-	return sat;
+      if ((a[1] != 10) && (a[2] != 10) && (b[2] != 10)){
+        ks[i][j] = (l[1] * a[1] + l[2] * a[2]) / (l[2] + l[1]) + b[2];
+	vks[i][j] = (l[1] * l[1]  * va[1] + l[2] * l[2] * va[2]) /  ((l[1] + l[2]) * (l[1]+l[2])) + vb[2] - bb[2] * q[2] * (2 * aaa[2] * p[2] - cc[2] * (1 - q[2]))/(l[1]+l[2]);
+      } else {
+	sat1 = 1;
+	vks[i][j]=ks[i][j] = 9.999999;
+      }
+      if ((a[0] != 10) && (b[0] != 10) && (b[1] != 10)){
+        ka[i][j] = a[0] + (l[0] * b[0] + l[1] * b[1]) / (l[0] + l[1]);
+	vka[i][j] = (l[0] * l[0]  * vb[0] + l[1] * l[1] * vb[1]) /  ((l[1] + l[0]) * (l[1]+l[0])) + va[0] - bb[0] * q[0] * (2 * aaa[0] * p[0] - cc[0] * (1 - q[0]))/(l[1]+l[0]);
+      } else {
+	vka[i][j]=ka[i][j] = 9.999999;
+	sat2 = 1;
+      }
+    }
+  }
+  if (sat1 == 1)
+    sat = 1;
+  if (sat2 == 1)
+    sat = 0;
+  return sat;
 }
-
-
-
-
 
 
 int catsite(char c1, char c2, char c3, int i) {
@@ -517,7 +474,7 @@ char transf(char nt1, char nt2)
 	if ((nt1 == 'T') && (nt2 == 'C'))
 		return 'i';
 
-	printf("Error\n%c, %c\n", nt1, nt2);
+	REprintf("Error\n%c, %c\n", nt1, nt2);
 	return 'E';
 }
 
@@ -1025,7 +982,6 @@ void reresh(char** seq, int nbseq, int option){
 		for (j=0;j<lgseq;j++){
 			*(seq[i]+j)=*(seqref[i]+j);
 		}
-	}
-
-	
+	}	
 }
+

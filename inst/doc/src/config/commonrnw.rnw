@@ -28,13 +28,18 @@
 %
 <<options, echo=FALSE, fig=FALSE, results=hide, eval=TRUE>>=
 options(prompt=" ", continue=" ", width = 77)
-.CurFileName <- get("file", env = parent.frame(3))
-.PrefixName <-strsplit(.CurFileName, "\\.")[[1]][1]
 .RversionName <-strsplit(R.version.string, ",")[[1]]
+if (as.numeric(R.version[["major"]])+as.numeric(R.version[["minor"]])/100 >=2.09 ) {
+    framenumber<-4
+  } else {
+    framenumber<-3
+}
+.CurFileName <- get("file", env = parent.frame(framenumber))
+.PrefixName <-strsplit(.CurFileName, "\\.")[[1]][1]
 r <- getOption("repos")
 r["CRAN"] <- "http://cran.univ-lyon1.fr"
 options(repos = r)
-# if seqinr was checked with "R CMD check seqinr", then this should load
+# if seqinr was checked with "R CMD check pkg", then this should load
 # the last development version:
 library(seqinr, lib = normalizePath("../../../../../pkg.Rcheck"))
 library(xtable)
@@ -42,6 +47,8 @@ library(ade4)
 library(ape)
 library(MASS)
 library(tseries)
+library(XML)
+library(grImport)
 @
 %
 %  Sweave Options

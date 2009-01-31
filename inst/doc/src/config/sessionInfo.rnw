@@ -1,6 +1,8 @@
 
 \section*{Session Informations}
 
+\begin{scriptsize}
+
 This part was compiled under the following \Rlogo{}~environment:
 
 <<sessionInfo, results=tex, echo = F>>=
@@ -16,3 +18,5 @@ There were two compilation steps:
   \item \Rlogo{} compilation time was: \Sexpr{.Rtoday}
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
+
+\end{scriptsize}

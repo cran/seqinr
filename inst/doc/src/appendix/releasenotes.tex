@@ -52,6 +52,72 @@ most recent on top.
 
 \section*{2.0 series}
 
+\subsection*{release 2.0-3}
+
+\begin{itemize}
+
+\item As pointed out on the seqinr diffusion list on 23-APR-2009
+by Darren Obbard there was an obscure error message when function
+\texttt{kaks()} was called with an alignment such that the number
+of nucleotides was not a multiple of 3 after gap removal. This check
+was partial as an alignment with out-of-frame gaps but with
+a total number of gaps multiple of 3 was not detected.
+The new behaviour is that if at least one non ACGT base is found in a
+codon, then the whole codon is forced to a gap codon (\texttt{---}).
+The documentation of the function has been clarified accordingly,
+and a new alignment file \texttt{DarrenObbard.fasta} added in
+the \texttt{sequences} folder to check this new behaviour.
+
+\item Function \texttt{readBins()} is now more tolerant when there
+is an extra column with possibly empty fields in data by forcing
+the \texttt{fill} argument of \texttt{read.table()} function to
+\texttt{TRUE}.
+
+\item As pointed out by e-mail on 30-MAR-2009 by Yann Lesecque there 
+was a bug in the \texttt{getTrans()} function: when applied to a 
+list of sequences with all the same length the returned result 
+was a matrix instead of a list. This is now fixed.
+
+\item New utility functions \texttt{readPanels()} and \texttt{readBins()} 
+to import data from GeneMapper configuration files. Four example files
+are now in the \texttt{abif} folder.
+
+\item Function \texttt{peakabif()} now returns the heights and
+surfaces of peaks in addition to their location.
+
+\item New utility function \texttt{al2bp()} to convert
+a forensic microsatellite allele name into its length in base pairs.
+Conventions used to name forensic microsatellite alleles (STR) are described
+in Bar \emph{et al.} (1994) \cite{BarW1994}. 
+The name \texttt{9.3} means for instance that there are
+9 repetitions of the complete base oligomer and an incomplete 
+repeat with 3 bp.
+
+\end{itemize}
+
+\subsection*{release 2.0-2}
+
+\begin{itemize}
+
+\item New ABIF format related functions: \texttt{plotabif()} to plot
+electrophoregrams with optonial internal size standard and optional
+allelic ladder, \texttt{peakabif()} to locate peaks in electrophoregrams,
+\texttt{plotladder()} to display an observed allelic ladder.
+
+\item New datasets \texttt{gs500liz} for size standards, \texttt{identifiler}
+for allelic ladder names, \texttt{ECH} for allelic ladder raw data and
+\texttt{JLO} for forensic genetic profile raw data. The last one is
+now used as a quality check for the \texttt{read.abif()} function.
+
+\item A new folder called \texttt{abif} has been created under the
+\texttt{inst} folder. The purpose of this folder is to contain examples
+of files in ABIF format so that the results of the \texttt{read.abif()} 
+function can be checked against expected results for quality check.
+It contains for now two duplicated genetic profiles and two allelic
+ladders from the same batch experiment.
+
+\end{itemize}
+
 \subsection*{release 2.0-1}
 
 \begin{itemize}
@@ -793,25 +859,29 @@ now possible.
 
 \section*{Session Informations}
 
+\begin{scriptsize}
+
 This part was compiled under the following \Rlogo{}~environment:
 
 \begin{itemize}
-  \item R version 2.8.0 (2008-10-20), \verb|i386-apple-darwin8.8.2|
+  \item R version 2.9.0 (2009-04-17), \verb|i386-apple-darwin8.11.1|
   \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
-  \item Base packages: base, datasets, grDevices, graphics, methods,
-    stats, utils
-  \item Other packages: MASS~7.2-44, ade4~1.4-9, ape~2.2-2,
-    nlme~3.1-89, quadprog~1.4-11, seqinr~2.0-1, tseries~0.10-16,
-    xtable~1.5-4, zoo~1.5-4
-  \item Loaded via a namespace (and not attached): grid~2.8.0,
-    lattice~0.17-15
+  \item Base packages: base, datasets, graphics, grDevices, grid,
+    methods, stats, utils
+  \item Other packages: ade4~1.4-11, ape~2.3, grImport~0.4-3,
+    MASS~7.2-46, quadprog~1.4-11, seqinr~2.0-3, tseries~0.10-18,
+    XML~2.3-0, xtable~1.5-5, zoo~1.5-5
+  \item Loaded via a namespace (and not attached): gee~4.13-13,
+    lattice~0.17-22, nlme~3.1-90
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Fri Dec 12 14:58:15 2008
+  \item \Rlogo{} compilation time was: Sun Apr 26 20:12:01 2009
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
+
+\end{scriptsize}
 
 % END - DO NOT REMOVE THIS LINE
 
