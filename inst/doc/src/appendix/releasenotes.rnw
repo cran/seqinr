@@ -16,6 +16,34 @@ most recent on top.
 
 \section*{2.0 series}
 
+\subsection*{release 2.0-4}
+
+\begin{itemize}
+
+\item Configuration files to be imported by the \texttt{readBins()}
+function may have trailling tabulations, as for instance in the
+test file \texttt{Prototype\_PowerPlex\_EP01\_Bins.txt} for allele
+9 at locus \texttt{D3S1358} and for allele 14 at locus \texttt{D12S391}.
+This was a source of trouble during importation. This is now fixed
+and the above mentioned file is used as a quality control. A warning
+is now issued if the number of columns in the data.frame corresponding
+to a locus is not 4 as expected.
+
+\item Configuration files to be imported by the \texttt{readPanels()}
+function may have more than one tabulation separator between
+two data items in a way that could be different from one
+line to another one. There is an example of such a case in the
+test file \texttt{Prototype\_PowerPlex\_EP01\_Pa.txt} where
+locus \texttt{D10S1248} and \texttt{D22S1045} are followed by a
+single tabulation when all remaining loci are followed by two
+tabulations.
+This was a source of trouble during importation.
+This is now fixed by preprocessing the input so that
+all consecutive tabulations are replaced by a single one.
+The above mentioned test file is now used as a quality control.
+
+\end{itemize}
+
 \subsection*{release 2.0-3}
 
 \begin{itemize}

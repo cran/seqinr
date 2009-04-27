@@ -67,4 +67,11 @@ plotPannels <- function(kitname, data){
 }
 
 plotPannels("Identifiler_v1", res1)
+
+#
+# Simple quality check since seqinR 2.0-4 with a file which containing
+# a non constant number of tabulations as separator:
+#
+path3 <- system.file("abif/Prototype_PowerPlex_EP01_Pa.txt", package = "seqinr")
+res3 <- readPanels(path3)
 }

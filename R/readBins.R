@@ -17,10 +17,17 @@ readBins <- function(file,
   	  locstops <- c(iMark[-1] - 1, length(locsrc))
   	  for(j in seq_len(length(iMark))){
   	  	  mycon <- textConnection(locsrc[locstarts[j]:locstops[j]])
-  	  	  locres[[j]] <- read.table(mycon, sep = "\t", fill = TRUE)
+  	  	  locres[[j]] <- read.table(mycon, sep = "", fill = TRUE) # changed
   	  	  colnames(locres[[j]])[1:length(colnames)] <- colnames
   	  	  close(mycon)
   	  	  names(locres)[j] <- unlist(strsplit(locsrc[iMark[j]], split = "\t"))[2]
+  	  	}
+  	  	#
+  	  	# Check that the number of columns is 4 for all loci:
+  	  	#
+  	  	ncols <- sapply(locres, ncol)
+  	  	if(any((ncols != 4))){
+  	  		warning("A problem may have occur during importation")
   	  	}
     result[[i+1]] <- locres
     names(result)[i+1] <- unlist(strsplit(src[iPanel[i]], split = "\t"))[2]

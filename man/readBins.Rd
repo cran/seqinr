@@ -45,4 +45,12 @@ names(resbin1[["Identifiler_v1"]])
 # Show alleles expected sizes for a given marker:
 #
 resbin1[["Identifiler_v1"]][["D8S1179"]]
+#
+# Simple quality check since seqinr 2.0-4 with a configuration file
+# containing trailling tabulations:
+#
+path3 <- system.file("abif/Prototype_PowerPlex_EP01_Bins.txt", package = "seqinr")
+resbin3 <- readBins(path3)
+ncols <- sapply(resbin3[[2]], ncol)
+stopifnot(all(ncols == 4))
 }
