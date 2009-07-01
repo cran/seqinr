@@ -52,6 +52,60 @@ most recent on top.
 
 \section*{2.0 series}
 
+\subsection*{release 2.0-5}
+
+\begin{itemize}
+
+\item New utility function \texttt{circle()} to draw a circle.
+
+\item Two more examples of files to be imported with the \texttt{readBins()}
+and \texttt{readPanels()} functions are now available in the \texttt{abif}
+folder: \texttt{NGM\_Bins.txt} and \texttt{NGM\_Pa.txt}, respectively.
+
+\item New function \texttt{plotPanels()} to plot amplicon size ranges of STR
+kits data.
+
+\item New utility function \texttt{col2alpha()} to add a transparency 
+chanel to a standard R color.
+
+\item New ABIF example file \texttt{samplefsa2ps.fsa} used in the
+\texttt{read.abif()} function to reproduce figure 1A from \cite{Krawczyk2009}.
+
+\item New function \texttt{move()} aliased as \texttt{mv()} to rename
+an object without deep copy.
+
+\item New function \texttt{swap()} to exchange two objects.
+
+\end{itemize}
+
+\subsection*{release 2.0-4}
+
+\begin{itemize}
+
+\item Configuration files to be imported by the \texttt{readBins()}
+function may have trailling tabulations, as for instance in the
+test file \texttt{Prototype\_PowerPlex\_EP01\_Bins.txt} for allele
+9 at locus \texttt{D3S1358} and for allele 14 at locus \texttt{D12S391}.
+This was a source of trouble during importation. This is now fixed
+and the above mentioned file is used as a quality control. A warning
+is now issued if the number of columns in the data.frame corresponding
+to a locus is not 4 as expected.
+
+\item Configuration files to be imported by the \texttt{readPanels()}
+function may have more than one tabulation separator between
+two data items in a way that could be different from one
+line to another one. There is an example of such a case in the
+test file \texttt{Prototype\_PowerPlex\_EP01\_Pa.txt} where
+locus \texttt{D10S1248} and \texttt{D22S1045} are followed by a
+single tabulation when all remaining loci are followed by two
+tabulations.
+This was a source of trouble during importation.
+This is now fixed by preprocessing the input so that
+all consecutive tabulations are replaced by a single one.
+The above mentioned test file is now used as a quality control.
+
+\end{itemize}
+
 \subsection*{release 2.0-3}
 
 \begin{itemize}
@@ -869,7 +923,7 @@ This part was compiled under the following \Rlogo{}~environment:
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
   \item Other packages: ade4~1.4-11, ape~2.3, grImport~0.4-3,
-    MASS~7.2-46, quadprog~1.4-11, seqinr~2.0-3, tseries~0.10-18,
+    MASS~7.2-46, quadprog~1.4-11, seqinr~2.0-5, tseries~0.10-18,
     XML~2.3-0, xtable~1.5-5, zoo~1.5-5
   \item Loaded via a namespace (and not attached): gee~4.13-13,
     lattice~0.17-22, nlme~3.1-90
@@ -877,7 +931,7 @@ This part was compiled under the following \Rlogo{}~environment:
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sun Apr 26 20:12:01 2009
+  \item \Rlogo{} compilation time was: Sat Sep  5 21:09:27 2009
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

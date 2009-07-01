@@ -16,6 +16,32 @@ most recent on top.
 
 \section*{2.0 series}
 
+\subsection*{release 2.0-5}
+
+\begin{itemize}
+
+\item New utility function \texttt{circle()} to draw a circle.
+
+\item Two more examples of files to be imported with the \texttt{readBins()}
+and \texttt{readPanels()} functions are now available in the \texttt{abif}
+folder: \texttt{NGM\_Bins.txt} and \texttt{NGM\_Pa.txt}, respectively.
+
+\item New function \texttt{plotPanels()} to plot amplicon size ranges of STR
+kits data.
+
+\item New utility function \texttt{col2alpha()} to add a transparency 
+chanel to a standard R color.
+
+\item New ABIF example file \texttt{samplefsa2ps.fsa} used in the
+\texttt{read.abif()} function to reproduce figure 1A from \cite{Krawczyk2009}.
+
+\item New function \texttt{move()} aliased as \texttt{mv()} to rename
+an object without deep copy.
+
+\item New function \texttt{swap()} to exchange two objects.
+
+\end{itemize}
+
 \subsection*{release 2.0-4}
 
 \begin{itemize}

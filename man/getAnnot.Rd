@@ -38,7 +38,7 @@ getAnnot(object, ...)
 }
 \author{ D. Charif and J.R. Lobry and L. Palmeira} 
 \seealso{
-  \code{\link{query}}, \code{\link{SeqAcnucWeb}}, \code{\link{c2s}}, \code{\link{translate} and \code{\link{prepgetannots}} to select the annotation lines.}
+  \code{\link{query}}, \code{\link{SeqAcnucWeb}}, \code{\link{c2s}}, \code{\link{translate}} and \code{\link{prepgetannots}} to select the annotation lines.
 }
 \examples{
 #

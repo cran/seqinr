@@ -64,10 +64,10 @@ getTrans(object, sens = "F", NAstring = "X", ambiguous = FALSE, ...)
 }
 \author{ D. Charif and J.R. Lobry and L. Palmeira} 
 \seealso{
-  \code{\link{SeqAcnucWeb}}, \code{\link{SeqFastadna}}, \code{\link{SeqFrag}\cr
+  \code{\link{SeqAcnucWeb}}, \code{\link{SeqFastadna}}, \code{\link{SeqFrag}}\cr
   The genetic codes are given in the object \code{\link{SEQINR.UTIL}}, a more
   human readable form is given by the function \code{\link{tablecode}}. 
-  Use \code{\link{aaa}} to get the three-letter code for amino-acids.}
+  Use \code{\link{aaa}} to get the three-letter code for amino-acids.
 }
 \examples{
 #

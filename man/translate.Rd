@@ -24,7 +24,7 @@ translate(seq, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous = F
 \details{
  The following genetic codes are described here. The number preceding each code 
  corresponds to \code{numcode}. 
-\itemize{	
+\describe{	
   \item{1}{ standard }
   \item{2}{ vertebrate.mitochondrial }
   \item{3}{ yeast.mitochondrial }
@@ -42,7 +42,7 @@ translate(seq, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous = F
   \item{21}{ trematode.mitochondrial }
   \item{22}{ scenedesmus.mitochondrial }
   \item{23}{ hraustochytrium.mitochondria }
-} 
+}
 }
 \value{
   \code{translate} returns a vector of single characters containing the peptide sequence in 

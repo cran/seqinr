@@ -26,7 +26,7 @@ Number of bases in core repeat is set to 9 for Amelogenin locus.
 \code{citation("seqinR")}
 }
 \author{J.R. Lobry}
-\seealso{\code{\link{readBins}}.}
+\seealso{\code{\link{readBins}}, \code{\link{plotPanels}}.}
 \examples{
 #
 # Check that we can read the 2 exemple files in the seqinR package:
@@ -44,29 +44,11 @@ names(res1)
 #
 res1[["Identifiler_v1"]][, 1:7]
 #
-# Plot a simple summary of a kit:
+# Plot a simple summary of two kits:
 #
-plotPannels <- function(kitname, data){
-  df <- data[[kitname]]
-  dcoln <- unique(as.character(df$dye.col))
-  ncol <- length(dcoln)
-  bmin <- min(df$min.bp)
-  bmax <- max(df$max.bp)
-  plot.new()
-  plot.window(xlim = c(bmin, bmax), ylim = c(0, ncol))
-  rect(bmin, 0, bmax, ncol)
-  yscale <- (ncol-1):0
-  names(yscale) <- dcoln
-  for(i in 1:nrow(df)){
-    col <- as.character(df[i, "dye.col"])
-    rect(df[i, "min.bp"], yscale[col], df[i, "max.bp"], yscale[col]+1, col = col)
-    text(df[i, "min.bp"], yscale[col]+0.5, df[i, "marker"], pos = 4)
-  }
-  title(main = kitname, xlab = "Size [bp]")
-  axis(1)
-}
-
-plotPannels("Identifiler_v1", res1)
+par(mfrow = c(2,1))
+plotPanels("Identifiler_v1", res1)
+plotPanels("PowerPlex_16_v1", res2)
 
 #
 # Simple quality check since seqinR 2.0-4 with a file which containing
