@@ -8,7 +8,7 @@
 }
 \usage{
 read.fasta(file = system.file("sequences/ct.fasta", package = "seqinr"), 
-  seqtype = c("DNA", "AA"), File = NULL, as.string = FALSE, forceDNAtolower = TRUE,
+  seqtype = c("DNA", "AA"), as.string = FALSE, forceDNAtolower = TRUE,
   set.attributes = TRUE, legacy.mode = TRUE, seqonly = FALSE, strip.desc = FALSE,
   bfa = FALSE, sizeof.longlong = .Machine$sizeof.longlong,
   endian = .Platform$endian, apply.mask = TRUE)
@@ -21,8 +21,6 @@ read.fasta(file = system.file("sequences/ct.fasta", package = "seqinr"),
    of the seqinR package.}
   \item{seqtype}{ the nature of the sequence: \code{DNA} or \code{AA}, defaulting
     to \code{DNA} }
-  \item{File}{ Synonymous of file. As from seqinR >= 1.1-3 this argument
-  is deprecated and a warning is issued}
   \item{as.string}{ if TRUE sequences are returned as a string instead of a
   vector of single characters}
   \item{forceDNAtolower}{ whether sequences with \code{seqtype == "DNA"} should be
@@ -63,6 +61,10 @@ read.fasta(file = system.file("sequences/ct.fasta", package = "seqinr"),
   In this format the four nucleotides are coded with two bits and the
   sequence is stored as a vector of C \code{unsigned long long}. There
   is in addition a mask to locate non-acgt characters.
+}
+\note{
+The old argument \code{File} that was deprecated since seqinR >= 1.1-3 is
+no more valid since seqinR >= 2.0-6. Just use \code{file} instead.
 }
 \value{
   By default \code{read.fasta} return a list of vector of chars. Each element 

@@ -20,6 +20,7 @@ peakabif(abifdata,
   irange = (tmin*tscale):(tmax*tscale),
   y = abifdata$Data[[DATA]][irange]/yscale,
   method = "monoH.FC",
+  maxrfu = 1000,
   ...)
 }
 \arguments{
@@ -37,11 +38,16 @@ peakabif(abifdata,
   \item{irange}{indices of data to be plotted}
   \item{y}{values used for the y-axis}
   \item{method}{method to be used by \code{\link{splinefun}}}
+  \item{maxrfu}{argument passed to \code{\link{baselineabif}}}
   \item{...}{arguments forwarded to \code{\link{plot}}}
 }
 \value{
   Returns invisibly a list with the unscaled values for the locations of peaks,
-  heights of peaks and surfaces of peaks.
+  heights of peaks and surfaces of peaks and baseline estimate. The peak
+  location are in datapoint units, that is an integer starting at 1 for the
+  first experimental point, 2 for the second experimental point, etc. 
+  However, due to interpolation between points
+  the estimated peak location is usually not an integer.
 }
 \references{
   \code{citation("seqinr")}

@@ -16,6 +16,37 @@ most recent on top.
 
 \section*{2.0 series}
 
+\subsection*{release 2.0-6}
+
+\begin{itemize}
+
+\item The old argument \texttt{File} in function \texttt{read.fasta()}
+that was deprecated since release 1.1-3 is no more valid.
+Just use \texttt{file} instead.
+
+\item New function \texttt{stutterabif()} to estimate stutter ratio.
+
+\item Function \texttt{plotabif()} has a new default value for its
+\texttt{ylim} arugument: \texttt{c(min(y), max(y))} now instead
+of \texttt{c(0, max(y))} previously to help ploting data with
+a highly negative baseline.
+
+\item Function \texttt{peakabif()} now returns in addition an estimate
+of the baseline value.
+
+\item New utility \texttt{baselineabif()} to estimate the baseline
+value.
+
+\item There was time of one datapoint unit for the peak locations
+returned by the \texttt{peakabif()} function, this is now fixed
+and the documentation is more explicit for the units used.
+
+\item New utility function \texttt{fastacc()} to compute the number
+of alleles in common between a genetic profile and a database of
+genetic profiles.
+
+\end{itemize}
+
 \subsection*{release 2.0-5}
 
 \begin{itemize}

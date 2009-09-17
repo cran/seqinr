@@ -1,6 +1,6 @@
 Package: seqinr
-Version: 2.0-5
-Date: 2009-07-01
+Version: 2.0-6
+Date: 2009-09-17
 Title: Biological Sequences Retrieval and Analysis
 Author: Delphine Charif and Jean R. Lobry and Anamaria Necsulea and
         Leonor Palmeira and Simon Penel
@@ -16,6 +16,6 @@ URL: http://seqinr.r-forge.r-project.org/, Mailing list:
 ZipData: no
 Repository: CRAN
 Repository/R-Forge/Project: seqinr
-Repository/R-Forge/Revision: 1647
-Date/Publication: 2009-09-18 20:32:03
-Packaged: 2009-09-09 20:26:58 UTC; rforge
+Repository/R-Forge/Revision: 1669
+Date/Publication: 2009-10-18 10:17:28
+Packaged: 2009-10-12 20:17:14 UTC; rforge

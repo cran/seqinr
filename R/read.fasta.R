@@ -1,16 +1,10 @@
 read.fasta <- function(file = system.file("sequences/ct.fasta", package = "seqinr"), 
-  seqtype = c("DNA", "AA"), File = NULL, as.string = FALSE, forceDNAtolower = TRUE,
+  seqtype = c("DNA", "AA"), as.string = FALSE, forceDNAtolower = TRUE,
   set.attributes = TRUE, legacy.mode = TRUE, seqonly = FALSE, strip.desc = FALSE,
   bfa = FALSE, sizeof.longlong = .Machine$sizeof.longlong,
   endian = .Platform$endian, apply.mask = TRUE)
 {
-  #
-  # Check arguments:
-  #
-  if(!is.null(File)){
-    file <- File
-    warning("File is deprecated, use file instead")
-  }
+
   seqtype <- match.arg(seqtype) # default is DNA
   
   ##############################

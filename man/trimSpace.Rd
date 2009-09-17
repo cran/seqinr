@@ -60,8 +60,8 @@ stopifnot(all( trimSpace(testspace, leading = FALSE, trailing = FALSE) == testsp
   #
   # How to use alternative space characters:
   #
-allspaces <- "\t\n\v\f\r seqinR \t\n\v\f\r"
+allspaces <- "\t\n\f\r seqinR \t\n\f\r"
 stopifnot(trimSpace(allspaces) == "seqinR")
-stopifnot(trimSpace(allspaces, space = "\t\n") == "\v\f\r seqinR \t\n\v\f\r")
+stopifnot(trimSpace(allspaces, space = "\t\n") == "\f\r seqinR \t\n\f\r")
 }
 \keyword{manip}
