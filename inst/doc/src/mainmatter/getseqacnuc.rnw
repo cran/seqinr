@@ -141,7 +141,7 @@ for(i in seq_len(nbanks)){
 }
 names(ntaxa) <- banks
 @ 
-<<plottaxaperbank,fig=T,eval=T>>=
+<<plottaxaperbank,fig=T,eval=T,width=6,height=8>>=
 dotchart(log10(ntaxa[order(ntaxa)]), pch = 19,
 main = "Number of taxa in available databases",
 xlab = "Log10(number of taxa)")

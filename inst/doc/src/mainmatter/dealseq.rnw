@@ -226,37 +226,40 @@ dotchart.uco(codonusage, main = paste("Codon usage in",  myseqname))
 
 \clearpage
 
-\subsection{Sequences as strings}
-
-If you are interested in (fuzzy) pattern matching, then it is advisable to work with
-sequence as strings to take advantage of \emph{regular expression} implemented
-in \Rlogo{}. The function \texttt{words.pos()} returns the positions of all occurrences
-of a given regular expression. Let's suppose we want to know where are the trinucleotides
-"cgt" in a sequence, that is the fragment CpGpT in the direct strand:
-
-<<cgt, eval=T>>=
-mystring <- c2s(myseq)
-(cgt <- words.pos("cgt", mystring))
-substring(mystring, cgt, cgt+2)
-@
-
-We can also look for the fragment CpGpTpY to illustrate fuzzy matching because
-Y (IUPAC code for pyrimidine) stands C or T:
-
-<<fuzzy, eval=T>>=
-(cgty <- words.pos("cgt[ct]", mystring))
-substring(mystring, cgty, cgty+3)
-@
-
-To look for all CpC dinucleotides separated by 3 or 4 bases:
-<<fuzzy2, eval=T>>=
-(cc34cc <- words.pos("cc.{3,4}cc", mystring, perl = TRUE))
-substring(mystring, cc34cc, cc34cc+7)
-@
-
-Virtually any pattern is easily encoded with a regular expression. This is
-especially useful at the protein level because many functions can be attributed 
-to short linear motifs.
+%
+% Things are changing with R 2.10, this is no more correct
+%
+%\subsection{Sequences as strings}
+%
+%If you are interested in (fuzzy) pattern matching, then it is advisable to work with
+%sequence as strings to take advantage of \emph{regular expression} implemented
+%in \Rlogo{}. The function \texttt{words.pos()} returns the positions of all occurrences
+%of a given regular expression. Let's suppose we want to know where are the trinucleotides
+%"cgt" in a sequence, that is the fragment CpGpT in the direct strand:
+%
+%<<cgt, eval=T>>=
+%mystring <- c2s(myseq)
+%(cgt <- words.pos("cgt", mystring))
+%substring(mystring, cgt, cgt+2)
+%@
+%
+%We can also look for the fragment CpGpTpY to illustrate fuzzy matching because
+%Y (IUPAC code for pyrimidine) stands C or T:
+%
+%<<fuzzy, eval=T>>=
+%(cgty <- words.pos("cgt[ct]", mystring))
+%substring(mystring, cgty, cgty+3)
+%@
+%
+%To look for all CpC dinucleotides separated by 3 or 4 bases:
+%<<fuzzy2, eval=T>>=
+%(cc34cc <- words.pos("cc.{3,4}cc", mystring, perl = TRUE))
+%substring(mystring, cc34cc, cc34cc+7)
+%@
+%
+%Virtually any pattern is easily encoded with a regular expression. This is
+%especially useful at the protein level because many functions can be attributed 
+%to short linear motifs.
 
 \SweaveInput{../config/sessionInfo.rnw}
 

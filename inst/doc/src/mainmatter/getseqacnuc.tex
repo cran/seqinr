@@ -75,14 +75,17 @@ This function initiates a remote access to an ACNUC database. Called without arg
  choosebank()
 \end{Sinput}
 \begin{Soutput}
- [1] "genbank"      "embl"         "emblwgs"      "swissprot"   
- [5] "ensembl"      "refseq"       "nrsub"        "hobacnucl"   
- [9] "hobacprot"    "hovergendna"  "hovergen"     "hogenom"     
-[13] "hogenomdna"   "hogennucl"    "hogenprot"    "hoverclnu"   
-[17] "hoverclpr"    "homolens3"    "homolens3dna" "homolens"    
-[21] "homolensdna"  "greview"      "polymorphix"  "emglib"      
-[25] "HAMAPnucl"    "HAMAPprot"    "taxobacgen"   "apis"        
-[29] "human"       
+ [1] "genbank"        "embl"           "emblwgs"        "swissprot"     
+ [5] "ensembl"        "refseq"         "refseqViruses"  "nrsub"         
+ [9] "hobacnucl"      "hobacprot"      "hovergendna"    "hovergen"      
+[13] "hogenom5"       "hogenom5dna"    "hogenom"        "hogenomdna"    
+[17] "hogennucl"      "hogenprot"      "hoverclnu"      "hoverclpr"     
+[21] "homolens3"      "homolens3dna"   "homolens"       "homolensdna"   
+[25] "greviews"       "polymorphix"    "emglib"         "HAMAPnucl"     
+[29] "HAMAPprot"      "taxobacgen"     "apis"           "anopheles"     
+[33] "caenorhabditis" "ciona_savignyi" "danio"          "drosophila"    
+[37] "felis"          "gallus"         "human"          "mouse"         
+[41] "saccharomyces"  "tetraodon"      "xenopus"       
 \end{Soutput}
 \end{Schunk}
  
@@ -103,10 +106,10 @@ at the compilation time (\today) of this document:
 1 genbank     on
 2    embl     on
 3 emblwgs     on
-                                                             info
-1     GenBank Rel. 171 (15 April 2009) Last Updated: Apr 23, 2009
-2 EMBL Library Release 99 (March 2009) Last Updated: Apr 23, 2009
-3    EMBL Whole Genome Shotgun sequences Release 99  (March 2009)
+                                                                  info
+1        GenBank Rel. 174 (15 October 2009) Last Updated: Nov  5, 2009
+2 EMBL Library Release 101 (September 2009) Last Updated: Nov  5, 2009
+3    EMBL Whole Genome Shotgun sequences Release 101  (September 2009)
 \end{Soutput}
 \end{Schunk}
 
@@ -164,12 +167,12 @@ List of 9
   .. ..- attr(*, "conn_id")=<externalptr> 
  $ bankname: chr "genbank"
  $ banktype: chr "GENBANK"
- $ totseqs : num 1.1e+08
- $ totspecs: num 637489
- $ totkeys : num 13783816
- $ release : chr "          GenBank Rel. 171 (15 April 2009) Last Updated: Apr 23, 2009"
+ $ totseqs : num 1.19e+08
+ $ totspecs: num 686783
+ $ totkeys : num 15791073
+ $ release : chr "         GenBank Rel. 174 (15 October 2009) Last Updated: Nov  5, 2009"
  $ status  :Class 'AsIs'  chr "on"
- $ details : chr [1:4] "             ****     ACNUC Data Base Content      ****                         " "          GenBank Rel. 171 (15 April 2009) Last Updated: Apr 23, 2009" "103,287,086,629 bases; 103,570,547 sequences; 6,354,023 subseqs; 549,786 refers." "Software by M. Gouy, Lab. Biometrie et Biologie Evolutive, Universite Lyon I "
+ $ details : chr [1:4] "             ****     ACNUC Data Base Content      ****                         " "         GenBank Rel. 174 (15 October 2009) Last Updated: Nov  5, 2009" "108,943,317,873 bases; 111,355,981 sequences; 7,239,424 subseqs; 573,990 refers." "Software by M. Gouy, Lab. Biometrie et Biologie Evolutive, Universite Lyon I "
 \end{Soutput}
 \begin{Sinput}
  closebank()
@@ -179,15 +182,15 @@ List of 9
 The components of \texttt{banknameSocket} means that in the database
 called \texttt{genbank} at the compilation time
 of this document there were 
-\texttt{109,924,571}
+\texttt{118,595,406}
 sequences from
-\texttt{637,489}
+\texttt{686,783}
 species and a total of
-\texttt{13,783,816}
+\texttt{15,791,073}
 keywords. The status of the bank was
 \texttt{on}, 
 and the release information was
-\texttt{          GenBank Rel. 171 (15 April 2009) Last Updated: Apr 23, 2009}.
+\texttt{         GenBank Rel. 174 (15 October 2009) Last Updated: Nov  5, 2009}.
 For specialized databases, some relevant informations are also given in the
 \texttt{details} component, for instance:
 
@@ -311,9 +314,9 @@ let's see the name of the first ten of them:
  getName(completeCatsCDS$req[1:10])
 \end{Sinput}
 \begin{Soutput}
- [1] "AB000483.PE1"    "AB000484.PE1"    "AB000485.PE1"    "AB004237"       
- [5] "AB004238"        "AB009279.PE1"    "AB009280.PE1"    "AB010872.UGT1A1"
- [9] "AB011965.SDF-1A" "AB011966.SDF-1B"
+ [1] "AB000483.PE1"    "AB000484.PE1"    "AB000485.PE1"    "AB003366"       
+ [5] "AB003367"        "AB004237"        "AB004238"        "AB009279.PE1"   
+ [9] "AB009280.PE1"    "AB010872.UGT1A1"
 \end{Soutput}
 \end{Schunk}
 
@@ -383,15 +386,15 @@ with many elements, for instance :
  allcds$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 6900945
+[1] 7992598
 \end{Soutput}
 \end{Schunk}
 
-There are therefore \texttt{6,900,945} coding
+There are therefore \texttt{7,992,598} coding
 sequences in this version of GenBank\footnote{
 which is stored in the \texttt{release} component of the object \texttt{banknameSocket}
 and current value is today (\today): \texttt{banknameSocket\$release = 
-          GenBank Rel. 171 (15 April 2009) Last Updated: Apr 23, 2009}.
+         GenBank Rel. 174 (15 October 2009) Last Updated: Nov  5, 2009}.
 }. 
 It would be long to get all the informations for the elements
 of this list, so we have set the parameter \texttt{virtual} to \texttt{TRUE} and the \texttt{req}
@@ -418,11 +421,11 @@ from, say, \textit{Mycoplasma genitalium}:
  small$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 956
+[1] 979
 \end{Soutput}
 \end{Schunk}
 
-There are then \texttt{956} elements in
+There are then \texttt{979} elements in
 the list \texttt{small}, so that we can safely repeat the previous query without asking for a
 virtual list:
 
@@ -448,10 +451,10 @@ current GenBank release.
  man$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 12404202
+[1] 13042724
 \end{Soutput}
 \end{Schunk}
-There are \texttt{12,404,202} sequences from \textit{Homo sapiens}.
+There are \texttt{13,042,724} sequences from \textit{Homo sapiens}.
 
 \item[\textbf{Sex.}] How many sequences are annotated with a keyword starting by sex?
 \begin{Schunk}
@@ -460,10 +463,10 @@ There are \texttt{12,404,202} sequences from \textit{Homo sapiens}.
  sex$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 1397
+[1] 1465
 \end{Soutput}
 \end{Schunk}
-There are \texttt{1,397} such sequences.
+There are \texttt{1,465} such sequences.
 
 \item[\textbf{tRNA.}] How many complete tRNA sequences are available?
 \begin{Schunk}
@@ -472,10 +475,10 @@ There are \texttt{1,397} such sequences.
  trna$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 358411
+[1] 413347
 \end{Soutput}
 \end{Schunk}
-There are \texttt{358,411} complete tRNA sequences.
+There are \texttt{413,347} complete tRNA sequences.
 
 \item[\textbf{Nature vs. Science.}] In which journal were the more sequences published?
 \begin{Schunk}
@@ -484,19 +487,19 @@ There are \texttt{358,411} complete tRNA sequences.
  nature$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 1954774
+[1] 1992670
 \end{Soutput}
 \begin{Sinput}
  query("science", "j=science", virtual = T)
  science$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 1341474
+[1] 1530942
 \end{Soutput}
 \end{Schunk}
-There are \texttt{1,954,774} sequences published
+There are \texttt{1,992,670} sequences published
 in \textit{Nature} and
-\texttt{1,341,474} sequences published in
+\texttt{1,530,942} sequences published in
 \textit{Science}, so that the winner is 
 \textit{Nature}.
 
@@ -511,10 +514,10 @@ in \textit{Nature} and
  smith$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 4754303
+[1] 4809459
 \end{Soutput}
 \end{Schunk}
-There are \texttt{4,754,303} such sequences.
+There are \texttt{4,809,459} such sequences.
 
 \item[\textbf{YK2.}] How many sequences were published after year 2000 (included)?
 \begin{Schunk}
@@ -523,10 +526,10 @@ There are \texttt{4,754,303} such sequences.
  yk2$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 91981106
+[1] 99752843
 \end{Soutput}
 \end{Schunk}
-There are \texttt{91,981,106} sequences published after year 2000.
+There are \texttt{99,752,843} sequences published after year 2000.
 
 \item[\textbf{Organelle contest.}] Do we have more sequences from chloroplast genomes or from mitochondion genomes?
 \begin{Schunk}
@@ -535,19 +538,19 @@ There are \texttt{91,981,106} sequences published after year 2000.
  chloro$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 223109
+[1] 255832
 \end{Soutput}
 \begin{Sinput}
  query("mito", "o=mitochondrion", virtual = T)
  mito$nelem
 \end{Sinput}
 \begin{Soutput}
-[1] 721261
+[1] 815726
 \end{Soutput}
 \end{Schunk}
-There are \texttt{223,109} sequences from
+There are \texttt{255,832} sequences from
 chloroplast genomes and
-\texttt{721,261} sequences from mitochondrion
+\texttt{815,726} sequences from mitochondrion
 genomes, so that the winner is 
 mitochondrion.
 
@@ -851,21 +854,21 @@ There is no stop codon here because the sequence is partial.
 
 This part was compiled under the following \Rlogo{}~environment:
 
-\begin{itemize}
-  \item R version 2.9.0 (2009-04-17), \verb|i386-apple-darwin8.11.1|
+\begin{itemize}\raggedright
+  \item R version 2.10.0 (2009-10-26), \verb|i386-apple-darwin8.11.1|
   \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: ade4~1.4-11, ape~2.3, grImport~0.4-3,
-    MASS~7.2-46, quadprog~1.4-11, seqinr~2.0-3, tseries~0.10-18,
-    XML~2.3-0, xtable~1.5-5, zoo~1.5-5
-  \item Loaded via a namespace (and not attached): gee~4.13-13,
-    lattice~0.17-22, nlme~3.1-90, tools~2.9.0
+  \item Other packages: ade4~1.4-13, ape~2.4, grImport~0.4-4,
+    MASS~7.3-3, quadprog~1.4-11, seqinr~2.0-7, tseries~0.10-21,
+    XML~2.6-0, xtable~1.5-5, zoo~1.5-8
+  \item Loaded via a namespace (and not attached): gee~4.13-14,
+    lattice~0.17-26, nlme~3.1-96, tools~2.10.0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Thu Apr 23 11:29:00 2009
+  \item \Rlogo{} compilation time was: Thu Nov  5 12:36:14 2009
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

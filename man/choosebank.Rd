@@ -77,7 +77,9 @@ The invisible list returned when a database is opened is stored in the variable
 \code{banknameSocket} in the global environment. 
 }
 \author{ D. Charif, J.R. Lobry }
-\seealso{ \code{\link{query}}, \code{\link{connection}}, \code{\link{socketConnection}} }
+\seealso{\code{\link{where.is.this.acc}} if you have a sequence accession number but you
+don't know which database to open, \code{\link{query}} to make a query when a database
+is opened, \code{\link{connection}}, \code{\link{socketConnection}} }
 \examples{
   \dontrun{# Need internet connection
   # Show available databases:  

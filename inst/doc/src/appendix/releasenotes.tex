@@ -52,6 +52,66 @@ most recent on top.
 
 \section*{2.0 series}
 
+\subsection*{release 2.0-7}
+
+\begin{itemize}
+
+\item A new utility function \texttt{where.is.this.acc()} was introduced
+to loop over all availabale ACNUC databases to look for
+a given sequence accession number. This is useful when you have
+a sequence accession number and you don't know in which database
+it is present. The documentation of the function \texttt{choosebank()}
+was also changed to make a link to this function. As suggested by 
+Avril Coghlan, the function has an argument \texttt{stopAtFirst} defaulting
+to \texttt{TRUE} that stops the search at the first database found
+with the given accession number.
+
+\item As pointed out 05 Nov 2009 by Darren Obbard on the seqinr diffusion list
+the argument \texttt{forceToLower = FALSE} in function \texttt{comp()}
+was not honored. This is now fixed and a new sanity check was added in
+the example section of the documentation of the function.
+
+\item Documentation for the function \texttt{uco()} for codon usage
+table computation was updated with new bibliographical 
+references \cite{lobrychessel, SuzukiH2008}.
+
+\item As basic regular expressions are defunct since R 2.11, the
+\texttt{extended} argument in functions \texttt{words.pos()} and
+\texttt{trimSpace()} was no more necessary. It is now deleted. 
+
+\end{itemize}
+
+\subsection*{release 2.0-6}
+
+\begin{itemize}
+
+\item The old argument \texttt{File} in function \texttt{read.fasta()}
+that was deprecated since release 1.1-3 is no more valid.
+Just use \texttt{file} instead.
+
+\item New function \texttt{stutterabif()} to estimate stutter ratio.
+
+\item Function \texttt{plotabif()} has a new default value for its
+\texttt{ylim} argument: \texttt{c(min(y), max(y))} now instead
+of \texttt{c(0, max(y))} previously to help ploting data with
+a highly negative baseline.
+
+\item Function \texttt{peakabif()} now returns in addition an estimate
+of the baseline value.
+
+\item New utility \texttt{baselineabif()} to estimate the baseline
+value.
+
+\item There was time shift of one datapoint unit for the peak locations
+returned by the \texttt{peakabif()} function, this is now fixed
+and the documentation is more explicit for the units used.
+
+\item New utility function \texttt{fastacc()} to compute the number
+of alleles in common between a genetic profile and a database of
+genetic profiles.
+
+\end{itemize}
+
 \subsection*{release 2.0-5}
 
 \begin{itemize}
@@ -917,21 +977,21 @@ now possible.
 
 This part was compiled under the following \Rlogo{}~environment:
 
-\begin{itemize}
-  \item R version 2.9.0 (2009-04-17), \verb|i386-apple-darwin8.11.1|
+\begin{itemize}\raggedright
+  \item R version 2.10.0 (2009-10-26), \verb|i386-apple-darwin8.11.1|
   \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: ade4~1.4-11, ape~2.3, grImport~0.4-3,
-    MASS~7.2-46, quadprog~1.4-11, seqinr~2.0-5, tseries~0.10-18,
-    XML~2.3-0, xtable~1.5-5, zoo~1.5-5
-  \item Loaded via a namespace (and not attached): gee~4.13-13,
-    lattice~0.17-22, nlme~3.1-90
+  \item Other packages: ade4~1.4-13, ape~2.4, grImport~0.4-4,
+    MASS~7.3-3, quadprog~1.4-11, seqinr~2.0-7, tseries~0.10-21,
+    XML~2.6-0, xtable~1.5-5, zoo~1.5-8
+  \item Loaded via a namespace (and not attached): gee~4.13-14,
+    lattice~0.17-26, nlme~3.1-96
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Sat Sep  5 21:09:27 2009
+  \item \Rlogo{} compilation time was: Sun Nov 15 11:55:18 2009
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

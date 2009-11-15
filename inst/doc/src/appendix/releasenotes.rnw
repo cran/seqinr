@@ -16,6 +16,35 @@ most recent on top.
 
 \section*{2.0 series}
 
+\subsection*{release 2.0-7}
+
+\begin{itemize}
+
+\item A new utility function \texttt{where.is.this.acc()} was introduced
+to loop over all availabale ACNUC databases to look for
+a given sequence accession number. This is useful when you have
+a sequence accession number and you don't know in which database
+it is present. The documentation of the function \texttt{choosebank()}
+was also changed to make a link to this function. As suggested by 
+Avril Coghlan, the function has an argument \texttt{stopAtFirst} defaulting
+to \texttt{TRUE} that stops the search at the first database found
+with the given accession number.
+
+\item As pointed out 05 Nov 2009 by Darren Obbard on the seqinr diffusion list
+the argument \texttt{forceToLower = FALSE} in function \texttt{comp()}
+was not honored. This is now fixed and a new sanity check was added in
+the example section of the documentation of the function.
+
+\item Documentation for the function \texttt{uco()} for codon usage
+table computation was updated with new bibliographical 
+references \cite{lobrychessel, SuzukiH2008}.
+
+\item As basic regular expressions are defunct since R 2.11, the
+\texttt{extended} argument in functions \texttt{words.pos()} and
+\texttt{trimSpace()} was no more necessary. It is now deleted. 
+
+\end{itemize}
+
 \subsection*{release 2.0-6}
 
 \begin{itemize}
@@ -27,7 +56,7 @@ Just use \texttt{file} instead.
 \item New function \texttt{stutterabif()} to estimate stutter ratio.
 
 \item Function \texttt{plotabif()} has a new default value for its
-\texttt{ylim} arugument: \texttt{c(min(y), max(y))} now instead
+\texttt{ylim} argument: \texttt{c(min(y), max(y))} now instead
 of \texttt{c(0, max(y))} previously to help ploting data with
 a highly negative baseline.
 
@@ -37,7 +66,7 @@ of the baseline value.
 \item New utility \texttt{baselineabif()} to estimate the baseline
 value.
 
-\item There was time of one datapoint unit for the peak locations
+\item There was time shift of one datapoint unit for the peak locations
 returned by the \texttt{peakabif()} function, this is now fixed
 and the documentation is more explicit for the units used.
 

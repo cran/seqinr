@@ -155,14 +155,14 @@ These directories contain respectively:
 \end{Sinput}
 \begin{Soutput}
  [1] "ACCESS"                  "AUTHOR"                 
- [3] "BIBLIO"                  "EXTRACT"                
- [5] "HELP"                    "HELP_WIN"               
- [7] "KEYWORDS"                "LOCUS"                  
- [9] "LONGL"                   "MERES"                  
-[11] "SHORTL"                  "SMJYT"                  
-[13] "SPECIES"                 "SUBSEQ"                 
-[15] "TAXIDS"                  "TEXT"                   
-[17] "custom_qualifier_policy"
+ [3] "BIBLIO"                  "custom_qualifier_policy"
+ [5] "EXTRACT"                 "HELP"                   
+ [7] "HELP_WIN"                "KEYWORDS"               
+ [9] "LOCUS"                   "LONGL"                  
+[11] "MERES"                   "SHORTL"                 
+[13] "SMJYT"                   "SPECIES"                
+[15] "SUBSEQ"                  "TAXIDS"                 
+[17] "TEXT"                   
 \end{Soutput}
 \begin{Sinput}
  dir("./ACNUC_HOME/ACNUC_DB/demoacnuc/flat_files")
@@ -415,16 +415,16 @@ Finaly, in the ACNUC\_HOME/ACNUC\_SOFT/racnucd/ directory, lauche the server as 
  system("ps | grep racnucd", intern = TRUE)
 \end{Sinput}
 \begin{Soutput}
-[1] "27474  p2  S+     0:00.01 ./racnucd racnucd.new"  
-[2] "27475  p2  S+     0:00.01 sh -c ps | grep racnucd"
-[3] "27477  p2  S+     0:00.00 grep racnucd"           
+[1] "14492  p2  S+     0:00.01 ./racnucd racnucd.new"  
+[2] "14493  p2  S+     0:00.01 sh -c ps | grep racnucd"
+[3] "14495  p2  S+     0:00.00 grep racnucd"           
 \end{Soutput}
 \begin{Sinput}
  cat(readLines("racnucd.log"), sep = "\n")
 \end{Sinput}
 \begin{Soutput}
 *******************************************************
-Start of remote acnuc server : Thu Apr 23 11:53:08 2009
+Start of remote acnuc server : Thu Nov  5 14:22:23 2009
 \end{Soutput}
 \begin{Sinput}
  setwd(pwd)
@@ -692,7 +692,7 @@ flat file: escherichia_uniprot.dat
  ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files/escherichia_uniprot.dat
  
 Begin to build index...
-Thu Apr 23 11:53:24 CEST 2009
+Thu Nov  5 14:22:43 CET 2009
 =====================================
 Initialise
 
@@ -705,7 +705,7 @@ run newordalphab
 
 =====================================
 run updatehelp
-Thu Apr 23 11:53:24 CEST 2009
+Thu Nov  5 14:22:43 CET 2009
 Index have been sucessfully build.
 =====================================
  
@@ -731,7 +731,7 @@ flat file: escherichia_uniprot.dat
  ->/Users/lobry/seqinr/pkg/inst/doc/src/mainmatter/ACNUC_HOME/ACNUC_DB/mydb/flat_files/escherichia_uniprot.dat
  
 Begin to build index...
-Thu Apr 23 11:53:24 CEST 2009
+Thu Nov  5 14:22:43 CET 2009
 =====================================
 Initialise
 
@@ -744,7 +744,7 @@ run newordalphab
 
 =====================================
 run updatehelp
-Thu Apr 23 11:53:24 CEST 2009
+Thu Nov  5 14:22:43 CET 2009
 Index have been sucessfully build.
 =====================================
  
@@ -852,10 +852,9 @@ computer try:
  dir()
 \end{Sinput}
 \begin{Soutput}
- [1] "CITATION"    "CONTENTS"    "DESCRIPTION" "INDEX"       "Meta"       
- [6] "R"           "R-ex"        "abif"        "data"        "doc"        
-[11] "help"        "html"        "latex"       "libs"        "man"        
-[16] "sequences"  
+ [1] "abif"        "CITATION"    "data"        "DESCRIPTION" "doc"        
+ [6] "help"        "html"        "INDEX"       "libs"        "Meta"       
+[11] "R"           "sequences"  
 \end{Soutput}
 \begin{Sinput}
  setwd("./doc/src/config")
@@ -888,21 +887,21 @@ computer try:
 
 This part was compiled under the following \Rlogo{}~environment:
 
-\begin{itemize}
-  \item R version 2.9.0 (2009-04-17), \verb|i386-apple-darwin8.11.1|
-  \item Locale: \verb|C|
-  \item Base packages: base, datasets, grDevices, graphics, grid,
+\begin{itemize}\raggedright
+  \item R version 2.10.0 (2009-10-26), \verb|i386-apple-darwin8.11.1|
+  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
+  \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: MASS~7.2-46, XML~2.3-0, ade4~1.4-11,
-    ape~2.3, grImport~0.4-3, quadprog~1.4-11, seqinr~2.0-3,
-    tseries~0.10-18, xtable~1.5-5, zoo~1.5-5
-  \item Loaded via a namespace (and not attached): gee~4.13-13,
-    lattice~0.17-22, nlme~3.1-90, tools~2.9.0
+  \item Other packages: ade4~1.4-13, ape~2.4, grImport~0.4-4,
+    MASS~7.3-3, quadprog~1.4-11, seqinr~2.0-7, tseries~0.10-21,
+    XML~2.6-0, xtable~1.5-5, zoo~1.5-8
+  \item Loaded via a namespace (and not attached): gee~4.13-14,
+    lattice~0.17-26, nlme~3.1-96, tools~2.10.0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Thu Apr 23 11:53:24 2009
+  \item \Rlogo{} compilation time was: Thu Nov  5 14:22:43 2009
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

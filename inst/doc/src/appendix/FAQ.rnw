@@ -33,17 +33,12 @@ is given in figure \ref{gcskewmbe96}.
 The score here is the GC-skew computed in non-overlapping
 windows of 10 Kb for a 1.6 Mb sequence.
 We need a fragment of \textit{Escherchia coli} K12 chromosome from
-67.4 min to 4.1 min on the genetic map\footnote{
-The sequence is also directly available with \texttt{data(m16j)}.
-}. Let's put this fragment into the string \texttt{myseq}:
+67.4 min to 4.1 min on the genetic map. The sequence is directly available 
+with \texttt{data(m16j)}. Let's put this fragment into the string \texttt{myseq}:
 
 <<getmyseq,fig=F,eval=T>>=
-choosebank("greview")
-myseq1 <-gfrag("U00096", start = 3217270, length = 10^7)
-myseq2 <- gfrag("U00096", start = 1, length = 194133)
-closebank()
-myseq <- paste(myseq1, myseq2, sep = "")
-nchar(myseq)
+data(m16j)
+myseq <- m16j
 @ 
 
 This is not exactly the same sequence that was used in \cite{LobryMBE96}

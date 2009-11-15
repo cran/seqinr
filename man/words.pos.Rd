@@ -9,16 +9,13 @@ The main difference with \code{\link{gregexpr}} is that non disjoint matches
 are reported here.
 }
 \usage{
-words.pos(pattern, text, ignore.case = FALSE, extended = TRUE,
+words.pos(pattern, text, ignore.case = FALSE,
                       perl = TRUE, fixed = FALSE, useBytes = TRUE, ...)
 }
 \arguments{
   \item{pattern}{character string containing a \link{regular expression} (or character string for \code{fixed = TRUE}) to be matched in the given character vector.}
   \item{text}{ a character vector where matches are sought. }
   \item{ignore.case}{if \code{FALSE}, the pattern matching is case sensitive and if \code{TRUE}, case is ignored during matching.}
-  \item{extended}{if \code{TRUE}, extended regular expression matching is used,
-and if \code{FALSE} basic regular expressions are used.
- }
   \item{perl}{logical. Should perl-compatible regexps be used if available?
 Has priority over \code{extended}.}
   \item{fixed}{logical. If \code{TRUE}, pattern is a string to be matched as is. Overrides all conflicting arguments.}

@@ -134,8 +134,8 @@ release with the same format as the ACNUC book:
 \end{Sinput}
 \begin{Soutput}
 [1] "             ****     ACNUC Data Base Content      ****                         "
-[2] "          GenBank Rel. 171 (15 April 2009) Last Updated: Apr 23, 2009"           
-[3] "103,287,086,629 bases; 103,570,547 sequences; 6,354,023 subseqs; 549,786 refers."
+[2] "         GenBank Rel. 174 (15 October 2009) Last Updated: Nov  5, 2009"          
+[3] "108,943,317,873 bases; 111,355,981 sequences; 7,239,424 subseqs; 573,990 refers."
 [4] "Software by M. Gouy, Lab. Biometrie et Biologie Evolutive, Universite Lyon I "   
 \end{Soutput}
 \begin{Sinput}
@@ -143,7 +143,7 @@ release with the same format as the ACNUC book:
  bpbk
 \end{Sinput}
 \begin{Soutput}
-[1] "103,287,086,629"
+[1] "108,943,317,873"
 \end{Soutput}
 \begin{Sinput}
  bpbk <- as.numeric(paste(unlist(strsplit(bpbk, split = ",")), 
@@ -152,11 +152,11 @@ release with the same format as the ACNUC book:
  (widthkm <- widthcm/10^5)
 \end{Sinput}
 \begin{Soutput}
-[1] 8.827856
+[1] 9.311289
 \end{Soutput}
 \end{Schunk}
 
-It would be about 8.8
+It would be about 9.3
 kilometer long in ACNUC book format to print GenBank today (\today). As a
 matter of comparison, our local universitary library buiding\footnote{
 Université de Lyon, F-69000, Lyon ; Université Lyon 1 ; 
@@ -183,9 +183,9 @@ further information.
 The Comprehensive \Rlogo{} Archive Network, CRAN, is a network of servers 
 around the world that store identical, up-to-date, versions of code and documentation 
 for R. At compilation time of this document, there were
-61 
+68 
 mirrors available 
-from 36 countries.
+from 34 countries.
 Please use the CRAN mirror nearest to you to minimize network load, they are
 listed at \texttt{http://cran.r-project.org/mirrors.html}, and can be directly
 selected with the function \texttt{chooseCRANmirror()}.
@@ -195,8 +195,8 @@ selected with the function \texttt{chooseCRANmirror()}.
 In the terminology of the \Rlogo{} project \cite{R, RfromR}, this document 
 is a package \emph{vignette}, which means that all code outputs present 
 here were actually obtained by runing them.
-The examples given thereafter were run under \texttt{R version 2.9.0 (2009-04-17)}
-on Thu Apr 23 10:54:59 2009 with Sweave \cite{Sweave}. There is a section at the end of
+The examples given thereafter were run under \texttt{R version 2.10.0 (2009-10-26)}
+on Thu Nov  5 11:14:18 2009 with Sweave \cite{Sweave}. There is a section at the end of
 each chapter called \textbf{Session Informations} that gives details about
 packages and package versions that were involved\footnote{
 Previous versions of \Rlogo{} and packages are available on CRAN mirrors,
@@ -303,7 +303,7 @@ In the long term, however, you are a winner for the following reasons.
 
 Do not re-invent (there's a patent \cite{wheel} on it anyway).
 At the compilation time of this document there were 
-1753
+2028
 contributed packages available. Even if you don't want to be spoon-feed 
 \textit{{\`a} bouche ouverte}, 
 it's not a bad
@@ -452,7 +452,7 @@ to update the figure:
 \setkeys{Gin}{width=0.8\textwidth}
 
 
-The doubling time is now 16.8 months.
+The doubling time is now 16.9 months.
 
 
 \begin{figure}
@@ -483,21 +483,21 @@ is a package called \texttt{xtable} \cite{xtable} to coerce \Rlogo{}~data into \
 
 This part was compiled under the following \Rlogo{}~environment:
 
-\begin{itemize}
-  \item R version 2.9.0 (2009-04-17), \verb|i386-apple-darwin8.11.1|
+\begin{itemize}\raggedright
+  \item R version 2.10.0 (2009-10-26), \verb|i386-apple-darwin8.11.1|
   \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: ade4~1.4-11, ape~2.3, grImport~0.4-3,
-    MASS~7.2-46, quadprog~1.4-11, seqinr~2.0-3, tseries~0.10-18,
-    XML~2.3-0, xtable~1.5-5, zoo~1.5-5
-  \item Loaded via a namespace (and not attached): gee~4.13-13,
-    lattice~0.17-22, nlme~3.1-90, tools~2.9.0
+  \item Other packages: ade4~1.4-13, ape~2.4, grImport~0.4-4,
+    MASS~7.3-3, quadprog~1.4-11, seqinr~2.0-7, tseries~0.10-21,
+    XML~2.6-0, xtable~1.5-5, zoo~1.5-8
+  \item Loaded via a namespace (and not attached): gee~4.13-14,
+    lattice~0.17-26, nlme~3.1-96, tools~2.10.0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Thu Apr 23 10:55:04 2009
+  \item \Rlogo{} compilation time was: Thu Nov  5 11:14:20 2009
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

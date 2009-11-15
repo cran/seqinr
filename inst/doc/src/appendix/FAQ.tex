@@ -69,22 +69,14 @@ is given in figure \ref{gcskewmbe96}.
 The score here is the GC-skew computed in non-overlapping
 windows of 10 Kb for a 1.6 Mb sequence.
 We need a fragment of \textit{Escherchia coli} K12 chromosome from
-67.4 min to 4.1 min on the genetic map\footnote{
-The sequence is also directly available with \texttt{data(m16j)}.
-}. Let's put this fragment into the string \texttt{myseq}:
+67.4 min to 4.1 min on the genetic map. The sequence is directly available 
+with \texttt{data(m16j)}. Let's put this fragment into the string \texttt{myseq}:
 
 \begin{Schunk}
 \begin{Sinput}
- choosebank("greview")
- myseq1 <- gfrag("U00096", start = 3217270, length = 10^7)
- myseq2 <- gfrag("U00096", start = 1, length = 194133)
- closebank()
- myseq <- paste(myseq1, myseq2, sep = "")
- nchar(myseq)
+ data(m16j)
+ myseq <- m16j
 \end{Sinput}
-\begin{Soutput}
-[1] 1616539
-\end{Soutput}
 \end{Schunk}
 
 This is not exactly the same sequence that was used in \cite{LobryMBE96}
@@ -301,13 +293,13 @@ the proteins this way:
 \begin{Soutput}
  [1]  6.624309  7.801329 10.864793  5.931989  7.830476  6.624309  7.801329
  [8]  9.203410  9.826485  5.674672  7.154423  6.060457  6.313741  5.571446
-[15]  9.435422  4.310747  6.145496  4.876054 11.006430 10.876036  6.624309
+[15]  9.435422  4.310745  6.145496  4.876054 11.006430 10.876041  6.624309
 [22]  7.801329 10.864793  9.346289  9.203410  5.877050  5.931989  9.934988
 [29]  5.920490  6.612505  6.624309  6.624309  7.801329 10.864793  5.931989
-[36] 11.182499  9.598944  6.624309 10.864793  9.203410 11.031943  5.858421
-[43]  5.858421 11.777511 11.777516 10.619175 11.365738  9.460987 10.864793
-[50] 13.002381  9.845859 10.584868 11.421252 10.248325 11.031938 10.402075
-[57]  4.863862  6.612505  9.681066 11.150304 11.182505 11.043607  6.624309
+[36] 11.182505  9.598944  6.624309 10.864793  9.203410 11.031938  5.858421
+[43]  5.858421 11.777511 11.777511 10.619175 11.365738  9.460987 10.864793
+[50] 13.002381  9.845859 10.584868 11.421252 10.248325 11.031943 10.402075
+[57]  4.863862  6.612505  9.681066 11.150310 11.182505 11.043607  6.624309
 [64]  6.612505  6.624309  4.310747
 \end{Soutput}
 \end{Schunk}
@@ -637,21 +629,21 @@ it's always better to use the accession numbers.
 
 This part was compiled under the following \Rlogo{}~environment:
 
-\begin{itemize}
-  \item R version 2.9.0 (2009-04-17), \verb|i386-apple-darwin8.11.1|
+\begin{itemize}\raggedright
+  \item R version 2.10.0 (2009-10-26), \verb|i386-apple-darwin8.11.1|
   \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
   \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: ade4~1.4-11, ape~2.3, grImport~0.4-3,
-    MASS~7.2-46, quadprog~1.4-11, seqinr~2.0-3, tseries~0.10-18,
-    XML~2.3-0, xtable~1.5-5, zoo~1.5-5
-  \item Loaded via a namespace (and not attached): gee~4.13-13,
-    lattice~0.17-22, nlme~3.1-90
+  \item Other packages: ade4~1.4-13, ape~2.4, grImport~0.4-4,
+    MASS~7.3-3, quadprog~1.4-11, seqinr~2.0-7, tseries~0.10-21,
+    XML~2.6-0, xtable~1.5-5, zoo~1.5-8
+  \item Loaded via a namespace (and not attached): gee~4.13-14,
+    lattice~0.17-26, nlme~3.1-96, tools~2.10.0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Thu Apr 23 12:57:33 2009
+  \item \Rlogo{} compilation time was: Thu Nov  5 14:57:01 2009
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

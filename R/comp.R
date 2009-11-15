@@ -3,7 +3,15 @@
 ###########################################
 
 comp <- function(seq, forceToLower = TRUE, ambiguous = FALSE){
-  if(forceToLower) seq <- tolower(seq)
+  
+  if(all(seq %in% LETTERS)){
+  	  isUpper <- TRUE
+  	} else {
+  	  isUpper <- FALSE
+  	}
+  	
+  	seq <- tolower(seq)
+
   result <- as.vector(n2s((3-s2n(seq))))
   #
   # More work is required if ambiguous bases are taken into account
@@ -20,6 +28,9 @@ comp <- function(seq, forceToLower = TRUE, ambiguous = FALSE){
     result[which(seq == "w")] <- "w"
     result[which(seq == "n")] <- "n"
   }
+  if(isUpper && !forceToLower){
+  	  result <- toupper(result)
+  	}
   return(result)
 }
 

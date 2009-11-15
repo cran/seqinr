@@ -1,5 +1,6 @@
 \name{uco}
 \alias{uco}
+\alias{rscu}
 \title{ Codon usage indices }
 \description{
   \code{uco} calculates some codon usage indices: the codon counts \code{eff}, the relative frequencies \code{freq} or the Relative Synonymous Codon Usage \code{rscu}.
@@ -34,8 +35,13 @@ NA.rscu = NA)
   that is used more frequently than expected.\cr
   
   Do not use correspondence analysis on RSCU tables as this is a source of artifacts 
-  (Perriere and Thioulouse 2002). Within-aminoacid correspondence analysis is a
-  simple way to study synonymous codon usage (Charif \emph{et al.} 2005).
+  (Perriere and Thioulouse 2002, Suzuki \emph{et al.} 2008). Within-aminoacid correspondence analysis is a
+  simple way to study synonymous codon usage (Charif \emph{et al.} 2005). For an introduction
+  to correspondence analysis and within-aminoacid correspondence analysis see the
+  chapter titled \emph{Multivariate analyses} in the seqinR manual that ships with the
+  seqinR package in the \bold{doc} folder. You can also use internal correspondence
+  analysis if you want to analyze simultaneously a row-block structure such as the
+  within and between species variability (Lobry and Chessel 2003).\cr
   
   If \code{as.data.frame} is FALSE, \code{uco} returns one of these:
   \describe{
@@ -67,9 +73,18 @@ analysis clearly differentiates highly and lowly expressed genes.
 Perriere, G., Thioulouse, J. (2002) Use and misuse of correspondence analysis in
 codon usage studies. \emph{Nucl. Acids. Res.}, \bold{30}:4548-4555.\cr
 
+Lobry, J.R., Chessel, D. (2003) Internal correspondence analysis of codon and
+amino-acid usage in thermophilic bacteria.
+\emph{Journal of Applied Genetics}, \bold{44}:235-261. \url{http://jag.igr.poznan.pl/2003-Volume-44/2/pdf/2003_Volume_44_2-235-261.pdf}.\cr
+
 Charif, D., Thioulouse, J., Lobry, J.R., Perriere, G. (2005) Online 
 Synonymous Codon Usage Analyses with the ade4 and seqinR packages. 
-\emph{Bioinformatics}, \bold{21}:545-547. \url{http://pbil.univ-lyon1.fr/members/lobry/repro/bioinfo04/}.
+\emph{Bioinformatics}, \bold{21}:545-547. \url{http://pbil.univ-lyon1.fr/members/lobry/repro/bioinfo04/}.\cr
+
+Suzuki, H., Brown, C.J., Forney, L.J., Top, E. (2008)
+Comparison of Correspondence Analysis Methods for Synonymous Codon Usage in Bacteria.
+\emph{DNA Research}, \bold{15}:357-365. \url{http://dnaresearch.oxfordjournals.org/cgi/reprint/15/6/357}.
+
 }
 \author{ D. Charif, J.R. Lobry, G. Perriere }
 \examples{

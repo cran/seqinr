@@ -754,40 +754,51 @@ the following CDS:
 
 \begin{Schunk}
 \begin{Sinput}
- choosebank("greview")
- query("coli", "N=U00096 ET T=CDS ET K=2.3.1.79@")
+ choosebank("greviews")
+ query("coli", "N=U00096_GR ET T=CDS ET K=2.3.1.79@")
  sequence <- getSequence(coli$req[[1]])
  annot <- getAnnot(coli$req[[1]])
  closebank()
+ save(sequence, file = "sequence.RData")
+ save(annot, file = "annot.RData")
+\end{Sinput}
+\end{Schunk}
+\begin{Schunk}
+\begin{Sinput}
+ load("annot.RData")
  cat(annot, sep = "\n")
 \end{Sinput}
 \begin{Soutput}
 FT   CDS             complement(478591..479142)
 FT                   /codon_start=1
-FT                   /gene="maa {UniProt/Swiss-Prot:P77791}"
-FT                   /locus_tag="b0459 {UniProt/Swiss-Prot:P77791}"
-FT                   /product="Maltose O-acetyltransferase
-FT                   {UniProt/Swiss-Prot:P77791}"
-FT                   /EC_number="2.3.1.79 {UniProt/Swiss-Prot:P77791}"
-FT                   /function="maltose O-acetyltransferase activity
+FT                   /evidence="1: Evidence at protein level 
+FT                   {UniProtKB/Swiss-Prot:P77791}"
+FT                   /gene_id="IGI00122745"
+FT                   /gene_name="maa {UniProtKB/Swiss-Prot:P77791}"
+FT                   /gene_synonym="ECK0453"
+FT                   /gene_synonym="ylaD {UniProtKB/Swiss-Prot:P77791}"
+FT                   /locus_tag="b0459 {UniProtKB/Swiss-Prot:P77791}"
+FT                   /product="Maltose O-acetyltransferase 
+FT                   {UniProtKB/Swiss-Prot:P77791}"
+FT                   /EC_number="2.3.1.79 {UniProtKB/Swiss-Prot:P77791}"
+FT                   /function="maltose O-acetyltransferase activity 
 FT                   {GO:0008925}"
 FT                   /protein_id="AAC73561.1 {EMBL:U00096}"
-FT                   /db_xref="EMBL:AAB40214.1 {UniProt/Swiss-Prot:P77791}"
-FT                   /db_xref="EMBL:CAA11147.1 {UniProt/Swiss-Prot:P77791}"
-FT                   /db_xref="EcoGene:EG14239 {UniProt/Swiss-Prot:P77791}"
+FT                   /db_xref="EMBL:AAB40214.1 {UniProtKB/Swiss-Prot:P77791}"
+FT                   /db_xref="EMBL:CAA11147.1 {UniProtKB/Swiss-Prot:P77791}"
+FT                   /db_xref="EcoGene:EG14239 {UniProtKB/Swiss-Prot:P77791}"
 FT                   /db_xref="GO:0008925 {GOA:P77791}"
-FT                   /db_xref="HOGENOM:HBG023156 {HogenProt:P77791}"
-FT                   /db_xref="InterPro:IPR001451 {UniProt/Swiss-Prot:P77791}"
-FT                   /db_xref="InterPro:IPR011004 {UniProt/Swiss-Prot:P77791}"
+FT                   /db_xref="HOGENOM:HBG282173 {HogenProt:P77791}"
+FT                   /db_xref="HOGENOM:P77791 {UniProtKB/Swiss-Prot:P77791}"
+FT                   /db_xref="InterPro:IPR001451 {UniProtKB/Swiss-Prot:P77791}"
+FT                   /db_xref="PDB:1OCX {UniProtKB/Swiss-Prot:P77791}"
 FT                   /db_xref="UniParc:UPI000002EA96 {EMBL:AAC73561}"
-FT                   /db_xref="UniProt/Swiss-Prot:P77791 {EMBL:U00096}"
+FT                   /db_xref="UniProtKB/Swiss-Prot:P77791 {EMBL:U00096}"
 FT                   /transl_table=11
 FT                   /translation="MSTEKEKMIAGELYRSADETLSRDRLRARQLIHRYNHSLAEEHTL
 FT                   RQQILADLFGQVTEAYIEPTFRCDYGYNIFLGNNFFANFDCVMLDVCPIRIGDNCMLAP
 FT                   GVHIYTATHPIDPVARNSGAELGKPVTIGNNVWIGGRAVINPGVTIGDNVVVASGAVVT
 FT                   KDVPDNVVVGGNPARIIKKL"
-FT                   /%(C+G)="CG<50%"
-FT                   /note="C+G content in third codon positions = 47.8 % "
 \end{Soutput}
 \end{Schunk}
 
@@ -815,6 +826,7 @@ code was used to produce figure \ref{dinuclcoli}:
 
 \begin{Schunk}
 \begin{Sinput}
+ load("sequence.RData")
  rhocoli <- rho(sequence)
  zcolibase <- zscore(sequence, model = "base", exact = TRUE)
  zcolicodon <- zscore(sequence, model = "codon", exact = TRUE)
@@ -1292,21 +1304,21 @@ pyrimidine dinucleotides and UV-exposure.
 
 This part was compiled under the following \Rlogo{}~environment:
 
-\begin{itemize}
-  \item R version 2.9.0 (2009-04-17), \verb|i386-apple-darwin8.11.1|
-  \item Locale: \verb|C|
-  \item Base packages: base, datasets, grDevices, graphics, grid,
+\begin{itemize}\raggedright
+  \item R version 2.10.0 (2009-10-26), \verb|i386-apple-darwin8.11.1|
+  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
+  \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: MASS~7.2-46, XML~2.3-0, ade4~1.4-11,
-    ape~2.3, grImport~0.4-3, quadprog~1.4-11, seqinr~2.0-3,
-    tseries~0.10-18, xtable~1.5-5, zoo~1.5-5
-  \item Loaded via a namespace (and not attached): gee~4.13-13,
-    lattice~0.17-22, nlme~3.1-90, tools~2.9.0
+  \item Other packages: ade4~1.4-13, ape~2.4, grImport~0.4-4,
+    MASS~7.3-3, quadprog~1.4-11, seqinr~2.0-7, tseries~0.10-21,
+    XML~2.6-0, xtable~1.5-5, zoo~1.5-8
+  \item Loaded via a namespace (and not attached): gee~4.13-14,
+    lattice~0.17-26, nlme~3.1-96, tools~2.10.0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Thu Apr 23 12:01:42 2009
+  \item \Rlogo{} compilation time was: Thu Nov  5 14:48:01 2009
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

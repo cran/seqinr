@@ -139,56 +139,56 @@ To obtain the list of classes for which a given method exists, try this at your 
  methods(getFrag)
 \end{Sinput}
 \begin{Soutput}
-[1] getFrag.SeqAcnucWeb getFrag.SeqFastaAA  getFrag.SeqFastadna
-[4] getFrag.SeqFrag     getFrag.character   getFrag.default    
-[7] getFrag.list        getFrag.logical     getFrag.qaw        
+[1] getFrag.character   getFrag.default     getFrag.list       
+[4] getFrag.logical     getFrag.qaw         getFrag.SeqAcnucWeb
+[7] getFrag.SeqFastaAA  getFrag.SeqFastadna getFrag.SeqFrag    
 \end{Soutput}
 \begin{Sinput}
  methods(getSequence)
 \end{Sinput}
 \begin{Soutput}
-[1] getSequence.SeqAcnucWeb getSequence.SeqFastaAA  getSequence.SeqFastadna
-[4] getSequence.SeqFrag     getSequence.character   getSequence.default    
-[7] getSequence.list        getSequence.logical     getSequence.qaw        
+[1] getSequence.character   getSequence.default     getSequence.list       
+[4] getSequence.logical     getSequence.qaw         getSequence.SeqAcnucWeb
+[7] getSequence.SeqFastaAA  getSequence.SeqFastadna getSequence.SeqFrag    
 \end{Soutput}
 \begin{Sinput}
  methods(getName)
 \end{Sinput}
 \begin{Soutput}
-[1] getName.SeqAcnucWeb getName.SeqFastaAA  getName.SeqFastadna
-[4] getName.SeqFrag     getName.default     getName.list       
-[7] getName.logical     getName.qaw        
+[1] getName.default     getName.list        getName.logical    
+[4] getName.qaw         getName.SeqAcnucWeb getName.SeqFastaAA 
+[7] getName.SeqFastadna getName.SeqFrag    
 \end{Soutput}
 \begin{Sinput}
  methods(getLength)
 \end{Sinput}
 \begin{Soutput}
-[1] getLength.SeqAcnucWeb getLength.SeqFastaAA  getLength.SeqFastadna
-[4] getLength.SeqFrag     getLength.character   getLength.default    
-[7] getLength.list        getLength.logical     getLength.qaw        
+[1] getLength.character   getLength.default     getLength.list       
+[4] getLength.logical     getLength.qaw         getLength.SeqAcnucWeb
+[7] getLength.SeqFastaAA  getLength.SeqFastadna getLength.SeqFrag    
 \end{Soutput}
 \begin{Sinput}
  methods(getTrans)
 \end{Sinput}
 \begin{Soutput}
-[1] getTrans.SeqAcnucWeb getTrans.SeqFastadna getTrans.SeqFrag    
-[4] getTrans.character   getTrans.default     getTrans.list       
-[7] getTrans.logical     getTrans.qaw        
+[1] getTrans.character   getTrans.default     getTrans.list       
+[4] getTrans.logical     getTrans.qaw         getTrans.SeqAcnucWeb
+[7] getTrans.SeqFastadna getTrans.SeqFrag    
 \end{Soutput}
 \begin{Sinput}
  methods(getAnnot)
 \end{Sinput}
 \begin{Soutput}
-[1] getAnnot.SeqAcnucWeb getAnnot.SeqFastaAA  getAnnot.SeqFastadna
-[4] getAnnot.default     getAnnot.list        getAnnot.logical    
-[7] getAnnot.qaw        
+[1] getAnnot.default     getAnnot.list        getAnnot.logical    
+[4] getAnnot.qaw         getAnnot.SeqAcnucWeb getAnnot.SeqFastaAA 
+[7] getAnnot.SeqFastadna
 \end{Soutput}
 \begin{Sinput}
  methods(getLocation)
 \end{Sinput}
 \begin{Soutput}
-[1] getLocation.SeqAcnucWeb getLocation.default     getLocation.list       
-[4] getLocation.logical     getLocation.qaw        
+[1] getLocation.default     getLocation.list        getLocation.logical    
+[4] getLocation.qaw         getLocation.SeqAcnucWeb
 \end{Soutput}
 \end{Schunk}
 
@@ -406,70 +406,40 @@ the codon usage in the sequence:
 
 \clearpage
 
-\subsection{Sequences as strings}
-
-If you are interested in (fuzzy) pattern matching, then it is advisable to work with
-sequence as strings to take advantage of \emph{regular expression} implemented
-in \Rlogo{}. The function \texttt{words.pos()} returns the positions of all occurrences
-of a given regular expression. Let's suppose we want to know where are the trinucleotides
-"cgt" in a sequence, that is the fragment CpGpT in the direct strand:
-
-\begin{Schunk}
-\begin{Sinput}
- mystring <- c2s(myseq)
- (cgt <- words.pos("cgt", mystring))
-\end{Sinput}
-\begin{Soutput}
- [1]  24  90 216 245 252 315 330 405 432 452 552 592 648 836 883
-\end{Soutput}
-\begin{Sinput}
- substring(mystring, cgt, cgt + 2)
-\end{Sinput}
-\begin{Soutput}
- [1] "cgt" "cgt" "cgt" "cgt" "cgt" "cgt" "cgt" "cgt" "cgt" "cgt" "cgt" "cgt"
-[13] "cgt" "cgt" "cgt"
-\end{Soutput}
-\end{Schunk}
-
-We can also look for the fragment CpGpTpY to illustrate fuzzy matching because
-Y (IUPAC code for pyrimidine) stands C or T:
-
-\begin{Schunk}
-\begin{Sinput}
- (cgty <- words.pos("cgt[ct]", mystring))
-\end{Sinput}
-\begin{Soutput}
- [1]  24 216 252 315 432 452 552 592 836 883
-\end{Soutput}
-\begin{Sinput}
- substring(mystring, cgty, cgty + 3)
-\end{Sinput}
-\begin{Soutput}
- [1] "cgtc" "cgtt" "cgtc" "cgtt" "cgtt" "cgtt" "cgtc" "cgtc" "cgtt" "cgtt"
-\end{Soutput}
-\end{Schunk}
-
-To look for all CpC dinucleotides separated by 3 or 4 bases:
-\begin{Schunk}
-\begin{Sinput}
- (cc34cc <- words.pos("cc.{3,4}cc", mystring, perl = TRUE))
-\end{Sinput}
-\begin{Soutput}
- [1]  72 119 176 177 539 577 578 638 677 682 730 731 736 881 882
-\end{Soutput}
-\begin{Sinput}
- substring(mystring, cc34cc, cc34cc + 7)
-\end{Sinput}
-\begin{Soutput}
- [1] "ccttgccg" "ccattcca" "cccagacc" "ccagacca" "cctatgcc" "cccgatcc"
- [7] "ccgatccg" "ccagctcc" "ccgctcca" "ccagctcc" "cccgctcc" "ccgctccg"
-[13] "ccggcacc" "cccgttcc" "ccgttcca"
-\end{Soutput}
-\end{Schunk}
-
-Virtually any pattern is easily encoded with a regular expression. This is
-especially useful at the protein level because many functions can be attributed 
-to short linear motifs.
+%
+% Things are changing with R 2.10, this is no more correct
+%
+%\subsection{Sequences as strings}
+%
+%If you are interested in (fuzzy) pattern matching, then it is advisable to work with
+%sequence as strings to take advantage of \emph{regular expression} implemented
+%in \Rlogo{}. The function \texttt{words.pos()} returns the positions of all occurrences
+%of a given regular expression. Let's suppose we want to know where are the trinucleotides
+%"cgt" in a sequence, that is the fragment CpGpT in the direct strand:
+%
+%<<cgt, eval=T>>=
+%mystring <- c2s(myseq)
+%(cgt <- words.pos("cgt", mystring))
+%substring(mystring, cgt, cgt+2)
+%@
+%
+%We can also look for the fragment CpGpTpY to illustrate fuzzy matching because
+%Y (IUPAC code for pyrimidine) stands C or T:
+%
+%<<fuzzy, eval=T>>=
+%(cgty <- words.pos("cgt[ct]", mystring))
+%substring(mystring, cgty, cgty+3)
+%@
+%
+%To look for all CpC dinucleotides separated by 3 or 4 bases:
+%<<fuzzy2, eval=T>>=
+%(cc34cc <- words.pos("cc.{3,4}cc", mystring, perl = TRUE))
+%substring(mystring, cc34cc, cc34cc+7)
+%@
+%
+%Virtually any pattern is easily encoded with a regular expression. This is
+%especially useful at the protein level because many functions can be attributed 
+%to short linear motifs.
 
 
 \section*{Session Informations}
@@ -478,21 +448,21 @@ to short linear motifs.
 
 This part was compiled under the following \Rlogo{}~environment:
 
-\begin{itemize}
-  \item R version 2.9.0 (2009-04-17), \verb|i386-apple-darwin8.11.1|
-  \item Locale: \verb|C|
-  \item Base packages: base, datasets, grDevices, graphics, grid,
+\begin{itemize}\raggedright
+  \item R version 2.10.0 (2009-10-26), \verb|i386-apple-darwin8.11.1|
+  \item Locale: \verb|fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/C/C|
+  \item Base packages: base, datasets, graphics, grDevices, grid,
     methods, stats, utils
-  \item Other packages: MASS~7.2-46, XML~2.3-0, ade4~1.4-11,
-    ape~2.3, grImport~0.4-3, quadprog~1.4-11, seqinr~2.0-3,
-    tseries~0.10-18, xtable~1.5-5, zoo~1.5-5
-  \item Loaded via a namespace (and not attached): gee~4.13-13,
-    lattice~0.17-22, nlme~3.1-90, tools~2.9.0
+  \item Other packages: ade4~1.4-13, ape~2.4, grImport~0.4-4,
+    MASS~7.3-3, quadprog~1.4-11, seqinr~2.0-7, tseries~0.10-21,
+    XML~2.6-0, xtable~1.5-5, zoo~1.5-8
+  \item Loaded via a namespace (and not attached): gee~4.13-14,
+    lattice~0.17-26, nlme~3.1-96, tools~2.10.0
 \end{itemize}
 There were two compilation steps:
 
 \begin{itemize}
-  \item \Rlogo{} compilation time was: Thu Apr 23 11:52:14 2009
+  \item \Rlogo{} compilation time was: Thu Nov  5 14:18:57 2009
   \item \LaTeX{} compilation time was: \today
 \end{itemize}
 

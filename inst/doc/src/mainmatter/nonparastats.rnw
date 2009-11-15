@@ -60,7 +60,7 @@ computed this way:
 %
 % Data saved in *.RData format to avoid long computation
 %
-<<getdatafomensemble,fig=F,eval=TRUE>>=
+<<getdatafomensemble,fig=F,eval=FALSE>>=
 choosebank("ensembl")
 n <- 201
 res <- rep(-1,10*n)
@@ -540,12 +540,17 @@ we will extract a CDS sequence of \textit{Escherichia coli}'s
 chromosome from the Genome Reviews database. Let's use, for instance, 
 the following CDS:
 
-<<querycds,fig=F,eval=T>>=
-choosebank("greview")
-query("coli","N=U00096 ET T=CDS ET K=2.3.1.79@")
+<<querycds,fig=F,eval=F>>=
+choosebank("greviews")
+query("coli","N=U00096_GR ET T=CDS ET K=2.3.1.79@")
 sequence <- getSequence(coli$req[[1]])
 annot <- getAnnot(coli$req[[1]])
 closebank()
+save(sequence, file = "sequence.RData")
+save(annot, file = "annot.RData")
+@ 
+<<showannot,fig=F,eval=T>>=
+load("annot.RData")
 cat(annot, sep="\n")
 @ 
 
@@ -572,6 +577,7 @@ The following
 code was used to produce figure \ref{dinuclcoli}:
 
 <<dinuclcoli, echo = TRUE, fig = TRUE,include=F,eval=T>>=
+load("sequence.RData")
 rhocoli <- rho(sequence)
 zcolibase <- zscore(sequence, model = 'base', exact = TRUE)
 zcolicodon <- zscore(sequence,model = 'codon', exact = TRUE)
