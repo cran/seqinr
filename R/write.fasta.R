@@ -1,4 +1,4 @@
-write.fasta <- function(sequences, names, nbchar = 60, file.out, open = "w"){
+write.fasta <- function(sequences, names, file.out, open = "w", nbchar = 60){
   #
   # Open output file:
   #
@@ -36,5 +36,4 @@ write.fasta <- function(sequences, names, nbchar = 60, file.out, open = "w"){
   # Close output file:
   #
   close(outfile)
-  return(NULL);
 }

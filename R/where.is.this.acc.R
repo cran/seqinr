@@ -44,7 +44,7 @@ where.is.this.acc <- function(acc, stopAtFirst = TRUE, ...){
   cat("\n\n")
   if(length(result) == 0){
   	  cat(paste("Sequence with accesion number", acc, 
-  	  "was not found in available databases."))
+  	  "was not found in available databases.\n Are you sure this is an accession number and not a sequence name?"))
   	} else {
     cat(paste("Sequence with accesion number", acc, 
     "was found in the following database(s):\n"))
