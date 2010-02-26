@@ -1,12 +1,13 @@
 #
 # Read files of aligned sequences in various formats
 #
-read.alignment <- function(file, format, forceToLower = TRUE, File = NULL)
+read.alignment <- function(file, format, forceToLower = TRUE)
 {
-  if(!is.null(File)){
-    file <- File
-    warning("argument File is deprecated, use file instead")
-  }
+  #
+  # Check that we have read permission on the file:
+  #
+  if(file.access(file, mode = 4) != 0) stop(paste("File", file, "is not readable"))
+
   ali <- switch( format,
 	fasta = .Call("read_fasta_align", file, PACKAGE = "seqinr"), 
 	mase = .Call("read_mase", file, PACKAGE = "seqinr"),

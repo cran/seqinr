@@ -7,7 +7,7 @@ getAnnot.default <- function(object, ...)
   stop(paste("no getAnnot method for objects of class:", class(object)))
 
 getAnnot.list <- function(object, ...)
-  sapply(seq_len(length(object)), function(i) getAnnot(object[[i]], ...))
+  lapply(seq_len(length(object)), function(i) getAnnot(object[[i]], ...))
 
 getAnnot.SeqFastadna <- function(object, ...) attr(object, "Annot")
 getAnnot.SeqFastaAA <- getAnnot.SeqFastadna

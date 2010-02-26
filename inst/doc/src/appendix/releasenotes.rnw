@@ -14,7 +14,38 @@
 The release notes are listed in reverse chronological order:
 most recent on top.
 
+
 \section*{2.0 series}
+
+\subsection*{release 2.0-9}
+
+\begin{itemize}
+
+\item As pointed out by Avril Coghlan on the seqinR diffusion list on
+17-MAR-2010 there was a bug in the \texttt{getAnnot()} function.
+This is now fixed.
+
+\item As suggested by Avril Coghlan on the seqinR diffusion list on
+02-MAR-2010 the function \texttt{rho()} has gained a \texttt{wordsize}
+argument.
+
+\item The argument \texttt{word} in function \texttt{count()} is
+now more explicitely called \texttt{wordsize}.
+
+\item The example section in file \texttt{read.alignment.Rd} has gained
+a new quality control sanity check.
+
+\item The \texttt{File} argument that was deprecated since seqinR
+release 1.1-3 in function \texttt{read.alignment()} is no more valid.
+Just use \texttt{file} instead.
+
+\item As pointed by Darren Obbard on the seqinr diffusion list on
+05-MAR-2010 there was a memory leak problem when calling the
+\texttt{read.alignment()} function with the fasta format. This
+is now fixed for the fasta format, but the remaining formats have
+not been checked for this problem.
+
+\end{itemize}
 
 \subsection*{release 2.0-8}
 
@@ -24,7 +55,7 @@ most recent on top.
 list on 19-FEB-2010 there was a bug in \texttt{getSequence.list()}
 function that confused \texttt{write.fasta()} when all sequences were
 of the same length (a similar bug was reported by Yann Lesecque
-on 30-MAR-2009 for the \texttt{getTrans()} function). This now
+on 30-MAR-2009 for the \texttt{getTrans()} function). This is now
 fixed.
 
 \item The message printed when function \texttt{where.is.this.acc()} fails
@@ -35,8 +66,8 @@ instead of a genuine accession number.
 \item The title in the documentation for the function \texttt{write.fasta()}
 was changed to make clear that more than one sequence can be written at once.
 The function now does not return anything instead of \texttt{NULL} previously.
-The argument \texttt{file.out} was move to the left so that it is easier now use
-it by position during function call.
+The argument \texttt{file.out} was moved to the left so that it is easier now 
+to use it by position during function call.
 
 \end{itemize}
 

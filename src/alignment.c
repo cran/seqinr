@@ -1,10 +1,6 @@
 #include "alignment.h"
 
 
-
-
-
-
 void rem_blank(char *string)
 {
   int ii;
@@ -641,14 +637,12 @@ SEXP read_phylip_align(SEXP ficname)
 
 
 
-/****************************************/
-/* Lecture  d'un fichier au format fasta */
-/***************************************/
-
+/*************************************/
+/* Reading alignment in fasta format */
+/*************************************/
 
 SEXP read_fasta_align(SEXP ficname)
 {
- 
   SEXP list;
   SEXP listseq;
   SEXP listname;
@@ -656,94 +650,88 @@ SEXP read_fasta_align(SEXP ficname)
   char *fname;
   FILE *in;
   int totseqs, lseq, l2, l, lenseqs;
-  char line[200], *p, *i, *provseq = NULL;
+  char line[200], *p, *i;
   char **seq, **seqname, **comments;
 
-  fname = (char *) CHAR(STRING_ELT(ficname,0)); 
+  fname = (char *) CHAR(STRING_ELT(ficname, 0)); 
 
-  PROTECT(nombreseq=NEW_INTEGER(1));
-  PROTECT(list=allocVector(VECSXP,3));
+  PROTECT(nombreseq = NEW_INTEGER(1));
+  PROTECT(list = allocVector(VECSXP, 3));
 
-  if( (in=fopen(fname,"r")) == NULL) {
-    error("file not found");
-	}
+  /* Check that the file is available */
 
-  /* calcul du nombre de sequences dans le fichier */
-  totseqs = 0;
-  while(fgets(line, sizeof(line), in) != NULL) {
-    if(*line == '>') totseqs++;
-  }
+  if((in = fopen(fname, "r")) == NULL) error("File not found");
   
-  INTEGER(nombreseq)[0]=totseqs;
-  PROTECT(listname=allocVector(VECSXP,totseqs));
-  PROTECT(listseq=allocVector(VECSXP,totseqs));
+  /* How many sequences are in the file ? */
 
- rewind(in);
- seq = (char **)malloc(totseqs * sizeof(char *));
- if(seq == NULL) goto nomem;
- comments = (char **)malloc(totseqs * sizeof(char *));
- if(comments == NULL) goto nomem;
- seqname = (char **)malloc(totseqs * sizeof(char *));
- if(seqname == NULL) goto nomem;
+  totseqs = 0;
+  while(fgets(line, sizeof(line), in) != NULL)
+    if(*line == '>') totseqs++;
+  rewind(in);
+
+  /* R objects creation */  
+  
+  INTEGER(nombreseq)[0] = totseqs;
+  PROTECT(listname = allocVector(VECSXP, totseqs));
+  PROTECT(listseq = allocVector(VECSXP, totseqs));
+
+  /* Memory allocation */
+
+  seq = (char **) R_alloc(totseqs, sizeof(char *));
+  comments = (char **) R_alloc(totseqs, sizeof(char *));
+  seqname = (char **) R_alloc(totseqs, sizeof(char *));
  
+  lenseqs = MAXLENSEQ;
+  totseqs = -1;
+  i = fgets(line, sizeof(line), in);
+  if(line[0] != '>')
+    error("File not in Fasta format!\n");
 
- lenseqs = MAXLENSEQ;
- totseqs = -1;
- i = fgets(line, sizeof(line), in);
- if(line[0] != '>') {
-   printf("File not in Fasta format!");
-   totseqs = -1; goto fini;
- }
- while( i != NULL ){
-   totseqs++;
-   comments[totseqs] = NULL;
-   p = line + 1; while(*p != ' ' && *p != '\n') p++;
-	l = p - line - 1;
-	if( (seqname[totseqs] = (char *)malloc(l+1)) == NULL)goto nomem;
-	memcpy(seqname[totseqs], line + 1, l); seqname[totseqs][l] = 0;
-	
-	SET_ELEMENT(listname,totseqs,mkChar(seqname[totseqs]));
-       
-	seq[totseqs] = (char *)malloc(lenseqs+1);
-	if(seq[totseqs] == NULL) goto nomem;
-	lseq = 0;
-	while( (i=fgets(line, sizeof(line), in))!= NULL && *i != '>' ) {
-	  l2 = strlen(line);
-	  if( line[l2 - 1] == '\n' ) l2--;
-	  while(l2>0 && line[l2-1]==' ')l2--;
-	  if(lseq + l2 > lenseqs) {
-	    char *temp;
-	    lenseqs += MAXLENSEQ;
-	    temp = (char *)malloc(lenseqs+1);
-	    if(temp == NULL) goto nomem;
-	    memcpy(temp, seq[totseqs], lseq);
-			free(seq[totseqs]);
-			seq[totseqs] = temp;
-	  }
-	  memcpy(seq[totseqs]+lseq, line, l2);
-	  lseq += l2;
-	}
-	seq[totseqs][lseq]='\0';
+  /* Main loop to read line by line the file */
 
-	SET_ELEMENT(listseq,totseqs,mkChar(seq[totseqs]));
-      
-	/* convert all to upper case */
-	p = seq[totseqs] - 1; while( *(++p) != 0 ) *p = toupper(*p);
- }
+  while( i != NULL ){
+    totseqs++;
+    comments[totseqs] = NULL;
+    p = line + 1; 
+    while(*p != ' ' && *p != '\n')
+      p++;
+    l = p - line - 1;
 
- SET_ELEMENT(list,0,nombreseq);
- SET_ELEMENT(list,1,listname);
- SET_ELEMENT(list,2,listseq);
+    seqname[totseqs] = (char *) R_alloc(l + 1, sizeof(char));
+
+    memcpy(seqname[totseqs], line + 1, l); 
+    seqname[totseqs][l] = '\0';	
+    SET_ELEMENT(listname, totseqs, mkChar(seqname[totseqs]));
+
+    seq[totseqs] = (char *) R_alloc(lenseqs + 1, sizeof(char));
+    lseq = 0;
+
+    while( (i = fgets(line, sizeof(line), in)) !=  NULL && *i != '>' ) {
+      l2 = strlen(line);
+      if( line[l2 - 1] == '\n' ) l2--;
+      while(l2 > 0 && line[l2 - 1] == ' ')
+        l2--;
+      if(lseq + l2 > lenseqs) {
+        char *temp;
+	lenseqs += MAXLENSEQ;
+	temp = R_alloc(lenseqs + 1, sizeof(char));
+	memcpy(temp, seq[totseqs], lseq);
+	seq[totseqs] = temp;
+      }
+      memcpy(seq[totseqs] + lseq, line, l2);
+      lseq += l2;
+    }
+    seq[totseqs][lseq] = '\0';
+    SET_ELEMENT(listseq, totseqs, mkChar(seq[totseqs]));
+  }
+
+  SET_ELEMENT(list, 0, nombreseq);
+  SET_ELEMENT(list, 1, listname);
+  SET_ELEMENT(list, 2, listseq);
  
- fini:
- fclose(in);
- if(provseq != NULL) free(provseq);
- UNPROTECT(4);
- return list;
- nomem:
- error(" Not enough memory!");
- totseqs = -1;
- goto fini;
+  fclose(in);
+  UNPROTECT(4);
+  return list;
 }
 
 

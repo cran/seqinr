@@ -1,4 +1,4 @@
-count <- function(seq, word, start = 0, by = 1, freq = FALSE, alphabet = s2c("acgt"), frame = start){
+count <- function(seq, wordsize, start = 0, by = 1, freq = FALSE, alphabet = s2c("acgt"), frame = start){
 #
 # For backward compatibility:
 #
@@ -14,15 +14,15 @@ count <- function(seq, word, start = 0, by = 1, freq = FALSE, alphabet = s2c("ac
 #
 # oligos.levels contains all possible oligomers for a given alphabet:
 #
-  oligos.levels <- levels(as.factor(words(word, alphabet = alphabet)))
+  oligos.levels <- levels(as.factor(words(wordsize, alphabet = alphabet)))
 #
 # For n-mers with n >= 2 we paste the following characters in the
 # sequence to build the observed set of all oligomers. Some NA are
 # generated at the end of the sequence and discarded when counting
 # them.
 #
-  if (word >= 2){
-    for(i in 2:word){
+  if (wordsize >= 2){
+    for(i in 2:wordsize){
       oligos <- paste(oligos, seq[istarts + i - 1], sep = "")
     }
   }

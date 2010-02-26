@@ -10,11 +10,12 @@
   the rho statistic, and the z-score, each computed for all 16 dinucleotides.
 }
 \usage{
-rho(sequence, alphabet = s2c("acgt"))
+rho(sequence, wordsize = 2, alphabet = s2c("acgt"))
 zscore(sequence, simulations = NULL, modele, exact = FALSE, alphabet = s2c("acgt"), ... )
 }
 \arguments{
-  \item{sequence}{ A nucleic acids sequence }
+  \item{sequence}{a vector of single characters.}
+  \item{wordsize}{an integer giving the size of word (n-mer) to consider.}
   \item{simulations}{ If \code{NULL}, analytical solution is computed
     when available (models \code{base} and \code{codon}). Otherwise, it
     should be the number of permutations for the z-score computation }
@@ -88,7 +89,7 @@ zscore(sequence, simulations = NULL, modele, exact = FALSE, alphabet = s2c("acgt
 
   \code{citation("seqinr")}
 }
-\author{ Leonor Palmeira }
+\author{Leonor Palmeira and J.R. Lobry with suggestions from Avril Coghlan.}
 \seealso{ \code{\link{permutation}} }
 \examples{
 sequence <- sample(x = s2c("acgt"), size = 6000, replace = TRUE)
@@ -98,4 +99,3 @@ zscore(sequence, modele = "base", exact = TRUE)
 zscore(sequence, modele = "codon")
 zscore(sequence, simulations = 1000, modele = "syncodon")
 }
-\keyword{ utilities }

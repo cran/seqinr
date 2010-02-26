@@ -6,11 +6,11 @@
   sequence. Note that the oligomers are overlapping by default.
 }
 \usage{
-count(seq, word, start = 0, by = 1, freq = FALSE, alphabet = s2c("acgt"), frame = start)
+count(seq, wordsize, start = 0, by = 1, freq = FALSE, alphabet = s2c("acgt"), frame = start)
 }
 \arguments{
   \item{seq}{a vector of single characters.}
-  \item{word}{an integer giving the size of word (n-mer) to count.}
+  \item{wordsize}{an integer giving the size of word (n-mer) to count.}
   \item{start}{an integer (0, 1, 2,...) giving the starting
     position to consider in the sequence. The default value 0 means that
     we start at the first nucleotide in the sequence.}

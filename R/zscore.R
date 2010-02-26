@@ -1,8 +1,3 @@
-rho <- function (sequence, alphabet = s2c("acgt")){
-  di <- count(sequence,2,freq=TRUE, alphabet = alphabet)
-  uni <- count(sequence,1,freq=TRUE, alphabet = alphabet)
-  di/(rep(uni,4)*rep(uni,each=4))
-}
 
 zscore <- function (sequence, simulations = NULL, modele, exact = FALSE, alphabet = s2c("acgt"), ... ){
   if (is.null(simulations)){
