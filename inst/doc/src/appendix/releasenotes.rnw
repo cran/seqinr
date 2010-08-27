@@ -14,6 +14,17 @@
 The release notes are listed in reverse chronological order:
 most recent on top.
 
+\section*{3.0 series}
+
+\subsection{release 3.0-0}
+
+\begin{itemize}
+
+\item As pointed out by Leonor Palmeira on the \texttt{rpourlesnuls}
+diffusion list on 20-MAY-2010 there was no constructor for objects
+of class alignment. There is now a \texttt{as.alignment()} function.
+\end{itemize}
+
 
 \section*{2.0 series}
 
