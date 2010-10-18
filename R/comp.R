@@ -26,7 +26,9 @@ comp <- function(seq, forceToLower = TRUE, ambiguous = FALSE){
     result[which(seq == "s")] <- "s"
     result[which(seq == "v")] <- "b"
     result[which(seq == "w")] <- "w"
-    result[which(seq == "n")] <- "n"
+    result[which(seq == "n")] <- "n"    
+    result[which(seq == "y")] <- "y"
+    result[which(seq == "r")] <- "r"
   }
   if(isUpper && !forceToLower){
   	  result <- toupper(result)

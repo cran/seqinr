@@ -113,7 +113,10 @@ read.abif <- function(filename, max.bytes.in.file = file.info(filename)$size,
     # unsigned 8 bits integer:
     if(elementtype == 1) res$Data[[i]] <- UInt8(data, n = numelements)
     # char or signed 8 bits integer
-    if(elementtype == 2) res$Data[[i]] <- RTC(data)
+    if(elementtype == 2){
+        res$Data[[i]] <- tryCatch(RTC(data),finally=paste(rawToChar(data,multiple=TRUE),collapse=""),error=function(er){cat(paste("an error was detected with the following  message:",er," but this error was fixed\n",sep=" "))})
+        }
+    
     # unsigned 16 bits integer:
     if(elementtype == 3) res$Data[[i]] <- UInt16(data, n = numelements)
     # short:
