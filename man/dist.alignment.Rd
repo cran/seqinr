@@ -24,7 +24,7 @@ dist.alignment(x, matrix = c("similarity", "identity"))
 }
 \references{ 
 The reference for the similarity matrix is :\cr
-Fitch, W.M. (1966) Mutation values for the interconversion of amino acid pair. 
+Fitch, W.M. (1966) An improved method of testing for evolutionary homology. 
 \emph{J. Mol. Biol.}, \bold{16}:9-16.\cr
 
 \code{citation("seqinr")}
