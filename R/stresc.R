@@ -7,7 +7,7 @@ stresc <- function(strings)
   #
   fromchar <- s2c("\\{}$^_%#&~[]")
   tochar <- c("$\\backslash$", "\\{", "\\}", "\\$", "\\^{}", "\\_", "\\%", "\\#", "\\&", "\\~{}",
-  "\\[", "\\]")
+  "\\lbrack{}", "\\rbrack{}")
   #
   # Definition of the function to escape LaTeX character in one string:
   #
