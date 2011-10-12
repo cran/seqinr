@@ -10,7 +10,7 @@ get.db.growth <- function(where = "http://www.ebi.ac.uk/embl/Documentation/Relea
 
   embl <- where
   tmp <- readLines( embl )
-  idx <- grep("Release Month", tmp)
+  idx <- grep("Release(.+) Month", tmp)
   tmp <- tmp[ (idx + 2):length(tmp) ]
   tmp <- strsplit( tmp, split = " " )
   not.empty <- function(x)

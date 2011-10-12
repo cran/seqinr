@@ -1,4 +1,4 @@
-5030b225383c5f2b0ce7b491341bd5f4 *DESCRIPTION
+efa42123a3e8181dfa793deddca514c8 *DESCRIPTION
 4fc93a70f5d27838160362c66e5370b8 *R/AAstat.R
 7175d6708d717dca65176df83a41f9bd *R/ClassSeq.R
 1e91dc3520dc9fd00e6e78da768c4b2e *R/GC.R
@@ -26,7 +26,7 @@ e9e34591e679888f5b11f923bb37d9a4 *R/comp.R
 70903c3ea1da6bcb6d2b0b77960f86a7 *R/count.R
 3d5c97c10129de81da8b0b7c8006bdf3 *R/countfreelists.R
 e354a7785d3f515d4311ddf75b54fc71 *R/countsubseqs.R
-163602ce9108ba25398fdb1ba63d1f0a *R/db.growth.R
+c4492135fad7e18d7e589f6f3622cf6b *R/db.growth.R
 a17468f29db0ab682eb82e47314713cf *R/dia.bactgensize.R
 231d435c7dcfadf890080b5188c7a59c *R/dist.alignment.R
 3dc6f329eea0d8db614bfb6ded99c056 *R/dotPlot.R
