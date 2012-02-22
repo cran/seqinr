@@ -4,14 +4,15 @@
 \description{ Ks and Ka  are, respectively, the number of substitutions per synonymous site and per non-synonymous site between two protein-coding genes. They are also denoted as ds and dn in the literature. The ratio of nonsynonymous (Ka) to synonymous (Ks) nucleotide substitution rates is an indicator of selective pressures on genes. A ratio significantly greater than 1 indicates positive selective pressure. A ratio around 1 indicates either neutral evolution at the protein level or an averaging of sites under positive and negative selective pressures. A ratio less than 1 indicates pressures to conserve protein sequence (\emph{i.e.} purifying selection). This function estimates the Ka and Ks values for a set of aligned sequences using the method published by Li (1993) and gives the associated variance matrix. 
 }
 \usage{
-kaks(x, debug = FALSE, forceUpperCase = TRUE)
+kaks(x,verbose = FALSE, debug = FALSE,  forceUpperCase = TRUE)
 }
 \arguments{
   \item{x}{ An object of class \code{alignment}, obtained for instance by importing into R the data from an alignment file with the \code{\link{read.alignment}} function. This is typically a set of coding sequences aligned at the protein level, see \code{\link{reverse.align}}.}
+  \item{verbose}{ If TRUE add to the results  the value of L0, L2, L4 (respectively the number of non-synonymous sites, of 2-fold synonymous sites, of 4-fold synonymous sites), A0, A2, A4 (respectively the number of transitional changes at non-synonymous, 2-fold, and 4-fold synonymous sites ) and B0, B2, B4 (respectively the number of transversional changes at non-synonymous, 2-fold, and 4-fold synonymous sites).}
+  \item{debug}{ If TRUE turns debug mode on.}
   \item{forceUpperCase}{ If TRUE, the default value, all character in sequences are forced to the upper case
   if at least one 'a', 'c', 'g', or 't' is found in the sequences. 
   Turning it to FALSE if the sequences are already in upper case will save time.}
-  \item{debug}{ If TRUE turns debug mode on.}
 }
 \value{
   \item{ ks }{ matrix of Ks values }
@@ -53,6 +54,13 @@ When the alignment does not contain enough information (\emph{i.e.} close to sat
 
 Negative values indicate that Ka and Ks can not be computed.
 
+According to Li (1993) J. Mol. Evol. 36(1):96-99,
+the rate of synonymous substitutions Ks is computed as:
+Ks = (L2.A2 + L4.A4) / (L2 + L4)  +  B4
+
+and the rate of non-synonymous substitutions Ka is computed as:
+Ka =  A0 + (L0.B0 + L2.B2) / (L0 + L2) 
+
  }
 \author{ D. Charif, J.R. Lobry }
 \seealso{\code{\link{read.alignment}} to import alignments from files, \code{\link{reverse.align}} to align CDS at the aa level.}
@@ -67,11 +75,11 @@ Negative values indicate that Ka and Ks can not be computed.
  #
  data(AnoukResult)
  Anouk <- read.alignment(file = system.file("sequences/Anouk.fasta", package = "seqinr"), format = "fasta")	
- if( ! all.equal(kaks(Anouk), AnoukResult) ) {
-   warning("Poor numeric results with respect to AnoukResult standard")
- } else {
-   print("Results are consistent with AnoukResult standard")
- }
+## if( ! all.equal(kaks(Anouk), AnoukResult) ) {
+##   warning("Poor numeric results with respect to AnoukResult standard")
+## } else {
+##   print("Results are consistent with AnoukResult standard")
+## }
 #
 # As from seqinR 2.0-3 the following alignment with out-of-frame gaps
 # should return a zero Ka value.

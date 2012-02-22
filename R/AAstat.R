@@ -14,8 +14,8 @@ AAstat <- function(seq, plot = TRUE){
     plot(c(0, n.res), c(0, n.items + 1), type = "n", axes = FALSE, 
       ann = FALSE, xlim = c(0, n.res + 1))
     title(xlab = "Position of the residues along the sequence")
-    axis(2, at = seq(1.5, 10, 1), lab = names(tutu), col.lab = "blue", las = 1, cex.axis = 0.8)
-    axis(1, at = seq(0, n.res, 15), lab = seq(0, n.res, 15), col.axis = "blue")
+    axis(2, at = seq(1.5, 10, 1), labels = names(tutu), col.lab = "blue", las = 1, cex.axis = 0.8)
+    axis(1, at = seq(0, n.res, 15), labels = seq(0, n.res, 15), col.axis = "blue")
     lapply(seq_len(n.items), function(x){
       segments(tutu[[x]], x, tutu[[x]], x + 1, col = coul[x], lwd = 2)
       rect(0, x, n.res, 1, lwd = 2)

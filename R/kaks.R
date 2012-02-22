@@ -1,4 +1,4 @@
-kaks <- function(x, debug = FALSE, forceUpperCase = TRUE){
+kaks <- function(x, verbose=FALSE, debug = FALSE, forceUpperCase = TRUE){
     #
     # Check argument class:
     #
@@ -47,6 +47,7 @@ kaks <- function(x, debug = FALSE, forceUpperCase = TRUE){
     if(debug){
       cat("<--- Result l storage is --->\n")
       print(str(l))
+      print (l)
       cat("<--- Result l storage is --->\n")
     }
     #
@@ -61,8 +62,20 @@ kaks <- function(x, debug = FALSE, forceUpperCase = TRUE){
       tmp <- matrix( k, x$nb, x$nb, byrow = TRUE, dimnames = list(x$nam, x$nam))
       as.dist(t(tmp))
     }
-    result <- lapply(l[seq_len(4)], mkresult)
-    names(result) <- c("ka", "ks", "vka", "vks")
-    return(result)
+    #result <- lapply(l[seq_len(4)], mkresult)
+    if (verbose)	
+    	{
+	result <- lapply(l[seq_len(13)], mkresult)
+	check <- result[[5]] + result[[6]] +  result[[7]]
+	result[[14]] <-check
+	names(result) <- c("ka", "ks", "vka", "vks","l0","l2","l4","a0","a2","a4", "b0","b2","b4","checksuml")
+	return(result)
+	 }
+    else
+    	{
+	result <- lapply(l[seq_len(4)], mkresult)
+	names(result) <- c("ka", "ks", "vka", "vks")
+    	return(result)
+	}
 }
 

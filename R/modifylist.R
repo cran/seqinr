@@ -85,6 +85,6 @@ modifylist <- function(listname, modlistname = listname,
   result <- list(call = match.call(), name = modlistname, nelem = mlcount, typelist = NA, 
     req = req, socket = socket)
   class(result) <- c("qaw")
-  assign(modlistname, result, env = .GlobalEnv)
+  assign(modlistname, result, envir = .GlobalEnv)
 }
 

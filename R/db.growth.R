@@ -5,7 +5,7 @@ get.db.growth <- function(where = "http://www.ebi.ac.uk/embl/Documentation/Relea
   ftp.proxy.bck <- Sys.getenv("ftp_proxy")
   if (ftp.proxy.bck != "") {
       warning("I'am trying to neutralize proxies")
-      Sys.putenv("no_proxy" = "")
+      Sys.setenv("no_proxy" = "")
   }
 
   embl <- where
@@ -76,13 +76,13 @@ dia.db.growth <- function( get.db.growth.out = get.db.growth(),
     for( i in seq(-10,10,by=0.5) )
       if( i != 0 )
         abline( coef=c(b+i, a), col="black" )
-    legend( x = 1990, y = 7, leg= c(paste("Observed doubling time:", 
+    legend( x = 1990, y = 7, legend= c(paste("Observed doubling time:", 
       round(dbt,1),"months"),"Moore's doubling time : 18 months"), 
       lty = c(1,1), col = c("yellow","black"))
   }
   else
   {
-    legend( x = 1990, y = 7, leg=paste("Observed doubling time:", 
+    legend( x = 1990, y = 7, legend=paste("Observed doubling time:", 
       round(dbt,1), "months"), lty = 1, col = "yellow")
   }
   par( op )

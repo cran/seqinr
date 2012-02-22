@@ -76,7 +76,8 @@ con(matali, method = c( "majority", "threshold", "IUPAC", "profile"),
 #
   res.thr <- consensus(phylip, method = "threshold")
   res.thr[is.na(res.thr)] <- "." # change NA into dots
-  stopifnot(c2s(res.thr) == "aa.c..t.gc.gtt..g..t.a.cc..ggccg.......ta.")
+# stopifnot(c2s(res.thr) == "aa.c..t.gc.gtt..g..t.a.cc..ggccg.......ta.")
+  stopifnot(c2s(res.thr) == "aa.cc.tggccgttcagggtaaacc.tggccgg.cagggtat")
 #
 # With an IUPAC summary:
 #

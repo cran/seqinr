@@ -115,8 +115,8 @@ SEXP read_mase(SEXP nomfic)
     lgs = strlen(string);
     
     if(lgs >= (MAXSTRING - 1)) {
-      fprintf(stderr, "\n Too long line in alignment (> %d).\n", MAXSTRING);
-      error("increase MAXSTRING and recompile.\n"); 
+      REprintf("\n Fatal Error. Too long line in alignment (> %d).\n", MAXSTRING);
+      REprintf("Increase MAXSTRING and recompile.\n"); 
     }
     
     c2 = string[0];
@@ -183,7 +183,7 @@ SEXP read_mase(SEXP nomfic)
      rem_blank(string);
 
      if((int) strlen(string) >= (MAXMNMASE - 1)) {
-       fprintf(stderr, "max  %d characters\n", MAXMNMASE);
+       REprintf("Error. Maximum sequance name is   %d characters\n", MAXMNMASE);
        error("sequence name too long!");
      }
      strcpy(aln[ii].mn, string);

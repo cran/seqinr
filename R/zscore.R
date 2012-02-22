@@ -37,7 +37,7 @@ zscore <- function (sequence, simulations = NULL, modele, exact = FALSE, alphabe
       split <- splitseq(sequence)
       n <- length(split)
       pos <- sort(c(seq(3,length(sequence)-1,by=3),seq(4,length(sequence),by=3))) #position3-1 codons
-      xy <- table(factor(splitseq(sequence[pos],w=2),levels=words(2)))
+      xy <- table(factor(splitseq(sequence[pos],word=2),levels=words(2)))
       n1 <- sapply(s2c('acgt'), function(x){length(which(substring(split,3,3)==x))})
       n1 <- rep(n1,each=4)
       n2 <- sapply(s2c('acgt'), function(x){length(which(substring(split,1,1)==x))})

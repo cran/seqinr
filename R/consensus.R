@@ -32,7 +32,7 @@ consensus <- function(matali, method = c( "majority", "threshold", "IUPAC", "pro
     profile <- consensus(matali, method = "profile")
     profile.rf <- apply(profile, 2, function(x) x/sum(x))
     res <- rownames(profile.rf)[apply(profile.rf, 2, which.max)]
-    res <- ifelse(apply(profile.rf, 2, max) > threshold, res, NA)
+    res <- ifelse(apply(profile.rf, 2, max) >= threshold, res, NA)
     names(res) <- NULL
     return(res)
   }

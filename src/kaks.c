@@ -6,7 +6,7 @@ int code_mt = 0; /* Not implemented yet */
 void reresh(char **, int, int);
 void prefastlwl(double **, double **, double **, double **, double **, double **, double **, double **, double **, double **);
 int fastlwl(char **, int, int, double **, double **, double **, double **, double **, double **, double **, double **, 
-            double **, double **, double **, double **, double **);
+            double **, double **, double **, double **, double **,double **, double **,double **,double **, double **,double **,double **, double **,double **);
 
 SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 {
@@ -17,7 +17,16 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
   int debugon;
   double *rl[21];
   double **ka, **ks, **vka, **vks;
+  double **l0, **l2,**l4;
+  double **a0, **a2,**a4;
+  double **b0, **b2,**b4;
+  
+  double *xl0,*xl2,*xl4;
+  double *xa0,*xa2,*xa4;
+  double *xb0,*xb2,*xb4;
+  
   double *xka, *xks, *xvka, *xvks;
+  
   
   double mat[19][19] = {{.382, .382, .343, .382, .382, .382, .382, .128, .040, .128, .040, .128, .040, .128, .040, .128, .343, .128, .040 }, 
 		     { .382, .382, .128, .343, .343, .343, .343, .128, .040, .128, .040, .128, .040, .128, .040, .128, .128, .040, .040 }, 
@@ -44,6 +53,24 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
   SEXP rvka;
   SEXP rvks;
   SEXP res;
+  
+  /* -- addition fevrier 2012  --*/
+  SEXP rl0;
+  SEXP rl2;
+  SEXP rl4;
+  
+  SEXP ra0;
+  SEXP ra2;
+  SEXP ra4;
+  
+  SEXP rb0;
+  SEXP rb2;
+  SEXP rb4;
+  
+  
+  
+  /* --------------------------- */
+    
 /*  SEXP lsequtil; The effective number of sites used, not used yet */
 
   debugon = INTEGER_VALUE(debugkaks);
@@ -102,11 +129,36 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
   vka = (double **) R_alloc(totseqs, sizeof(double *));
   vks = (double **) R_alloc(totseqs, sizeof(double *));
   
+  l0 = (double **) R_alloc(totseqs, sizeof(double *));
+  l2 = (double **) R_alloc(totseqs, sizeof(double *));
+  l4 = (double **) R_alloc(totseqs, sizeof(double *));
+  
+  a0 = (double **) R_alloc(totseqs, sizeof(double *));
+  a2 = (double **) R_alloc(totseqs, sizeof(double *));
+  a4 = (double **) R_alloc(totseqs, sizeof(double *));
+
+  
+  b0 = (double **) R_alloc(totseqs, sizeof(double *));
+  b2 = (double **) R_alloc(totseqs, sizeof(double *));
+  b4 = (double **) R_alloc(totseqs, sizeof(double *));
+
+  
   for (i = 0; i < totseqs; i++) {
     ka[i] = (double *) R_alloc(totseqs, sizeof(double));
     vka[i] = (double *) R_alloc(totseqs, sizeof(double));
     ks[i] = (double *) R_alloc(totseqs, sizeof(double));
     vks[i] = (double *) R_alloc(totseqs, sizeof(double));
+    l0[i] = (double *) R_alloc(totseqs, sizeof(double)); 
+    l2[i] = (double *) R_alloc(totseqs, sizeof(double));
+    l4[i] = (double *) R_alloc(totseqs, sizeof(double));
+    a0[i] = (double *) R_alloc(totseqs, sizeof(double)); 
+    a2[i] = (double *) R_alloc(totseqs, sizeof(double));
+    a4[i] = (double *) R_alloc(totseqs, sizeof(double));
+    b0[i] = (double *) R_alloc(totseqs, sizeof(double)); 
+    b2[i] = (double *) R_alloc(totseqs, sizeof(double));
+    b4[i] = (double *) R_alloc(totseqs, sizeof(double));
+    
+    
   }
 
 /******************************************************************************/
@@ -130,14 +182,33 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 /******************************************************************************/
 
 
-  PROTECT(res = NEW_LIST(5));
+  PROTECT(res = NEW_LIST(14));
   PROTECT(rka = NEW_NUMERIC(totseqs*totseqs));
   PROTECT(rks = NEW_NUMERIC(totseqs*totseqs));
   PROTECT(rvka = NEW_NUMERIC(totseqs*totseqs));
   PROTECT(rvks = NEW_NUMERIC(totseqs*totseqs));
-
-
-	for (i = 2; i < 21; i++) {
+  
+  /* -- addition fevrier 2012  --*/
+    
+  PROTECT(rl0 = NEW_NUMERIC(totseqs*totseqs));
+  PROTECT(rl2 = NEW_NUMERIC(totseqs*totseqs));
+  PROTECT(rl4 = NEW_NUMERIC(totseqs*totseqs));
+  PROTECT(ra0 = NEW_NUMERIC(totseqs*totseqs));
+  PROTECT(ra2 = NEW_NUMERIC(totseqs*totseqs));
+  PROTECT(ra4 = NEW_NUMERIC(totseqs*totseqs));
+   PROTECT(rb0 = NEW_NUMERIC(totseqs*totseqs));
+  PROTECT(rb2 = NEW_NUMERIC(totseqs*totseqs));
+  PROTECT(rb4 = NEW_NUMERIC(totseqs*totseqs));
+ 
+  
+  
+  
+/*  PROTECT(rl024 = NEW_NUMERIC(3));
+  PROTECT(ra024 = NEW_NUMERIC(3));
+  PROTECT(rb024 = NEW_NUMERIC(3));*/
+  /* --------------------------- */
+  
+ 	for (i = 2; i < 21; i++) {
 		for (j = 1; j < i; j++) {
 			*(rl[i] + j) = mat[j-1][i-2] ;
 		}
@@ -198,6 +269,18 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
       ks[i][j] = -1;
       vka[i][j] = -1;
       vks[i][j] = -1;
+      l0[i][j] = 0;
+      l2[i][j] = 0;
+      l4[i][j] = 0;
+      a0[i][j] = 0;
+      a2[i][j] = 0;
+      a4[i][j] = 0;
+      b0[i][j] = 0;
+      b2[i][j] = 0;
+      b4[i][j] = 0;
+      
+      
+      
     } 
   }
 	
@@ -231,11 +314,14 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
   }
 */
 
-	lgseq = strlen(seqIn[0]);
-	fastlwl(seqIn, totseqs, lgseq, ka, ks, tti0, tti1, tti2, ttv0, ttv1, ttv2, tl0, tl1, tl2, vka, vks);
+   lgseq = strlen(seqIn[0]);
+  /* l024 =  NUMERIC_POINTER(rl024);
+   a024 =  NUMERIC_POINTER(ra024);
+   b024 =  NUMERIC_POINTER(rb024);*/
+   fastlwl(seqIn, totseqs, lgseq, ka, ks, tti0, tti1, tti2, ttv0, ttv1, ttv2, tl0, tl1, tl2, vka, vks,l0,l2,l4,a0,a2,a4,b0,b2,b4);
 	
    for(i = 0 ; i < totseqs ; i++){
-      if(debugon) Rprintf("fastlwl-->%s<--\n", seqIn[i]);
+      if(debugon) Rprintf(" -->%s<--\n", seqIn[i]);
    }
 
 /******************************************************************************/
@@ -250,24 +336,51 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
   xks = NUMERIC_POINTER(rks);
   xvka = NUMERIC_POINTER(rvka);
   xvks = NUMERIC_POINTER(rvks);
-
+  xl0 = NUMERIC_POINTER(rl0);
+  xl2 = NUMERIC_POINTER(rl2);
+  xl4 = NUMERIC_POINTER(rl4);
+  xa0 = NUMERIC_POINTER(ra0);
+  xa2 = NUMERIC_POINTER(ra2);
+  xa4 = NUMERIC_POINTER(ra4); 
+  xb0 = NUMERIC_POINTER(rb0);
+  xb2 = NUMERIC_POINTER(rb2);
+  xb4 = NUMERIC_POINTER(rb4); 
+  
+  
+   
   for(i = 0 ; i < totseqs  ; i++){
     for(j = 0  ; j < totseqs ; j++){
       xka[n] = ka[i][j];
       xks[n] = ks[i][j];
       xvka[n] = vka[i][j];
       xvks[n] = vks[i][j];
-      if(debugon) Rprintf("C> i = %d, j = %d, n = %d, ka = %lf, ks = %lf, vka = %lf, vks = %lf\n", i, j, n, ka[i][j], ks[i][j], vka[i][j], vks[i][j]);
+      xl0[n] = l0[i][j];  
+      xl2[n] = l2[i][j];
+      xl4[n] = l4[i][j];
+      xa0[n] = a0[i][j];  
+      xa2[n] = a2[i][j];
+      xa4[n] = a4[i][j];
+      xb0[n] = b0[i][j];  
+      xb2[n] = b2[i][j];
+      xb4[n] = b4[i][j];      
+      if(debugon) Rprintf("C> i = %d, j = %d, n = %d, ka = %lf, ks = %lf, vka = %lf, vks = %lf, l0 = %lf, l2 = %lf, l4 = %lf, a0 = %lf, a2 = %lf, a4 = %lf, b0 = %lf, b2 = %lf, b4 = %lf\n", i, j, n, ka[i][j], ks[i][j], vka[i][j], vks[i][j],l0[i][j],l2[i][j],l4[i][j],a0[i][j],a2[i][j],a4[i][j],b0[i][j],b2[i][j],b4[i][j] );
       n++;
     }
-  }
-
+  } 
   SET_ELEMENT(res, 0, rka);
   SET_ELEMENT(res, 1, rks);
   SET_ELEMENT(res, 2, rvka);
   SET_ELEMENT(res, 3, rvks);
-
-  UNPROTECT(5);
+  SET_ELEMENT(res, 4, rl0); 
+  SET_ELEMENT(res, 5, rl2);
+  SET_ELEMENT(res, 6, rl4);  
+  SET_ELEMENT(res, 7, ra0); 
+  SET_ELEMENT(res, 8, ra2);
+  SET_ELEMENT(res, 9, ra4);  
+  SET_ELEMENT(res, 10, rb0); 
+  SET_ELEMENT(res, 11, rb2);
+  SET_ELEMENT(res, 12, rb4);
+  UNPROTECT(14);
 
   if(debugon) Rprintf("C> %s", "End of C level....................\n");
   return(res);
@@ -305,14 +418,13 @@ int num(char *cod)
 int fastlwl(char **seq, int nbseq, int lgseq, double **ka, double **ks, 
             double **tti0, double **tti1, double **tti2, double **ttv0, 
             double **ttv1, double **ttv2, double **tl0, double **tl1, 
-            double **tl2, double **vka, double **vks)
+            double **tl2, double **vka, double **vks,  double **l0, double **l2,double **l4,  double **a0, double **a2,double **a4,  double **b0, double **b2,double **b4)
 {
   const double trois = 3.0;
   double l[3], a[3], b[3], p[3], q[3], ti[3], tv[3], cc[3],
 	 aaa[3], bb[3], flgseq, va[3], vb[3],es1,es2;
   char cod1[3], cod2[3];
   int i, j, ii, num1, num2, sat, sat1, sat2;
-
   sat = sat1 = sat2 = 2;
   /*
      Internal check at C level: this should be no more be necessary, I'll keep it just in case. JRL - 26-APR-2009
@@ -345,6 +457,9 @@ int fastlwl(char **seq, int nbseq, int lgseq, double **ka, double **ks,
 	tv[1] += *(ttv1[num1] + num2);
 	tv[2] += *(ttv2[num1] + num2);
       }
+      l0[i][j]=l[0];      
+      l2[i][j]=l[1];
+      l4[i][j]=l[2];
       for (ii = 0; ii < 3; ii++) {
 	p[ii] = ti[ii] / l[ii];
 	q[ii] = tv[ii] / l[ii];
@@ -381,8 +496,33 @@ int fastlwl(char **seq, int nbseq, int lgseq, double **ka, double **ks,
 	vka[i][j]=ka[i][j] = 9.999999;
 	sat2 = 1;
       }
+     a0[i][j]=a[0];      
+     a2[i][j]=a[1];
+     a4[i][j]=a[2];     
+     b0[i][j]=b[0];      
+     b2[i][j]=b[1];
+     b4[i][j]=b[2];
+     
     }
   }
+  
+   /* -- addition fevrier 2012  --*/
+   /*	L0, L2, L4: # of non-synonymous sites, of 2-fold synonymous sites, of 4-fold synonymous sites
+
+	A0, A2, A4: # of transitional changes at non-synonymous, 2-fold, and 4-fold synonymous sites
+
+	B0, B2, B4: # of transversional changes at non-synonymous, 2-fold, and 4-fold synonymous sites
+
+	Ces quantités sont les suivantes dans la fonction fastlwl():
+	L0, L2, l4   correspondent à   l[0], l[1], l[2]
+	A0, A2, A4  correspondent à   a[0], a[1], a[2]
+	B0, B2, B4  correspondent à   b[0], b[1], b[2]
+   */
+   
+ 
+         
+      
+
   if (sat1 == 1)
     sat = 1;
   if (sat2 == 1)
@@ -446,7 +586,7 @@ int catsite(char c1, char c2, char c3, int i) {
 char transf(char nt1, char nt2)
 {
 	if (nt1 == nt2) {
-		printf("Same nt, patate.\n");
+		Rprintf("Same nt, patate.\n");
 		return 'S';
 	}
 	if ((nt1 == 'A') && (nt2 == 'C'))
