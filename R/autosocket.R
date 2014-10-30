@@ -3,15 +3,15 @@
 #
 autosocket <- function(){
   #
-  # Check that global variable "banknameSocket" exists:
+  # Check that seqinrenv variable "banknameSocket" exists:
   #
-  if(!exists(x = "banknameSocket", envir = .GlobalEnv)){
+  if(!exists(x = "banknameSocket", envir = .seqinrEnv)){
     stop("banknameSocket not found, try choosebank() first")
   }
   #
   # Check that "banknameSocket" belongs to the sockconn class:
   #
-  socket <- get("banknameSocket", .GlobalEnv)$socket
+  socket <- get("banknameSocket", .seqinrEnv)$socket
   if(!inherits(socket, "sockconn")){
     stop("banknameSocket$socket is not a sockconn")
   }

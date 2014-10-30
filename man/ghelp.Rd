@@ -8,7 +8,8 @@ confusing. However, the query language is common to all clients so that
 the most recent documentation is most likely here.
 }
 \usage{
-ghelp(item = c("GENERAL", "SELECT", "SPECIES", "KEYWORD"), file = c("HELP", "HELP_WIN"), socket = autosocket(), catresult = TRUE)
+ghelp(item = c("GENERAL", "SELECT", "SPECIES", "KEYWORD"),
+ file = c("HELP", "HELP_WIN"), socket = autosocket(), catresult = TRUE)
 
 }
 \arguments{

@@ -30,7 +30,8 @@ for(testcol in c("blue", "red", "green", "yellow", "purple", "darkgreen")){
     text(i+0.5/n, 0.5, round(i,2), xpd = NA)
   }
 }
-mtext("Effect of alpha on some colors\nNote: need alpha transparency channel", side = 3, outer = TRUE)
+mtext("Effect of alpha on some colors\nNote: need alpha transparency channel",
+ side = 3, outer = TRUE)
 #
 # The substractive color scheme:
 #

@@ -6,7 +6,8 @@
   given model. Available models are : \code{base}, \code{position},
   \code{codon}, \code{syncodon}.
 }
-\usage{permutation(sequence,modele='base',frame=0,replace=FALSE,prot=FALSE,numcode=1,ucoweight = NULL)}
+\usage{permutation(sequence,modele='base',frame=0,
+ replace=FALSE,prot=FALSE,numcode=1,ucoweight = NULL)}
 \arguments{
   \item{sequence}{ A nucleic acids sequence }
   \item{modele}{ A string of characters describing the model chosen for

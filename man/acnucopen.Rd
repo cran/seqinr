@@ -11,7 +11,9 @@ These are low level functions to start and stop a remote access to an ACNUC data
 \usage{
 acnucopen(db, socket, challenge = NA)
 acnucclose(socket)
-clientid(id = paste("seqinr_", packageDescription("seqinr")$Version, sep = ""), socket, verbose = FALSE)
+clientid(id = paste("seqinr_",
+ packageDescription("seqinr")$Version, sep = ""),
+ socket, verbose = FALSE)
 quitacnuc(socket)
 }
 

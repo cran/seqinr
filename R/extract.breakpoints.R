@@ -36,8 +36,8 @@ extract.breakpoints <- function(rearr.ori,type=c("atfw","atrev","gcfw","gcrev"),
       y.breaks=cumsum(rearr.ori$atskew.rear[rearr.ori$strand.rear=="reverse"])
      }
     
-    assign("x.breaks",x.breaks,envir=globalenv())
-    assign("y.breaks",y.breaks,envir=globalenv())
+    assign("x.breaks",x.breaks,envir=.seqinrEnv)
+    assign("y.breaks",y.breaks,envir=.seqinrEnv)
     
     rss=numeric(0)
     starts=list()

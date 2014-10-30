@@ -5,7 +5,6 @@
 \description{
   This data set gives the genetics code, the name of each codon, the IUPAC one-letter code for aminoacids and the physico-chemical class of amino acid and the pK values of amino acids described in  Bjellqvist \emph{et al.} (1993).
 }
-\usage{data(SEQINR.UTIL)}
 \format{
  	\code{SEQINR.UTIL} is a list containing the 4 following objects:  
 	\describe{	

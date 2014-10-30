@@ -84,7 +84,8 @@ abline(h = hline)
 box()
 axis(1, at = seq(0, 1600, by = 200))
 axis(2, las = 1)
-title(xlab = "position (Kbp)", ylab = "(C-G)/(C+G) [percent]", main = expression(paste("GC skew in ", italic(Escherichia~coli))))
+title(xlab = "position (Kbp)", ylab = "(C-G)/(C+G) [percent]",
+ main = expression(paste("GC skew in ", italic(Escherichia~coli))))
 arrows(860, 5.5, 720, 0.5, length = 0.1, lwd = 2)
 text(860, 5.5, "origin of replication", pos = 4)
 }

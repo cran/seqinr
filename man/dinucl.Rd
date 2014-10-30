@@ -52,7 +52,9 @@ myplot <- function(x){
   abline(v=+1.96,lty=2)
   points(dinucl$intergenic[, x], dinucl$coding[, x], pch = 21,
   col = rgb(.1,.1,.1,.5), bg = rgb(.5,.5,.5,.5))
-  legend("bottomright", inset = 0.02, legend = paste(substr(x,1,1), "p", substr(x,2,2), " bias", sep = ""), cex = 1.25, bg = "white")
+  legend("bottomright", inset = 0.02,
+   legend = paste(substr(x,1,1), "p",
+    substr(x,2,2), " bias", sep = ""), cex = 1.25, bg = "white")
   box()
 }
 myplot("CT")

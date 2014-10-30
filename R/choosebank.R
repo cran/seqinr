@@ -7,6 +7,7 @@
 # 
 ###########################################################################
 
+.seqinrEnv <- new.env()
 choosebank <- function(bank = NA,
                        host = "pbil.univ-lyon1.fr",
                        port = 5558,
@@ -146,7 +147,7 @@ choosebank <- function(bank = NA,
      release = bankrel,
      status = status,
      details = bankhelp)
-    assign("banknameSocket", res, .GlobalEnv)
+     assign("banknameSocket", res, .seqinrEnv)
     invisible(res)
   }
 } 

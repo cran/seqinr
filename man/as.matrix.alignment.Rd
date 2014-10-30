@@ -20,6 +20,7 @@ Converts an alignment into a matrix of characters
   \code{\link{read.alignment}}
 }
 \examples{
-  phylip <- read.alignment(file = system.file("sequences/test.phylip", package = "seqinr"), format = "phylip")
+  phylip <- read.alignment(file = system.file("sequences/test.phylip",
+   package = "seqinr"), format = "phylip")
   as.matrix(phylip)
 }

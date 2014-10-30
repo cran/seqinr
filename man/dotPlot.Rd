@@ -76,7 +76,8 @@ dotPlot(protein, protein, main = "Dot plot of a protein\nwsize = 1, wstep = 1, n
 #
 dnafile <- system.file("sequences/malM.fasta", package = "seqinr")
 dna <- protein <- read.fasta(dnafile)[[1]]
-dotPlot(dna[1:200], dna[1:200], main = "Dot plot of a nucleic acid sequence\nwsize = 1, wstep = 1, nmatch = 1")
+dotPlot(dna[1:200], dna[1:200],
+ main = "Dot plot of a nucleic acid sequence\nwsize = 1, wstep = 1, nmatch = 1")
 #
 # Play with the wsize, wstep and nmatch arguments to increase the 
 # signal/noise ratio:

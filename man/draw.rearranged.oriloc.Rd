@@ -6,7 +6,8 @@
   Graphical representation for rearranged nucleotide skews in
   prokaryotic chromosomes.}
 
-\usage{draw.rearranged.oriloc(rearr.ori, breaks.gcfw = NA, breaks.gcrev = NA, breaks.atfw = NA, breaks.atrev = NA)}
+\usage{draw.rearranged.oriloc(rearr.ori, breaks.gcfw = NA,
+ breaks.gcrev = NA, breaks.atfw = NA, breaks.atrev = NA)}
 
 \arguments{
 
@@ -49,9 +50,12 @@ r.ori <- rearranged.oriloc(seq.fasta = system.file("sequences/ct.fasta", package
 
 ### Extract the breakpoints for the rearranged nucleotide skews ###
 
-breaks <- extract.breakpoints(r.ori, type = c("gcfw", "gcrev"), nbreaks = c(2, 2), gridsize = 50, it.max = 100)
+breaks <- extract.breakpoints(r.ori, type = c("gcfw", "gcrev"),
+ nbreaks = c(2, 2), gridsize = 50, it.max = 100)
 
-### Draw the rearranged nucleotide skews and place the position of the breakpoints on the graphics ###
+### Draw the rearranged nucleotide skews and  ###
+### place the position of the breakpoints on the graphics ###
 
-draw.rearranged.oriloc(r.ori, breaks.gcfw = breaks$gcfw$breaks, breaks.gcrev = breaks$gcrev$breaks)}
+draw.rearranged.oriloc(r.ori, breaks.gcfw = breaks$gcfw$breaks,
+ breaks.gcrev = breaks$gcrev$breaks)}
 }

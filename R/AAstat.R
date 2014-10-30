@@ -1,3 +1,4 @@
+data(sysdata, envir=environment())
 AAstat <- function(seq, plot = TRUE){
   #
   # seq is a protein sequence as a vector of (upper case) chars.

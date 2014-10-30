@@ -6,7 +6,9 @@ This function modifies a previously existing ACNUC list by selecting sequences
 either by length, either by date, either for the presence of a given string in annotations. 
 }
 \usage{
-modifylist(listname, modlistname = listname, operation, type = c("length", "date", "scan"), socket = autosocket(), virtual = FALSE, verbose = FALSE)
+modifylist(listname, modlistname = listname, operation, 
+ type = c("length", "date", "scan"), socket = autosocket(), 
+ virtual = FALSE, verbose = FALSE)
 }
 \arguments{
   \item{listname}{the name of the ACNUC list to modify}

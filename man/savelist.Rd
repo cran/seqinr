@@ -7,8 +7,8 @@ an ACNUC list and saves them into a file.
 }
 \usage{
 savelist(lrank, type = c("N", "A"),
-                     filename = paste(gln(lrank), ifelse(type == "N", "mne", "acc"), sep = "."),
-                     socket = autosocket(), warnme = TRUE)
+                     filename = paste(gln(lrank), ifelse(type == "N", "mne", "acc"),
+		     sep = "."),socket = autosocket(), warnme = TRUE)
 }
 \arguments{
   \item{lrank}{the rank of the ACNUC list to consider.}

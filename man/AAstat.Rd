@@ -26,7 +26,8 @@ AAstat(seq, plot = TRUE)
 \author{ D. Charif, J.R. Lobry }
 \seealso{ \code{\link{computePI}}, \code{\link{SEQINR.UTIL}}, \code{\link{SeqFastaAA}}}
 \examples{
-  seqAA <- read.fasta(file = system.file("sequences/seqAA.fasta", package = "seqinr"), seqtype = "AA")
+  seqAA <- read.fasta(file = system.file("sequences/seqAA.fasta", package = "seqinr"),
+   seqtype = "AA")
   AAstat(seqAA[[1]])
 }
 \keyword{utilities}

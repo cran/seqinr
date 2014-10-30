@@ -6,8 +6,8 @@ Converts a single entry in GenBank format into a fasta file.
 }
 \usage{
 gb2fasta(source.file =
-"ftp://ftp.ncbi.nih.gov/genomes/Bacteria/Agrobacterium_tumefaciens_C58_Cereon/NC_003065.gbk",
-destination.file = "Agrobacterium_tumefaciens_C58_Cereon.fasta")
+"ftp://ftp.ncbi.nih.gov/genomes/Bacteria/Acinetobacter_ADP1_uid61597/NC_005966.gbk",
+destination.file = "Acinetobacter_ADP1_uid61597.fasta")
 }
 \arguments{
   \item{source.file}{ GenBank file }

@@ -6,7 +6,8 @@ ABIF stands for Applied Biosystem Inc. Format, a binary fromat modeled after TIF
 Corresponding files usually have an \code{*.ab1} or \code{*.fsa} extension.
 }
 \usage{
-read.abif(filename, max.bytes.in.file = file.info(filename)$size, pied.de.pilote = 1.2, verbose = FALSE)
+read.abif(filename, max.bytes.in.file = file.info(filename)$size, 
+ pied.de.pilote = 1.2, verbose = FALSE)
 }
 \arguments{
   \item{filename}{The name of the file.}

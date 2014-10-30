@@ -5,8 +5,8 @@
 #                   single entry genbank to fasta conversion
 #
 ########################################################################
-gb2fasta <- function(source.file = "ftp://ftp.ncbi.nih.gov/genomes/Bacteria/Agrobacterium_tumefaciens_C58_Cereon/NC_003065.gbk",
- destination.file = "Agrobacterium_tumefaciens_C58_Cereon.fasta")
+gb2fasta <- function(source.file = "ftp://ftp.ncbi.nih.gov/genomes/Bacteria/Acinetobacter_ADP1_uid61597/NC_005966.gbk",
+ destination.file = "Acinetobacter_ADP1_uid61597.fasta")
 {
   input <- readLines(source.file)
   head <- input[1]

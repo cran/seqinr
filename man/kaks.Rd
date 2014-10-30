@@ -68,13 +68,15 @@ Ka =  A0 + (L0.B0 + L2.B2) / (L0 + L2)
  #
  # Simple Toy example:
  #
- s <- read.alignment(file = system.file("sequences/test.phylip", package = "seqinr"), format = "phylip")
+ s <- read.alignment(file = system.file("sequences/test.phylip", package = "seqinr"),
+  format = "phylip")
  kaks(s)
  #
  # Check numeric results on an simple test example:
  #
  data(AnoukResult)
- Anouk <- read.alignment(file = system.file("sequences/Anouk.fasta", package = "seqinr"), format = "fasta")	
+ Anouk <- read.alignment(file = system.file("sequences/Anouk.fasta", package = "seqinr"),
+  format = "fasta")	
 ## if( ! all.equal(kaks(Anouk), AnoukResult) ) {
 ##   warning("Poor numeric results with respect to AnoukResult standard")
 ## } else {
@@ -93,6 +95,7 @@ Ka =  A0 + (L0.B0 + L2.B2) / (L0 + L2)
 #
 # This test example provided by Darren Obbard is now used as a routine check: 
 #
- Darren <- read.alignment(file = system.file("sequences/DarrenObbard.fasta", package = "seqinr"), format = "fasta")
+ Darren <- read.alignment(file = system.file("sequences/DarrenObbard.fasta", package = "seqinr"),
+  format = "fasta")
  stopifnot( all.equal(kaks(Darren)$ka[1], 0) )
 }

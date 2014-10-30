@@ -6,7 +6,8 @@
   sequence. Note that the oligomers are overlapping by default.
 }
 \usage{
-count(seq, wordsize, start = 0, by = 1, freq = FALSE, alphabet = s2c("acgt"), frame = start)
+count(seq, wordsize, start = 0, by = 1,
+ freq = FALSE, alphabet = s2c("acgt"), frame = start)
 }
 \arguments{
   \item{seq}{a vector of single characters.}
@@ -58,10 +59,15 @@ stopifnot(all( resIIIpI == 1))
 ##
 ## Simple sanity check:
 ##
-alldinucl <- "aattgtctaggcgacca"
-stopifnot(all(count(s2c(alldinucl), 2) == 1))
-alldiaa <- "aaxxzxbxvxyxwxtxsxpxfxmxkxlxixhxgxexqxcxdxnxrxazzbzvzyzwztzszpzfzmzkzlzizhzgzezqzczdznzrzabbvbybwbtbsbpbfbmbkblbibhbgbebqbcbdbnbrbavvyvwvtvsvpvfvmvkvlvivhvgvevqvcvdvnvrvayywytysypyfymykylyiyhygyeyqycydynyryawwtwswpwfwmwkwlwiwhwgwewqwcwdwnwrwattstptftmtktltithtgtetqtctdtntrtasspsfsmskslsishsgsesqscsdsnsrsappfpmpkplpiphpgpepqpcpdpnprpaffmfkflfifhfgfefqfcfdfnfrfammkmlmimhmgmemqmcmdmnmrmakklkikhkgkekqkckdknkrkallilhlglelqlcldlnlrlaiihigieiqicidiniriahhghehqhchdhnhrhaggegqgcgdgngrgaeeqecedenereaqqcqdqnqrqaccdcncrcaddndrdannrnarra"
-stopifnot(all(count(s2c(alldiaa), 2, alphabet = s2c("arndcqeghilkmfpstwyvbzx")) == 1))
+#alldinucl <- "aattgtctaggcgacca"
+#stopifnot(all(count(s2c(alldinucl), 2) == 1))
+#alldiaa <- "aaxxzxbxvxyxwxtxsxpxfxmxkxlxixhxgxexqxcxdxnxrxazzbzvzyzwztzszpzfzmzkzlzizhzgzezqzczdznz
+#rzabbvbybwbtbsbpbfbmbkblbibhbgbebqbcbdbnbrbavvyvwvtvsvpvfvmvkvlvivhvgvevqvcvdvnvrvayywytysypyfymyky
+#lyiyhygyeyqycydynyryawwtwswpwfwmwkwlwiwhwgwewqwcwdwnwrwattstptftmtktltithtgtetqtctdtntrtasspsfsmsks
+#lsishsgsesqscsdsnsrsappfpmpkplpiphpgpepqpcpdpnprpaffmfkflfifhfgfefqfcfdfnfrfammkmlmimhmgmemqmcmdmnm
+#rmakklkikhkgkekqkckdknkrkallilhlglelqlcldlnlrlaiihigieiqicidiniriahhghehqhchdhnhrhaggegqgcgdgngrgae
+#eqecedenereaqqcqdqnqrqaccdcncrcaddndrdannrnarra"
+#stopifnot(all(count(s2c(alldiaa), 2, alphabet = s2c("arndcqeghilkmfpstwyvbzx")) == 1))
 ##
 ## Example with dinucleotide count in the complete Human mitochondrion genome:
 ##

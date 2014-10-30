@@ -202,7 +202,6 @@ oriloc <- function(
 #
 # Project DNAwalk points (x,y) onto orthogonal regression line
 #
-    if (!require(ade4)) stop("oriloc requires ade4, but ade4 couldn't be loaded")
     	pca <- ade4::dudi.pca( cbind(x,y), scann = FALSE, nf = 1, scale = FALSE, center = FALSE )
     	rec <- ade4::reconst(pca)
     	skew <- sign(rec$x)*sqrt(rec$x^2+rec$y^2)

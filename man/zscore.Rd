@@ -92,10 +92,12 @@ zscore(sequence, simulations = NULL, modele, exact = FALSE, alphabet = s2c("acgt
 \author{Leonor Palmeira and J.R. Lobry with suggestions from Avril Coghlan.}
 \seealso{ \code{\link{permutation}} }
 \examples{
+\dontrun{
 sequence <- sample(x = s2c("acgt"), size = 6000, replace = TRUE)
 rho(sequence)
 zscore(sequence, modele = "base")
 zscore(sequence, modele = "base", exact = TRUE)
 zscore(sequence, modele = "codon")
 zscore(sequence, simulations = 1000, modele = "syncodon")
+}
 }

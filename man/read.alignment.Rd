@@ -91,11 +91,16 @@ Related functions: \code{\link{as.matrix.alignment}}, \code{\link{read.fasta}},
 
  }
 \examples{
-mase.res   <- read.alignment(file = system.file("sequences/test.mase", package = "seqinr"), format = "mase")
-clustal.res <- read.alignment(file = system.file("sequences/test.aln", package = "seqinr"), format="clustal")
-phylip.res  <- read.alignment(file = system.file("sequences/test.phylip", package = "seqinr"), format = "phylip")
-msf.res      <- read.alignment(file = system.file("sequences/test.msf", package = "seqinr"), format = "msf")
-fasta.res    <- read.alignment(file = system.file("sequences/Anouk.fasta", package = "seqinr"), format = "fasta")
+mase.res   <- read.alignment(file = system.file("sequences/test.mase", package = "seqinr"),
+ format = "mase")
+clustal.res <- read.alignment(file = system.file("sequences/test.aln", package = "seqinr"),
+ format="clustal")
+phylip.res  <- read.alignment(file = system.file("sequences/test.phylip", package = "seqinr"),
+ format = "phylip")
+msf.res      <- read.alignment(file = system.file("sequences/test.msf", package = "seqinr"),
+ format = "msf")
+fasta.res    <- read.alignment(file = system.file("sequences/Anouk.fasta", package = "seqinr"),
+ format = "fasta")
 
 #
 # Quality control routine sanity checks:

@@ -2,7 +2,7 @@ plotladder <- function(abifdata, chanel, calibr, allele.names = "identifiler", n
   old.par <- par(no.readonly = TRUE)
    on.exit(par(old.par))
    
-  data(list = allele.names)
+  data(list = allele.names,envir=environment())
   tmp <- get(allele.names)[chanel]
   
   if(is.null(npeak)) npeak <- length(unlist(tmp))

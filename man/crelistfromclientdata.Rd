@@ -9,8 +9,11 @@ keywords. This allows you to create on the server a list with the
 corresponding items.
 }
 \usage{
-crelistfromclientdata(listname, file, type, socket = autosocket(), invisible = TRUE, verbose = FALSE, virtual = FALSE)
-clfcd(listname, file, type, socket = autosocket(), invisible = TRUE, verbose = FALSE, virtual = FALSE)
+crelistfromclientdata(listname, file, type,
+ socket = autosocket(), invisible = TRUE,
+ verbose = FALSE, virtual = FALSE)
+clfcd(listname, file, type, socket = autosocket(),
+ invisible = TRUE, verbose = FALSE, virtual = FALSE)
 }
 
 \arguments{

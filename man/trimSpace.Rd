@@ -27,7 +27,8 @@ trimSpace(x, leading = TRUE, trailing = TRUE, space = "[:space:]")
 \references{
   \code{citation("seqinr")}.
 }
-\seealso{Extended regular expressionsare described in \link{regular expression} (aka \code{\link{regexp}}).
+\seealso{Extended regular expressionsare described in \link{regular expression} 
+ (aka \code{\link{regexp}}).
 }
 \author{J.R. Lobry}
 \examples{
@@ -40,17 +41,23 @@ stopifnot( trimSpace("   seqinR   ") == "seqinR" )
   # Basic use, remove space at both ends:
   #
 testspace <- c("   with leading space", "with trailing space   ", "   with both   ")
-stopifnot(all( trimSpace(testspace) == c("with leading space", "with trailing space", "with both")))
+stopifnot(all( trimSpace(testspace) == c("with leading space", 
+                                         "with trailing space", 
+					 "with both")))
 
   #
   # Remove only leading space:
   #
-stopifnot(all( trimSpace(testspace, trailing = FALSE) == c("with leading space", "with trailing space   ",  "with both   ")))
+stopifnot(all( trimSpace(testspace, trailing = FALSE) == c("with leading space",
+                                                           "with trailing space   ",  
+							   "with both   ")))
 
   #
   # Remove only trailing space:
   #
-stopifnot(all( trimSpace(testspace, leading = FALSE) == c("   with leading space", "with trailing space",  "   with both")))
+stopifnot(all( trimSpace(testspace, leading = FALSE) == c("   with leading space", 
+                                                          "with trailing space",  
+							  "   with both")))
 
   #
   # This should do nothing:

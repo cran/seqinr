@@ -9,7 +9,8 @@ A log-linear fit is represented by dia.bd.gowth() with an estimate of
 the doubling time in months.
 }
 \usage{
-get.db.growth(where = "http://www.ebi.ac.uk/embl/Documentation/Release_notes/current/relnotes.txt" )
+get.db.growth(
+where = "http://www.ebi.ac.uk/embl/Documentation/Release_notes/current/relnotes.txt")
 dia.db.growth( get.db.growth.out = get.db.growth(), Moore = TRUE, ... )
 }
 \arguments{

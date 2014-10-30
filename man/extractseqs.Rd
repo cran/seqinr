@@ -8,9 +8,12 @@
 }
 
 \usage{
-
-extractseqs(listname,socket = autosocket(), format="fasta",operation="simple",feature="xx", bounds="xx", minbounds="xx", verbose = FALSE, nzlines=1000)
-exseq(listname,socket = autosocket(), format="fasta",operation="simple", feature="xx", bounds="xx", minbounds="xx", verbose = FALSE,  nzlines=1000)
+extractseqs(listname,socket = autosocket(), format="fasta",
+operation="simple",feature="xx", bounds="xx", minbounds="xx",
+ verbose = FALSE, nzlines=1000)
+exseq(listname,socket = autosocket(),
+ format="fasta",operation="simple", feature="xx",
+ bounds="xx", minbounds="xx", verbose = FALSE,  nzlines=1000)
 }
 
 \arguments{

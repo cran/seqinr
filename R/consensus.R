@@ -24,6 +24,7 @@ consensus <- function(matali, method = c( "majority", "threshold", "IUPAC", "pro
   if(method == "profile"){
     obsvalue <- levels(factor(matali))
     nrow <- length(obsvalue)
+    row.names(matali)<-NULL
     res <- apply(matali, 2, function(x) table(factor(x, levels = obsvalue)))
     return(res)
   }

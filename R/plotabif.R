@@ -36,7 +36,7 @@ plotabif <- function(abifdata,
     axis(1, at = calibr(tps), tps/tscale, line = 0.4, col = grey(0.5))
     par(cex=1)
     if(!is.null(ladder.bp)){ # Allelic ladder add
-      data(list = allele.names)
+      data(list = allele.names,envir=environment())
       tmp <- get(allele.names)[chanel]
       n <- length(ladder.bp)
       labels <- unlist(tmp)

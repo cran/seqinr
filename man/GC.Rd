@@ -178,7 +178,9 @@ points(res$size, res$FF, pch = 2, col = "red")
 abline(lm(res$FF~res$size), lty = 3, col = "red")
 
 
-legend("topleft", inset = 0.01, legend = c("forceToLower = TRUE", "forceToLower = FALSE"), col = c("black", "red"), lty = c(1,3))
+legend("topleft", inset = 0.01,
+ legend = c("forceToLower = TRUE", "forceToLower = FALSE"),
+  col = c("black", "red"), lty = c(1,3))
 legend("bottomright", inset = 0.01, legend = c("exact = TRUE", "exact = FALSE"),
 pch = c(1,2))
 

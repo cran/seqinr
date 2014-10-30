@@ -15,9 +15,12 @@ This function translates nucleic acid sequences into the corresponding peptide s
 }
 \usage{
 getTrans(object, sens = "F", NAstring = "X", ambiguous = FALSE, ...)
-\method{getTrans}{SeqAcnucWeb}(object, sens = "F", NAstring = "X", ambiguous = FALSE, ..., frame = "auto", numcode = "auto")
-\method{getTrans}{SeqFastadna}(object, sens = "F", NAstring = "X", ambiguous = FALSE, ..., frame = 0, numcode = 1)
-\method{getTrans}{SeqFrag}(object, sens = "F", NAstring = "X", ambiguous = FALSE, ..., frame = 0, numcode = 1)
+\method{getTrans}{SeqAcnucWeb}(object, sens = "F", NAstring = "X", ambiguous = FALSE, ...,
+ frame = "auto", numcode = "auto")
+\method{getTrans}{SeqFastadna}(object, sens = "F", NAstring = "X", ambiguous = FALSE, ...,
+ frame = 0, numcode = 1)
+\method{getTrans}{SeqFrag}(object, sens = "F", NAstring = "X", ambiguous = FALSE, ...,
+ frame = 0, numcode = 1)
 
 }
 \arguments{
