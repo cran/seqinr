@@ -106,7 +106,7 @@ files written by Manolo Gouy}
  \dontrun{
  # Need internet connection
  choosebank("genbank")
- query("bb", "sp=Borrelia burgdorferi")
+ bb <- query("bb", "sp=Borrelia burgdorferi")
  # To get the names of the 4 first sequences:
  sapply(bb$req[1:4], getName)
  # To get the 4 first sequences:

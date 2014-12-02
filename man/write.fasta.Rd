@@ -5,11 +5,13 @@
   Writes one or more sequences into a file in FASTA format.
 }
 
-\usage{write.fasta(sequences, names, file.out, open = "w", nbchar = 60)}
+\usage{write.fasta(sequences, names, file.out, open = "w", nbchar = 60, as.string = FALSE)}
 
 \arguments{
   \item{sequences}{ A DNA or protein sequence (in the form of a
-    vector of single characters) or a list of such sequences. }
+    vector of single characters by default) or a list of such sequences. }
+  \item{as.string}{ FALSE. When set to TRUE sequences are in the
+    form of strings instead of vectors of single characters. }
   \item{names}{ The name(s) of the sequences. }
   \item{nbchar}{ The number of characters per line (default: 60) }
   \item{file.out}{ The name of the output file. }

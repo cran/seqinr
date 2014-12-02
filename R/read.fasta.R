@@ -1,4 +1,4 @@
-read.fasta <- function(file = system.file("sequences/ct.fasta", package = "seqinr"), 
+read.fasta <- function(file = "ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.fasta", 
   seqtype = c("DNA", "AA"), as.string = FALSE, forceDNAtolower = TRUE,
   set.attributes = TRUE, legacy.mode = TRUE, seqonly = FALSE, strip.desc = FALSE,
   bfa = FALSE, sizeof.longlong = .Machine$sizeof.longlong,

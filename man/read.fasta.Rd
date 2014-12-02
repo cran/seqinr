@@ -7,7 +7,7 @@
   Read nucleic or amino-acid sequences from a file in FASTA format.
 }
 \usage{
-read.fasta(file = system.file("sequences/ct.fasta", package = "seqinr"), 
+read.fasta(file = "ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.fasta", 
   seqtype = c("DNA", "AA"), as.string = FALSE, forceDNAtolower = TRUE,
   set.attributes = TRUE, legacy.mode = TRUE, seqonly = FALSE, strip.desc = FALSE,
   bfa = FALSE, sizeof.longlong = .Machine$sizeof.longlong,
@@ -150,8 +150,9 @@ no more valid since seqinR >= 2.0-6. Just use \code{file} instead.
 # Example of a MAQ binary fasta file produced with maq fasta2bfa ct.fasta ct.bfa
 # on a platform where .Platform$endian == "little" and .Machine$sizeof.longlong == 8
 #
-  fastafile <- system.file("sequences/ct.fasta", package = "seqinr")
-  bfafile <- system.file("sequences/ct.bfa", package = "seqinr")
+\dontrun{
+  fastafile <- "ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.fasta"
+  bfafile <- "ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.bfa"
 
   original <- read.fasta(fastafile, as.string = TRUE, set.att = FALSE)
   bfavers <- read.fasta(bfafile, as.string = TRUE, set.att = FALSE, bfa = TRUE,
@@ -159,5 +160,6 @@ no more valid since seqinR >= 2.0-6. Just use \code{file} instead.
   if(!identical(original, bfavers)){
      warning(paste("trouble reading bfa file with endian =", .Platform$endian, 
     "and sizeof.longlong =", .Machine$sizeof.longlong))
+  }
   }
 }

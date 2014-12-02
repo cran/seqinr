@@ -12,7 +12,7 @@ also represented.
 \usage{
 dia.bactgensize(fit = 2, p = 0.5, m1 = 2000, sd1 = 600, m2 = 4500,
        sd2 = 1000, p3 = 0.05, m3 = 9000, sd3 = 1000, maxgensize = 20000,
-       source = c(system.file("sequences/goldtable15Dec07.txt", package = "seqinr"),
+       source = c("ftp://pbil.univ-lyon1.fr/pub/seqinr/data/goldtable15Dec07.txt",
     "http://www.genomesonline.org/DBs/goldtable.txt"))
 }
 \arguments{

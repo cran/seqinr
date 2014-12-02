@@ -28,7 +28,7 @@ get a list rank from its name.}
 \examples{
 \dontrun{ # Need internet connection
   choosebank("emblTP")
-  query("mylist", "N=@", virtual = TRUE) # select all (seqs + subseqs)
+  mylist<-query("mylist", "N=@", virtual = TRUE) # select all (seqs + subseqs)
   mylist$nelem   # 14138094 seqs + subseqs
   stopifnot(mylist$nelem == 14138094)
   css(glr("mylist")) # 1604500 subsequences only

@@ -422,7 +422,7 @@ int fastlwl(char **seq, int nbseq, int lgseq, double **ka, double **ks,
 {
   const double trois = 3.0;
   double l[3], a[3], b[3], p[3], q[3], ti[3], tv[3], cc[3],
-	 aaa[3], bb[3], flgseq, va[3], vb[3],es1,es2;
+      aaa[3], bb[3], flgseq, va[3], vb[3];
   char cod1[3], cod2[3];
   int i, j, ii, num1, num2, sat, sat1, sat2;
   sat = sat1 = sat2 = 2;
@@ -476,8 +476,6 @@ int fastlwl(char **seq, int nbseq, int lgseq, double **ka, double **ks,
 	} else {
 	  a[ii] = 0.5 * (double) log(aaa[ii]) - 0.25 * log(bb[ii]);
         }
-        es1 = aaa[ii] * aaa[ii] * p[ii] + cc[ii] * cc[ii] * q[ii];
-        es2 = (aaa[ii] * p[ii] + cc[ii] * q[ii]) * ( aaa[ii] * p[ii] + cc[ii] * q[ii]);
         va[ii] = (aaa[ii] * aaa[ii] * p[ii] + cc[ii] * cc[ii] * q[ii] - (aaa[ii] * p[ii] + cc[ii] * q[ii]) * ( aaa[ii] * p[ii] + cc[ii] * q[ii])) / l[ii];
         vb[ii] = bb[ii] * bb[ii] * q[ii] * (1 - q[ii]) / l[ii];
       }

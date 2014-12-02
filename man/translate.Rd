@@ -116,7 +116,7 @@ translate(seq = realcds, frame = 3, sens = "R", numcode = 6)
 ## FT                   RSRLKTIGDDLYVTNDVHNHMGDNKRIEAAKAAGMLIHKKLSSLTAADKIQGSWKMDTE
 ## FT                   GNPDHLPKM"
 choosebank("emblTP")
-query("trans", "N=AE003734.PE35")
+trans <- query("trans", "N=AE003734.PE35")
 getTrans(trans$req[[1]])
 ## Complex transsplicing operations, the correct frame and the correct 
 ## genetic code are automatically used for translation into protein.

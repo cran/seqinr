@@ -1,4 +1,4 @@
-get.db.growth <- function(where = "http://www.ebi.ac.uk/embl/Documentation/Release_notes/current/relnotes.txt" )
+get.db.growth <- function(where = "ftp://ftp.ebi.ac.uk/pub/databases/embl/doc/relnotes.txt" )
 {
   if (!capabilities("http/ftp")) 
     stop("capabilities(\"http/ftp\") is not TRUE")
@@ -39,7 +39,7 @@ get.db.growth <- function(where = "http://www.ebi.ac.uk/embl/Documentation/Relea
 dia.db.growth <- function( get.db.growth.out = get.db.growth(), 
   Moore = TRUE, ... )
 {
-  embl <- "http://www.ebi.ac.uk/embl/Documentation/Release_notes/current/relnotes.txt"
+  embl <- "ftp://ftp.ebi.ac.uk/pub/databases/embl/doc/relnotes.txt"
   op <- par(no.readonly = TRUE)
   par( bg = "blue" )
   par( fg = "yellow" )
@@ -57,7 +57,7 @@ dia.db.growth <- function( get.db.growth.out = get.db.growth(),
     main = paste("The exponential growth of the DDBJ/EMBL/Genbank content\n",
            "Last update:", 
             Month[nrow(get.db.growth.out)]),
-    xlab = "Year", ylab = "Log10 number of nucleotides", 
+    xlab = "Year", ylab = "Log10 number of nucleotides",
     sub = paste("Source:", embl),
     ... )
   abline(lm(log10(Nucleotides)~date),col="yellow")

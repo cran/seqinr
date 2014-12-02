@@ -23,7 +23,7 @@
 \dontrun{ 
   ### Need internet connection
   choosebank("emblTP")
-  query("mylist", "sp=felis catus")	
+  mylist <- query("mylist", "sp=felis catus")	
   mylist$req[[1]]
   #      name   length    frame   ncbicg 
   # "A06937"     "34"      "0"      "1" 

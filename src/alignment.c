@@ -105,7 +105,6 @@ SEXP read_mase(SEXP nomfic)
     error("Can't open file");
   }
   
-  
   c1 = 0;
   nb_seq = 0;
   lg = lgc = 0;
@@ -169,9 +168,14 @@ SEXP read_mase(SEXP nomfic)
  while(fgets(string, MAXSTRING, fic) != NULL) {
    numline++;
    string[MAXSTRING] = 0;
-   
+   if ((string[0] != ';') && (numline == 1))
+   	{
+	error("Not a MASE file"); /* check format, thanks to J.H. Troesemeier */
+	goto fini;
+	}
    
    c2 = string[0];
+   
    if(string[0] == ';' && string[1] != ';') {
      strcat(aln[ii + 1].com, string);
         }
@@ -185,7 +189,8 @@ SEXP read_mase(SEXP nomfic)
      if((int) strlen(string) >= (MAXMNMASE - 1)) {
        REprintf("Error. Maximum sequance name is   %d characters\n", MAXMNMASE);
        error("sequence name too long!");
-     }
+     } 
+     
      strcpy(aln[ii].mn, string);
      
      lg = 0;
@@ -233,7 +238,7 @@ for(i=0;i<nb_seq;i++){
  SET_ELEMENT(essai,2,listseq);
  SET_ELEMENT(essai,3,listcom);
  
-  
+ fini: 
  free_mase(aln,nb_seq);
  UNPROTECT(5);
  
@@ -252,11 +257,12 @@ for(i=0;i<nb_seq;i++){
 /*************************************************************************/
 
 
-SEXP distance(SEXP sequences,SEXP nbseq, SEXP matNumber, SEXP seqtype){
+SEXP distance(SEXP sequences,SEXP nbseq, SEXP matNumber, SEXP seqtype, SEXP gapoption){
 
   SEXP d;
   int MAXNSEQS;
   char **seq;
+  int gap_option;
   int i, j, k, n,totseqs, seq_long, nbases;
   int mat_number, seq_type;
   int **ndiff;
@@ -294,6 +300,7 @@ SEXP distance(SEXP sequences,SEXP nbseq, SEXP matNumber, SEXP seqtype){
   totseqs = INTEGER_VALUE(nbseq);
   mat_number= INTEGER_VALUE(matNumber);
   seq_type = INTEGER_VALUE(seqtype);
+  gap_option =  INTEGER_VALUE(gapoption);
 
   PROTECT(d=NEW_NUMERIC(totseqs*totseqs));
 
@@ -354,6 +361,23 @@ SEXP distance(SEXP sequences,SEXP nbseq, SEXP matNumber, SEXP seqtype){
 			ndiff[i][j]++;
 		      }
 		  }
+		  
+		  if (gap_option == 1)
+		  	{
+			if (seq[i][k] == '-'  && seq[j][k] != '-' && seq[j][k] != 'N' && seq[j][k] != 'X')
+				{
+				nbases++;
+				ndiff[j][i]++;
+				ndiff[i][j]++;
+				}
+			if (seq[j][k] == '-'  && seq[i][k] != '-' && seq[i][k] != 'N' && seq[i][k] != 'X')
+				{
+				nbases++;
+				ndiff[j][i]++;
+				ndiff[i][j]++;
+				}
+			
+			}
 	      }
 
 	      else if(mat_number == 1 && seq_type == 0){
@@ -693,7 +717,7 @@ SEXP read_fasta_align(SEXP ficname)
     totseqs++;
     comments[totseqs] = NULL;
     p = line + 1; 
-    while(*p != ' ' && *p != '\n')
+    while(*p != '\n')  
       p++;
     l = p - line - 1;
 

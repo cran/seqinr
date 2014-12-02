@@ -25,6 +25,6 @@ Multiple entries in GenBank file are not supported.
 \author{J.R. Lobry }
 \seealso{ \code{\link{oriloc}} }
 \examples{
-\dontrun{gb2fasta()}
+\dontrun{gb2fasta()} # need internet connection
 }
 \keyword{utilities}

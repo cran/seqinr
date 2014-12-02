@@ -50,7 +50,7 @@ getSequence(object, as.string = FALSE, ...)
 #
   \dontrun{# Need internet connection
   choosebank("emblTP")
-  query("fc", "sp=felis catus et t=cds et o=mitochondrion")
+  fc <- query("fc", "sp=felis catus et t=cds et o=mitochondrion")
   getSequence(fc$req[[1]])
   getSequence(fc$req[[1]], as.string = TRUE)
   closebank()

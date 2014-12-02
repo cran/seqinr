@@ -8,13 +8,13 @@
   }
 
 \usage{rearranged.oriloc(
-    seq.fasta = system.file("sequences/ct.fasta",package = "seqinr"),
-    g2.coord = system.file("sequences/ct.coord",package = "seqinr"))}
+    seq.fasta =  "ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.fasta",
+    g2.coord ="ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.coord" )}
 
 \arguments{
 \item{seq.fasta}{The path of the file containing a FASTA-format
-  sequence. Default value:  system.file("sequences/ct.fasta",package =
-  "seqinr") - the FASTA sequence of the Chlamydia trachomatis chromosome. }
+  sequence. Default value:  "ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.fasta"
+  - the FASTA sequence of the Chlamydia trachomatis chromosome. }
 \item{g2.coord}{The path of the file containing the coordinates of the
   protein coding genes found on this chromosome. This file can be
   obtained using the function \code{gbk2g2}. The format of the file is
@@ -72,8 +72,8 @@ slope on the rearranged nucleotide skews.
 ### Rearrange the chromosome and compute the nucleotide skews ###
 
 \dontrun{r.ori <- rearranged.oriloc(seq.fasta = 
-    system.file("sequences/ct.fasta",package = "seqinr"),
-    g2.coord = system.file("sequences/ct.coord",package = "seqinr"))}
+   "ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.fasta",
+    g2.coord =  "ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.coord")}
 
 ### Extract the breakpoints for the rearranged nucleotide skews ###
 

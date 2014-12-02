@@ -43,7 +43,7 @@ getKeyword(object, ...)
   \dontrun{
   # Need internet connection
   choosebank("emblTP")
-  query("fc", "sp=felis catus et t=cds et o=mitochondrion")
+  fc<-query("fc", "sp=felis catus et t=cds et o=mitochondrion")
   getKeyword(fc$req[[1]])
   # Should be: 
   # [1] "DIVISION ORG" "RELEASE 62"   "CYTOCHROME B" "SOURCE"       "CDS"

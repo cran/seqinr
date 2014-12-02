@@ -50,7 +50,7 @@ getLength(object, ...)
   \dontrun{
   # Need internet connection
   choosebank("emblTP")
-  query("fc", "sp=felis catus et t=cds et o=mitochondrion")
+  fc <- query("fc", "sp=felis catus et t=cds et o=mitochondrion")
   getLength(fc)
   closebank()  
 }

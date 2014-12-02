@@ -23,7 +23,7 @@
 \dontrun{ 
   ### Need internet connection
   choosebank("emblTP")
-  query("sp=felis catus")	
+  list1 <- query("sp=felis catus")	
   list1
   # 4732 SQ for sp=felis catus
   }

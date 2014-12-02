@@ -3,7 +3,7 @@
 #
 autosocket <- function(){
   #
-  # Check that seqinrenv variable "banknameSocket" exists:
+  # Check that global variable "banknameSocket" exists:
   #
   if(!exists(x = "banknameSocket", envir = .seqinrEnv)){
     stop("banknameSocket not found, try choosebank() first")

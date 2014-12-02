@@ -7,8 +7,6 @@
 #endif
 #endif
 #ifndef WIN32
-#include "zlib.h"		/* needs to be before  Rconnections.h */
-#include "Rconnections.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -36,9 +34,7 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
   int debugon;
   int testc;
   int numsoc;
-  Rconnection con;
-  Rsockconn scon;
-  
+
 
   int i,j, n, nn, nnn, ok, warn, nread, c;
   int itest,itestd;

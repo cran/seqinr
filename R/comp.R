@@ -30,6 +30,12 @@ comp <- function(seq, forceToLower = TRUE, ambiguous = FALSE){
     result[which(seq == "y")] <- "y"
     result[which(seq == "r")] <- "r"
   }
+  
+  # Checking for N in the sequence, thanks to Jeremy Shearman. 
+  
+  result[which(seq == "n")] <- "n"	
+  
+  
   if(isUpper && !forceToLower){
   	  result <- toupper(result)
   	}

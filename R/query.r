@@ -50,10 +50,17 @@ query <- function(listname, query, socket = autosocket(), invisible = TRUE, verb
   
   if(verbose) cat(paste("... answer from server is:", res, "\n"))
   if(length(res) == 0){
-    if(verbose) cat("... answer from server is empty!\n")
-    while(length(res) == 0){
-      if(verbose) cat("... reading again.\n")
-      res <- readLines(socket, n = 1)
+    if(verbose) cat("... answer from server is empty!\n")    
+    # Modif de Simon suite au mail de Augusto Ribas
+    maxIter <- 10
+    attemptNumber <- 0
+    while((length(res) == 0) & (attemptNumber < maxIter)) {
+      if(verbose) cat("... reading again (",attemptNumber,").\n")
+      res <- readLines(socket, n = 1) 
+      attemptNumber <- attemptNumber+1
+    }    
+    if(length(res) == 0){
+    stop(paste("Unable to get any answer from socket after ",attemptNumber , " trials."))
     }
   }
   #

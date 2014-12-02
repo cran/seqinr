@@ -58,22 +58,22 @@ This is an objet of class \code{qaw}, a list with the following 6 components:
 \examples{
 \dontrun{ # Need internet connection
   choosebank("emblTP")
-  query("mylist", "sp=felis catus et t=cds", virtual=TRUE)
+  mylist <- query("mylist", "sp=felis catus et t=cds", virtual=TRUE)
   mylist$nelem # 603 sequences
   stopifnot(mylist$nelem == 603)
 
   # select sequences with at least 1000 bp:
-  modifylist("mylist", operation = ">1000", virtual = TRUE)
+  mylist <- modifylist("mylist", operation = ">1000", virtual = TRUE)
   mylist$nelem # now, only 132 sequences
   stopifnot(mylist$nelem == 132)
 
   # scan for "felis" in annotations:
-  modifylist("mylist", op = "felis", type = "scan", virtual = TRUE)
+  mylist <- modifylist("mylist", op = "felis", type = "scan", virtual = TRUE)
   mylist$nelem # now, only 33 sequences
   stopifnot(mylist$nelem == 33)
 
   # modify by date:
-  modifylist("mylist", op = "> 1/jul/2001", type = "date", virtual = TRUE)
+  mylist <-  modifylist("mylist", op = "> 1/jul/2001", type = "date", virtual = TRUE)
   mylist$nelem # now, only 15 sequences
   stopifnot(mylist$nelem == 15)
 

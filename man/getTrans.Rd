@@ -111,7 +111,7 @@ getTrans(object, sens = "F", NAstring = "X", ambiguous = FALSE, ...)
   # FT                   complement(152185..153037),138523..138735,138795..138955)
   # FT                   /codon_start=1
   choosebank("emblTP")
-  query("trans", "N=AE003734.PE35")
+  trans <- query("trans", "N=AE003734.PE35")
   getTrans(trans$req[[1]])
 }
 }

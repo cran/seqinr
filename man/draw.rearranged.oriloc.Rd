@@ -45,8 +45,13 @@
 
 ### Rearrange the chromosome and compute the nucleotide skews ###
 
-r.ori <- rearranged.oriloc(seq.fasta = system.file("sequences/ct.fasta", package = "seqinr"),
+#r.ori <- rearranged.oriloc(seq.fasta = system.file("sequences/ct.fasta", package = "seqinr"),
+#    g2.coord = system.file("sequences/ct.coord", package = "seqinr"))
+
+r.ori <- rearranged.oriloc(seq.fasta = "ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.fasta",
     g2.coord = system.file("sequences/ct.coord", package = "seqinr"))
+
+
 
 ### Extract the breakpoints for the rearranged nucleotide skews ###
 

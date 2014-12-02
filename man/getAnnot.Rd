@@ -51,7 +51,7 @@ getAnnot(object, ...)
   \dontrun{
   # Need internet connection
   choosebank("emblTP")
-  query("fc", "sp=felis catus et t=cds et O=mitochondrion et Y>2001 et no k=partial")
+  fc<-query("fc", "sp=felis catus et t=cds et O=mitochondrion et Y>2001 et no k=partial")
   # get the first 5 lines annotating the first sequence:
   annots <- getAnnot(fc$req[[1]], nbl = 5)
   cat(annots, sep = "\n")

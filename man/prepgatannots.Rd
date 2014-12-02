@@ -66,7 +66,7 @@ The function returns invisibly the annotation lines names.
   choosebank("genbank")
   query("mylist","n=AQF16SRRN")
   pga() # We want to scan all annotations, including FEATURES
-  modifylist("mylist", operation = "strain", type = "scan")
+  mylist <- modifylist("mylist", operation = "strain", type = "scan")
   mylist$nelem # should be 1
  }
 }

@@ -77,7 +77,7 @@ Format "coordinates" extract coordinate data; start > end indicates the compleme
 }
 \examples{
  \dontrun{# Need internet connection
- choosebank("swissprotTP")
+ choosebank("emblTP")
  query("mylist", "k=globin", virtual = TRUE)
  mylist.fasta <- exseq("mylist", verbose = TRUE)
  # 103 lines of FASTA 

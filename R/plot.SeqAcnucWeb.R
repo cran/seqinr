@@ -25,8 +25,8 @@ plot.SeqAcnucWeb <- function(x, types = getType()$sname, socket = autosocket(), 
   
   GiveMeTheMotherSequence <- paste("me n=", x, sep = "") 
   query(listname = "me", query = GiveMeTheMotherSequence, socket = socket)
-  MotherLength <- as.numeric(getLength(get("me", .GlobalEnv)$req[[1]]))
-  MotherName <- get("me", .GlobalEnv)$req[[1]]
+  MotherLength <- as.numeric(getLength(get("me", .seqinrEnv)$req[[1]]))
+  MotherName <- get("me", .seqinrEnv)$req[[1]]
   if(verbose) cat("\nMotherLength = ", MotherLength)
 
   #
@@ -58,14 +58,14 @@ plot.SeqAcnucWeb <- function(x, types = getType()$sname, socket = autosocket(), 
 
     result <- try(query(socket = socket, listname = "tmp", query = q))
     if( inherits(result, "try-error")) next
-    if(get("tmp", .GlobalEnv)$nelem == 0) next
-    if(is.na(get("tmp", .GlobalEnv)$req[[1]])) next
-    if(get("tmp", .GlobalEnv)$req[[1]] == x ) next
+    if(get("tmp", .seqinrEnv)$nelem == 0) next
+    if(is.na(get("tmp", .seqinrEnv)$req[[1]])) next
+    if(get("tmp", .seqinrEnv)$req[[1]] == x ) next
 
     ispresent[i] <- TRUE
       
-    u <- lapply(get("tmp", .GlobalEnv)$req, getLocation)
-    names(u) <- get("tmp", .GlobalEnv)$req
+    u <- lapply(get("tmp", .seqinrEnv)$req, getLocation)
+    names(u) <- get("tmp", .seqinrEnv)$req
     nb[i] <- length(u)
     posi[[i]] <- u
   }
@@ -99,9 +99,9 @@ plot.SeqAcnucWeb <- function(x, types = getType()$sname, socket = autosocket(), 
   #  workspace cleanup
   #
   
-  rm("me", pos = .GlobalEnv)
-  rm("filles", pos = .GlobalEnv)
-  rm("tmp", pos = .GlobalEnv)
+  rm("me", pos = .seqinrEnv)
+  rm("filles", pos = .seqinrEnv)
+  rm("tmp", pos = .seqinrEnv)
   
   #
   # Return invisibly the result:

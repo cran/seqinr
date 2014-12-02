@@ -2,7 +2,7 @@
 # Pairwise Distances from Aligned Protein or DNA/RNA Sequences
 #
 
-dist.alignment <- function(x, matrix = c("similarity", "identity") )
+dist.alignment <- function(x, matrix = c("similarity", "identity"),gap )
 {
   #
   # Check arguments:
@@ -26,7 +26,12 @@ dist.alignment <- function(x, matrix = c("similarity", "identity") )
   #
   # Call the C distance function:
   #
-  dist <- .Call("distance", sequences, nbseq, matNumber, seqtype, PACKAGE = "seqinr")
+  if (missing(gap)) {
+  	dist <- .Call("distance", sequences, nbseq, matNumber, seqtype,0, PACKAGE = "seqinr")
+  	}
+  else {
+  	dist <- .Call("distance", sequences, nbseq, matNumber, seqtype,gap, PACKAGE = "seqinr")
+  	}
   #
   # Convert the result in a object of class dist:
   #

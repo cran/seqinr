@@ -1,2 +1,2 @@
 PKG_CFLAGS = -DUSE_TYPE_CHECKING_STRICT
-PKG_LIBS = -lws2_32 -mwindows
+# PKG_LIBS = -lz -lws2_32 -mwindows

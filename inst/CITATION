@@ -13,7 +13,3 @@ citEntry(entry = "incollection",
          note = "{ISBN :} 978-3-540-35305-8",
          
          textVersion = "Charif, D. and Lobry, J.R. (2007)")
-
-citFooter(paste("Note that the orginal article updated is available in the ",
-                 system.file(package = "seqinr"), 
-                 "/doc/ folder in PDF format", sep = ""))

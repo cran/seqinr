@@ -48,6 +48,7 @@
   \code{\link{extract.breakpoints}}  }
 
 \examples{
+\dontrun{ # need internet connection
 #
 # Example with Chlamydia trachomatis complete genome
 #
@@ -62,7 +63,7 @@ draw.oriloc(ori,
   cg.mtext = "CG skew", cg.col = "blue",
   cds.mtext = "CDS skew", cds.col = "seagreen",
   add.grid = FALSE)
-
+}
 }
 
 \keyword{hplot}

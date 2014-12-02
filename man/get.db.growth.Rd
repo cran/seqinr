@@ -10,7 +10,7 @@ the doubling time in months.
 }
 \usage{
 get.db.growth(
-where = "http://www.ebi.ac.uk/embl/Documentation/Release_notes/current/relnotes.txt")
+where = "ftp://ftp.ebi.ac.uk/pub/databases/embl/doc/relnotes.txt")
 dia.db.growth( get.db.growth.out = get.db.growth(), Moore = TRUE, ... )
 }
 \arguments{

@@ -8,7 +8,7 @@
 #########################################################################
 
 gbk2g2 <- function(
-  gbkfile = system.file("sequences/ct.gbk", package ="seqinr"),
+  gbkfile =  "ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.gbk",
   g2.coord = "g2.coord")
 {
   input <- readLines(gbkfile)

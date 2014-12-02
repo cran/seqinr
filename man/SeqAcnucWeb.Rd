@@ -30,7 +30,7 @@ is.SeqAcnucWeb(object)
 \examples{
   \dontrun{# Need internet connection
   choosebank("emblTP")
-  query("mylist", "sp=felis catus et t=cds et o=mitochondrion")
+  mylist <- query("mylist", "sp=felis catus et t=cds et o=mitochondrion")
   stopifnot(is.SeqAcnucWeb(mylist$req[[1]]))
   closebank()
 }

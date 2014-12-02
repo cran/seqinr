@@ -27,9 +27,9 @@
 \examples{
 \dontrun{ 
   ### Need internet connection
-  choosebank("hovernucl")
-  query("list", "AC=AB000425")	
-  plot(list$req[[1]])
+  choosebank("emblTP")
+  mylist <- query("mylist", "AC=AB078009")	
+  plot(mylist$req[[1]])
   }
 }
 \keyword{ hplot }

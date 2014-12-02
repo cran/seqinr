@@ -11,12 +11,13 @@
 
 }
 \usage{
-dist.alignment(x, matrix = c("similarity", "identity"))
+dist.alignment(x, matrix = c("similarity", "identity"),gap)
 }
 \arguments{
   \item{x}{an object of class \code{alignment}, as returned by 
   \code{read.alignment} for instance}
   \item{matrix}{the matrix distance to be used, partial matching allowed }
+  \item{gap}{-optional- with nucleotides, if set to 1, gaps will be counted in the identity measure }
 }
 \value{
   The distance matrix, object of class \code{dist}, computed by using the 
