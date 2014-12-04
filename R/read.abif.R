@@ -13,13 +13,13 @@ read.abif <- function(filename, max.bytes.in.file = file.info(filename)$size,
   UInt32 <- function(f, ...) readBin(f, what = "integer", signed = FALSE, endian = "big", size = 4, ...)
   UInt16 <- function(f, ...) readBin(f, what = "integer", signed = FALSE, endian = "big", size = 2, ...)
   UInt8 <- function(f, ...) readBin(f, what = "integer", signed = FALSE, endian = "big", size = 1, ...)
-  f32 <- function(f, ...) readBin(f, what = "numeric", size = 4, ...)
-  f64 <- function(f, ...) readBin(f, what = "numeric", size = 8, ...)
+  f32 <- function(f, ...) readBin(f, what = "numeric", size = 4,endian="little", ...)
+  f64 <- function(f, ...) readBin(f, what = "numeric", size = 8, endian="little",...)
   #
   # Load raw data in memory:
   #
   fc <- file(filename, open = "rb")
-  rawdata <- readBin(fc, what = "raw", n = pied.de.pilote*max.bytes.in.file)
+  rawdata <- readBin(fc, what = "raw", n = pied.de.pilote*max.bytes.in.file,endian="little")
   if(verbose) print(paste("number of bytes in file", filename, "is", length(rawdata)))
   close(fc)
   #

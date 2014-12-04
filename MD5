@@ -1,4 +1,4 @@
-6e497f69b966e19d37e598906e5f9580 *DESCRIPTION
+0284338bd54195c6789fa2ce79059dd1 *DESCRIPTION
 3b70ee7c09062a379bb86898b959929e *NAMESPACE
 dd981a8bc19bea5e91c256f75ea8b5c9 *R/AAstat.R
 7175d6708d717dca65176df83a41f9bd *R/ClassSeq.R
@@ -73,7 +73,7 @@ ae47cf06593fc89cb8a105dfb69b6e93 *R/pmw.R
 0e735cb30f6e370e4e494ad9dcba14d1 *R/prettyseq.R
 cb9f8a17e0bdafa1fe7b8a4584eb8ab0 *R/query.r
 126d5ade572e95511b2b66b7189807d9 *R/quitacnuc.R
-f83c1b6b938d10e323311e0db0b78a21 *R/read.abif.R
+5c829cc5536f04c051d686cf1b553859 *R/read.abif.R
 cd01848c36d492f00c5d9d9235297ce5 *R/read.alignment.R
 74dc8eccdaa92471db377908c17c45e8 *R/read.fasta.R
 8a46bbfddc96af2244eb21d7fa7157b6 *R/readBins.R
