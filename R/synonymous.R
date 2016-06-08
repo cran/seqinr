@@ -65,7 +65,7 @@ ucoweight <- function (sequence, numcode = 1)
     syncodons = lapply(seq(21), function(a) {
         which(allaminos == unique(allaminos)[a])
     })
-    usage = uco(sequence)[allcodons] #ré-ordonner selon NCBI
+    usage = uco(sequence)[allcodons] #re-order according to NCBI
     weight = lapply(seq(21), function(b) {
         usage[syncodons[b][[1]]]
     })

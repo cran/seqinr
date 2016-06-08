@@ -30,7 +30,7 @@ plong.add = FALSE, libel.add = FALSE, sname.add = FALSE, all.add = FALSE)
 }
 \references{
   See ACNUC physical structure at:
-  \url{http://pbil.univ-lyon1.fr/databases/acnuc/structure.html}.\cr
+  \url{http://doua.prabi.fr/databases/acnuc/structure.html}.\cr
   
   \code{citation("seqinr")}
 }

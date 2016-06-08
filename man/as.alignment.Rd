@@ -24,7 +24,7 @@ as.alignment(nb = NULL, nam = NULL, seq = NULL, com = NULL)
 \references{ 
 \code{citation("seqinr")}
 }
-\author{ D. Charif, J.R. Lobry }
+\author{D. Charif, J.R. Lobry}
 \seealso{
 \code{\link{read.alignment}},
 \code{\link{as.matrix.alignment}}, \code{\link{read.fasta}}, 

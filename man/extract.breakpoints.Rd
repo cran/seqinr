@@ -55,12 +55,13 @@ values for the breakpoints.
 \references{
 
   \code{citation("segmented")}
-
   
-  Necsulea, A. and Lobry, J.R. (in prep) A novel method for assessing
+  Necşulea, A. and Lobry, J.R. (in prep) A novel method for assessing
   the effect of replication on DNA base composition asymmetry.
+  \emph{Molecular Biology and Evolution},\bold{24}:2169-2179.
+
 }
-\author{A. Necsulea}
+\author{A. Necşulea}
 \seealso{ \code{\link{oriloc}}, \code{\link{draw.rearranged.oriloc}},
   \code{\link{rearranged.oriloc}}  }
 
@@ -70,7 +71,7 @@ values for the breakpoints.
 
 ### Rearrange the chromosome and compute the nucleotide skews ###
 
-\dontrun{r.ori <- rearranged.oriloc(seq.fasta = "ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.fasta",
+\dontrun{r.ori <- rearranged.oriloc(seq.fasta = system.file("sequences/ct.fasta.gz", package = "seqinr"),
     g2.coord = system.file("sequences/ct.coord",package = "seqinr"))}
 
 ### Extract the breakpoints for the rearranged nucleotide skews ###

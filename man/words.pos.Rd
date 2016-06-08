@@ -32,7 +32,7 @@ found in the sequence \code{text}.
 \references{
   \code{citation("seqinr")}
 }
-\author{ J.R. Lobry }
+\author{J.R. Lobry}
 \seealso{ \code{\link{regexpr}} }
 \examples{
 myseq <- "tatagaga"

@@ -26,7 +26,7 @@ is.SeqAcnucWeb(object)
 \references{
   \code{citation("seqinr")}
 }
-\author{ D. Charif, J.R. Lobry }
+\author{D. Charif, J.R. Lobry}
 \examples{
   \dontrun{# Need internet connection
   choosebank("emblTP")

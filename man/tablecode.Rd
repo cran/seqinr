@@ -34,7 +34,7 @@ The codon order for \code{preaa}, \code{postaa}, \code{precodon}, and
 \references{
   \code{citation("seqinr")}
 }
-\author{ J.R. Lobry }
+\author{J.R. Lobry}
 \seealso{ \code{\link{translate}}, \code{\link{syncodons}} }
 \examples{
 #

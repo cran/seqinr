@@ -20,7 +20,7 @@ comp(seq, forceToLower = TRUE, ambiguous = FALSE)
   not the reverse complementary strand. Undefined values are
   returned as NA.
 }
-\author{ D. Charif, J.R. Lobry }
+\author{D. Charif, J.R. Lobry}
 \references{
   \code{citation("seqinr")}
 }

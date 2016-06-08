@@ -37,7 +37,7 @@ glr(listname, socket = autosocket(), verbose = FALSE)
  \dontrun{
  # Need internet connection
  choosebank("emblTP")
- query("MyListName", "sp=Borrelia burgdorferi", virtual = TRUE)
+ MyListName <- query("MyListName", "sp=Borrelia burgdorferi", virtual = TRUE)
  (result <- getlistrank("MyListName"))
  stopifnot(result == 2)
  closebank()

@@ -78,7 +78,7 @@ read.alignment(file, format, forceToLower = TRUE)
 \references{ 
 \code{citation("seqinr")}
 }
-\author{ D. Charif, J.R. Lobry }
+\author{D. Charif, J.R. Lobry}
 \seealso{
 To read aligned sequences in NEXUS format, see the function 
 \code{read.nexus} that was available in the \code{CompPairWise} package

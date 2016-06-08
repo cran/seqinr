@@ -19,7 +19,7 @@
 \references{
   \code{citation("seqinr")}
 }
-\author{ Leonor Palmeira }
+\author{L. Palmeira}
 \seealso{ \code{\link{ucoweight}} }
 \examples{
   data(ec999)

@@ -52,7 +52,7 @@ con(matali, method = c( "majority", "threshold", "IUPAC", "profile"),
 \references{ 
 \code{citation("seqinr")}
 }
-\author{ J.R. Lobry }
+\author{J.R. Lobry}
 
 \seealso{See \code{\link{read.alignment}} to import alignment from files.}
 

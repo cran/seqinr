@@ -28,7 +28,7 @@ is Moore's law.}
 
 \code{citation("seqinr")}
 }
-\author{ J.R. Lobry }
+\author{J.R. Lobry}
 \examples{
 \dontrun{data <- get.db.growth()}
 \dontrun{dia.db.growth(data)}

@@ -23,7 +23,7 @@ The IUPAC one-letter code for aminoacids is described at:
 \url{http://www.chem.qmul.ac.uk/iupac/AminoAcid/}
 \code{citation("seqinr")}
 }
-\author{ J.R. Lobry }
+\author{J.R. Lobry}
 \seealso{\code{\link{a}}, \code{\link{translate}} }
 \examples{
   #

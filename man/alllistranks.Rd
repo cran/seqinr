@@ -39,9 +39,9 @@ alr(socket = autosocket(), verbose = FALSE)
 \examples{
  \dontrun{# Need internet connection
  choosebank("emblTP")
- query("tmp1", "sp=Borrelia burgdorferi", virtual = TRUE)
- query("tmp2", "sp=Borrelia burgdorferi", virtual = TRUE)
- query("tmp3", "sp=Borrelia burgdorferi", virtual = TRUE)
+ tmp1 <- query("tmp1", "sp=Borrelia burgdorferi", virtual = TRUE)
+ tmp2 <- query("tmp2", "sp=Borrelia burgdorferi", virtual = TRUE)
+ tmp3 <- query("tmp3", "sp=Borrelia burgdorferi", virtual = TRUE)
  (result <- alllistranks())
  stopifnot(result$count == 3)   # Three ACNUC lists
  stopifnot(result$ranks == 2:4) # Starting at rank 2

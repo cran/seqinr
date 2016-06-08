@@ -30,11 +30,11 @@
 }
 
 \references{
-  Necsulea, A. and Lobry, J.R. (2007) A New Method for Assessing the 
+  Necşulea, A. and Lobry, J.R. (2007) A New Method for Assessing the 
   Effect of Replication on DNA Base Composition Asymmetry.
   \emph{Molecular Biology and Evolution}, \bold{24}:2169-2179.
 }
-\author{Jean R. Lobry and A. Necsulea }
+\author{J.R. Lobry, A. Necşulea}
 \seealso{ \code{\link{rearranged.oriloc}},
   \code{\link{extract.breakpoints}}  }
 
@@ -45,10 +45,10 @@
 
 ### Rearrange the chromosome and compute the nucleotide skews ###
 
-#r.ori <- rearranged.oriloc(seq.fasta = system.file("sequences/ct.fasta", package = "seqinr"),
+#r.ori <- rearranged.oriloc(seq.fasta = system.file("sequences/ct.fasta.gz", package = "seqinr"),
 #    g2.coord = system.file("sequences/ct.coord", package = "seqinr"))
 
-r.ori <- rearranged.oriloc(seq.fasta = "ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.fasta",
+r.ori <- rearranged.oriloc(seq.fasta = system.file("sequences/ct.fasta.gz", package = "seqinr"),
     g2.coord = system.file("sequences/ct.coord", package = "seqinr"))
 
 

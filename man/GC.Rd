@@ -88,7 +88,7 @@ GCpos(seq, pos, frame = 0, ...)
 character and \code{\link{tolower}} to convert upper-case characters into
 lower-case characters. Do not confuse with \code{\link{gc}} for garbage collection.
 }
-\author{D. Charif and L. Palmeira and J.R. Lobry}
+\author{D. Charif, L. Palmeira, J.R. Lobry}
 \examples{
    mysequence <- s2c("agtctggggggccccttttaagtagatagatagctagtcgta")
    GC(mysequence)  # 0.4761905

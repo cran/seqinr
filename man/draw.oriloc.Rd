@@ -42,7 +42,7 @@
 \code{citation("seqinr")}
 }
 
-\author{Jean R. Lobry }
+\author{J.R. Lobry}
 
 \seealso{ \code{\link{oriloc}}, \code{\link{rearranged.oriloc}},
   \code{\link{extract.breakpoints}}  }

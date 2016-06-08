@@ -19,7 +19,7 @@ splitseq(seq, frame = 0, word = 3)
 \code{citation("seqinr")}
 \cr
 }
-\author{ J.R. Lobry }
+\author{J.R. Lobry}
 \seealso{ \code{\link{split}} }
 \examples{
 cds <- s2c("aacgttgcaggtcgctcgctacgtagctactgttt")

@@ -69,7 +69,7 @@ Format "coordinates" extract coordinate data; start > end indicates the compleme
 \references{ 
 \code{citation("seqinr")}
 }
-\author{S.Penel}
+\author{S. Penel}
 \seealso{
   \code{\link{choosebank}}, 
   \code{\link{query}}
@@ -78,7 +78,7 @@ Format "coordinates" extract coordinate data; start > end indicates the compleme
 \examples{
  \dontrun{# Need internet connection
  choosebank("emblTP")
- query("mylist", "k=globin", virtual = TRUE)
+ mylist <- query("mylist", "k=globin", virtual = TRUE)
  mylist.fasta <- exseq("mylist", verbose = TRUE)
  # 103 lines of FASTA 
  stopifnot(length(mylist.fasta) == 103)

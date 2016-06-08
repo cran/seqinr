@@ -7,16 +7,16 @@ replication in procaryotic genomes. The program discriminates
 between codon positions.
 }
 \usage{
-oriloc(seq.fasta ="ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.fasta",
- g2.coord = "ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.predict",
+oriloc(seq.fasta = system.file("sequences/ct.fasta.gz", package = "seqinr"),
+ g2.coord = system.file("sequences/ct.predict", package = "seqinr"),
  glimmer.version = 3,
 oldoriloc = FALSE, gbk = NULL, clean.tmp.files = TRUE, rot = 0)
 }
 \arguments{
   \item{seq.fasta}{Character: the name of a file which contains the DNA sequence
     of a bacterial chromosome in fasta format. The default value,
-   \code{ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.fasta}, is
-    to use the fasta file \code{ct.fasta} which is available at the on the pbil server. This is the file
+   \code{system.file("sequences/ct.fasta.gz", package ="seqinr")} is
+    the fasta file \code{ct.fasta.gz}. This is the file
     for the complete genome sequence of \emph{Chlamydia trachomatis}
     that was used in Frank and Lobry (2000). You can replace
     this by something like \code{seq.fasta = "myseq.fasta"} to work
@@ -67,10 +67,10 @@ skew in third codon positions.
 
 More illustrated explanations to help understand oriloc outputs
 are available there:
-\url{http://pbil.univ-lyon1.fr/software/Oriloc/howto.html}.\cr
+\url{https://pbil.univ-lyon1.fr/software/Oriloc/howto.html}.\cr
 
 Examples of oriloc outputs on real sequence data are there: 
-\url{http://pbil.univ-lyon1.fr/software/Oriloc/index.html}.\cr
+\url{https://pbil.univ-lyon1.fr/software/Oriloc/index.html}.\cr
 
 The original paper for oriloc:\cr
 Frank, A.C., Lobry, J.R. (2000) Oriloc: prediction of replication
@@ -81,7 +81,7 @@ boundaries in unannotated bacterial chromosomes. \emph{Bioinformatics},
 A simple informal introduction to DNA-walks:\cr
 Lobry, J.R. (1999) Genomic landscapes. \emph{Microbiology Today},
 \bold{26}:164-165.\cr
-\url{http://www.socgenmicrobiol.org.uk/QUA/049906.pdf}\cr\cr
+\url{http://www.microbiologysociety.org/download.cfm/docid/C66F92D0-6292-4CB0-83E344560770384C}\cr\cr
 
 An early and somewhat historical application of DNA-walks:\cr
 Lobry, J.R. (1996) A simple vectorial representation of DNA sequences 
@@ -102,7 +102,7 @@ Microbial gene identification using interpolated Markov models,
 
 \code{citation("seqinr")}
 }
-\author{ J.R. Lobry and A.C. Frank}
+\author{J.R. Lobry, A.C. Frank}
 \seealso{ \code{\link{draw.oriloc}}, \code{\link{rearranged.oriloc}} }
 
 \note{ The method works only for genomes having a single origin of replication 

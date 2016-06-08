@@ -35,7 +35,7 @@ getSequence(object, as.string = FALSE, ...)
 \references{
   \code{citation("seqinr")}
 }
-\author{ D. Charif and J.R. Lobry and L. Palmeira} 
+\author{D. Charif, J.R. Lobry, L. Palmeira} 
 \seealso{
   \code{\link{SeqAcnucWeb}}, \code{\link{SeqFastadna}}, 
   \code{\link{SeqFastaAA}}, \code{\link{SeqFrag}}

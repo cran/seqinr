@@ -31,7 +31,7 @@ a list with the following 4 components:
 
 \code{gln} is a shortcut for \code{getliststate(lrank, ...)$name}
 }
-\references{ \url{http://pbil.univ-lyon1.fr/databases/acnuc.html}
+\references{ \url{http://doua.prabi.fr/databases/acnuc.html}
 
 \code{citation("seqinr")}
 }
@@ -42,7 +42,7 @@ a list with the following 4 components:
 \dontrun{ 
   ### Need internet connection
   choosebank("emblTP")
-  query("mylist", "sp=felis catus et t=cds", virtual=TRUE)
+  mylist <- query("mylist", "sp=felis catus et t=cds", virtual=TRUE)
   getliststate(glr("mylist")) # SQ, MYLIST, 603, FALSE
   gln(glr("mylist")) # MYLIST (upper case letters on server)
   closebank()

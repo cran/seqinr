@@ -61,7 +61,7 @@ reverse.align(nucl.file, protaln.file, input.format = 'fasta', out.file,
 \references{
   \code{citation('seqinr')}
 }
-\author{ A. Necsulea }
+\author{A. Necşulea}
 \seealso{  \code{\link{read.alignment}}, \code{\link{read.fasta}}, \code{\link{write.fasta}}}
 
 \examples{

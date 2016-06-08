@@ -17,7 +17,7 @@ unit = "gram", checkseqaa = TRUE)
   \item{Ar}{ a named vector for the mean relative atomic masses of CHONPS atoms. Defaults
   values are from to the natural terrestrial sources according to the 43rd IUPAC 
   General Assembly in Beijing, China in August 2005 (See 
-  \url{http://www.iupac.org/reports/periodic_table/}
+  \url{http://iupac.org/category/recent-releases/}
   for updates).}
   \item{gravity}{ gravitational field constant in standard units. Defaults to 9.81 m/s2, that
   is to the average value at see level on Earth. Negative values are not allowed. }

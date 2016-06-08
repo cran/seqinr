@@ -1,8 +1,4 @@
 extract.breakpoints <- function(rearr.ori,type=c("atfw","atrev","gcfw","gcrev"),nbreaks,gridsize=100,it.max=500){
-
-  if (!require(segmented)){
-    stop("This functions requires the segmented package, but it couldn't be loaded.")
-  }
   
   if(length(type)==0){
     stop("You must specify the type of skew: atfw, atrev, gcfw or gcrev. See ?extract.breakpoints for more details.")

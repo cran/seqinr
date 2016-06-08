@@ -24,7 +24,9 @@ Frutige,r S., Hochstrasser D. (1993) The focusing positions of polypeptides in
 immobilized pH gradients can be predicted from their amino acid sequences.
 \emph{Electrophoresis}, \bold{14}:1023-1031.
 
-EMBOSS data are from \url{http://emboss.sourceforge.net/apps/release/5.0/emboss/apps/iep.html}.
+EMBOSS data were from release 5.0 and were still the same in release 6.6
+\url{http://emboss.sourceforge.net/apps/release/6.6/emboss/apps/iep.html}
+last visited 2016-06-03.
 
 Murray, R.K., Granner, D.K., Rodwell, V.W. (2006)
 \emph{Harper's illustrated Biochemistry.}

@@ -63,25 +63,25 @@ an ACNUC list of sequences.
  # Example with a file that contains sequence names:
  #
  fileSQ <- system.file("sequences/bb.mne", package = "seqinr")
- crelistfromclientdata("listSQ", file = fileSQ, type = "SQ")
+ listSQ <- crelistfromclientdata("listSQ", file = fileSQ, type = "SQ")
  sapply(listSQ$req, getName)
  #
  # Example with a file that contains sequence accession numbers:
  #
  fileAC <- system.file("sequences/bb.acc", package = "seqinr")
- crelistfromclientdata("listAC", file = fileAC, type = "AC")
+ listAC <- crelistfromclientdata("listAC", file = fileAC, type = "AC")
  sapply(listAC$req, getName) 
  #
  # Example with a file that contains species names:
  #
  fileSP <- system.file("sequences/bb.sp", package = "seqinr")
- crelistfromclientdata("listSP", file = fileSP, type = "SP")
+ listSP <- crelistfromclientdata("listSP", file = fileSP, type = "SP")
  sapply(listSP$req, getName) 
  #
  # Example with a file that contains keywords:
  #
  fileKW <- system.file("sequences/bb.kwd", package = "seqinr")
- crelistfromclientdata("listKW", file = fileKW, type = "KW")
+ listKW <- crelistfromclientdata("listKW", file = fileKW, type = "KW")
  sapply(listKW$req, getName)
  #
  # Summary of ACNUC lists:

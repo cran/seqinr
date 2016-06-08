@@ -30,7 +30,7 @@ Fitch, W.M. (1966) An improved method of testing for evolutionary homology.
 
 \code{citation("seqinr")}
 }
-\author{D. Charif and J.R. Lobry}
+\author{D. Charif, J.R. Lobry}
 \seealso{  \code{\link{read.alignment} } }
 \examples{
  myseqs <- read.alignment(file = system.file("sequences/test.mase", 

@@ -35,7 +35,7 @@ NA.rscu = NA)
   that is used more frequently than expected.\cr
   
   Do not use correspondence analysis on RSCU tables as this is a source of artifacts 
-  (Perriere and Thioulouse 2002, Suzuki \emph{et al.} 2008). Within-aminoacid correspondence analysis is a
+  (Perrière and Thioulouse 2002, Suzuki \emph{et al.} 2008). Within-aminoacid correspondence analysis is a
   simple way to study synonymous codon usage (Charif \emph{et al.} 2005). For an introduction
   to correspondence analysis and within-aminoacid correspondence analysis see the
   chapter titled \emph{Multivariate analyses} in the seqinR manual that ships with the
@@ -70,23 +70,23 @@ Sharp, P.M., Tuohy, T.M.F., Mosurski, K.R. (1986) Codon usage in yeast: cluster
 analysis clearly differentiates highly and lowly expressed genes.
 \emph{Nucl. Acids. Res.}, \bold{14}:5125-5143.\cr
 
-Perriere, G., Thioulouse, J. (2002) Use and misuse of correspondence analysis in
+Perrière, G., Thioulouse, J. (2002) Use and misuse of correspondence analysis in
 codon usage studies. \emph{Nucl. Acids. Res.}, \bold{30}:4548-4555.\cr
 
 Lobry, J.R., Chessel, D. (2003) Internal correspondence analysis of codon and
 amino-acid usage in thermophilic bacteria.
 \emph{Journal of Applied Genetics}, \bold{44}:235-261. \url{http://jag.igr.poznan.pl/2003-Volume-44/2/pdf/2003_Volume_44_2-235-261.pdf}.\cr
 
-Charif, D., Thioulouse, J., Lobry, J.R., Perriere, G. (2005) Online 
+Charif, D., Thioulouse, J., Lobry, J.R., Perrière, G. (2005) Online 
 Synonymous Codon Usage Analyses with the ade4 and seqinR packages. 
-\emph{Bioinformatics}, \bold{21}:545-547. \url{http://pbil.univ-lyon1.fr/members/lobry/repro/bioinfo04/}.\cr
+\emph{Bioinformatics}, \bold{21}:545-547. \url{https://pbil.univ-lyon1.fr/members/lobry/repro/bioinfo04/}.\cr
 
 Suzuki, H., Brown, C.J., Forney, L.J., Top, E. (2008)
 Comparison of Correspondence Analysis Methods for Synonymous Codon Usage in Bacteria.
 \emph{DNA Research}, \bold{15}:357-365. \url{http://dnaresearch.oxfordjournals.org/cgi/reprint/15/6/357}.
 
 }
-\author{ D. Charif, J.R. Lobry, G. Perriere }
+\author{D. Charif, J.R. Lobry, G. Perrière}
 \examples{
 
 ## Show all possible codons:

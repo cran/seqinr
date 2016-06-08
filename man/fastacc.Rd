@@ -32,9 +32,7 @@ alleles are in common between the entry and the target.
 \references{
 \code{citation("seqinr")}
 }
-\author{
-J.R. Lobry
-}
+\author{J.R. Lobry}
 
 \section{Warning }{Experimental, first release schedulded for seqinr  2.0-6 by the end of 2009}
 

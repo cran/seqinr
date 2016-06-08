@@ -22,7 +22,7 @@ Multiple entries in GenBank file are not supported.
 \references{
   \code{citation("seqinr")}
 }
-\author{J.R. Lobry }
+\author{J.R. Lobry}
 \seealso{ \code{\link{oriloc}} }
 \examples{
 \dontrun{gb2fasta()} # need internet connection

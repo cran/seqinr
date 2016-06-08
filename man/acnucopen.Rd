@@ -54,7 +54,7 @@ WIDTH\_BIB, lrtxt, SUBINLNG: max lengths of record keys in database.
   readLines(mysocket, n = 1) # OK acnuc socket started
   acnucopen("emblTP", socket = mysocket) -> res
   expected <- c("EMBL", "14138095", "236401", "1186228", "8", 
-    "16", "40", "40", "20", "20", "40", "60", "63")
+    "16", "40", "40", "20", "20", "40", "60", "504")
   stopifnot(all(unlist(res) == expected))
   tryalreadyopen <- try(acnucopen("emblTP", socket = mysocket))
   stopifnot(inherits(tryalreadyopen, "try-error"))

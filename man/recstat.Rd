@@ -45,7 +45,7 @@ Gautier (1987), the minimal sequence length is around 500 bp. The method can be 
 prokaryotic and eukaryotic sequences. Also, only the four first factors of the CA are kept.
 Indeed, most of the time, only the first factor is relevant in order to detect CDS.
 }
-\author{Clerc, O. and Perriere, G.}
+\author{O. Clerc, G. Perrière}
 \references{The original paper describing recstat is:\cr
 
 Fichant, G., Gautier, C. (1987) Statistical method for predicting protein coding
@@ -54,13 +54,9 @@ regions in nucleic acid sequences. \emph{Comput. Appl. Biosci.}, \bold{3}, 287--
 }
 \seealso{\code{\link{draw.recstat}}, \code{\link{test.li.recstat}}, \code{\link{test.co.recstat}}}
 \examples{
-\dontrun{
-library(seqinr)
-library(ade4)
-ff <- system.file("sequences/ECOUNC.fsa", package = "seqinr2")
+ff <- system.file("sequences/ECOUNC.fsa", package = "seqinr")
 seq <- read.fasta(ff)
 rec <- recstat(seq[[1]], seqname = getName(seq))
-}
 }
 \keyword{correspondence analysis}
 \keyword{sequence}

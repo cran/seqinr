@@ -38,11 +38,10 @@ An invisible list with components:
 Monterey, CA: Wadsworth. 
 \code{citation("seqinr")}
 }
-\author{ J.R. Lobry }
+\author{J.R. Lobry}
 \seealso{ \code{\link{dotchart}}, \code{\link{uco}}, \code{\link{aaa}},
 \code{\link{translate}} }
 \examples{
-\dontrun{
 # Load dataset:
 data(ec999)
 # Compute codon usage for all coding sequences:
@@ -57,6 +56,5 @@ global <- rowSums(df)
 title <- "Codon usage in 999 E. coli coding sequences"
 # Plot data:
 dotchart.uco(global, main = title) 
-}
 }
 \keyword{hplot}

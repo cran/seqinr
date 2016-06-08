@@ -26,6 +26,6 @@ databases in which the accession number was found.
 \seealso{\code{\link{choosebank}} to open a given ACNUC database.}
 \examples{
   \dontrun{# Need internet connection
-  where.is.this.acc("NC_001416")
+  where.is.this.acc("NC_001416") # first found in phever2dna bank (2016-06-01)
   }
 }

@@ -18,7 +18,7 @@ A single numeric value corresponding to  the total number of residues or
 NA in case of problem.
 }
 
-\references{ \url{http://pbil.univ-lyon1.fr/databases/acnuc.html}
+\references{ \url{http://doua.prabi.fr/databases/acnuc.html}
 
 \code{citation("seqinr")}
 }
@@ -28,7 +28,7 @@ NA in case of problem.
 \dontrun{ 
   ### Need internet connection
   choosebank("emblTP")
-  query("mylist", "t=CDS", virtual = TRUE)
+  mylist <- query("mylist", "t=CDS", virtual = TRUE)
   stopifnot(residuecount(glr("mylist")) == 1611439240)
   stopifnot(is.na(residuecount(glr("unknowlist")))) # A warning is issued
   }

@@ -23,7 +23,7 @@ AAstat(seq, plot = TRUE)
 \references{
   \code{citation("seqinr")}
 }
-\author{ D. Charif, J.R. Lobry }
+\author{D. Charif, J.R. Lobry}
 \seealso{ \code{\link{computePI}}, \code{\link{SEQINR.UTIL}}, \code{\link{SeqFastaAA}}}
 \examples{
   seqAA <- read.fasta(file = system.file("sequences/seqAA.fasta", package = "seqinr"),

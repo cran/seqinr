@@ -15,7 +15,7 @@ c2s(chars = c("m", "e", "r", "g", "e", "d"))
 \value{
   a string
 }
-\author{ J.R. Lobry }
+\author{J.R. Lobry}
 \references{
   \code{citation("seqinr")}
 }

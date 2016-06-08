@@ -27,8 +27,8 @@ comp <- function(seq, forceToLower = TRUE, ambiguous = FALSE){
     result[which(seq == "v")] <- "b"
     result[which(seq == "w")] <- "w"
     result[which(seq == "n")] <- "n"    
-    result[which(seq == "y")] <- "y"
-    result[which(seq == "r")] <- "r"
+    result[which(seq == "y")] <- "r"
+    result[which(seq == "r")] <- "y"
   }
   
   # Checking for N in the sequence, thanks to Jeremy Shearman. 

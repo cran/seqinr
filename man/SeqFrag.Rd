@@ -24,7 +24,7 @@
   \item{class}{ \code{SeqFrag} which is the classfor sub-sequence } 
   \code{is.SeqFrag} returns TRUE if the object is of class Seqfrag. 
 }
-\author{ D. Charif, J.R. Lobry }
+\author{D. Charif, J.R. Lobry}
 \references{
   \code{citation("seqinr")}
 }

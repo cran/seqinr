@@ -23,7 +23,7 @@ invisible = TRUE, verbose = FALSE, virtual = FALSE)
 The query language defines several selection criteria and operations between 
 lists of elements matching criteria. It creates mainly lists of sequences, but 
 also lists of species (or, more generally, taxa) and of keywords.
-See \url{http://pbil.univ-lyon1.fr/databases/acnuc/cfonctions.html#QUERYLANGUAGE}
+See \url{http://doua.prabi.fr/databases/acnuc/cfonctions.html#QUERYLANGUAGE}
 for the last update of the description of the query language.\cr
 
 Selection criteria (no space before the = sign) are: 
@@ -81,7 +81,7 @@ This is an objet of class \code{qaw}, a list with the following 6 components:
 }
 \references{ 
 To get the release date and content of all the databases located at the pbil, please look at 
-the following url: \url{http://pbil.univ-lyon1.fr/search/releases.php}\cr
+the following url: \url{http://doua.prabi.fr/search/releases}\cr
 Gouy, M., Milleret, F., Mugnier, C., Jacobzone, M., Gautier,C. (1984) ACNUC: a nucleic acid sequence data base and analysis system. 
 \emph{Nucl. Acids Res.}, \bold{12}:121-127.\cr
 Gouy, M., Gautier, C., Attimonelli, M., Lanave, C., Di Paola, G. (1985) 
@@ -93,7 +93,7 @@ Gouy, M., Gautier, C., Milleret, F. (1985) System analysis and nucleic acid sequ
 
 \code{citation("seqinr")}
 }
-\author{J.R. Lobry & D. Charif}
+\author{J.R. Lobry, D. Charif}
 \note{Most of the documentation was imported from ACNUC help
 files written by Manolo Gouy}
 \seealso{

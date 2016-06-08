@@ -21,7 +21,7 @@ seqinR package.
 See the example in \code{\link{kaks}}.
 }
 \source{
-The fasta test file was provided by Anamaria Necsulea.
+The fasta test file was provided by Anamaria Necşulea.
 }
 \references{
 \code{citation("seqinr")}

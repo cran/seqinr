@@ -21,7 +21,7 @@ a list with the following 2 components:
   \item{free}{numeric. The number of free lists}
   \item{annotlines}{vector of strings. Names of annotation lines}
 }
-\references{ \url{http://pbil.univ-lyon1.fr/databases/acnuc.html}
+\references{ \url{http://doua.prabi.fr/databases/acnuc.html}
 
 \code{citation("seqinr")}
 }

@@ -24,7 +24,7 @@ a vector of characters
 \references{
   \code{citation("seqinr")}
 }
-\author{ J.R. Lobry }
+\author{J.R. Lobry}
 \seealso{ \code{\link{s2n}} }
 \examples{
 ##example of the default behaviour:

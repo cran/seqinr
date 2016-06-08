@@ -36,7 +36,7 @@ getAnnot(object, ...)
 \references{
   \code{citation("seqinr")}
 }
-\author{ D. Charif and J.R. Lobry and L. Palmeira} 
+\author{D. Charif, J.R. Lobry, L. Palmeira} 
 \seealso{
   \code{\link{query}}, \code{\link{SeqAcnucWeb}}, \code{\link{c2s}}, \code{\link{translate}} and \code{\link{prepgetannots}} to select the annotation lines.
 }

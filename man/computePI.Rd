@@ -20,7 +20,7 @@ The algorithm is the same as the one which is implemented at the following url:
 in case of convergence failure of the non-linear regression procedure.
 \code{citation("seqinr")}
  }
-\author{D. Charif  and J.R. Lobry}
+\author{D. Charif, J.R. Lobry}
 \note{ 
 Protein pI is calculated using pK values of amino acids described in  Bjellqvist et al. See also \code{SEQINR.UTIL} for more details.
  }

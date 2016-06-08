@@ -17,7 +17,7 @@ words(length = 3, alphabet = s2c("acgt"))
 \value{
 A vector of string whith \code{length} characters. 
 }
-\author{ J.R. Lobry }
+\author{J.R. Lobry}
 \references{
   \code{citation("seqinr")}
 }

@@ -30,7 +30,7 @@ count(seq, wordsize, start = 0, by = 1,
   oligomers. All oligomers are returned, even if absent from
   the sequence.		
 }
-\author{ D. Charif, J.R. Lobry with suggestions from Gabriel Valiente, Stefanie Hartmann and Christian Gautier}
+\author{D. Charif, J.R. Lobry with suggestions from Gabriel Valiente, Stefanie Hartmann and Christian Gautier}
 \references{
   \code{citation("seqinr")}
 }

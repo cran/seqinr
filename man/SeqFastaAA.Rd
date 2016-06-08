@@ -29,7 +29,7 @@ is.SeqFastaAA(object)
 \references{
   \code{citation("seqinr")}
 }
-\author{ D. Charif }
+\author{D. Charif}
 \examples{
   s <- read.fasta(file = system.file("sequences/seqAA.fasta", package = "seqinr"), seqtype="AA")
   is.SeqFastaAA(s[[1]])

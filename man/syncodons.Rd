@@ -16,7 +16,7 @@
 \references{
   \code{citation("seqinr")}
 }
-\author{ Leonor Palmeira, J.R. Lobry }
+\author{L. Palmeira, J.R. Lobry}
 \seealso{ \code{\link{synsequence}} }
 \examples{
 #

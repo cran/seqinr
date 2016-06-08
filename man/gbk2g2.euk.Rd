@@ -30,7 +30,7 @@ column contain the start and the stop position of the exon.
 \references{
   \code{citation("seqinr")}
 }
-\author{J.R. Lobry and A. Necsulea}
+\author{J.R. Lobry, A. Necşulea}
 \seealso{ \code{\link{oriloc}}, \code{\link{gbk2g2}} }
 \examples{
  \dontrun{ gbk2g2.euk() }

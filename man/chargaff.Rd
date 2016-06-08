@@ -54,7 +54,7 @@ Rudner, R., Karkas, J.D., Chargaff, E. (1969) Separation of microbial deoxyribon
 }
 \references{
 Try \code{example(chargaff)} to mimic figure page 17 in
-\url{http://pbil.univ-lyon1.fr/members/lobry/articles/HDR.pdf}.
+\url{https://pbil.univ-lyon1.fr/members/lobry/articles/HDR.pdf}.
 The red areas correspond to non-allowed values beause the sum
 of the four bases frequencies cannot exceed 100\%.
 The white areas correspond to possible values (more exactly

@@ -37,17 +37,13 @@ region, this for reading frame \code{i}; \code{t(i,j)} gives the p-value of the 
 between the means from reading frames \code{i} and \code{j}; and \code{CDS} is a binary
 indicator equal to 1 if a putative CDS is predicted, and to 0 if not.
 }
-\author{Clerc, O. and Perriere, G.}
+\author{O. Clerc, G. Perrière}
 \seealso{\code{\link{test.co.recstat}}}
 \examples{
-\dontrun{
-library(seqinr)
-library(ade4)
-ff <- system.file("sequences/ECOUNC.fsa", package = "seqinr2")
+ff <- system.file("sequences/ECOUNC.fsa", package = "seqinr")
 seq <- read.fasta(ff)
 rec <- recstat(seq[[1]], seqname = getName(seq))
 test.li.recstat(rec)
-}
 }
 \keyword{sequence}
 \keyword{correspondence analysis}

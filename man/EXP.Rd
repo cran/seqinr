@@ -55,7 +55,7 @@ drop( freq \%*\% rep(EXP$A, 16))}.
 }
 \source{
 ANALSEQ EXPFILEs for command EXP.\cr
-\url{http://biomserv.univ-lyon1.fr/doclogi/docanals/manuel.html}
+\url{http://pbil.univ-lyon1.fr/software/doclogi/docanals/manuel.html}
 }
 \references{
   \code{citation("seqinr")}

@@ -64,7 +64,7 @@ The function returns invisibly the annotation lines names.
 \examples{
  \dontrun{# Need internet connection
   choosebank("genbank")
-  query("mylist","n=AQF16SRRN")
+  mylist <- query("mylist","n=AQF16SRRN")
   pga() # We want to scan all annotations, including FEATURES
   mylist <- modifylist("mylist", operation = "strain", type = "scan")
   mylist$nelem # should be 1

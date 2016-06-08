@@ -22,17 +22,13 @@ performed through the simultaneous use of these two graphics. If a CDS is locate
 sequence, the factor scores for the windows located in the corresponding reading frame will be
 significantly separated from the two others. Moreover, the region where this separation is seen
 should be located between a Start and a Stop codon.}
-\author{Clerc, O. and Perriere, G.}
+\author{O. Clerc, G. Perrière}
 \seealso{\code{\link{test.li.recstat}}, \code{\link{test.co.recstat}}}
 \examples{
-\dontrun{
-library(seqinr)
-library(ade4)
-ff <- system.file("sequences/ECOUNC.fsa", package = "seqinr2")
+ff <- system.file("sequences/ECOUNC.fsa", package = "seqinr")
 seq <- read.fasta(ff)
 rec <- recstat(seq[[1]], seqname = getName(seq))
 draw.recstat(rec)
-}
 }
 \keyword{correspondence analysis}
 \keyword{sequence}

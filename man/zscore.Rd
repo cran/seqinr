@@ -3,7 +3,7 @@
 \alias{zscore}
 \title{Statistical over- and under- representation of dinucleotides in a
   sequence}
-\encoding{latin1}
+\encoding{UTF-8}
 \description{
   These two functions compute two different types of statistics for the
   measure of statistical dinculeotide over- and under-representation :
@@ -34,9 +34,12 @@ zscore(sequence, simulations = NULL, modele, exact = FALSE, alphabet = s2c("acgt
   nucleotide \emph{x} and nucleotide \emph{y}. It is equal to 1.00 when
   dinucleotide \emph{xy} is formed by pure chance, and it is superior
   (respectively inferior) to 1.00 when dinucleotide \emph{xy} is over-
-  (respectively under-) represented.
+  (respectively under-) represented. Note that if you want to reproduce
+  Karlin's results you have to compute the statistic from the sequence 
+  concatenated with its inverted complement that is with something 
+  like \code{rho(c(myseq, rev(comp(mysed))))}.
 
-  The \code{zscore} statistic, as presented in Palmeira, L., Guéguen, L.
+  The \code{zscore} statistic, as presented in Palmeira, L., GuÃ©guen, L.
   and Lobry JR. (2006). The statistic is the normalization of the
   \code{rho} statistic by its expectation and variance according to a
   given random sequence generation model, and follows the
@@ -49,7 +52,7 @@ zscore(sequence, simulations = NULL, modele, exact = FALSE, alphabet = s2c("acgt
   The \code{base} model allows for random sequence generation by
   shuffling (with/without replacement) of all bases in the sequence.
   Analytical computations are available for this model: either as an 
-  approximation for large sequences (cf. Palmeira, L., Guéguen, L.
+  approximation for large sequences (cf. Palmeira, L., GuÃ©guen, L.
   and Lobry JR. (2006)), either as the exact analytical formulae
   (cf. Schbath, S. (1995)).
 
@@ -76,12 +79,12 @@ zscore(sequence, simulations = NULL, modele, exact = FALSE, alphabet = s2c("acgt
   Karlin S. and Cardon LR. (1994) Computational DNA sequence analysis.
   \emph{Annu Rev Microbiol}, \bold{48}:619-654.
 
-  Schbath, S. (1995) Étude asymptotique du nombre d'occurrences d'un
-  mot dans une chaîne de Markov et application à la recherche de mots
-  de fréquence exceptionnelle dans les séquences d'ADN.
-  \emph{Thèse de l'Université René Descartes, Paris V}
+  Schbath, S. (1995) Ã‰tude asymptotique du nombre d'occurrences d'un
+  mot dans une chaÃ®ne de Markov et application Ã  la recherche de mots
+  de frÃ©quence exceptionnelle dans les sÃ©quences d'ADN.
+  \emph{ThÃ¨se de l'UniversitÃ© RenÃ© Descartes, Paris V}
 
-  Palmeira, L., Guéguen, L. and Lobry, J.R. (2006) UV-targeted dinucleotides
+  Palmeira, L., GuÃ©guen, L. and Lobry, J.R. (2006) UV-targeted dinucleotides
   are not depleted in light-exposed Prokaryotic genomes.
   \emph{Molecular Biology and Evolution},
   \bold{23}:2214-2219.
@@ -89,7 +92,7 @@ zscore(sequence, simulations = NULL, modele, exact = FALSE, alphabet = s2c("acgt
 
   \code{citation("seqinr")}
 }
-\author{Leonor Palmeira and J.R. Lobry with suggestions from Avril Coghlan.}
+\author{L. Palmeira, J.R. Lobry with suggestions from A. Coghlan.}
 \seealso{ \code{\link{permutation}} }
 \examples{
 \dontrun{

@@ -31,12 +31,12 @@ A dataframe with 3 columns:
 \item{status}{string. "on" means available, "off" means temporarily unavailable}
 \item{info}{string. short description of the database}
 }
-\references{ \url{http://pbil.univ-lyon1.fr/databases/acnuc.html}
+\references{ \url{http://doua.prabi.fr/databases/acnuc.html}
 
 \code{citation("seqinr")}
 
 The full list of untagged and tagged databases is here : 
-\url{http://pbil.univ-lyon1.fr/databases/acnuc/banques_raa.php}.
+\url{http://doua.prabi.fr/databases/acnuc/banques_raa.php}.
 
 }
 \author{J.R. Lobry}

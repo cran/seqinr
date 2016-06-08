@@ -19,7 +19,7 @@ s2c(string)
 \references{
   \code{citation("seqinr")}
 }
-\author{ J.R. Lobry }
+\author{J.R. Lobry}
 \seealso{ \code{\link{c2s}} }
 \examples{
 stopifnot(all(s2c("BigBang") == c("B", "i", "g", "B", "a", "n", "g")))

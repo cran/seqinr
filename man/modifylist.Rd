@@ -48,7 +48,7 @@ This is an objet of class \code{qaw}, a list with the following 6 components:
   \item{socket}{the socket connection that was used}
   
 }
-\references{ \url{http://pbil.univ-lyon1.fr/databases/acnuc.html}
+\references{ \url{http://doua.prabi.fr/databases/acnuc.html}
 
 \code{citation("seqinr")}
 }

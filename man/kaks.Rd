@@ -62,7 +62,7 @@ and the rate of non-synonymous substitutions Ka is computed as:
 Ka =  A0 + (L0.B0 + L2.B2) / (L0 + L2) 
 
  }
-\author{ D. Charif, J.R. Lobry }
+\author{D. Charif, J.R. Lobry}
 \seealso{\code{\link{read.alignment}} to import alignments from files, \code{\link{reverse.align}} to align CDS at the aa level.}
 \examples{
  #

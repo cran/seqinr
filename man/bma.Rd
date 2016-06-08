@@ -27,7 +27,7 @@ at: \url{http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html}
 
 \code{citation("seqinr")}
 }
-\author{ J.R. Lobry }
+\author{J.R. Lobry}
 
 \seealso{See \code{\link{amb}} for the reverse operation. 
 Use \code{\link{toupper}} to change lower case letters into

@@ -23,7 +23,7 @@ A single numeric value corresponding to:
   \item{4}{no list of rank \code{lrank} exists.}
 }
 
-\references{ \url{http://pbil.univ-lyon1.fr/databases/acnuc.html}
+\references{ \url{http://doua.prabi.fr/databases/acnuc.html}
 
 \code{citation("seqinr")}
 }
@@ -33,7 +33,7 @@ A single numeric value corresponding to:
 \dontrun{ 
   ### Need internet connection
   choosebank("emblTP")
-  query("mylist", "sp=felis catus et t=CDS", virtual = TRUE)
+  mylist <- query("mylist", "sp=felis catus et t=CDS", virtual = TRUE)
   # Change list name on server:
   setlistname(lrank = glr("mylist"), name = "feliscatus") # 0, OK.
   glr("mylist") # 0, list doesn't exist no more.

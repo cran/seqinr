@@ -7,7 +7,7 @@
   Read nucleic or amino-acid sequences from a file in FASTA format.
 }
 \usage{
-read.fasta(file = "ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.fasta", 
+read.fasta(file = system.file("sequences/ct.fasta.gz", package = "seqinr"), 
   seqtype = c("DNA", "AA"), as.string = FALSE, forceDNAtolower = TRUE,
   set.attributes = TRUE, legacy.mode = TRUE, seqonly = FALSE, strip.desc = FALSE,
   bfa = FALSE, sizeof.longlong = .Machine$sizeof.longlong,
@@ -17,7 +17,7 @@ read.fasta(file = "ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.fasta",
   \item{file}{ The name of the file which the sequences in fasta format are to be 
   read from. If it does not contain an absolute or relative path, the file name is relative 
     to the current working directory, \code{\link{getwd}}. The default here is to
-    read the \code{ct.fasta} file which is present in the \code{sequences} folder
+    read the \code{ct.fasta.gz} file which is present in the \code{sequences} folder
    of the seqinR package.}
   \item{seqtype}{ the nature of the sequence: \code{DNA} or \code{AA}, defaulting
     to \code{DNA} }
@@ -76,11 +76,12 @@ no more valid since seqinR >= 2.0-6. Just use \code{file} instead.
   sequence comparison. \emph{Proceedings of the National Academy 
   of Sciences of the United States of America}, \bold{85}:2444-2448
 
-  FIXME: a reference to MAQ when published.
+  According to MAQ's FAQ page \url{http://maq.sourceforge.net/faq.shtml}
+  last consulted 2016-06-07 the MAQ manuscript has not been published.
 
   \code{citation("seqinr")}
 }
-\author{ D. Charif, J.R. Lobry }
+\author{D. Charif, J.R. Lobry}
 \seealso{
   \code{\link{write.fasta}} to write sequences in a FASTA file, 
   \code{\link{gb2fasta}} to convert a GenBank file into a FASTA file,
@@ -92,6 +93,12 @@ no more valid since seqinR >= 2.0-6. Just use \code{file} instead.
 # Simple sanity check with a small FASTA file:
 #
   smallFastaFile <- system.file("sequences/smallAA.fasta", package = "seqinr")
+  mySmallProtein <- read.fasta(file = smallFastaFile, as.string = TRUE, seqtype = "AA")[[1]]
+  stopifnot(mySmallProtein == "SEQINRSEQINRSEQINRSEQINR*")
+#
+# Simple sanity check with the gzipped version of the same small FASTA file:
+#
+  smallFastaFile <- system.file("sequences/smallAA.fasta.gz", package = "seqinr")
   mySmallProtein <- read.fasta(file = smallFastaFile, as.string = TRUE, seqtype = "AA")[[1]]
   stopifnot(mySmallProtein == "SEQINRSEQINRSEQINRSEQINR*")
 #
@@ -151,7 +158,7 @@ no more valid since seqinR >= 2.0-6. Just use \code{file} instead.
 # on a platform where .Platform$endian == "little" and .Machine$sizeof.longlong == 8
 #
 \dontrun{
-  fastafile <- "ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.fasta"
+  fastafile <- system.file("sequences/ct.fasta.gz", package = "seqinr")
   bfafile <- "ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.bfa"
 
   original <- read.fasta(fastafile, as.string = TRUE, set.att = FALSE)

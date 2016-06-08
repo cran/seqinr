@@ -16,9 +16,7 @@ lseqinr()
 \note{ 
 Use \code{library(help=seqinr)} to have a summary of the functionc available in the package.
 }
-\author{
-J.R. Lobry 
-}
+\author{J.R. Lobry}
 \examples{
 lseqinr()
 }

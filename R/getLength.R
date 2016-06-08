@@ -10,7 +10,16 @@ getLength.default <- function(object, ...)
 getLength.list <- function(object, ...)
   sapply(seq_len(length(object)), function(i) getLength(object[[i]], ...))
 
-getLength.character <- function(object, ...) length(s2c(object))
+getLength.character <- function(object, ...){
+  if(length(object) == 1)
+  {
+    return(length(s2c(object)))
+  } 
+  else 
+  {
+    return(sum(nchar(object)))
+  }
+}
 
 getLength.SeqFastadna <- function(object, ...) length(getSequence(object, as.string = FALSE))
 getLength.SeqFastaAA <- getLength.SeqFastadna

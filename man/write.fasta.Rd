@@ -24,7 +24,7 @@
 \references{
   \code{citation("seqinr")}
 }
-\author{ A. Necsulea }
+\author{A. Necşulea}
 \seealso{ \code{\link{read.fasta}} }
 \examples{
 ## Read 3 sequences from a FASTA file:

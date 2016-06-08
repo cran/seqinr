@@ -24,7 +24,7 @@ The input file is returned invisibly.
 \references{
   \code{citation("seqinr")}
 }
-\author{J.R. lobry }
+\author{J.R. Lobry}
 \seealso{ \code{\link{oriloc}} which uses glimmer-like files, 
   \code{\link{gbk2g2.euk}} for eukaryotic sequences with introns.}
 \examples{

@@ -41,7 +41,7 @@ As from seqinR 1.1-3 \code{getNumber.socket} and
 }
 
 
-\references{ \url{http://pbil.univ-lyon1.fr/databases/acnuc.html}
+\references{ \url{http://doua.prabi.fr/databases/acnuc.html}
 
 \code{citation("seqinr")}
 }

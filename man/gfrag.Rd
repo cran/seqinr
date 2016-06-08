@@ -21,7 +21,7 @@ A string of characters with at most \code{length} characters (may be
 shorter than asked for). NA is returned and a warning is issued in
 case of problem (non existent sequence for instance).
 }
-\references{ \url{http://pbil.univ-lyon1.fr/databases/acnuc.html}
+\references{ \url{http://doua.prabi.fr/databases/acnuc.html}
 
 \code{citation("seqinr")}
 }

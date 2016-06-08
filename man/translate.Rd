@@ -58,7 +58,7 @@ The IUPAC one-letter code for aminoacids is described at:
 
 \code{citation("seqinr")}
 }
-\author{ D. Charif, J.R. Lobry }
+\author{D. Charif, J.R. Lobry}
 \seealso{
 Use \code{\link{tolower}} to change upper case letters into lower case letters.
 For coding sequences obtained from an ACNUC server with \code{\link{query}} it's

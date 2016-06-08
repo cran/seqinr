@@ -27,7 +27,7 @@ Returns a data frame which contains the following columns:
 \references{
   \code{citation("seqinr")}
 }
-\author{J.R. Lobry }
+\author{J.R. Lobry}
 \section{WARNING }{
 This function is highly dependant on ncbi ftp site conventions
 for which we have no control.

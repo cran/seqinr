@@ -6,8 +6,8 @@
 ########################################################################
 
 oriloc <- function(
-  seq.fasta = "ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.fasta",
-  g2.coord = "ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.predict",
+  seq.fasta = system.file("sequences/ct.fasta.gz", package ="seqinr"),
+  g2.coord = system.file("sequences/ct.predict", package = "seqinr"),
   glimmer.version = 3,
   oldoriloc = FALSE,
   gbk = NULL,
