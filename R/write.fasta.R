@@ -8,7 +8,7 @@ write.fasta <- function(sequences, names, file.out, open = "w", nbchar = 60,
   #
   # Function to write one sequence in output file:
   #
-  write.oneseq<-function(sequence, name, nbchar, as.string){
+  write.oneseq <- function(sequence, name, nbchar, as.string){
     writeLines(paste(">", name, sep = ""), outfile)
     if(as.string) sequence <- s2c(sequence)
     l <- length(sequence)

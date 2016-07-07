@@ -17,6 +17,15 @@ of nine overlapping sequences (U18997, U00039, L10328, M87049, L19201, U00006, U
 D10483, D26562. Ambiguities have been resolved since then and its was
 a chimeric sequence from K-12 strains MG1655 and W3110, the sequence used here is
 from strain MG1655 only (Blattner \emph{et al.} 1997).
+
+The chirochore structure of bacterial genomes is illustrated below by a screenshot
+of a part of figure 1 from Lobry (1996). See the example section to reproduce this
+figure.
+
+\if{html}{\figure{gcskewmbe96.pdf}{options: width=400}}
+\if{latex}{\figure{gcskewmbe96.pdf}{options: width=12cm}}
+
+
 }
 \source{
 \emph{Escherichia coli} K-12 strain MG1655. Fragment from U00096 from the

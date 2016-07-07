@@ -5,8 +5,7 @@
 #                   single entry genbank to fasta conversion
 #
 ########################################################################
-gb2fasta <- function(source.file = "ftp://ftp.ncbi.nih.gov/genomes/Bacteria/Acinetobacter_ADP1_uid61597/NC_005966.gbk",
- destination.file = "Acinetobacter_ADP1_uid61597.fasta")
+gb2fasta <- function(source.file, destination.file)
 {
   input <- readLines(source.file)
   head <- input[1]
@@ -21,10 +20,10 @@ gb2fasta <- function(source.file = "ftp://ftp.ncbi.nih.gov/genomes/Bacteria/Acin
   #
   # Look for sequence position:
   #
-  debut <- which(substring(input,1,6)=="ORIGIN") + 1
+  debut <- which(substring(input,1,6) == "ORIGIN") + 1
   if( length( debut ) > 1 )
     stop("Multiple entries not yet implemented !")
-  fin <- which(substring(input,1,2)=="//") - 1
+  fin <- which(substring(input,1,2) == "//") - 1
   if( length( fin ) > 1 )
     stop("Multiple entries not yet implemented !")
     

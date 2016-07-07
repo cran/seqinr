@@ -24,13 +24,38 @@ is Moore's law.}
 \value{
   A dataframe with the statistics from the embl site.
 }
-\references{\url{http://www.ebi.ac.uk/embl/Documentation/Release_notes/current/relnotes.txt}
+
+\details{
+This is a screenshot from fig. 1 in Lobry (2004):
+
+\if{html}{\figure{lncs2004.pdf}{options: width=400}}
+\if{latex}{\figure{lncs2004.pdf}{options: width=12cm}}
+
+At that time the doubling time was 16.9 months. This is an
+update in 2016 from release 3.1-5 of the seqinr tutorial
+\url{http://seqinr.r-forge.r-project.org/seqinr_3_1-5.pdf}:
+
+\if{html}{\figure{introduction-dbg.pdf}{options: width=400}}
+\if{latex}{\figure{introduction-dbg.pdf}{options: width=12cm}}
+
+The doubling time was 18.8 monts in this update. The fit to
+Moore's law is still striking over such a long period.
+
+}
+\references{
+\url{http://www.ebi.ac.uk/embl/Documentation/Release_notes/current/relnotes.txt}
+
+Lobry, J.R. (2004) Life History Traits and Genome Structure:
+Aerobiosis and G+C Content in Bacteria. \emph{Lectures Notes in Computer Sciences},
+\bold{3039}:679-686.
 
 \code{citation("seqinr")}
 }
 \author{J.R. Lobry}
 \examples{
-\dontrun{data <- get.db.growth()}
-\dontrun{dia.db.growth(data)}
-}
+\dontrun{
+  ### Need internet connection
+  data <- get.db.growth()
+  dia.db.growth(data)
+}}
 \keyword{utilities}

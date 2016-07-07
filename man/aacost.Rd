@@ -38,6 +38,10 @@ amino-acids first increase and then decrease with G+C content. These G+C classes
 are from Lobry (1997).\cr
 
 \code{example(aacost)} reproduces figure 2 from Lobry (2004).
+
+\if{html}{\figure{aka.pdf}{options: width=400}}
+\if{latex}{\figure{aka.pdf}{options: width=12cm}}
+
 }
 \source{
 Akashi, H, Gojobori, T. (2002) Metabolic efficiency and amino acid composition

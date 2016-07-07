@@ -2,7 +2,6 @@
 \alias{waterabs}
 \docType{data}
 \title{Light absorption by the water column}
-\encoding{latin1}
 \description{
 The absorption of light by water is highly dependent on the wavelength, this
 dataset gives the absorption coefficients from 200 to 700 nm.
@@ -18,11 +17,18 @@ dataset gives the absorption coefficients from 200 to 700 nm.
 
 \source{
 Data were compiled by Palmeira (2007) from the cited references.
+
+The example section allows to reproduce the left part of figure
+2.7 from Palmeira (2007):
+
+\if{html}{\figure{waterabs.jpg}{options: width=400}}
+\if{latex}{\figure{waterabs.jpg}{options: width=12cm}}
+
 }
 \references{
-Palmeira, L. (2007) \emph{Analyse et modélisation des dépendances entre
- sites voisins dans l'évolution des séquences d'ADN}, PhD thesis,
-Université Claude Bernard - Lyon I.\cr
+Palmeira, L. (2007) \emph{Analyse et modÃ©lisation des dÃ©pendances entre
+ sites voisins dans l'Ã©volution des sÃ©quences d'ADN}, PhD thesis,
+UniversitÃ© Claude Bernard - Lyon I.\cr
 
 Litjens R. A., Quickenden T. I. and Freeman C. G. (1999). Visible and
 near-ultraviolet absorption spectrum of liquid water. \emph{Applied Optics}, 

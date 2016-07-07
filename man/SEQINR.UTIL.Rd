@@ -15,7 +15,7 @@
   }
 }
 \source{
-  Data prepared by D.Charif \email{charif@biomserv.univ-lyon1.fr}.\cr The genetic codes have been taken from the ncbi taxonomy database: \url{http://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi?mode=c }. Last update October 05, 2000.\cr The IUPAC one-letter code for aminoacids is descibed at: \url{http://www.chem.qmul.ac.uk/iupac/AminoAcid/ }. 
+  Data prepared by D.Charif.\cr The genetic codes have been taken from the ncbi taxonomy database: \url{http://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi?mode=c }. Last update October 05, 2000.\cr The IUPAC one-letter code for aminoacids is descibed at: \url{http://www.chem.qmul.ac.uk/iupac/AminoAcid/ }. 
  pK values of amino acids were taken from Bjellqvist et al.\cr 
 Bjellqvist, B.,Hughes, G.J., Pasquali, Ch., Paquet, N., Ravier, F., Sanchez, J.-Ch., Frutiger, S. & Hochstrasser, D.F.(1993)  The focusing positions of polypeptides in immobilized pH gradients can be predicted from their amino acid sequences.\emph{ Electrophoresis}, \bold{14}, 1023-1031. 
 }

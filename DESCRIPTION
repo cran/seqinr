@@ -1,7 +1,7 @@
 Encoding: UTF-8
 Package: seqinr
-Version: 3.1-5
-Date: 2016-06-03
+Version: 3.2-0
+Date: 2016-07-05
 Title: Biological Sequences Retrieval and Analysis
 Authors@R: c(person("Delphine", "Charif", role = "aut"),
              person("Olivier", "Clerc", role = "ctb"),
@@ -13,6 +13,7 @@ Authors@R: c(person("Delphine", "Charif", role = "aut"),
              person("Guy", "Perrière", role = "ctb"))
 Author: Delphine Charif [aut], Olivier Clerc [ctb], Carolin Frank [ctb], Jean R. Lobry [aut], Anamaria Necşulea [ctb], Leonor Palmeira [ctb], Simon Penel [cre], Guy Perrière [ctb]
 Maintainer: Simon Penel <simon.penel@univ-lyon1.fr>
+BugReports: http://r-forge.r-project.org/mail/?group_id=220
 Imports: ade4,segmented
 Depends: R (>= 2.10.0)
 Description: Exploratory data analysis and data visualization
@@ -20,12 +21,11 @@ Description: Exploratory data analysis and data visualization
   utilities for sequence data management under the ACNUC system.
 License: GPL (>= 2)
 SystemRequirements: zlib headers and library.
-URL: http://seqinr.r-forge.r-project.org/, Mailing list:
-        http://r-forge.r-project.org/mail/?group_id=220
+URL: http://seqinr.r-forge.r-project.org/
 NeedsCompilation: yes
 Repository: CRAN
 Repository/R-Forge/Project: seqinr
-Repository/R-Forge/Revision: 1944
-Repository/R-Forge/DateTimeStamp: 2016-06-07 10:32:48
-Date/Publication: 2016-06-08 17:20:25
-Packaged: 2016-06-07 10:45:20 UTC; rforge
+Repository/R-Forge/Revision: 1977
+Repository/R-Forge/DateTimeStamp: 2016-07-05 13:49:45
+Date/Publication: 2016-07-07 13:50:46
+Packaged: 2016-07-05 14:05:22 UTC; rforge

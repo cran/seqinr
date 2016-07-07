@@ -28,5 +28,9 @@ expressivity and aromaticity are the major trends of amino-acid usage in
 }
 \examples{
 data(ec999)
+#
+# How to export sequences in a FASTA file:
+#
+write.fasta(ec999, names(ec999), file = "ec999.ffn")
 }
 \keyword{datasets}

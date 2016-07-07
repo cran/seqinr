@@ -54,6 +54,13 @@ read.fasta(file = system.file("sequences/ct.fasta.gz", package = "seqinr"),
   are ignored, as in the original FASTA program (Pearson and Lipman 1988).
   The sequence name is just after the '>' up to the next space ' ' character,
   trailling infos are ignored for the name but saved in the annotations.
+  
+  There is no standard file extension name for a FASTA file. Commonly
+  found values are .fasta, .fas, .fa and .seq for generic FASTA files.
+  More specific file extension names are also used for fasta sequence
+  alignement (.fsa), fasta nucleic acid (.fna), fasta functional
+  nucleotide (.ffn), fasta amino acid (.faa), multiple protein
+  fasta (.mpfa), fasta RNA non-coding (.frn).
 
   The MAQ fasta binary format was introduced in seqinR 1.1-7 and has not
   been extensively tested. This format is used in the MAQ (Mapping and 
@@ -157,16 +164,14 @@ no more valid since seqinR >= 2.0-6. Just use \code{file} instead.
 # Example of a MAQ binary fasta file produced with maq fasta2bfa ct.fasta ct.bfa
 # on a platform where .Platform$endian == "little" and .Machine$sizeof.longlong == 8
 #
-\dontrun{
   fastafile <- system.file("sequences/ct.fasta.gz", package = "seqinr")
-  bfafile <- "ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.bfa"
+  bfafile <- system.file("sequences/ct.bfa", package = "seqinr")
 
   original <- read.fasta(fastafile, as.string = TRUE, set.att = FALSE)
   bfavers <- read.fasta(bfafile, as.string = TRUE, set.att = FALSE, bfa = TRUE,
     endian = "little", sizeof.longlong = 8)
   if(!identical(original, bfavers)){
-     warning(paste("trouble reading bfa file with endian =", .Platform$endian, 
-    "and sizeof.longlong =", .Machine$sizeof.longlong))
-  }
+     warning(paste("trouble reading bfa file on a platform with endian =", 
+     .Platform$endian, "and sizeof.longlong =", .Machine$sizeof.longlong))
   }
 }

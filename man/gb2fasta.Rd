@@ -1,13 +1,11 @@
 \name{gb2fasta}
 \alias{gb2fasta}
-\title{ conversion of GenBank file into fasta file }
+\title{Conversion of GenBank file into fasta file}
 \description{
 Converts a single entry in GenBank format into a fasta file.
 }
 \usage{
-gb2fasta(source.file =
-"ftp://ftp.ncbi.nih.gov/genomes/Bacteria/Acinetobacter_ADP1_uid61597/NC_005966.gbk",
-destination.file = "Acinetobacter_ADP1_uid61597.fasta")
+gb2fasta(source.file, destination.file)
 }
 \arguments{
   \item{source.file}{ GenBank file }
@@ -25,6 +23,18 @@ Multiple entries in GenBank file are not supported.
 \author{J.R. Lobry}
 \seealso{ \code{\link{oriloc}} }
 \examples{
-\dontrun{gb2fasta()} # need internet connection
+  myGenBankFile <- system.file("sequences/ct.gbk.gz", package = "seqinr")
+  myFastaFileName <- "Acinetobacter_ADP1_uid61597.fasta"
+  gb2fasta(myGenBankFile, myFastaFileName)
+  readLines(myFastaFileName)[1:5]
+  #
+  # Should be :
+  #
+  # [1] ">CHLTCG 1042519 bp"                                          
+  # [2] "gcggccgcccgggaaattgctaaaagatgggagcaaagagttagagatctacaagataaa"
+  # [3] "ggtgctgcacgaaaattattaaatgatcctttaggccgacgaacacctaattatcagagc"
+  # [4] "aaaaatccaggtgagtatactgtagggaattccatgttttacgatggtcctcaggtagcg"
+  # [5] "aatctccagaacgtcgacactggtttttggctggacatgagcaatctctcagacgttgta"
+  #
 }
 \keyword{utilities}

@@ -45,24 +45,34 @@ apply to all strand specimens isolated from denaturated DNA
 of the AT type (Table 2, preps. 1-4). It cannot yet be said
 to be established for the DNA specimens from the equimolar
 and GC types (nos. 5-7)."
-}
-\source{
-Rudner, R., Karkas, J.D., Chargaff, E. (1968) Separation of
-\emph{B. subtilis} DNA into complementary strands, III. Direct
-Analysis. \emph{Proceedings of the National Academy of Sciences of the United States of America}, \bold{60}:921-922.\cr
-Rudner, R., Karkas, J.D., Chargaff, E. (1969) Separation of microbial deoxyribonucleic acids into complementary strands. \emph{Proceedings of the National Academy of Sciences of the United States of America}, \bold{63}:152-159.
-}
-\references{
-Try \code{example(chargaff)} to mimic figure page 17 in
-\url{https://pbil.univ-lyon1.fr/members/lobry/articles/HDR.pdf}.
-The red areas correspond to non-allowed values beause the sum
+
+Try \code{example(chargaff)} to mimic figure page 17 in Lobry
+(2000) :
+
+\if{html}{\figure{chargaff.png}{options: width=400}}
+\if{latex}{\figure{chargaff.png}{options: width=12cm}}
+
+
+Note that \code{example(chargaff)} gives more details:
+the red areas correspond to non-allowed values beause the sum
 of the four bases frequencies cannot exceed 100\%.
 The white areas correspond to possible values (more exactly
 to the projection from \code{R^4} to the corresponding \code{R^2} planes
 of the region of allowed values).
 The blue lines correspond to the very small subset of allowed
 values for which we have in addition PR2 state, that is
-\code{[A]=[T]} and \code{[C]=[G]}. Remember, these data are for ssDNA !
+\code{[A]=[T]} and \code{[C]=[G]}. Remember, these data are for ssDNA!
+}
+
+\source{
+Rudner, R., Karkas, J.D., Chargaff, E. (1968) Separation of
+\emph{B. subtilis} DNA into complementary strands, III. Direct
+Analysis. \emph{Proceedings of the National Academy of Sciences of the United States of America}, \bold{60}:921-922.\cr
+Rudner, R., Karkas, J.D., Chargaff, E. (1969) Separation of microbial deoxyribonucleic acids into complementary strands. \emph{Proceedings of the National Academy of Sciences of the United States of America}, \bold{63}:152-159.\cr
+
+}
+\references{
+Lobry, J.R. (2000) The black hole of symmetric molecular evolution. Habilitation thesis, Université Claude Bernard - Lyon 1. \url{https://pbil.univ-lyon1.fr/members/lobry/articles/HDR.pdf}.
 
 \code{citation("seqinr")}
 }
