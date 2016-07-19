@@ -4,16 +4,16 @@
 \title{To extract the sequences information of a sequence or a list of sequence in different formats}
 \description{
  The function allows to extract large amount of data as whole genome sequences,using different output formats and types of extraction.
- This function is not yet available for windows.
+ This function is not yet available for windows in zlib mode.
 }
 
 \usage{
 extractseqs(listname,socket = autosocket(), format="fasta",
 operation="simple",feature="xx", bounds="xx", minbounds="xx",
- verbose = FALSE, nzlines=1000)
+ verbose = FALSE, nzlines=1000, zlib = FALSE)
 exseq(listname,socket = autosocket(),
  format="fasta",operation="simple", feature="xx",
- bounds="xx", minbounds="xx", verbose = FALSE,  nzlines=1000)
+ bounds="xx", minbounds="xx", verbose = FALSE,  nzlines=1000, zlib = FALSE)
 }
 
 \arguments{
@@ -27,6 +27,7 @@ exseq(listname,socket = autosocket(),
   \item{minbounds}{-optional- the minimal bounds for extraction (for operations "fragment" or "region") }
   \item{verbose}{if \code{TRUE}, verbose mode is on}
   \item{nzlines}{number of line in zlib mode}
+  \item{zlib}{logical. If TRUE sequences are download in zlib compress mode.}
 }
 
 \details{

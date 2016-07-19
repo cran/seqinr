@@ -1,4 +1,4 @@
-3767a7783e61d851d533b0523c974989 *DESCRIPTION
+4ee423038128eadd4ab523614c2fec44 *DESCRIPTION
 f4eeeb197363233719e576484e515136 *NAMESPACE
 dd981a8bc19bea5e91c256f75ea8b5c9 *R/AAstat.R
 7175d6708d717dca65176df83a41f9bd *R/ClassSeq.R
@@ -35,7 +35,7 @@ e7c8d78234ac7a398766943c2b179d91 *R/draw.oriloc.R
 c5d3818fb836288a75c41ce6dd7c19e0 *R/draw.rearranged.oriloc.R
 4f7b1e44bac0700d4d313876c1f19639 *R/draw.recstat.R
 c83bc7ce2217e6f215b18376e72b650f *R/extract.breakpoints.R
-f63369317124465d1398876fb16db936 *R/extractseqs.R
+b89dfd6ad6584d989cedc6960af214ec *R/extractseqs.R
 7cbf5e8324af34371d3917496bc23dfa *R/fastacc.R
 e74c8ba0da1fb405e080065261728f9c *R/gb2fasta.R
 2d5372f6f01f90ea00be0599d686cfbc *R/gbk2g2.R
@@ -233,7 +233,7 @@ fb1715453475d9bc554fa3803e9d1ed9 *man/dotPlot.Rd
 cb50f090cefbd8f07526064d3760525e *man/draw.recstat.Rd
 18bcac1138a512c806a655b9795d639a *man/ec999.Rd
 908663409747a04f600903dcd9b11dd3 *man/extract.breakpoints.Rd
-3a7e59f047b4f96da8169673634c3ffa *man/extractseqs.Rd
+8827cc3bfa003efef61b41cf9738d8d0 *man/extractseqs.Rd
 d2b9d3566289986cbded9e3ec42b349b *man/fasta.Rd
 80aa1764068499873841d12e41d2ac97 *man/fastacc.Rd
 1909e751870159d64935144c2101f313 *man/figures/aka.pdf
