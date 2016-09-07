@@ -1,4 +1,4 @@
-4ee423038128eadd4ab523614c2fec44 *DESCRIPTION
+8210babd7d842b5e9677405c2b57bf8f *DESCRIPTION
 f4eeeb197363233719e576484e515136 *NAMESPACE
 dd981a8bc19bea5e91c256f75ea8b5c9 *R/AAstat.R
 7175d6708d717dca65176df83a41f9bd *R/ClassSeq.R
@@ -74,7 +74,7 @@ ae47cf06593fc89cb8a105dfb69b6e93 *R/pmw.R
 cb9f8a17e0bdafa1fe7b8a4584eb8ab0 *R/query.r
 126d5ade572e95511b2b66b7189807d9 *R/quitacnuc.R
 5c829cc5536f04c051d686cf1b553859 *R/read.abif.R
-cd01848c36d492f00c5d9d9235297ce5 *R/read.alignment.R
+568dca4f1a96d5619854a9e30ee60f58 *R/read.alignment.R
 bbed196d15ef9fb2b8d4da9d294ab5ed *R/read.fasta.R
 8a46bbfddc96af2244eb21d7fa7157b6 *R/readBins.R
 7fa1d45bb89c1229cd494c007ce94d5f *R/readPanels.R
@@ -330,10 +330,10 @@ e5d224d86aaaffbb71b4644ebd1f175d *man/write.fasta.Rd
 3b1e4dce6505f1509894f7d162380649 *man/zscore.Rd
 45e4c32aff3ab2954e3835005b4c38e6 *src/Makevars
 cb407d8c24b063ecc44bb3bb49ab6216 *src/Makevars.win
-e9253e4b2d201556d5ea77768e3690a6 *src/alignment.c
+436a2de8b172239b4ccf21ad72641759 *src/alignment.c
 72d7cf9e818c492b578f390f794f10f7 *src/alignment.h
 320b43b2d16f79ed0b12b471bad1c13c *src/fastacc.c
-1744dc044d6e64d612b3a003db780cc8 *src/getzlibsock.c
+ffbe5a8a0eb4f0468a358e69160f8c28 *src/getzlibsock.c
 f6eb92933aec8516b6fa19a6db75747c *src/kaks.c
 3604f3611d34f9864f85ed904739cbe3 *src/util.c
 833983b499aae68695d2852d4373abe4 *src/zsockr.c

@@ -500,7 +500,9 @@ SEXP read_msf_align(SEXP ficname)
    }
    tot_spec = -1;
    do	{
-     fgets(line,sizeof(line),in);
+     if(!fgets(line,sizeof(line),in))
+       break; 
+
      if( (p = strstr(line, "Name:") ) == NULL) continue;
      tot_spec++;
      q = strstr(p, " Len: "); 
@@ -590,8 +592,9 @@ SEXP read_phylip_align(SEXP ficname)
   if(in==NULL) {
     error("file not found");
   }
-  fgets(line,sizeof(line),in);
-  if( sscanf(line, "%d%d", &totseqs, &lenseqs) != 2) {
+  
+  if(!fgets(line,sizeof(line),in) ||
+     sscanf(line, "%d%d", &totseqs, &lenseqs) != 2) {
     error("Not a PHYLIP file");
     totseqs = 0;
     goto fini;
@@ -614,7 +617,7 @@ SEXP read_phylip_align(SEXP ficname)
     comments[i] = NULL;
   }
   for(i=0; i<totseqs; i++) {
-    fgets(line,sizeof(line),in);
+    if(!fgets(line,sizeof(line),in)) goto eof;
     memcpy(seqname[i],line,PHYNAME); seqname[i][PHYNAME] = 0;
     p = line+PHYNAME; q = seq[i];
     while(*p != '\n') {
@@ -624,9 +627,9 @@ SEXP read_phylip_align(SEXP ficname)
   }
   l = q - seq[totseqs - 1];
   while( l < lenseqs) {
-    fgets(line,sizeof(line),in);
+    if(!fgets(line,sizeof(line),in)) goto eof;
     for(i=0; i<totseqs; i++) {
-      fgets(line,sizeof(line),in);
+      if(!fgets(line,sizeof(line),in)) goto eof;
       p = line; q = seq[i] + l;
       while(*p != '\n') {
 	if(*p != ' ') *(q++) = *p;
@@ -655,6 +658,10 @@ SEXP read_phylip_align(SEXP ficname)
  return list;
  nomem:
  error("Not enough memory!");
+ totseqs = 0;
+ goto fini;
+ eof:
+ error("Unexpected EOF/Corrupt File");
  totseqs = 0;
  goto fini;
 }
@@ -792,8 +799,8 @@ SEXP read_clustal_align(SEXP ficname)
     return 0;
   }
 
-  fgets(line,sizeof(line),in);
-  if(strncmp(line,"CLUSTAL",7) != 0) { /* skip 1st line with CLUSTAL in it */
+  
+  if(!fgets(line,sizeof(line),in) || strncmp(line,"CLUSTAL",7) != 0) { /* skip 1st line with CLUSTAL in it */
     error("File not in CLUSTAL format!");
     tot_spec = -1; goto fini;
   }
@@ -802,7 +809,11 @@ SEXP read_clustal_align(SEXP ficname)
   do	{
     carac = getc(in);
     if(carac == ' ') {
-      fgets(line,sizeof(line),in);
+      if(!fgets(line,sizeof(line),in)) {
+	    error("Unexpected EOF");
+	    tot_spec = 0;
+	    goto fini;
+       }
       carac = getc(in);
     }
   }

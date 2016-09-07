@@ -18,7 +18,7 @@ int close_sock_gz_r(void *v);
 static void *extract_opaque = NULL;
 
 #define R_EOF	-1	
-#define MAXESSAIS 1	/*#define MAXESSAIS 1000000*/
+#define MAXESSAIS 2	/*#define MAXESSAIS 1000000*/
 
 SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
 {
@@ -70,6 +70,9 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
   con=getConnection(numsoc);
   scon= (Rsockconn)con->private;
   numsoc = scon->fd;*/
+  
+  
+  numsoc ++;
   
   if (debugon)
    	Rprintf("Socket number is %d....\n",numsoc);
