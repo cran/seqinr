@@ -41,7 +41,10 @@ translate(seq, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous = F
   \item{16}{ chlorophycean.mitochondrial }
   \item{21}{ trematode.mitochondrial }
   \item{22}{ scenedesmus.mitochondrial }
-  \item{23}{ hraustochytrium.mitochondria }
+  \item{23}{ thraustochytrium.mitochondria }
+  \item{24}{Pterobranchia.mitochondrial}
+  \item{25}{CandidateDivision.SR1+Gracilibacteria}
+  \item{26}{Pachysolen.tannophilus}
 }
 }
 \value{
@@ -51,7 +54,7 @@ translate(seq, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous = F
 }
 \references{
 The genetic codes have been taken from the ncbi taxonomy database:
-\url{ http://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi?mode=c }. 
+\url{https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi}. 
 Last update October 05, 2000.\cr
 The IUPAC one-letter code for aminoacids is described at: 
 \url{http://www.chem.qmul.ac.uk/iupac/AminoAcid/}

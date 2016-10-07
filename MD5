@@ -1,4 +1,4 @@
-8210babd7d842b5e9677405c2b57bf8f *DESCRIPTION
+85ae9496429b605f3482f67153c014ef *DESCRIPTION
 f4eeeb197363233719e576484e515136 *NAMESPACE
 dd981a8bc19bea5e91c256f75ea8b5c9 *R/AAstat.R
 7175d6708d717dca65176df83a41f9bd *R/ClassSeq.R
@@ -110,7 +110,7 @@ fb5ea3868c5553ee8200b6ccaa8be14e *data/AnoukResult.RData
 89c880c7792e1fd0f247a675b00eac7e *data/ECH.RData
 9cc885d5878894f15e4180c920ad27bd *data/EXP.RData
 0b616d65d5b57d1386cf6fc4ebf9ee15 *data/JLO.RData
-8f23547d58d2667eb97a35fa44666628 *data/SEQINR.UTIL.RData
+a5062809357a2fe2539c70140d930245 *data/SEQINR.UTIL.RData
 1c88524ef8cd3758aa248f064deae5ce *data/aacost.RData
 30ce52aad5219c69e83336b93f7a162f *data/aaindex.RData
 f68ee04f58aadf44274a164adbe00821 *data/caitab.RData
@@ -129,7 +129,7 @@ e9b35c92761a0bba2f6ed13c3809cf90 *data/pK.RData
 b5aff4e0546952e316c8adeb40e7fffe *data/phylip.RData
 1828730dd85cef8c8c39ad05af6d6a01 *data/prochlo.RData
 d42f8673a6bbfde5ed82e67309303f3c *data/revaligntest.RData
-8f23547d58d2667eb97a35fa44666628 *data/sysdata.rda
+a5062809357a2fe2539c70140d930245 *data/sysdata.rda
 ed4eef2ae0c20040b249777ae83f36f7 *data/toyaa.RData
 7e5270892f1ac2b68a267f525a0f188b *data/toycodon.RData
 f8df825ad5220bae76d3a9378ecf99b9 *data/waterabs.RData
@@ -189,7 +189,7 @@ e775cbe3a62d9495d643758a7a43c9ab *inst/sequences/test.phylip
 b477890899d95267de5249664a241350 *man/EXP.Rd
 e17700422fa641e87555e16227013fb3 *man/GC.Rd
 aeae19d233c41f0aab08ffa706febc9e *man/JLO.Rd
-6da826831dc1174f7ee78b8f6729c094 *man/SEQINR.UTIL.Rd
+4e32511953712c0ad3a6cecc9f79d434 *man/SEQINR.UTIL.Rd
 00d077cdf4651fec354a3cc4f60f026d *man/SeqAcnucWeb.Rd
 fdda8a20d94b93b4c9dd587763e8ea96 *man/SeqFastaAA.Rd
 78e79e0e28cd1c507275a270f2a877e4 *man/SeqFastadna.Rd
@@ -318,7 +318,7 @@ bde0f959c086fcf0f896762e19cabf76 *man/synsequence.Rd
 60b2f5b613c3bcac7d41a8882266de9b *man/test.li.recstat.Rd
 9c43436214e29c3b5ef859416f791904 *man/toyaa.Rd
 fcf2532a41bee2ffd4f24dfb8b11ecf5 *man/toycodon.Rd
-cdd9add50f387f6077083d8db35fd9df *man/translate.Rd
+3408955b913e3c2e35c30366d6310aaf *man/translate.Rd
 42024df78f45d2b2d5a97d3faec0767b *man/trimSpace.Rd
 8508d24d8bc2aa9d21838664b8cf87a2 *man/uco.Rd
 153d7c57d14cbe82c15201609e545007 *man/ucoweight.Rd
