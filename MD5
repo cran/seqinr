@@ -1,4 +1,4 @@
-85ae9496429b605f3482f67153c014ef *DESCRIPTION
+572ca39a8b8fae2be5f07aafed8c509d *DESCRIPTION
 f4eeeb197363233719e576484e515136 *NAMESPACE
 dd981a8bc19bea5e91c256f75ea8b5c9 *R/AAstat.R
 7175d6708d717dca65176df83a41f9bd *R/ClassSeq.R
@@ -120,6 +120,8 @@ a83b249863be4cd4318d8e88922f7186 *data/clustal.RData
 6d345d4fefb0514cca31ace5fbc88730 *data/dinucl.RData
 39a1ebbe4ecb0e5acd1be77c70b2b700 *data/ec999.RData
 2813531b2d6fbd35e92467f338135660 *data/fasta.RData
+a68302621e3d01c9b556ad0181a9c70f *data/gcO2.rda
+76dd231427b0f6094387b1fd881f6cc7 *data/gcT.rda
 46a8298a82862a0a4b314f2769fa45c8 *data/gs500liz.RData
 3289605c76c50413d7ec66a0e7eae1bc *data/identifiler.RData
 50245edb26f8168405f878587e41f8c2 *data/m16j.RData
@@ -133,7 +135,7 @@ a5062809357a2fe2539c70140d930245 *data/sysdata.rda
 ed4eef2ae0c20040b249777ae83f36f7 *data/toyaa.RData
 7e5270892f1ac2b68a267f525a0f188b *data/toycodon.RData
 f8df825ad5220bae76d3a9378ecf99b9 *data/waterabs.RData
-6fc8e94f6a353747a8523c6306abe96e *inst/CITATION
+df797f2cdf697b330d68ac8194db7a53 *inst/CITATION
 79179e6254bc1f46eb07303d85aa084e *inst/abif/1_0000206138_C01_005.fsa
 45ad0f3fea5bf2143fc74a810a519945 *inst/abif/1_FAC321_0000205983_B02_004.fsa
 831e4bb52c0b2ab78a9246dca7e67d58 *inst/abif/2_0000206138_C01_005.fsa
@@ -245,6 +247,8 @@ d2b9d3566289986cbded9e3ec42b349b *man/fasta.Rd
 ebd1dd082d26b71029c3d5c478c34b47 *man/gb2fasta.Rd
 dc73697f22c67c0762ceae6cc04f4f1f *man/gbk2g2.Rd
 3013a472ea7f9eb0e83e58eccd8915b2 *man/gbk2g2.euk.Rd
+23ce44a155027f1adf77018b5000fb84 *man/gcO2.Rd
+4683c2678cd9bac7e8da85772869fa18 *man/gcT.Rd
 43e1ba4a463958d3fc30dd834cf84f51 *man/get.db.growth.Rd
 97a1bc320a34ee6919ae9d5a537d8ed2 *man/get.ncbi.Rd
 9b66028b42d96e7429140aa57655d886 *man/getAnnot.Rd

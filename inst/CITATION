@@ -1,4 +1,4 @@
-citHeader("To cite seqinR in publications use:")
+citHeader("To cite seqinr in publications use:")
 
 citEntry(entry = "incollection",
          author = "D. Charif, J.R. Lobry",
