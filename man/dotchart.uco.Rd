@@ -5,20 +5,22 @@
 Draw a Cleveland dot plot for codon usage tables
 }
 \usage{
-dotchart.uco(x, numcode = 1, aa3 = TRUE, cex = 0.7, alphabet = s2c("tcag"),
- pch = 21, gpch = 20, bg = par("bg"), color = par("fg"), gcolor = par("fg"),
-lcolor = "gray", xlim, ...)
+dotchart.uco(x, numcode = 1, aa3 = TRUE, pt.cex = 0.7, alphabet =
+                 s2c("tcag"), pch = 21, gpch = 20, bg = par("bg"), cex
+                 = 0.7, color = "black", gcolor = "black", lcolor =
+                 grey(0.9), xlim, ...)
 }
 \arguments{
   \item{x}{table of codon usage as computed by \code{uco}. }
   \item{numcode}{the number of the code to be used by \code{translate}.}
   \item{aa3}{logical. If TRUE use the three-letter code for amino-
 acids. If FALSE use the one-letter code for amino-acids. }
-  \item{cex}{the character size to be used. }
+  \item{pt.cex}{the character size to be used for points. }
   \item{alphabet}{character for codons labels}
   \item{pch}{the plotting character or symbol to be used.}
   \item{gpch}{the plotting character or symbol to be used for group values. }
   \item{bg}{the background color to be used. }
+  \item{cex}{the character expansion size passed to \code{\link{dotchart}}. }
   \item{color}{the color(s) to be used for points an labels. }
   \item{gcolor}{the single color to be used for group labels and values.}
   \item{lcolor}{the color(s) to be used for the horizontal lines.}

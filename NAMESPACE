@@ -1,6 +1,6 @@
 # Export all names
-useDynLib(seqinr, .registration = TRUE)
-exportPattern(".")
+useDynLib(seqinr, .registration = TRUE,.fixes = "C_")
+exportPattern("^[^C_]")
 importFrom("ade4", "dudi.coa")
 importFrom("grDevices", "col2rgb", "grey", "rainbow", "rgb")
 importFrom("graphics", "abline", "axis", "box", "dotchart", "hist",
