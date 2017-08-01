@@ -8,13 +8,13 @@ void prefastlwl(double **, double **, double **, double **, double **, double **
 int fastlwl(char **, int, int, double **, double **, double **, double **, double **, double **, double **, double **, 
             double **, double **, double **, double **, double **,double **, double **,double **,double **, double **,double **,double **, double **,double **);
 
-SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
+SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks, SEXP gaprm)
 {
   char **seqIn; /* local working copy of sequences */
   char **seq;   /* pointer to original sequences from R object */
   double *tl0[64], *tl1[64], *tl2[64], *tti0[64], *tti1[64], *tti2[64], *ttv0[64], *ttv1[64], *ttv2[64];
   int i, j, totseqs, lgseq, n;
-  int debugon;
+  int debugon, option;
   double *rl[21];
   double **ka, **ks, **vka, **vks;
   double **l0, **l2,**l4;
@@ -75,6 +75,7 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 
   debugon = INTEGER_VALUE(debugkaks);
   totseqs = INTEGER_VALUE(nbseq);
+  option = INTEGER_VALUE(gaprm);
    
   if(debugon) Rprintf("C> mode degug is on at C level with %d sequences\n", totseqs);
 
@@ -196,7 +197,7 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
   PROTECT(ra0 = NEW_NUMERIC(totseqs*totseqs));
   PROTECT(ra2 = NEW_NUMERIC(totseqs*totseqs));
   PROTECT(ra4 = NEW_NUMERIC(totseqs*totseqs));
-   PROTECT(rb0 = NEW_NUMERIC(totseqs*totseqs));
+  PROTECT(rb0 = NEW_NUMERIC(totseqs*totseqs));
   PROTECT(rb2 = NEW_NUMERIC(totseqs*totseqs));
   PROTECT(rb4 = NEW_NUMERIC(totseqs*totseqs));
  
@@ -258,7 +259,7 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
 /*                                                                            */
 /******************************************************************************/
 
-  reresh(seqIn,totseqs,0);
+  reresh(seqIn, totseqs, option); /* seqIn est modifié par reresh */
 
   for(i = 0 ; i < totseqs ; i++){
     if(debugon) Rprintf("reresh-->%s<--\n", seqIn[i]);
@@ -380,38 +381,36 @@ SEXP kaks(SEXP sequences, SEXP nbseq, SEXP debugkaks)
   SET_ELEMENT(res, 10, rb0); 
   SET_ELEMENT(res, 11, rb2);
   SET_ELEMENT(res, 12, rb4);
+  
+  if(debugon) Rprintf("C> %s", "End of C level....................\n");
+  
   UNPROTECT(14);
 
-  if(debugon) Rprintf("C> %s", "End of C level....................\n");
   return(res);
 }
 
 
 int num(char *cod)
 {
-	int             n1, n2, n3;
+  int  n1, n2, n3;
+//MG
+	static const char bases[] = "ACGT";
+	if(strchr(bases, cod[0]) == NULL ||
+	   strchr(bases, cod[1]) == NULL ||
+	   strchr(bases, cod[2]) == NULL) return 64;
+//MG
+  n1 = n2 = n3 = 0;
+  if (cod[0] == 'C') n1 = 1;
+  if (cod[1] == 'C') n2 = 1;
+  if (cod[2] == 'C') n3 = 1;
+  if (cod[0] == 'G') n1 = 2;
+  if (cod[1] == 'G') n2 = 2;
+  if (cod[2] == 'G') n3 = 2;
+  if (cod[0] == 'T') n1 = 3;
+  if (cod[1] == 'T') n2 = 3;
+  if (cod[2] == 'T') n3 = 3;
 
-	n1 = n2 = n3 = 0;
-	if (cod[0] == 'C')
-		n1 = 1;
-	if (cod[1] == 'C')
-		n2 = 1;
-	if (cod[2] == 'C')
-		n3 = 1;
-	if (cod[0] == 'G')
-		n1 = 2;
-	if (cod[1] == 'G')
-		n2 = 2;
-	if (cod[2] == 'G')
-		n3 = 2;
-	if (cod[0] == 'T')
-		n1 = 3;
-	if (cod[1] == 'T')
-		n2 = 3;
-	if (cod[2] == 'T')
-		n3 = 3;
-
-	return 16 * n1 + 4 * n2 + n3;
+  return 16 * n1 + 4 * n2 + n3;
 }
 
 
@@ -425,7 +424,7 @@ int fastlwl(char **seq, int nbseq, int lgseq, double **ka, double **ks,
       aaa[3], bb[3], flgseq, va[3], vb[3];
   char cod1[3], cod2[3];
   int i, j, ii, num1, num2, sat, sat1, sat2;
-  sat = sat1 = sat2 = 2;
+  sat = sat1 = sat2 = 2;  
   /*
      Internal check at C level: this should be no more be necessary, I'll keep it just in case. JRL - 26-APR-2009
   */
@@ -434,19 +433,21 @@ int fastlwl(char **seq, int nbseq, int lgseq, double **ka, double **ks,
     REprintf("Fatal error: the number of nucleotide after gap removal is not a multiple of 3.\nPlease report this bug on the seqinr diffusion list.\n");
     return(0); /* Should be R's NA but an int is returned by fastlwl */
   }
+
   for (i = 0; i < nbseq - 1; i++) {
     for (j = i + 1; j < nbseq; j++) {
       l[0] = l[1] = l[2] = 0;
       ti[0] = ti[1] = ti[2] = tv[0] = tv[1] = tv[2] = 0;
       for (ii = 0; ii < lgseq / 3; ii++) {
-        cod1[0] = *(seq[i] + 3 * ii);
-        cod1[1] = *(seq[i] + 3 * ii + 1);
+          cod1[0] = *(seq[i] + 3 * ii);
+          cod1[1] = *(seq[i] + 3 * ii + 1);
 	cod1[2] = *(seq[i] + 3 * ii + 2);
 	cod2[0] = *(seq[j] + 3 * ii);
 	cod2[1] = *(seq[j] + 3 * ii + 1);
 	cod2[2] = *(seq[j] + 3 * ii + 2);
 	num1 = num(cod1);
 	num2 = num(cod2);
+	if(num1 == 64 || num2 == 64) continue;//MG ignore - or N-containing codons
 	l[0] += *(tl0[num1] + num2);
 	l[1] += *(tl1[num1] + num2);
 	l[2] += *(tl2[num1] + num2);
@@ -457,7 +458,7 @@ int fastlwl(char **seq, int nbseq, int lgseq, double **ka, double **ks,
 	tv[1] += *(ttv1[num1] + num2);
 	tv[2] += *(ttv2[num1] + num2);
       }
-      l0[i][j]=l[0];      
+      l0[i][j]=l[0];
       l2[i][j]=l[1];
       l4[i][j]=l[2];
       for (ii = 0; ii < 3; ii++) {
@@ -466,13 +467,15 @@ int fastlwl(char **seq, int nbseq, int lgseq, double **ka, double **ks,
 	aaa[ii] = 1 / (1 - 2 * p[ii] - q[ii]);
 	bb[ii] = 1 / (1 - 2 * q[ii]);
 	cc[ii] = (aaa[ii] + bb[ii]) / 2;
-        if (bb[ii] <= 0) {
-	  b[ii] = 10;
+         /* adding the isfinite condition - JLO JUL 2017 */
+        if (bb[ii] <= 0 || !isfinite(bb[ii])) {
+	  b[ii] = 10.0;
 	} else {
 	  b[ii] = 0.5 * (double) log(bb[ii]);
         }
-	if ((aaa[ii] <= 0) || (bb[ii] <= 0)) {
-	  a[ii] = 10;
+          /* adding the isfinite condition - JLO JUL 2017 */
+	if ((aaa[ii] <= 0) || (bb[ii] <= 0) || !isfinite(aaa[ii]) || !isfinite(bb[ii])) {
+	  a[ii] = 10.0;
 	} else {
 	  a[ii] = 0.5 * (double) log(aaa[ii]) - 0.25 * log(bb[ii]);
         }
@@ -480,24 +483,24 @@ int fastlwl(char **seq, int nbseq, int lgseq, double **ka, double **ks,
         vb[ii] = bb[ii] * bb[ii] * q[ii] * (1 - q[ii]) / l[ii];
       }
 
-      if ((a[1] != 10) && (a[2] != 10) && (b[2] != 10)){
+      if ((a[1] < 10) && (a[2] < 10) && (b[2] < 10)){
         ks[i][j] = (l[1] * a[1] + l[2] * a[2]) / (l[2] + l[1]) + b[2];
 	vks[i][j] = (l[1] * l[1]  * va[1] + l[2] * l[2] * va[2]) /  ((l[1] + l[2]) * (l[1]+l[2])) + vb[2] - bb[2] * q[2] * (2 * aaa[2] * p[2] - cc[2] * (1 - q[2]))/(l[1]+l[2]);
       } else {
 	sat1 = 1;
 	vks[i][j]=ks[i][j] = 9.999999;
       }
-      if ((a[0] != 10) && (b[0] != 10) && (b[1] != 10)){
+      if ((a[0] < 10) && (b[0] < 10) && (b[1] < 10)){
         ka[i][j] = a[0] + (l[0] * b[0] + l[1] * b[1]) / (l[0] + l[1]);
 	vka[i][j] = (l[0] * l[0]  * vb[0] + l[1] * l[1] * vb[1]) /  ((l[1] + l[0]) * (l[1]+l[0])) + va[0] - bb[0] * q[0] * (2 * aaa[0] * p[0] - cc[0] * (1 - q[0]))/(l[1]+l[0]);
       } else {
 	vka[i][j]=ka[i][j] = 9.999999;
 	sat2 = 1;
       }
-     a0[i][j]=a[0];      
+     a0[i][j]=a[0];
      a2[i][j]=a[1];
-     a4[i][j]=a[2];     
-     b0[i][j]=b[0];      
+     a4[i][j]=a[2];
+     b0[i][j]=b[0];
      b2[i][j]=b[1];
      b4[i][j]=b[2];
      
@@ -511,10 +514,10 @@ int fastlwl(char **seq, int nbseq, int lgseq, double **ka, double **ks,
 
 	B0, B2, B4: # of transversional changes at non-synonymous, 2-fold, and 4-fold synonymous sites
 
-	Ces quantit�s sont les suivantes dans la fonction fastlwl():
-	L0, L2, l4   correspondent �   l[0], l[1], l[2]
-	A0, A2, A4  correspondent �   a[0], a[1], a[2]
-	B0, B2, B4  correspondent �   b[0], b[1], b[2]
+	Ces quantités sont les suivantes dans la fonction fastlwl():
+	L0, L2, l4   correspondent à   l[0], l[1], l[2]
+	A0, A2, A4  correspondent à   a[0], a[1], a[2]
+	B0, B2, B4  correspondent à   b[0], b[1], b[2]
    */
    
  
@@ -761,43 +764,47 @@ code_mt: des TI syno en site 2-fold qui ont ete comptees normalement
 void titv2(char *cod1, char *cod2, double *ti, double *tv, double* l, int *aa, double **rl, int* pos)
 {
 
-	char            codint1[3], codint2[3];
-	int             i, j, n = 0;
-	double           l1, l2, p1, p2;
+	char            codint1[4], codint2[4];
+	int             i, j, n, aa1, aa2, aaint1, aaint2;
+	double          l1, l2, p1, p2;
 	void            titv1(char *, char *, double, double *, double *,double*);
 
 
-	memcpy(codint1, cod1, 3);
-	memcpy(codint2, cod1, 3);
+        memcpy(codint1, cod1, 3);
+        memcpy(codint2, cod1, 3); /* codint_2_ <-- cod_1_ : no problem */
 	for (i = 0; i < 2; i++) {
-		if (cod1[i] != cod2[i])
+		if (cod1[i] != cod2[i]){
 			codint1[i] = cod2[i];
-		if (cod1[i] != cod2[i])
 			break;
+		}
 	}
 	for (j = i + 1; j <= 2; j++) {
-		if (cod1[j] != cod2[j])
+		if (cod1[j] != cod2[j]){
 			codint2[j] = cod2[j];
-		if (cod1[j] != cod2[j])
 			break;
+		}
 	}
 
-	
-	l1 = *(rl[aa[num(cod1)]] + aa[num(codint1)]) * *(rl[aa[num(codint1)]] + aa[num(cod2)]);
-	l2 = *(rl[aa[num(cod1)]] + aa[num(codint2)]) * *(rl[aa[num(codint2)]] + aa[num(cod2)]);
 
-	p1 = l1 / (l1 + l2);
-	p2 = 1 - p1;
+	aa1=aa[num(cod1)]; aa2=aa[num(cod2)];
+	aaint1=aa[num(codint1)]; aaint2=aa[num(codint2)];
+	
+	l1 = *(rl[aa1] + aaint1) * *(rl[aaint1] + aa2);
+	l2 = *(rl[aa1] + aaint2) * *(rl[aaint2] + aa2);
+	p1 = (l1+l2)? l1 / (l1 + l2) : 0.;
+	p2 = (l1+l2)? 1.-p1 : 0.;
 	for (i=0;i<3;i++) if (pos[i]==0) n=i+1;
 	l[catsite(cod1[0], cod1[1] ,cod1[2], n)]+=0.333333;
 	l[catsite(cod2[0], cod2[1] ,cod2[2], n)]+=0.333333;
 	l[catsite(codint1[0], codint1[1] ,codint1[2], n)]+=0.333333*p1;
 	l[catsite(codint2[0], codint2[1] ,codint2[2], n)]+=0.333333*p2;
+
+
+
 	titv1(cod1, codint1, p1, ti, tv,l);
 	titv1(cod2, codint1, p1, ti, tv,l);
 	titv1(cod1, codint2, p2, ti, tv,l);
 	titv1(cod2, codint2, p2, ti, tv,l);
-
 
 }
 
@@ -1068,58 +1075,61 @@ return;
 
 void reresh(char** seq, int nbseq, int option){
 
-/* Si option = 0, toutes les positions avec au moins un gap sont eliminees */
-	
+/* Si option = 0, toutes les positions avec au moins un gap sont éliminées.
+   Sinon, seules les positions avec uniquement des gaps sont éliminées */
 
   int lgseq, l, drapeau, i, j, k;
   char **seqref; 
 
-   seqref = (char **) R_alloc(nbseq, sizeof(char *));
-  
-   lgseq = strlen(seq[1]);
+/* Allocation dynamique du tableau seqref de l'alignement */
 
-   for(i = 0 ; i < nbseq ; i++){
-     seqref[i] = (char*) R_alloc(lgseq + 1, sizeof(char));
-   }
+  seqref = (char **) R_alloc(nbseq, sizeof(char *));
+  lgseq = strlen(seq[1]);
+  for(i = 0 ; i < nbseq ; i++){
+    seqref[i] = (char*) R_alloc(lgseq + 1, sizeof(char));
+  }
 
+  l = -1; /* position de la colonne courante dans seqref */
+  if (option == 0){
+    for(i = 0 ; i < lgseq ; i++){
+      drapeau = 0; /* 0 si pas de gap */
+      for(j = 0 ; j < nbseq; j++){
+        if (*(seq[j] + i) == '-') drapeau = 1;
+      }
+      if (drapeau == 0){ /* on recopie la colonne i de seq dans la colonne l de seqref */
+        l++;
+        for(k = 0 ; k < nbseq ; k++) *(seqref[k] + l) = *(seq[k] + i);
+      }
+    }
+  }
+  else{
+    for(i = 0 ; i < lgseq ; i++){
+      drapeau = 0; /* 1 au premier non gap */
+      for(j = 0 ; j < nbseq ; j++){
+        if (*(seq[j] + i) != '-') {
+          drapeau = 1;
+          break;
+        }
+      }
+      if (drapeau == 1){ /* on recopie la colonne i de seq dans la colonne l de seqref */
+        l++;
+        for(k = 0 ; k < nbseq ; k++) *(seqref[k] + l) = *(seq[k] + i);
+      }
+    }
+  }
 
-	l=-1;
-	if (option==0){
-		for(i=0;i<lgseq;i++){
-			drapeau=0;
-			for(j=0;j<nbseq;j++){
-				if (*(seq[j]+i)=='-') drapeau=1;
-			}
-			if (drapeau==0){
-				l++;
-				for(k=0;k<nbseq;k++) *(seqref[k]+l)=*(seq[k]+i);
-			}	
-		}
-	}
-	else{
-		for(i=0;i<lgseq;i++){
-			drapeau=0;
-			for(j=0;j<nbseq;j++){
-				if (*(seq[j]+i)!='-') {
-					drapeau=1;
-					break;
-				}
-			}
-			if (drapeau==1){
-				l++;
-				for(k=0;k<nbseq;k++) *(seqref[k]+l)=*(seq[k]+i);
-			}		
-		}
-	}
-	for(i=0;i<nbseq;i++){
-		for (j=l+1;j<lgseq;j++) {
-			*(seqref[i]+j)='\0';
-		}
-	}
-	for (i=0;i<nbseq;i++) {
-		for (j=0;j<lgseq;j++){
-			*(seq[i]+j)=*(seqref[i]+j);
-		}
-	}	
+/* Ajout de caractères nuls en fin d'alignement dans seqref */
+  for(i = 0 ; i < nbseq ; i++){
+    for(j = l + 1 ; j < lgseq ; j++) {
+      *(seqref[i] + j) = '\0';
+    }
+  }
+
+/* Recopie de seqref dans seq */
+  for(i = 0 ; i < nbseq ; i++) {
+    for(j = 0 ; j < lgseq ; j++){
+      *(seq[i] + j) = *(seqref[i] + j);
+    }
+  }
 }
 

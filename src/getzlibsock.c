@@ -36,10 +36,9 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
   int numsoc;
 
 
-  int i,j, n, nn, nnn, ok, warn, nread, c;
+  int i, n, nn, nnn, nread;
   int itest,itestd;
   
-  char *test;
   char *res;
   
   int flagend =0;

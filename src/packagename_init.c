@@ -25,7 +25,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"fastacc",            (DL_FUNC) &fastacc,            5},
     {"getzlibsock",        (DL_FUNC) &getzlibsock,        3},
     {"is_a_protein_seq",   (DL_FUNC) &is_a_protein_seq,   1},
-    {"kaks",               (DL_FUNC) &kaks,               3},
+    {"kaks",               (DL_FUNC) &kaks,               4},
     {"read_clustal_align", (DL_FUNC) &read_clustal_align, 1},
     {"read_fasta_align",   (DL_FUNC) &read_fasta_align,   1},
     {"read_mase",          (DL_FUNC) &read_mase,          1},

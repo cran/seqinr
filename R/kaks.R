@@ -1,4 +1,4 @@
-kaks <- function(x, verbose=FALSE, debug = FALSE, forceUpperCase = TRUE){
+kaks <- function(x, verbose = FALSE, debug = FALSE, forceUpperCase = TRUE, rmgap = TRUE){
     #
     # Check argument class:
     #
@@ -41,9 +41,17 @@ kaks <- function(x, verbose=FALSE, debug = FALSE, forceUpperCase = TRUE){
       }
     }
     #
+    # Choose option for gap removal
+    #
+    if(rmgap) {
+      gaprm = 0 # positions with at least one gap are removed
+    } else {
+      gaprm = 1 # only all gap positions are removed
+    }
+    #
     # Call internal C function:
     #
-    l <- .Call("kaks", x$seq, x$nb, debug, PACKAGE = "seqinr")
+    l <- .Call("kaks", x$seq, x$nb, debug, gaprm, PACKAGE = "seqinr")
     if(debug){
       cat("<--- Result l storage is --->\n")
       print(str(l))

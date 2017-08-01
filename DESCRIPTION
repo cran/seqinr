@@ -1,7 +1,7 @@
 Encoding: UTF-8
 Package: seqinr
-Version: 3.3-6
-Date: 2017-04-05
+Version: 3.4-5
+Date: 2017-08-01
 Title: Biological Sequences Retrieval and Analysis
 Authors@R: c(person("Delphine", "Charif", role = "aut"),
              person("Olivier", "Clerc", role = "ctb"),
@@ -17,15 +17,17 @@ BugReports: http://lists.r-forge.r-project.org/cgi-bin/mailman/listinfo/seqinr-f
 Imports: ade4,segmented
 Depends: R (>= 2.10.0)
 Description: Exploratory data analysis and data visualization
-  for biological sequence (DNA and protein) data. Includes also
-  utilities for sequence data management under the ACNUC system.
+  for biological sequence (DNA and protein) data. Seqinr includes 
+  utilities for sequence data management under the ACNUC system
+  described in Gouy, M. et al. (1984) Nucleic Acids Res.
+  12:121-127 <doi:10.1093/nar/12.1Part1.121>.
 License: GPL (>= 2)
 SystemRequirements: zlib headers and library.
 URL: http://seqinr.r-forge.r-project.org/
 NeedsCompilation: yes
 Repository: CRAN
 Repository/R-Forge/Project: seqinr
-Repository/R-Forge/Revision: 2033
-Repository/R-Forge/DateTimeStamp: 2017-04-05 12:14:24
-Date/Publication: 2017-04-06 10:32:42 UTC
-Packaged: 2017-04-05 12:25:22 UTC; rforge
+Repository/R-Forge/Revision: 2078
+Repository/R-Forge/DateTimeStamp: 2017-08-01 09:25:54
+Date/Publication: 2017-08-01 13:18:36 UTC
+Packaged: 2017-08-01 10:05:09 UTC; rforge
