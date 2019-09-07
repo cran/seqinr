@@ -857,7 +857,10 @@ SEXP read_clustal_align(SEXP ficname)
       }
       memcpy(seqname[curr_spec], line, wid_name);
       p = seqname[curr_spec] + wid_name - 1;
-      while(*p==' ') p--; *(p+1)=0;
+      while(*p == ' '){
+        p--;
+      } 
+      *(p+1)=0;
       if(curr_spec > tot_spec) tot_spec = curr_spec;
       seq[curr_spec] = (char *)malloc(CLU_BLOCK_LEN+1);
       curr_max_len = CLU_BLOCK_LEN;

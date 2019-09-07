@@ -12,7 +12,7 @@ extern SEXP distance(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP fastacc(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP getzlibsock(SEXP, SEXP, SEXP);
 extern SEXP is_a_protein_seq(SEXP);
-extern SEXP kaks(SEXP, SEXP, SEXP);
+extern SEXP kaks(SEXP, SEXP, SEXP, SEXP);
 extern SEXP read_clustal_align(SEXP);
 extern SEXP read_fasta_align(SEXP);
 extern SEXP read_mase(SEXP);

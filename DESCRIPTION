@@ -1,7 +1,7 @@
 Encoding: UTF-8
 Package: seqinr
-Version: 3.4-5
-Date: 2017-08-01
+Version: 3.6-1
+Date: 2019-09-04
 Title: Biological Sequences Retrieval and Analysis
 Authors@R: c(person("Delphine", "Charif", role = "aut"),
              person("Olivier", "Clerc", role = "ctb"),
@@ -11,7 +11,14 @@ Authors@R: c(person("Delphine", "Charif", role = "aut"),
              person("Leonor", "Palmeira", role = "ctb"),
              person("Simon", "Penel", role = "cre", email = "simon.penel@univ-lyon1.fr"),
              person("Guy", "Perrière", role = "ctb"))
-Author: Delphine Charif [aut], Olivier Clerc [ctb], Carolin Frank [ctb], Jean R. Lobry [aut, cph], Anamaria Necşulea [ctb], Leonor Palmeira [ctb], Simon Penel [cre], Guy Perrière [ctb]
+Author: Delphine Charif [aut],
+  Olivier Clerc [ctb],
+  Carolin Frank [ctb],
+  Jean R. Lobry [aut, cph],
+  Anamaria Necşulea [ctb],
+  Leonor Palmeira [ctb],
+  Simon Penel [cre],
+  Guy Perrière [ctb]
 Maintainer: Simon Penel <simon.penel@univ-lyon1.fr>
 BugReports: http://lists.r-forge.r-project.org/cgi-bin/mailman/listinfo/seqinr-forum
 Imports: ade4,segmented
@@ -27,7 +34,7 @@ URL: http://seqinr.r-forge.r-project.org/
 NeedsCompilation: yes
 Repository: CRAN
 Repository/R-Forge/Project: seqinr
-Repository/R-Forge/Revision: 2078
-Repository/R-Forge/DateTimeStamp: 2017-08-01 09:25:54
-Date/Publication: 2017-08-01 13:18:36 UTC
-Packaged: 2017-08-01 10:05:09 UTC; rforge
+Repository/R-Forge/Revision: 2100
+Repository/R-Forge/DateTimeStamp: 2019-09-04 11:36:47
+Date/Publication: 2019-09-07 17:30:06 UTC
+Packaged: 2019-09-04 12:10:08 UTC; rforge

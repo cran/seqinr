@@ -3,7 +3,7 @@
      \alias{clustal}
      \title{Example of results obtained after a call to read.alignment}
      \description{This data set gives an example of a protein alignment obtained after a call to the function read.alignment on an alignment file in "clustal" format.}
-     \usage{clustal}
+     \usage{data(clustal)}
      \format{A List of class alignment}
      \source{http://www.clustal.org/}
      \references{

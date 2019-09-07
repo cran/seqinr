@@ -1,7 +1,7 @@
 #
 # Read files of aligned sequences in various formats
 #
-read.alignment <- function(file, format, forceToLower = TRUE)
+read.alignment <- function(file, format, forceToLower = TRUE, ...)
 {
   #
   # Check that we have read permission on the file:
@@ -9,12 +9,12 @@ read.alignment <- function(file, format, forceToLower = TRUE)
   file <- path.expand(file) 
   if(file.access(file, mode = 4) != 0) stop(paste("File", file, "is not readable"))
   
-  fasta2ali <- function(file){
-  	tmp <- read.fasta(file, as.string = TRUE)
+  fasta2ali <- function(file, ...){
+  	tmp <- read.fasta(file, as.string = TRUE, ...)
   	list(length(tmp), getName(tmp), unlist(getSequence(tmp, as.string = TRUE)))
   }
   ali <- switch( tolower(format),
-	fasta = fasta2ali(file), 
+	fasta = fasta2ali(file, ...), 
 	mase = .Call("read_mase", file, PACKAGE = "seqinr"),
 	phylip = .Call("read_phylip_align", file, PACKAGE = "seqinr"),
 	msf = .Call("read_msf_align", file, PACKAGE = "seqinr"),

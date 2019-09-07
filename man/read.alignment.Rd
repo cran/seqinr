@@ -6,7 +6,7 @@
  These formats are used to store nucleotide or protein multiple alignments. 
 }
 \usage{
-read.alignment(file, format, forceToLower = TRUE)
+read.alignment(file, format, forceToLower = TRUE, ...)
 }
 \arguments{
   \item{file}{the name of the file which the aligned sequences are to be read from. 
@@ -17,6 +17,8 @@ read.alignment(file, format, forceToLower = TRUE)
   \item{forceToLower}{a logical defaulting to TRUE stating whether the returned
     characters in the sequence should be in lower case (introduced in seqinR
     release 1.1-3).}
+  \item{...}{For the \code{fasta} format, extra arguments are passed to the
+    \code{\link{read.fasta}} function.}
 }
 \details{
   \describe{
@@ -112,5 +114,20 @@ data(phylip); stopifnot(identical(phylip, phylip.res))
 data(msf); stopifnot(identical(msf, msf.res))
 data(fasta); stopifnot(identical(fasta, fasta.res))
 
+#
+# Example of using extra arguments from the read.fasta function, here to keep
+# whole headers for sequences names.
+#
+
+whole.header.test <- 
+ read.alignment(file = system.file("sequences/LTPs128_SSU_aligned_First_Two.fasta", 
+ package = "seqinr"), format = "fasta", whole.header = TRUE)
+whole.header.test$nam
+
+# Sould be:
+#
+# [1] "D50541\t1\t1411\t1411bp\trna\tAbiotrophia defectiva\tAerococcaceae"      
+# [2] "KP233895\t1\t1520\t1520bp\trna\tAbyssivirga alkaniphila\tLachnospiraceae"
+#
 }
 

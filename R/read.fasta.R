@@ -1,6 +1,7 @@
 read.fasta <- function(file = system.file("sequences/ct.fasta.gz", package = "seqinr"), 
   seqtype = c("DNA", "AA"), as.string = FALSE, forceDNAtolower = TRUE,
   set.attributes = TRUE, legacy.mode = TRUE, seqonly = FALSE, strip.desc = FALSE,
+  whole.header = FALSE,
   bfa = FALSE, sizeof.longlong = .Machine$sizeof.longlong,
   endian = .Platform$endian, apply.mask = TRUE)
 {
@@ -49,10 +50,16 @@ read.fasta <- function(file = system.file("sequences/ct.fasta.gz", package = "se
   #
   # Read sequence names:
   #
-  nomseq <- lapply(seq_len(nseq), function(i){
-    firstword <- strsplit(lines[ind[i]], " ")[[1]][1]
-    substr(firstword, 2, nchar(firstword))
-  })
+  if(!whole.header){
+    nomseq <- lapply(seq_len(nseq), function(i){
+      firstword <- strsplit(lines[ind[i]], " ")[[1]][1]
+      substr(firstword, 2, nchar(firstword))
+      })
+  } else {
+    nomseq <- lapply(seq_len(nseq), function(i){
+      substr(lines[ind[i]], 2, nchar(lines[ind[i]]))
+      })  
+  }
   #
   # Turn DNA sequences in lower case letters if required:
   #

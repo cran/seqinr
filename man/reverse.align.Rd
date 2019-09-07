@@ -86,15 +86,22 @@ triplet.pep<- read.alignment(protaln.file, format = 'clustal')
 #
 # Call reverse.align for this example:
 #
+myOutFileName <-tempfile(pattern = "test", tmpdir = tempdir(), fileext = "revalign")
+tempdir(check = FALSE)
+
+#reverse.align(nucl.file = nucl.file, protaln.file = protaln.file,
+#                     input.format = 'clustal', out.file = 'test.revalign')
 
 reverse.align(nucl.file = nucl.file, protaln.file = protaln.file,
-                     input.format = 'clustal', out.file = 'test.revalign')
+                     input.format = 'clustal', out.file = myOutFileName)
 
 #
 # Simple sanity check against expected result:
 #
 
-res.new <- read.alignment("test.revalign", format = "fasta")
+#res.new <- read.alignment("test.revalign", format = "fasta")
+
+res.new <- read.alignment(myOutFileName, format = "fasta")
 data(revaligntest)
 stopifnot(identical(res.new, revaligntest))
 

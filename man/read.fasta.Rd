@@ -10,6 +10,7 @@
 read.fasta(file = system.file("sequences/ct.fasta.gz", package = "seqinr"), 
   seqtype = c("DNA", "AA"), as.string = FALSE, forceDNAtolower = TRUE,
   set.attributes = TRUE, legacy.mode = TRUE, seqonly = FALSE, strip.desc = FALSE,
+  whole.header = FALSE,
   bfa = FALSE, sizeof.longlong = .Machine$sizeof.longlong,
   endian = .Platform$endian, apply.mask = TRUE)
 }
@@ -32,6 +33,9 @@ read.fasta(file = system.file("sequences/ct.fasta.gz", package = "seqinr"),
    by a factor 3)}
   \item{strip.desc}{if TRUE the '>' at the beginning of the description lines is removed
   in the annotations of the sequences}
+  \item{whole.header}{if TRUE the whole header line, except the first '>' character,
+    is kept for sequence name. If FALSE, the default, the name is truncated at the first 
+    space (" ") character.}
   \item{bfa}{logical. If TRUE the fasta file is in MAQ binary format (see details). 
     Only for DNA sequences.}
   \item{sizeof.longlong}{the number of bytes in a C \code{long long} type.

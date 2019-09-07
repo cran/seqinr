@@ -887,20 +887,20 @@ F W Y H M L I V P  C  A  G  T  S  Q  N  K  R  E  Q  stop
 	aa[5] = 13;/* acc T */
 	aa[6] = 13;/* acg T */
 	aa[7] = 13;/* act T */
-if(code_mt)
+if(code_mt){
 	aa[8] = 0;/* aga * */
-else
-	aa[8] = 18;/* aga R */
+} else {
+	aa[8] = 18; } /* aga R */
 	aa[9] = 14;/* agc S */
-if(code_mt)
+if(code_mt){
 	aa[10] = 0;/* agg * */
-else
-	aa[10] = 18;/* agg R */
+} else {
+	aa[10] = 18; } /* agg R */
 	aa[11] = 14;/* agt S */
-if(code_mt)
+if(code_mt){
 	aa[12] = 5;/* ata M */
-else
-	aa[12] = 7;/* ata I */
+} else {
+	aa[12] = 7; }/* ata I */
 	aa[13] = 7;/* atc I */
 	aa[14] = 5;/* atg M */
 	aa[15] = 7;/* att I */
@@ -944,10 +944,10 @@ else
 	aa[53] = 14;/* tcc S */
 	aa[54] = 14;/* tcg S */
 	aa[55] = 14;/* tct S */
-if(code_mt)
+if(code_mt){
 	aa[56] = 2;/* tga W */
-else
-	aa[56] = 0;/* tga * */
+} else {
+	aa[56] = 0; }/* tga * */
 	aa[57] = 10;/* tgc */
 	aa[58] = 2;/* tgg W */
 	aa[59] = 10;/* tgt */

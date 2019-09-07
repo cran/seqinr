@@ -31,6 +31,8 @@ data(ec999)
 #
 # How to export sequences in a FASTA file:
 #
-write.fasta(ec999, names(ec999), file = "ec999.ffn")
+fname <- tempfile(pattern = "ecc999", tmpdir = tempdir(), fileext = "ffn")
+tempdir(check = FALSE)
+write.fasta(ec999, names(ec999), file = fname)
 }
 \keyword{datasets}

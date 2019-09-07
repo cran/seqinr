@@ -24,7 +24,10 @@ Multiple entries in GenBank file are not supported.
 \seealso{ \code{\link{oriloc}} }
 \examples{
   myGenBankFile <- system.file("sequences/ct.gbk.gz", package = "seqinr")
-  myFastaFileName <- "Acinetobacter_ADP1_uid61597.fasta"
+  #myFastaFileName <- "Acinetobacter_ADP1_uid61597.fasta"
+  myFastaFileName <-tempfile(pattern = "Acinetobacter_ADP1_uid61597", 
+   tmpdir = tempdir(), fileext = "fasta")
+  tempdir(check = FALSE)
   gb2fasta(myGenBankFile, myFastaFileName)
   readLines(myFastaFileName)[1:5]
   #
