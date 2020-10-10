@@ -50,7 +50,7 @@ Indeed, most of the time, only the first factor is relevant in order to detect C
 
 Fichant, G., Gautier, C. (1987) Statistical method for predicting protein coding
 regions in nucleic acid sequences. \emph{Comput. Appl. Biosci.}, \bold{3}, 287--295.\cr
-\url{http://bioinformatics.oxfordjournals.org/content/3/4/287.abstract}\cr
+\url{https://academic.oup.com/bioinformatics/article-abstract/3/4/287/218186}\cr
 }
 \seealso{\code{\link{draw.recstat}}, \code{\link{test.li.recstat}}, \code{\link{test.co.recstat}}}
 \examples{

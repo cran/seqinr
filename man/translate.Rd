@@ -57,7 +57,7 @@ The genetic codes have been taken from the ncbi taxonomy database:
 \url{https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi}. 
 Last update October 05, 2000.\cr
 The IUPAC one-letter code for aminoacids is described at: 
-\url{http://www.chem.qmul.ac.uk/iupac/AminoAcid/}
+\url{https://www.bioinformatics.org/sms/iupac.html}
 
 \code{citation("seqinr")}
 }

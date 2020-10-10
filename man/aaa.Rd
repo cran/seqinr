@@ -20,7 +20,7 @@ A vector of char string. All strings are 3 chars long.
 }
 \references{
 The IUPAC one-letter code for aminoacids is described at: 
-\url{http://www.chem.qmul.ac.uk/iupac/AminoAcid/}
+\url{https://www.bioinformatics.org/sms/iupac.html}
 \code{citation("seqinr")}
 }
 \author{J.R. Lobry}

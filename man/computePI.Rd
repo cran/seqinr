@@ -16,7 +16,7 @@ computePI(seq)
 }
 \references{ 
 The algorithm is the same as the one which is implemented at the following url:  
-\url{http://www.expasy.org/tools/pi_tool-doc.html} but with many trials
+\url{https://web.expasy.org/compute_pi/pi_tool-doc.html} but with many trials
 in case of convergence failure of the non-linear regression procedure.
 \code{citation("seqinr")}
  }

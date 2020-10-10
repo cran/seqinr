@@ -30,7 +30,7 @@ data(prochlo)
   are not depleted in light-exposed Prokaryotic genomes.
   \emph{Molecular Biology and Evolution},
   \bold{23}:2214-2219.\cr
-  \url{http://mbe.oxfordjournals.org/cgi/reprint/23/11/2214}\cr\cr
+  \url{https://academic.oup.com/mbe/article/23/11/2214/1335460}\cr\cr
   
   \code{citation("seqinr")}
 }

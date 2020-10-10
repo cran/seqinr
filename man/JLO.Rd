@@ -33,7 +33,7 @@
   \code{citation("seqinr")}
 
   Anonymous (2006) Applied Biosystem Genetic Analysis Data File Format.
-  Available at \url{http://www.appliedbiosystems.com/support/software_community/ABIF_File_Format.pdf}.
+  Available at \url{https://www.thermofisher.com/at/en/home/brands/applied-biosystems.html}.
   Last visited on 03-NOV-2008.
 }
 \author{J.R. Lobry}

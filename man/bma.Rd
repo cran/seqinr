@@ -23,7 +23,7 @@ bma(nucl, warn.non.IUPAC = TRUE, type = c("DNA", "RNA"))
 \references{ 
 
 The nomenclature for incompletely specified bases in nucleic acid sequences
-at: \url{http://www.chem.qmul.ac.uk/iubmb/misc/naseq.html}
+at: \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC341218/}
 
 \code{citation("seqinr")}
 }

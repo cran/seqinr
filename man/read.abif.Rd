@@ -30,7 +30,7 @@ with the number of components equal to the number of elements in the directory.
 \code{citation("seqinR")}
 
 Anonymous (2006) Applied Biosystem Genetic Analysis Data File Format.
-Available at \url{http://www.appliedbiosystems.com/support/software_community/ABIF_File_Format.pdf}.
+Available at \url{https://www.thermofisher.com/at/en/home/brands/applied-biosystems.html}.
 Last visited on 03-NOV-2008.
 
 The figure in the example section is an attempt to reproduce figure 1A from:

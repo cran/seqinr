@@ -570,7 +570,7 @@ Hydrophobicity index (Engelman et al., 1986)\cr
 Hydrophobicity index (Fasman, 1989)
 }
 \source{
-\url{http://www.genome.jp/aaindex}
+\url{https://www.genome.jp/aaindex/}
 }
 \references{
 

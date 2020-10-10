@@ -1,7 +1,7 @@
 Encoding: UTF-8
 Package: seqinr
-Version: 3.6-1
-Date: 2019-09-04
+Version: 4.2-4
+Date: 2020-10-8
 Title: Biological Sequences Retrieval and Analysis
 Authors@R: c(person("Delphine", "Charif", role = "aut"),
              person("Olivier", "Clerc", role = "ctb"),
@@ -34,7 +34,7 @@ URL: http://seqinr.r-forge.r-project.org/
 NeedsCompilation: yes
 Repository: CRAN
 Repository/R-Forge/Project: seqinr
-Repository/R-Forge/Revision: 2100
-Repository/R-Forge/DateTimeStamp: 2019-09-04 11:36:47
-Date/Publication: 2019-09-07 17:30:06 UTC
-Packaged: 2019-09-04 12:10:08 UTC; rforge
+Repository/R-Forge/Revision: 2106
+Repository/R-Forge/DateTimeStamp: 2020-10-09 13:13:13
+Date/Publication: 2020-10-10 06:40:02 UTC
+Packaged: 2020-10-09 13:27:07 UTC; rforge

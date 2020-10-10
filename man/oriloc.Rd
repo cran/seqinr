@@ -81,7 +81,7 @@ boundaries in unannotated bacterial chromosomes. \emph{Bioinformatics},
 A simple informal introduction to DNA-walks:\cr
 Lobry, J.R. (1999) Genomic landscapes. \emph{Microbiology Today},
 \bold{26}:164-165.\cr
-\url{http://seqinr.r-forge.r-project.org/MicrTod_1999_26_164.pdf}\cr\cr
+\url{https://seqinr.r-forge.r-project.org/MicrTod_1999_26_164.pdf}\cr\cr
 
 An early and somewhat historical application of DNA-walks:\cr
 Lobry, J.R. (1996) A simple vectorial representation of DNA sequences 
@@ -89,7 +89,7 @@ for the detection of replication origins in bacteria. \emph{Biochimie},
 \bold{78}:323-326.\cr
 
 Glimmer, a very efficient open source software for the prediction of CDS from scratch
-in prokaryotic genome, is decribed at \url{http://www.cbcb.umd.edu/software/glimmer/}.\cr
+in prokaryotic genome, is decribed at \url{http://ccb.jhu.edu/software/glimmer/index.shtml}.\cr
 For a description of Glimmer 1.0 and 2.0 see:\cr
 
 Delcher, A.L., Harmon, D., Kasif, S., White, O., Salzberg, S.L. (1999)

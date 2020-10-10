@@ -22,7 +22,7 @@ A vector of single characters.
 }
 \references{
 The IUPAC one-letter code for aminoacids is described at: 
-\url{http://www.chem.qmul.ac.uk/iupac/AminoAcid/}\cr
+\url{https://www.bioinformatics.org/sms/iupac.html}\cr
 \code{citation("seqinr")}
 }
 \author{D. Charif, J.R. Lobry }

@@ -83,7 +83,7 @@ Synonymous Codon Usage Analyses with the ade4 and seqinR packages.
 
 Suzuki, H., Brown, C.J., Forney, L.J., Top, E. (2008)
 Comparison of Correspondence Analysis Methods for Synonymous Codon Usage in Bacteria.
-\emph{DNA Research}, \bold{15}:357-365. \url{http://dnaresearch.oxfordjournals.org/cgi/reprint/15/6/357}.
+\emph{DNA Research}, \bold{15}:357-365. \url{https://academic.oup.com/dnaresearch/article/15/6/357/513030}.
 
 }
 \author{D. Charif, J.R. Lobry, G. Perrière}
