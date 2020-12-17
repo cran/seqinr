@@ -2,8 +2,11 @@
 # G+C content
 #################################
 
-GC <- function(seq, forceToLower = TRUE, exact = FALSE, NA.GC = NA, oldGC = FALSE )
+GC <- function(seq, forceToLower = TRUE, exact = FALSE, NA.GC = NA, oldGC = FALSE,  alphabet = s2c("acgtswmkryvhdb"))
 {
+
+
+
   #
   # NA propagation:
   #
@@ -16,14 +19,17 @@ GC <- function(seq, forceToLower = TRUE, exact = FALSE, NA.GC = NA, oldGC = FALS
   # Force to lower-case letters if requested:
   #
   if(forceToLower) seq <- tolower(seq)
+
+  seq <- seq[seq %in% alphabet]
+
   #
   # Compute the count of each base:
   #
   nc <- sum( seq == "c" )
-  ng <- sum( seq == "g" )			
+  ng <- sum( seq == "g" )
   na <- sum( seq == "a" )
   nt <- sum( seq == "t" )
-  
+
   #
   # oldGC case:
   #
@@ -31,7 +37,7 @@ GC <- function(seq, forceToLower = TRUE, exact = FALSE, NA.GC = NA, oldGC = FALS
     warning("argument oldGC is deprecated")
     return( (nc + ng)/length(seq) )
   }
-  
+
   #
   # General case:
   #
@@ -61,7 +67,7 @@ GC <- function(seq, forceToLower = TRUE, exact = FALSE, NA.GC = NA, oldGC = FALS
 		##########################
 		# Ambiguous base section #
 		##########################
-		
+
 		#
 		# m : Amino (a or c)
 		#
@@ -70,7 +76,7 @@ GC <- function(seq, forceToLower = TRUE, exact = FALSE, NA.GC = NA, oldGC = FALS
 			ngc <- ngc + nm*nc/(na + nc)
 		nat <- nat + nm*na/(na + nc)
 		}
-               
+
 		#
 		# k : Keto (g or t)
 		#
@@ -79,7 +85,7 @@ GC <- function(seq, forceToLower = TRUE, exact = FALSE, NA.GC = NA, oldGC = FALS
 			ngc <- ngc + nk*ng/(ng + nt)
 			nat <- nat + nk*nt/(ng + nt)
 		}
-		
+
 		#
 		# r : Purine (a or g)
 		#
@@ -87,8 +93,8 @@ GC <- function(seq, forceToLower = TRUE, exact = FALSE, NA.GC = NA, oldGC = FALS
 			nr <- sum( seq == "r" )
 			ngc <- ngc + nr*ng/(ng + na)
 			nat <- nat + nr*na/(ng + na)
-                      }      
-               
+                      }
+
 		#
 		# y : Pyrimidine (c or t)
 		#
@@ -97,7 +103,7 @@ GC <- function(seq, forceToLower = TRUE, exact = FALSE, NA.GC = NA, oldGC = FALS
 			ngc <- ngc + ny*nc/(nc + nt)
 			nat <- nat + ny*nt/(nc + nt)
 		}
-                
+
 		#
 		# v : not t (a, c or g)
 		#
@@ -179,4 +185,3 @@ GC2 <- function(seq, frame = 0, ...) GCpos(seq = seq, pos = 2, frame = frame, ..
 ######################
 
 GC3 <- function(seq, frame = 0, ...) GCpos(seq = seq, pos = 3, frame = frame, ...)
-

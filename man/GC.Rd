@@ -9,7 +9,7 @@
   Calculates the fraction of G+C bases of the input nucleic acid
   sequence(s). It reads in nucleic acid sequences, sums the number of
   'g' and 'c' bases and writes out the result as the fraction (in the
-  interval 0.0 to 1.0) to the total number of 'a', 'c', 'g' and 't' bases. 
+  interval 0.0 to 1.0) to the total number of 'a', 'c', 'g' and 't' bases.
   Global G+C content \code{GC}, G+C in the first position of the codon bases
   \code{GC1}, G+C in the second position of the codon bases
   \code{GC2}, and G+C in the third position of the codon bases
@@ -17,7 +17,8 @@
   into account when requested.
 }
 \usage{
-GC(seq, forceToLower = TRUE, exact = FALSE, NA.GC = NA, oldGC = FALSE)
+GC(seq, forceToLower = TRUE, exact = FALSE, NA.GC = NA, oldGC = FALSE,
+alphabet = s2c("acgtswmkryvhdb"))
 GC1(seq, frame = 0, ...)
 GC2(seq, frame = 0, ...)
 GC3(seq, frame = 0, ...)
@@ -48,9 +49,11 @@ GCpos(seq, pos, frame = 0, ...)
     as in seqinR <= 1.0-6, that is as the sum of 'g' and 'c' bases divided by
     the length of the sequence. As from seqinR >= 1.1-3, this argument is
     deprecated and a warning is issued.}
+  \item{alphabet}{alphabet used. This allows you to choose ambiguous bases used
+      during GC calculation.}
 }
 \details{
-	When \code{exact} is set to \code{TRUE} the G+C content is estimated 
+	When \code{exact} is set to \code{TRUE} the G+C content is estimated
 	with ambiguous bases taken into account. Note that this is time expensive.
 	A first pass is made on non-ambiguous bases to estimate the probabilities
 	of the four bases in the sequence. They are then used to weight the
@@ -59,13 +62,13 @@ GCpos(seq, pos, frame = 0, ...)
 	suppose that there are nb bases 'b'. 'b' stands for "not a", that
 	is for 'c', 'g' or 't'. The contribution of 'b' bases to the GC base
 	count will be:
-	
+
 	nb*(nc + ng)/(nc + ng + nt)
-	
+
 	The contribution of 'b' bases to the AT base count will be:
-	
+
 	nb*nt/(nc + ng + nt)
-	
+
 	All ambiguous bases contributions to the AT and GC counts are weighted
 	is similar way and then the G+C content is computed as ngc/(nat + ngc).
 }
@@ -75,13 +78,13 @@ GCpos(seq, pos, frame = 0, ...)
   \code{GC1}, \code{GC2}, \code{GC3} are wrappers for \code{GCpos} with the
     argument \code{pos} set to 1, 2, and 3, respectively.
   \code{NA} is returned when \code{seq} is \code{NA}.
-  \code{NA.GC} defaulting to \code{NA} is returned when the G+C content 
+  \code{NA.GC} defaulting to \code{NA} is returned when the G+C content
     can not be computed from data.
 }
 \references{
   \code{citation("seqinr")}.
-  
-  The program codonW used here for comparison is available at 
+
+  The program codonW used here for comparison is available at
   \url{http://codonw.sourceforge.net/}.
 }
 \seealso{You can use \code{\link{s2c}} to convert a string into a vetor of single
@@ -157,7 +160,7 @@ colnames(res) <- c("size", "FF", "FT", "TF", "TT")
 res[, "size"] <- size
 
 for(i in seq_len(n)){
-  myseq <- sample(x = s2c("acgtws"), size = size[i], replace = TRUE)   
+  myseq <- sample(x = s2c("acgtws"), size = size[i], replace = TRUE)
   res[i, "FF"] <- system.time(GC(myseq, forceToLower = FALSE, exact = FALSE))[3]
   res[i, "FT"] <- system.time(GC(myseq, forceToLower = FALSE, exact = TRUE))[3]
   	res[i, "TF"] <- system.time(GC(myseq, forceToLower = TRUE, exact = FALSE))[3]
@@ -165,7 +168,7 @@ for(i in seq_len(n)){
 }
 
 par(oma = c(0,0,2.5,0), mar = c(4,5,0,2) + 0.1, mfrow = c(2, 1))
-plot(res$size, res$TT, las = 1, 
+plot(res$size, res$TT, las = 1,
 xlab = "Sequence size [bp]",
 ylim = c(0, max(res$TT)), xlim = c(0, max(res$size)), ylab = "")
 title(ylab = "Observed time [s]", line = 4)
@@ -187,7 +190,7 @@ pch = c(1,2))
 mincpu <- lm(res$FF~res$size)$coef[2]
 
 barplot(
-c(lm(res$FF~res$size)$coef[2]/mincpu, 
+c(lm(res$FF~res$size)$coef[2]/mincpu,
   lm(res$TF~res$size)$coef[2]/mincpu,
   lm(res$FT~res$size)$coef[2]/mincpu,
   lm(res$TT~res$size)$coef[2]/mincpu),
