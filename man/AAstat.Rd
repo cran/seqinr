@@ -2,19 +2,20 @@
 \alias{AAstat}
 \title{ To Get Some Protein Statistics }
 \description{
-  Returns simple protein sequence information including the number of residues, 
+  Returns simple protein sequence information including the number of residues,
   the percentage physico-chemical classes and the theoretical isoelectric point.
+  The functions ignore ambiguous amino acids (e.g. "B", "Z", "X", "J").
 }
 \usage{
 AAstat(seq, plot = TRUE)
 }
 \arguments{
   \item{seq}{ a protein sequence as a vector of upper-case chars }
-  \item{plot}{ if \code{TRUE}, plots the presence of residues splited by 
+  \item{plot}{ if \code{TRUE}, plots the presence of residues splited by
   physico-chemical classes along the sequence. }
 }
 \value{
-  A list with the three following components: 
+  A list with the three following components:
   \item{Compo}{A factor giving the amino acid counts.}
   \item{Prop}{A list giving the percentage of each physico-chemical classes
   (Tiny, Small, Aliphatic, Aromatic, Non-polar, Polar, Charged, Positive, Negative).}

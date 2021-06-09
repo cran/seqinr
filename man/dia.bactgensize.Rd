@@ -12,8 +12,7 @@ also represented.
 \usage{
 dia.bactgensize(fit = 2, p = 0.5, m1 = 2000, sd1 = 600, m2 = 4500,
        sd2 = 1000, p3 = 0.05, m3 = 9000, sd3 = 1000, maxgensize = 20000,
-       source = c("ftp://pbil.univ-lyon1.fr/pub/seqinr/data/goldtable15Dec07.txt",
-    "http://www.genomesonline.org/DBs/goldtable.txt"))
+       source = c("https://pbil.univ-lyon1.fr/datasets/seqinr/data/goldtable15Dec07.txt"))
 }
 \arguments{
   \item{fit}{ integer value. If \code{fit == O} no normal fit
@@ -39,16 +38,16 @@ superposition of three normal distributions.
   \item{genus }{genus name}
   \item{species }{species names}
   \item{gs }{genome size in Kb}
-  
+
 }
 \references{
 Please cite the following references when using data from GOLD:
 
-Kyrpides, N.C. (1999) Genomes OnLine Database (GOLD 1.0): a monitor 
+Kyrpides, N.C. (1999) Genomes OnLine Database (GOLD 1.0): a monitor
 of complete and ongoing genome projects world-wide.
 \emph{Bioinformatics}, \bold{15}:773-774.\cr
 
-Bernal, A., Ear, U., Kyrpides, N. (2001) Genomes OnLine Database (GOLD): 
+Bernal, A., Ear, U., Kyrpides, N. (2001) Genomes OnLine Database (GOLD):
 a monitor of genome projects world-wide.
 \emph{Nucleic Acids Research}, \bold{29}:126-127.\cr
 
@@ -58,7 +57,7 @@ projects worldwide.
 \emph{Nucleic Acids Research}, \bold{34}:D332-D334.\cr
 
 Liolios, K., Mavrommatis, K., Tavernarakis, N., Kyrpides, N.C. (2008)
-The Genomes On Line Database (GOLD) in 2007: status of genomic 
+The Genomes On Line Database (GOLD) in 2007: status of genomic
 and metagenomic projects and their associated metadata.
 \emph{Nucleic Acids Research},
 \bold{in press}:D000-D000.\cr

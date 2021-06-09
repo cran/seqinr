@@ -9,24 +9,24 @@
 }
 \arguments{
   \item{x}{A sequence of class \code{SeqAcnucWeb}}
-  \item{\dots}{Arguments passed to \code{print}}	
+  \item{\dots}{Arguments passed to \code{print}}
 }
 \value{
  None.
 }
-\references{ 
+\references{
 \code{citation("seqinr")}
 }
 \author{J.R. Lobry}
 \seealso{\code{\link{print}} }
 \examples{
-\dontrun{ 
+\dontrun{
   ### Need internet connection
   choosebank("emblTP")
-  mylist <- query("mylist", "sp=felis catus")	
+  mylist <- query("mylist", "sp=felis catus")
   mylist$req[[1]]
-  #      name   length    frame   ncbicg 
-  # "A06937"     "34"      "0"      "1" 
+  #      name   length    frame   ncbigc 
+  # "A06937"     "34"      "0"      "1"
   }
 }
 \keyword{ manip }

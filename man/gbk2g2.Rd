@@ -7,7 +7,7 @@ corresponding to CDS (Coding Sequences) into a format similar to
 glimmer program output.
 }
 \usage{
-gbk2g2(gbkfile =  "ftp://pbil.univ-lyon1.fr/pub/seqinr/data/ct.gbk",
+gbk2g2(gbkfile =  "https://pbil.univ-lyon1.fr/datasets/seqinr/data/ct.gbk",
 g2.coord = "g2.coord")
 }
 
@@ -25,7 +25,7 @@ The input file is returned invisibly.
   \code{citation("seqinr")}
 }
 \author{J.R. Lobry}
-\seealso{ \code{\link{oriloc}} which uses glimmer-like files, 
+\seealso{ \code{\link{oriloc}} which uses glimmer-like files,
   \code{\link{gbk2g2.euk}} for eukaryotic sequences with introns.}
 \examples{
   \dontrun{ # need internet connection

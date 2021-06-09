@@ -7,15 +7,20 @@
 }
 \usage{
 uco(seq, frame = 0, index = c("eff", "freq", "rscu"), as.data.frame = FALSE,
-NA.rscu = NA) 
+NA.rscu = NA)
 }
 \arguments{
   \item{seq}{ a coding sequence as a vector of chars }
   \item{frame}{ an integer (0, 1, 2) giving the frame of the coding sequence }
-  \item{index}{ codon usage index choice, partial matching is allowed. 
-                \code{eff} for codon counts, 
-                \code{freq} for codon relative frequencies, 
-                and \code{rscu} the RSCU index}
+  \item{index}{ codon usage index choice, partial matching is allowed.
+                \code{eff} for codon counts,
+                \code{freq} for codon relative frequencies,
+                and \code{rscu} the RSCU index.\cr
+
+                "eff", "freq", and "rscu" correspond to "R0", "R1", and "R3", respectively, in Suzuki et al. (2005) "2.2 Normalization of codon usage data".\cr
+
+                "eff" and "rscu" correspond to "AF" and "RSCU", respectively, in Suzuki et al. (2008) "2.2. Definitions of codon usage data".
+                }
   \item{as.data.frame}{ logical. If \code{TRUE}: all indices are returned into a data frame.}
   \item{NA.rscu}{ when an amino-acid is missing, RSCU are no more defined and repported
   as missing values (\code{NA}). You can force them to another value (typically 0 or
@@ -23,18 +28,18 @@ NA.rscu = NA)
 }
 \details{
   Codons with ambiguous bases are ignored.\cr
-  
+
   RSCU is a simple measure of non-uniform usage of synonymous codons in a coding sequence
   (Sharp \emph{et al.} 1986).
-  RSCU values are the number of times a particular codon is observed, relative to the number 
+  RSCU values are the number of times a particular codon is observed, relative to the number
   of times that the codon would be observed for a uniform synonymous codon usage (i.e. all the
   codons for a given amino-acid have the same probability).
   In the absence of any codon usage bias, the RSCU values would be 1.00 (this is the case
   for sequence \code{cds} in the exemple thereafter). A codon that is used
-  less frequently than expected will have an RSCU value of less than 1.00 and vice versa for a codon 
+  less frequently than expected will have an RSCU value of less than 1.00 and vice versa for a codon
   that is used more frequently than expected.\cr
-  
-  Do not use correspondence analysis on RSCU tables as this is a source of artifacts 
+
+  Do not use correspondence analysis on RSCU tables as this is a source of artifacts
   (Perrière and Thioulouse 2002, Suzuki \emph{et al.} 2008). Within-aminoacid correspondence analysis is a
   simple way to study synonymous codon usage (Charif \emph{et al.} 2005). For an introduction
   to correspondence analysis and within-aminoacid correspondence analysis see the
@@ -42,7 +47,7 @@ NA.rscu = NA)
   seqinR package in the \bold{doc} folder. You can also use internal correspondence
   analysis if you want to analyze simultaneously a row-block structure such as the
   within and between species variability (Lobry and Chessel 2003).\cr
-  
+
   If \code{as.data.frame} is FALSE, \code{uco} returns one of these:
   \describe{
   \item{ eff }{ a table of codon counts }
@@ -56,12 +61,12 @@ NA.rscu = NA)
   \item{ eff }{ a numeric vector of codon counts }
   \item{ freq }{ a numeric vector of codon relative frequencies }
   \item{ rscu }{ a numeric vector of RSCU index }
-  }  
+  }
 }
 \value{
   If \code{as.data.frame} is FALSE, the default, a table for \code{eff} and \code{freq} and
   a numeric vector for \code{rscu}. If \code{as.data.frame} is TRUE,
-  a data frame with all indices is returned.  
+  a data frame with all indices is returned.
 }
 \references{
 \code{citation("seqinr")} \cr
@@ -77,9 +82,13 @@ Lobry, J.R., Chessel, D. (2003) Internal correspondence analysis of codon and
 amino-acid usage in thermophilic bacteria.
 \emph{Journal of Applied Genetics}, \bold{44}:235-261. \url{http://jag.igr.poznan.pl/2003-Volume-44/2/pdf/2003_Volume_44_2-235-261.pdf}.\cr
 
-Charif, D., Thioulouse, J., Lobry, J.R., Perrière, G. (2005) Online 
-Synonymous Codon Usage Analyses with the ade4 and seqinR packages. 
+Charif, D., Thioulouse, J., Lobry, J.R., Perrière, G. (2005) Online
+Synonymous Codon Usage Analyses with the ade4 and seqinR packages.
 \emph{Bioinformatics}, \bold{21}:545-547. \url{https://pbil.univ-lyon1.fr/members/lobry/repro/bioinfo04/}.\cr
+
+Suzuki, H., Saito, R. Tomita, R. (2005)
+A problem in multivariate analysis of codon usage data and a possible solution.
+\emph{FEBS Lett.}, \bold{579}:6499-504. \url{https://febs.onlinelibrary.wiley.com/doi/full/10.1016/j.febslet.2005.10.032}.\cr
 
 Suzuki, H., Brown, C.J., Forney, L.J., Top, E. (2008)
 Comparison of Correspondence Analysis Methods for Synonymous Codon Usage in Bacteria.

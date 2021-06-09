@@ -2,10 +2,10 @@
 \alias{translate}
 \title{ Translate nucleic acid sequences into proteins }
 \description{
-   This function translates nucleic acid sequences into the corresponding 
-   peptide sequence. It can translate in any of the 3 forward or three 
-   reverse sense frames. In the case of reverse sense, the reverse-complement 
-   of the sequence is taken. It can translate using the standard (universal) 
+   This function translates nucleic acid sequences into the corresponding
+   peptide sequence. It can translate in any of the 3 forward or three
+   reverse sense frames. In the case of reverse sense, the reverse-complement
+   of the sequence is taken. It can translate using the standard (universal)
    genetic code and also with non-standard codes. Ambiguous bases can also
    be handled.
 }
@@ -22,9 +22,9 @@ translate(seq, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous = F
   GGN is translated to Gly in the standard genetic code. }
 }
 \details{
- The following genetic codes are described here. The number preceding each code 
- corresponds to \code{numcode}. 
-\describe{	
+ The following genetic codes are described here. The number preceding each code
+ corresponds to \code{numcode}.
+\describe{
   \item{1}{ standard }
   \item{2}{ vertebrate.mitochondrial }
   \item{3}{ yeast.mitochondrial }
@@ -35,7 +35,7 @@ translate(seq, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous = F
   \item{10}{ euplotid }
   \item{11}{ bacterial+plantplastid }
   \item{12}{ alternativeyeast }
-  \item{13}{ ascidian.mitochondrial } 
+  \item{13}{ ascidian.mitochondrial }
   \item{14}{ alternativeflatworm.mitochondrial }
   \item{15}{ blepharism }
   \item{16}{ chlorophycean.mitochondrial }
@@ -48,15 +48,15 @@ translate(seq, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous = F
 }
 }
 \value{
-  \code{translate} returns a vector of single characters containing the peptide sequence in 
-  the standard one-letter IUPAC code. Termination (STOP) codons are translated by 
+  \code{translate} returns a vector of single characters containing the peptide sequence in
+  the standard one-letter IUPAC code. Termination (STOP) codons are translated by
   the character '*'.
 }
 \references{
 The genetic codes have been taken from the ncbi taxonomy database:
-\url{https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi}. 
+\url{https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi}.
 Last update October 05, 2000.\cr
-The IUPAC one-letter code for aminoacids is described at: 
+The IUPAC one-letter code for aminoacids is described at:
 \url{https://www.bioinformatics.org/sms/iupac.html}
 
 \code{citation("seqinr")}
@@ -68,7 +68,7 @@ For coding sequences obtained from an ACNUC server with \code{\link{query}} it's
 better to use the function \code{\link{getTrans}} so that the relevant genetic
 code and the relevant frame are automatically used.
 The genetic codes are given in the object \code{\link{SEQINR.UTIL}}, a more
-human readable form is given by the function \code{\link{tablecode}}. 
+human readable form is given by the function \code{\link{tablecode}}.
 Use \code{\link{aaa}} to get the three-letter code for amino-acids.}
 \examples{
 ##
@@ -91,6 +91,18 @@ translate(seq = realcds)
 # Biologically correct, only one stop codon at the end
 translate(seq = realcds, frame = 3, sens = "R", numcode = 6)
 # Biologically meaningless, note the in-frame stop codons
+
+# Read from an alignment as suggested by Dr. H. Suzuki
+fasta.res    <- read.alignment(file = system.file("sequences/Anouk.fasta", package = "seqinr"),
+ format = "fasta")
+
+AA1 <- seqinr::getTrans(s2c(fasta.res$seq[[1]]))
+AA2 <- seqinr::translate(s2c(fasta.res$seq[[1]]))
+identical(AA1, AA2)
+
+AA1 <- lapply(fasta.res$seq, function(x) seqinr::getTrans(s2c(x)))
+AA2 <- lapply(fasta.res$seq, function(x) seqinr::translate(s2c(x)))
+identical(AA1, AA2)
 
 \dontrun{
 ## Need internet connection.
@@ -120,9 +132,21 @@ translate(seq = realcds, frame = 3, sens = "R", numcode = 6)
 ## FT                   GNPDHLPKM"
 choosebank("emblTP")
 trans <- query("trans", "N=AE003734.PE35")
-getTrans(trans$req[[1]])
-## Complex transsplicing operations, the correct frame and the correct 
+trans1 <- getTrans(trans$req[[1]])
+## Complex transsplicing operations, the correct frame and the correct
 ## genetic code are automatically used for translation into protein.
+seq <- getSequence(trans$req[[1]])
+identical(translate(seq),trans1)
+#default frame and genetic code are correct
+trans <- query("trans", "N=AB004237")
+trans1 <- getTrans(trans$req[[1]])
+## Complex transsplicing operations, the correct frame and the correct
+## genetic code are automatically used for translation into protein.
+seq <- getSequence(trans$req[[1]])
+identical(translate(seq),trans1)
+#default  genetic code is not correct
+identical(translate(seq,numcode=2),trans1)
+#genetic code is 2
 }
 }
 \keyword{ manip }

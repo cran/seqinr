@@ -36,8 +36,8 @@ getTrans(object, sens = "F", NAstring = "X", ambiguous = FALSE, ...)
   \item{...}{further arguments passed to or from other methods}
 }
 \details{
- The following genetic codes are described here. The number preceding each code 
- corresponds to \code{numcode}. 
+ The following genetic codes are described here. The number preceding each code
+ corresponds to \code{numcode}.
   \describe{
   \item{1}{ standard }
   \item{2}{ vertebrate.mitochondrial }
@@ -49,7 +49,7 @@ getTrans(object, sens = "F", NAstring = "X", ambiguous = FALSE, ...)
   \item{10}{ euplotid }
   \item{11}{ bacterial+plantplastid }
   \item{12}{ alternativeyeast }
-  \item{13}{ ascidian.mitochondrial } 
+  \item{13}{ ascidian.mitochondrial }
   \item{14}{ alternativeflatworm.mitochondrial }
   \item{15}{ blepharism }
   \item{16}{ chlorophycean.mitochondrial }
@@ -65,11 +65,11 @@ getTrans(object, sens = "F", NAstring = "X", ambiguous = FALSE, ...)
 \references{
   \code{citation("seqinr")}
 }
-\author{D. Charif, J.R. Lobry, L. Palmeira} 
+\author{D. Charif, J.R. Lobry, L. Palmeira}
 \seealso{
   \code{\link{SeqAcnucWeb}}, \code{\link{SeqFastadna}}, \code{\link{SeqFrag}}\cr
   The genetic codes are given in the object \code{\link{SEQINR.UTIL}}, a more
-  human readable form is given by the function \code{\link{tablecode}}. 
+  human readable form is given by the function \code{\link{tablecode}}.
   Use \code{\link{aaa}} to get the three-letter code for amino-acids.
 }
 \examples{
@@ -98,8 +98,20 @@ getTrans(object, sens = "F", NAstring = "X", ambiguous = FALSE, ...)
   getTrans(realcds, frame = 3, sens = "R", numcode = 6)
 # Biologically meaningless, note the in-frame stop codons
 
+# Read from an alignment as suggested by Dr. H. Suzuki
+fasta.res    <- read.alignment(file = system.file("sequences/Anouk.fasta", package = "seqinr"),
+ format = "fasta")
+
+AA1 <- seqinr::getTrans(s2c(fasta.res$seq[[1]]))
+AA2 <- seqinr::translate(s2c(fasta.res$seq[[1]]))
+identical(AA1, AA2)
+
+AA1 <- lapply(fasta.res$seq, function(x) seqinr::getTrans(s2c(x)))
+AA2 <- lapply(fasta.res$seq, function(x) seqinr::translate(s2c(x)))
+identical(AA1, AA2)
+
 #
-# Complex transsplicing operations, the correct frame and the correct 
+# Complex transsplicing operations, the correct frame and the correct
 # genetic code are automatically used for translation into protein for
 # sequences coming from an ACNUC server:
 #
