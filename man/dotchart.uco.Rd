@@ -8,7 +8,7 @@ Draw a Cleveland dot plot for codon usage tables
 dotchart.uco(x, numcode = 1, aa3 = TRUE, pt.cex = 0.7, alphabet =
                  s2c("tcag"), pch = 21, gpch = 20, bg = par("bg"), cex
                  = 0.7, color = "black", gcolor = "black", lcolor =
-                 grey(0.9), xlim, ...)
+                 grey(0.9), xlim, offset = 0.4, ...)
 }
 \arguments{
   \item{x}{table of codon usage as computed by \code{uco}. }
@@ -24,7 +24,8 @@ acids. If FALSE use the one-letter code for amino-acids. }
   \item{color}{the color(s) to be used for points an labels. }
   \item{gcolor}{the single color to be used for group labels and values.}
   \item{lcolor}{the color(s) to be used for the horizontal lines.}
-  \item{xlim}{horizontal range for the plot }	
+  \item{xlim}{horizontal range for the plot }
+  \item{offset}{offset in inches of ylab and labels; was hardwired to 0.4 before R 4.0.0}
   \item{\dots}{graphical parameters can also be specified as arguments}
 }
 \value{
@@ -36,8 +37,8 @@ An invisible list with components:
 \item{ypg}{the y-axis coordinates for amino acids}
 \item{ypi}{the y-axis coordinates for codons}
 }
-\references{ Cleveland, W. S. (1985) The Elements of Graphing Data. 
-Monterey, CA: Wadsworth. 
+\references{ Cleveland, W. S. (1985) The Elements of Graphing Data.
+Monterey, CA: Wadsworth.
 \code{citation("seqinr")}
 }
 \author{J.R. Lobry}
@@ -47,9 +48,9 @@ Monterey, CA: Wadsworth.
 # Load dataset:
 data(ec999)
 # Compute codon usage for all coding sequences:
-ec999.uco <- lapply(ec999, uco, index="eff") 
+ec999.uco <- lapply(ec999, uco, index="eff")
 # Put it in a dataframe:
-df <- as.data.frame(lapply(ec999.uco, as.vector)) 
+df <- as.data.frame(lapply(ec999.uco, as.vector))
 # Add codon names:
 row.names(df) <- names(ec999.uco[[1]])
 # Compute global codon usage:
@@ -57,6 +58,6 @@ global <- rowSums(df)
 # Choose a title for the graph:
 title <- "Codon usage in 999 E. coli coding sequences"
 # Plot data:
-dotchart.uco(global, main = title) 
+dotchart.uco(global, main = title)
 }
 \keyword{hplot}

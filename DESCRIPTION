@@ -1,7 +1,7 @@
 Encoding: UTF-8
 Package: seqinr
-Version: 4.2-8
-Date: 2021-05-18
+Version: 4.2-16
+Date: 2022-05-19
 Title: Biological Sequences Retrieval and Analysis
 Authors@R: c(person("Delphine", "Charif", role = "aut"),
              person("Olivier", "Clerc", role = "ctb"),
@@ -20,7 +20,7 @@ Author: Delphine Charif [aut],
   Simon Penel [cre],
   Guy Perrière [ctb]
 Maintainer: Simon Penel <simon.penel@univ-lyon1.fr>
-BugReports: http://lists.r-forge.r-project.org/cgi-bin/mailman/listinfo/seqinr-forum
+BugReports: https://lists.r-forge.r-project.org/cgi-bin/mailman/listinfo/seqinr-forum
 Imports: ade4,segmented
 Depends: R (>= 2.10.0)
 Description: Exploratory data analysis and data visualization
@@ -30,11 +30,11 @@ Description: Exploratory data analysis and data visualization
   12:121-127 <doi:10.1093/nar/12.1Part1.121>.
 License: GPL (>= 2)
 SystemRequirements: zlib headers and library.
-URL: http://seqinr.r-forge.r-project.org/
+URL: https://seqinr.r-forge.r-project.org/
 NeedsCompilation: yes
 Repository: CRAN
 Repository/R-Forge/Project: seqinr
-Repository/R-Forge/Revision: 2130
-Repository/R-Forge/DateTimeStamp: 2021-05-25 12:22:25
-Date/Publication: 2021-06-09 04:20:02 UTC
-Packaged: 2021-05-25 12:28:13 UTC; rforge
+Repository/R-Forge/Revision: 2145
+Repository/R-Forge/DateTimeStamp: 2022-05-19 11:26:14
+Date/Publication: 2022-05-19 21:00:02 UTC
+Packaged: 2022-05-19 11:32:07 UTC; rforge

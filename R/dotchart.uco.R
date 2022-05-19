@@ -1,6 +1,7 @@
 dotchart.uco <- function(x, numcode = 1, aa3 = TRUE, pt.cex = 0.7, 
   alphabet = s2c("tcag"), pch = 21, gpch = 20, bg = par("bg"), cex = 0.7,
-  color = "black", gcolor = "black", lcolor = grey(0.9), xlim, ...)
+  color = "black", gcolor = "black", lcolor = grey(0.9), xlim, 
+  offset = 0.4, ...)
 {
   if( is.null(names(x)) ) names(x) <- words( alphabet = alphabet )
   bcknames <- names(x)
@@ -37,7 +38,8 @@ dotchart.uco <- function(x, numcode = 1, aa3 = TRUE, pt.cex = 0.7,
 
   dotchart(x = x, labels = labels, groups = groups, gdata = gdata,
    pt.cex = pt.cex, pch = pch, gpch = gpch, bg = bg, color = color,
-   gcolor = gcolor, lcolor = lcolor, cex = cex, xlim, ...)
+   gcolor = gcolor, lcolor = lcolor, cex = cex, xlim = xlim, 
+   offset = offset, ...)
 #
 # Return invisibly for further plots
 #

@@ -39,10 +39,12 @@ predicted, and to 0 if not.
 \author{O. Clerc, G. Perrière}
 \seealso{\code{\link{test.li.recstat}}}
 \examples{
+\dontrun{# CPU time  is too long with windows
 ff <- system.file("sequences/ECOUNC.fsa", package = "seqinr")
 seq <- read.fasta(ff)
 rec <- recstat(seq[[1]], seqname = getName(seq))
 test.co.recstat(rec)
+}
 }
 \keyword{sequence}
 \keyword{correspondence analysis}

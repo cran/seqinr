@@ -49,7 +49,7 @@ When called with a regular bank name, an (invisible) list with 6 components:
  
 When called with bank = NA:
   
-  \item{ }{ A vector of all available bank names.}
+  \item{names}{ A vector of all available bank names.}
 
 When called with bank = NA and infobank = TRUE, a data.frame with three columns:
 
