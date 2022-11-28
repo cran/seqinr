@@ -18,14 +18,14 @@ A single numeric value corresponding to  the total number of residues or
 NA in case of problem.
 }
 
-\references{ \url{http://doua.prabi.fr/databases/acnuc.html}
+\references{ \url{https://doua.prabi.fr/databases/acnuc.html}
 
 \code{citation("seqinr")}
 }
 \author{J.R. Lobry}
 \seealso{\code{\link{choosebank}}, \code{\link{query}}, \code{\link{glr}} }
 \examples{
-\dontrun{ 
+\dontrun{
   ### Need internet connection
   choosebank("emblTP")
   mylist <- query("mylist", "t=CDS", virtual = TRUE)

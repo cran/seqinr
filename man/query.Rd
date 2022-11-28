@@ -5,7 +5,7 @@
 This is a major command of the package. It executes all sequence retrievals using any selection criteria the data base allows.  The sequences are coming from ACNUC data base located on the web and they are transfered by socket. The command produces the list of all sequence names that fit the required criteria. The sequence names belong to the class of sequence \code{SeqAcnucWeb}.
 }
 \usage{
-query(listname, query, socket = autosocket(), 
+query(listname, query, socket = autosocket(),
 invisible = TRUE, verbose = FALSE, virtual = FALSE)
 }
 \arguments{
@@ -16,17 +16,17 @@ invisible = TRUE, verbose = FALSE, virtual = FALSE)
   \item{invisible}{if \code{FALSE}, the result is returned visibly.}
   \item{verbose}{if \code{TRUE}, verbose mode is on}
   \item{virtual}{if \code{TRUE}, no attempt is made to retrieve the information about
-    all the elements of the list. In this case, the \code{req} component of the list is set to 
+    all the elements of the list. In this case, the \code{req} component of the list is set to
     \code{NA}.}
 }
 \details{
-The query language defines several selection criteria and operations between 
-lists of elements matching criteria. It creates mainly lists of sequences, but 
+The query language defines several selection criteria and operations between
+lists of elements matching criteria. It creates mainly lists of sequences, but
 also lists of species (or, more generally, taxa) and of keywords.
-See \url{http://doua.prabi.fr/databases/acnuc/cfonctions.html#QUERYLANGUAGE}
+See \url{https://doua.prabi.fr/databases/acnuc/cfonctions.html#QUERYLANGUAGE}
 for the last update of the description of the query language.\cr
 
-Selection criteria (no space before the = sign) are: 
+Selection criteria (no space before the = sign) are:
 \describe{
   \item{SP=taxon}{seqs attached to taxon or any other below in tree; @ wildcard possible}
   \item{TID=id}{seqs attached to given numerical NCBI's taxon id}
@@ -60,9 +60,9 @@ Operators (always followed and preceded by blanks or parentheses) are:
   \item{SD}{compute the list of species placed in the tree below the members of the species list operand}
   \item{KD}{compute the list of keywords placed in the tree below the members of the keywords list operand}
   }
-The query language is case insensitive.Three operators (AND, OR, NOT) 
-can be ambiguous because they can also occur within valid criterion values. 
-Such ambiguities can be solved by encapsulating elementary selection 
+The query language is case insensitive.Three operators (AND, OR, NOT)
+can be ambiguous because they can also occur within valid criterion values.
+Such ambiguities can be solved by encapsulating elementary selection
 criteria between escaped double quotes.
 }
 
@@ -79,12 +79,12 @@ This is an objet of class \code{qaw}, a list with the following 6 components:
     called with parameter \code{virtual} is \code{TRUE}}
   \item{socket}{the socket connection that was used}
 }
-\references{ 
-To get the release date and content of all the databases located at the pbil, please look at 
-the following url: \url{http://doua.prabi.fr/search/releases}\cr
-Gouy, M., Milleret, F., Mugnier, C., Jacobzone, M., Gautier,C. (1984) ACNUC: a nucleic acid sequence data base and analysis system. 
+\references{
+To get the release date and content of all the databases located at the pbil, please look at
+the following url: \url{https://doua.prabi.fr/search/releases}\cr
+Gouy, M., Milleret, F., Mugnier, C., Jacobzone, M., Gautier,C. (1984) ACNUC: a nucleic acid sequence data base and analysis system.
 \emph{Nucl. Acids Res.}, \bold{12}:121-127.\cr
-Gouy, M., Gautier, C., Attimonelli, M., Lanave, C., Di Paola, G. (1985) 
+Gouy, M., Gautier, C., Attimonelli, M., Lanave, C., Di Paola, G. (1985)
 ACNUC - a portable retrieval system for nucleic acid sequence databases:
 logical and physical designs and usage.
 \emph{Comput. Appl. Biosci.}, \bold{3}:167-172.\cr
@@ -97,8 +97,8 @@ Gouy, M., Gautier, C., Milleret, F. (1985) System analysis and nucleic acid sequ
 \note{Most of the documentation was imported from ACNUC help
 files written by Manolo Gouy}
 \seealso{
-  \code{\link{choosebank}}, 
-  \code{\link{getSequence}}, 
+  \code{\link{choosebank}},
+  \code{\link{getSequence}},
   \code{\link{getName}},
   \code{\link{crelistfromclientdata}}
 }
@@ -110,7 +110,7 @@ files written by Manolo Gouy}
  # To get the names of the 4 first sequences:
  sapply(bb$req[1:4], getName)
  # To get the 4 first sequences:
- sapply(bb$req[1:4], getSequence, as.string = TRUE) 
+ sapply(bb$req[1:4], getSequence, as.string = TRUE)
  }
 }
 \keyword{utilities}

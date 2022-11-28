@@ -12,7 +12,7 @@ autosocket()
 \value{
 An object of class sockconn.
 }
-\references{ \url{http://doua.prabi.fr/databases/acnuc.html}
+\references{ \url{https://doua.prabi.fr/databases/acnuc.html}
 
 \code{citation("seqinr")}
 }

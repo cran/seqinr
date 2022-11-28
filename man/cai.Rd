@@ -48,13 +48,13 @@ these codons have fitness of zero (<.0001) are adjusted to 0.01.
   Are codon usage patterns in unicellular organisms determined by
   selection-mutation balance.
   \emph{Journal of Evolutionary Biology}, \bold{1}:15-26.
-  
+
   Peden, J.F. (1999)
   Analysis of codon usage.
   PhD Thesis, University of Nottingham, UK.
-  
-  The program \code{codonW} used here for comparison is available at 
-  \url{http://codonw.sourceforge.net/} under a GPL licence.
+
+  The program \code{codonW} used here for comparison is available at
+  \url{https://codonw.sourceforge.net/} under a GPL licence.
 
   \code{citation("seqinr")}.
 

@@ -2,8 +2,8 @@
 \alias{gfrag}
 \title{Extract sequence identified by name or by number from an ACNUC server}
 \description{
-Get \code{length} characters from sequence identified by name or by number 
-starting from position \code{start} (counted from 1). 
+Get \code{length} characters from sequence identified by name or by number
+starting from position \code{start} (counted from 1).
 }
 \usage{
 gfrag(what, start, length, idby = c("name", "number"), socket = autosocket())
@@ -17,11 +17,11 @@ gfrag(what, start, length, idby = c("name", "number"), socket = autosocket())
                         database (default is a socket to the last opened database).}
 }
 \value{
-A string of characters with at most \code{length} characters (may be 
+A string of characters with at most \code{length} characters (may be
 shorter than asked for). NA is returned and a warning is issued in
 case of problem (non existent sequence for instance).
 }
-\references{ \url{http://doua.prabi.fr/databases/acnuc.html}
+\references{ \url{https://doua.prabi.fr/databases/acnuc.html}
 
 \code{citation("seqinr")}
 }
@@ -32,6 +32,6 @@ case of problem (non existent sequence for instance).
   choosebank("emblTP")
   gfrag("LMFLCHR36", start = 1, length = 3529852) -> myseq
   stopifnot(nchar(myseq) == 3529852)
-  closebank()	
+  closebank()
   }
 }

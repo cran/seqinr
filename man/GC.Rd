@@ -85,7 +85,7 @@ GCpos(seq, pos, frame = 0, ...)
   \code{citation("seqinr")}.
 
   The program codonW used here for comparison is available at
-  \url{http://codonw.sourceforge.net/}.
+  \url{https://codonw.sourceforge.net/}.
 }
 \seealso{You can use \code{\link{s2c}} to convert a string into a vetor of single
 character and \code{\link{tolower}} to convert upper-case characters into

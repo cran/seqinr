@@ -23,14 +23,14 @@ A single numeric value corresponding to:
   \item{4}{no list of rank \code{lrank} exists.}
 }
 
-\references{ \url{http://doua.prabi.fr/databases/acnuc.html}
+\references{ \url{https://doua.prabi.fr/databases/acnuc.html}
 
 \code{citation("seqinr")}
 }
 \author{J.R. Lobry}
 \seealso{\code{\link{choosebank}}, \code{\link{query}}, \code{\link{glr}} }
 \examples{
-\dontrun{ 
+\dontrun{
   ### Need internet connection
   choosebank("emblTP")
   mylist <- query("mylist", "sp=felis catus et t=CDS", virtual = TRUE)

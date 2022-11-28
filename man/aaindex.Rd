@@ -15,8 +15,8 @@ database. See the reference section to cite this database in a publication.
     \item{A}{String: Author(s).}
     \item{T}{String: Title of the article.}
     \item{J}{String: Journal reference and comments.}
-    \item{C}{String: Accession numbers of similar entries with the correlation 
-    coefficients of 0.8 (-0.8) or more (less). Notice: The correlation 
+    \item{C}{String: Accession numbers of similar entries with the correlation
+    coefficients of 0.8 (-0.8) or more (less). Notice: The correlation
     coefficient is calculated with zeros filled for missing values.}
     \item{I}{Numeric named vector: amino acid index data.}
   }
@@ -522,8 +522,8 @@ Interactivity scale obtained from the contact matrix (Bastolla et al., 2005)\cr
 Interactivity scale obtained by maximizing the mean of correlation coefficient over single-domain globular proteins (Bastolla et al., 2005)\cr
 Interactivity scale obtained by maximizing the mean of correlation coefficient over pairs of sequences sharing the TIM barrel fold (Bastolla et al., 2005)\cr
 Linker propensity index (Suyama-Ohara, 2003)\cr
-Knowledge-based membrane-propensity scale from 1D\_Helix in MPtopo databases (Punta-Maritan, 2003)\cr
-Knowledge-based membrane-propensity scale from 3D\_Helix in MPtopo databases (Punta-Maritan, 2003)\cr
+Knowledge-based membrane-propensity scale from 1D Helix in MPtopo databases (Punta-Maritan, 2003)\cr
+Knowledge-based membrane-propensity scale from 3D Helix in MPtopo databases (Punta-Maritan, 2003)\cr
 Linker propensity from all dataset (George-Heringa, 2003)\cr
 Linker propensity from 1-linker dataset (George-Heringa, 2003)\cr
 Linker propensity from 2-linker dataset (George-Heringa, 2003)\cr
@@ -578,7 +578,7 @@ From the original aaindex documentation:\cr
 
 Please cite the following references when making use of the database:
 
-Kawashima, S. and Kanehisa, M. (2000) AAindex: amino acid index 
+Kawashima, S. and Kanehisa, M. (2000) AAindex: amino acid index
 database. \emph{Nucleic Acids Res.}, \bold{28}:374.\cr
 
 Tomii, K. and Kanehisa, M. (1996) Analysis of amino acid indices and

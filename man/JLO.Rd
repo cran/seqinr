@@ -33,12 +33,12 @@
   \code{citation("seqinr")}
 
   Anonymous (2006) Applied Biosystem Genetic Analysis Data File Format.
-  Available at \url{https://www.thermofisher.com/at/en/home/brands/applied-biosystems.html}.
+  Available at \url{https://www.thermofisher.com/de/de/home/brands/applied-biosystems.html}.
   Last visited on 03-NOV-2008.
 }
 \author{J.R. Lobry}
 \seealso{
-  function \code{\link{read.abif}} to import files in ABIF format, 
+  function \code{\link{read.abif}} to import files in ABIF format,
   data \code{\link{gs500liz}} for internal size standards,
   data \code{\link{ECH}} for the corresponding allelic ladder,
   data \code{\link{identifiler}} for allele names in the allelic ladder.
@@ -46,4 +46,3 @@
 \examples{
 data(JLO)
 }
-

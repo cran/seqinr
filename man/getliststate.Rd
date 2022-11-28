@@ -26,12 +26,12 @@ a list with the following 4 components:
   \item{type}{string. Type of ACNUC list (SQ, KW, SP)}
   \item{name}{string. ACNUC list name}
   \item{count}{numeric. Number of elements in ACNUC list}
-  \item{locus}{logical. For ACNUC sequence lists TRUE means that the list 
+  \item{locus}{logical. For ACNUC sequence lists TRUE means that the list
          contains only parent sequences. NA otherwise.}
 
 \code{gln} is a shortcut for \code{getliststate(lrank, ...)$name}
 }
-\references{ \url{http://doua.prabi.fr/databases/acnuc.html}
+\references{ \url{https://doua.prabi.fr/databases/acnuc.html}
 
 \code{citation("seqinr")}
 }
@@ -39,7 +39,7 @@ a list with the following 4 components:
 \seealso{\code{\link{choosebank}}, \code{\link{query}}, \code{\link{alr}},
 \code{\link{glr}} }
 \examples{
-\dontrun{ 
+\dontrun{
   ### Need internet connection
   choosebank("emblTP")
   mylist <- query("mylist", "sp=felis catus et t=cds", virtual=TRUE)

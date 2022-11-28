@@ -1,6 +1,6 @@
 \name{readfirstrec}
 \alias{readfirstrec}
-\title{Low level function to get the record count of the specified ACNUC 
+\title{Low level function to get the record count of the specified ACNUC
 index file}
 \description{
  Called without arguments, the list of available values for argument type is
@@ -21,7 +21,7 @@ Available index files are:
 	\item{AUT}{AUTHOR one record for each author name (last name only, no initials)}
 	\item{BIB}{BIBLIO one record for each reference}
 	\item{ACC}{ACCESS one record for each accession number}
-	\item{SMJ}{SMJYT one record for each status, molecule, journal, year, type, 
+	\item{SMJ}{SMJYT one record for each status, molecule, journal, year, type,
 			   organelle, division, and db structure information}
 	\item{SUB}{SUBSEQ one record for each parent or sub-sequence}
 	\item{LOC}{LOCUS one record for each parent sequence}
@@ -34,13 +34,13 @@ Available index files are:
   }
 }
 \value{
-  The record count of ACNUC index file, or NA if missing (typically when 
+  The record count of ACNUC index file, or NA if missing (typically when
   asking for type = EXT on a protein database).
 }
 \references{
-  See ACNUC physical structure at 
-  \url{http://doua.prabi.fr/databases/acnuc/structure.html}.\cr
-  
+  See ACNUC physical structure at
+  \url{https://doua.prabi.fr/databases/acnuc/structure.html}.\cr
+
   \code{citation("seqinr")}
 }
 \author{J.R. Lobry}

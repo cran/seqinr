@@ -12,17 +12,17 @@ in three species.
   \describe{
     \item{ec}{\emph{Escherichia coli}}
     \item{bs}{\emph{Bacillus subtilis}}
-    \item{sc}{\emph{Saccharomyces cerevisiae}}  
+    \item{sc}{\emph{Saccharomyces cerevisiae}}
   }
 }
 \details{
   Codons are given by \code{row.names(caitab)}.
 }
 \source{
-The data were hard-encoded in 
+The data were hard-encoded in
 the C program codonW version 1.4.4 writen by John Peden
-available at \url{http://codonw.sourceforge.net/}. The data
-are from the file \code{codonW.h}. 
+available at \url{https://codonw.sourceforge.net/}. The data
+are from the file \code{codonW.h}.
 According to this source file, there were no reference for
 \emph{Escherichia coli} and \emph{Bacillus subtilis} and the
 reference for \emph{Saccharomyces cerevisiae} was Sharp
@@ -51,11 +51,11 @@ in \code{\link{cai}} because of overlapping with documented codons.
   \emph{Nucleic Acids Research}, \bold{15}:1281-1295.
 
   Shields, D.C., Sharp, P.M. (1987) Synonymous codon usage in \emph{Bacillus subtilis}
-  reflects both traditional selection and mutational biases. 
+  reflects both traditional selection and mutational biases.
   \emph{Nucleic Acids Research}, \bold{15}:8023-8040.
 
-  Sharp, P. M., Cowe, E. (1991). 
-  Synonymous codon usage in \emph{Saccharomyces cerevisiae}. 
+  Sharp, P. M., Cowe, E. (1991).
+  Synonymous codon usage in \emph{Saccharomyces cerevisiae}.
   \emph{Yeast}, \bold{7}:657-678.
 
   Peden, J.F. (1999)

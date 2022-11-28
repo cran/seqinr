@@ -3,11 +3,11 @@
 \title{Modification of an ACNUC list}
 \description{
 This function modifies a previously existing ACNUC list by selecting sequences
-either by length, either by date, either for the presence of a given string in annotations. 
+either by length, either by date, either for the presence of a given string in annotations.
 }
 \usage{
-modifylist(listname, modlistname = listname, operation, 
- type = c("length", "date", "scan"), socket = autosocket(), 
+modifylist(listname, modlistname = listname, operation,
+ type = c("length", "date", "scan"), socket = autosocket(),
  virtual = FALSE, verbose = FALSE)
 }
 \arguments{
@@ -24,7 +24,7 @@ modifylist(listname, modlistname = listname, operation,
 }
 
 \details{
-Example of possible values for the argument \code{operation}: 
+Example of possible values for the argument \code{operation}:
 
   \describe{
   \item{length}{as in  "> 10000"    or    "< 500"}
@@ -46,9 +46,9 @@ This is an objet of class \code{qaw}, a list with the following 6 components:
   \item{req}{a list of sequence names that fit the required criteria or \code{NA} when
     called with parameter \code{virtual} is \code{TRUE}}
   \item{socket}{the socket connection that was used}
-  
+
 }
-\references{ \url{http://doua.prabi.fr/databases/acnuc.html}
+\references{ \url{https://doua.prabi.fr/databases/acnuc.html}
 
 \code{citation("seqinr")}
 }

@@ -19,16 +19,16 @@ SEXP s2c(SEXP seq){
   char *string;
   int lseq, i;
   char mot[2] = {'\0', '\0'};
-    
+
   SEXP chaine;
 
   string = (char *) CHAR(STRING_ELT(seq, 0));
-  
+
   lseq = strlen(string);
-  
+
   PROTECT(chaine = NEW_CHARACTER(lseq));
 
-  for(i = 0 ; i < lseq ; i++){  
+  for(i = 0 ; i < lseq ; i++){
     mot[0] = string[i];
     SET_STRING_ELT(chaine, i, mkChar(mot));
     }
@@ -37,9 +37,9 @@ SEXP s2c(SEXP seq){
   return(chaine);
 }
 
- 
+
 /*#####################################################*/
-/*# Tester si une séquence est protéique ou nucléique #*/
+/*# Tester si une sequence est proteique ou nucleique #*/
 /*#####################################################*/
 
 
@@ -53,20 +53,20 @@ SEXP is_a_protein_seq(SEXP sequence)
   char *seq;
   static char dna[]="ACGTU";
   int total=0, length=0;
-  
-  seq = (char *) CHAR(STRING_ELT(sequence,0)); 
+
+  seq = (char *) CHAR(STRING_ELT(sequence,0));
 
   while(*seq != 0) {
     if(*seq != '-') {
       if( strchr(dna, toupper(*seq)) != NULL ) total++;
-      length++; 
+      length++;
     }
     seq++;
   }
-  
+
    PROTECT(res=NEW_NUMERIC(1));
    REAL(res)[0]=(float)(total) / length ;
-   
+
    UNPROTECT(1);
    return ( res );
 }

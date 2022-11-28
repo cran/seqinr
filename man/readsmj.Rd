@@ -2,7 +2,7 @@
 \alias{readsmj}
 \title{Low level function to read ACNUC SMJYT index files}
 \description{
- Extract informations from the SMJYT index file for status, molecule, journal, 
+ Extract informations from the SMJYT index file for status, molecule, journal,
  year, type, organelle, division, and db structure information.
 }
 \usage{
@@ -15,7 +15,7 @@ plong.add = FALSE, libel.add = FALSE, sname.add = FALSE, all.add = FALSE)
   \item{num}{rank number of first record.}
   \item{nl}{number of records to read.}
   \item{recnum.add}{to extract record numbers.}
-  \item{nature.add}{to extract as a factor with human understandable levels 
+  \item{nature.add}{to extract as a factor with human understandable levels
       the nature of the name. Unordered levels are: status, molecule, journal,
       year, type, organelle, division and dbstrucinfo.}
   \item{plong.add}{to extract the plong.}
@@ -30,11 +30,11 @@ plong.add = FALSE, libel.add = FALSE, sname.add = FALSE, all.add = FALSE)
 }
 \references{
   See ACNUC physical structure at:
-  \url{http://doua.prabi.fr/databases/acnuc/structure.html}.\cr
-  
+  \url{https://doua.prabi.fr/databases/acnuc/structure.html}.\cr
+
   \code{citation("seqinr")}
 }
 \author{J.R. Lobry}
-\seealso{ \code{\link{choosebank}} to start a session and 
+\seealso{ \code{\link{choosebank}} to start a session and
 \code{\link{readfirstrec}} to get the total number of records.}
 \keyword{utilities}

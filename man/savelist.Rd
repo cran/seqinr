@@ -3,7 +3,7 @@
 \title{Save sequence names or accession numbers into a file}
 \description{
 This function retrieves all sequence names or all accession number from
-an ACNUC list and saves them into a file. 
+an ACNUC list and saves them into a file.
 }
 \usage{
 savelist(lrank, type = c("N", "A"),
@@ -23,7 +23,7 @@ savelist(lrank, type = c("N", "A"),
 \value{
 none.
 }
-\references{ \url{http://doua.prabi.fr/databases/acnuc.html}
+\references{ \url{https://doua.prabi.fr/databases/acnuc.html}
 
 \code{citation("seqinr")}
 }
@@ -32,12 +32,12 @@ none.
 get a list rank from its name, \code{\link{clfcd}} for the inverse operation
 of \code{savelist}}
 \examples{
-\dontrun{ 
+\dontrun{
   ### Need internet connection
   choosebank("emblTP")
   mylist <- query("mylist", "sp=felis catus et t=cds", virtual=TRUE)
   savelist(glr("mylist"))
-  # 603 sequence mnemonics written into file: MYLIST.mne 
+  # 603 sequence mnemonics written into file: MYLIST.mne
   savelist(glr("mylist"), type = "A")
   # 603 sequence accession numbers written into file: MYLIST.acc
   }

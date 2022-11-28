@@ -27,28 +27,28 @@ A list whith the following 6 components:
 
   \item{number}{numeric. The ACNUC number of the sequence.}
   \item{length}{numeric. The length of the sequence.}
-  \item{frame}{numeric. The reading frame (0, 1, or 2) of the sequence for CDS.} 
+  \item{frame}{numeric. The reading frame (0, 1, or 2) of the sequence for CDS.}
   \item{gencode}{numeric. ACNUC's genetic code (0 means universal) of the sequence for CDS.}
   \item{ncbigc}{numeric. NCBI's genetic code (0 means universal) of the sequence for CDS.}
-  \item{otheraccessmatches}{logical. If TRUE it means that several sequences are attached 
-    to the given accession nunmber, and that only the ACNUC number of the first attached 
+  \item{otheraccessmatches}{logical. If TRUE it means that several sequences are attached
+    to the given accession nunmber, and that only the ACNUC number of the first attached
    sequence is returned in the \code{number} component of the list.}
 
 \code{isn(what, ...)} is a shortcut for \code{isenum(what, ...)$number}.\cr
 
 As from seqinR 1.1-3 \code{getNumber.socket} and
-\code{getAttributsocket} are deprecated (a warning is issued). 
+\code{getAttributsocket} are deprecated (a warning is issued).
 }
 
 
-\references{ \url{http://doua.prabi.fr/databases/acnuc.html}
+\references{ \url{https://doua.prabi.fr/databases/acnuc.html}
 
 \code{citation("seqinr")}
 }
 \author{J.R. Lobry}
 \seealso{\code{\link{choosebank}}, \code{\link{query}} }
 \examples{
-\dontrun{ 
+\dontrun{
   ### Need internet connection
   choosebank("emblTP")
   isenum("LMFLCHR36")

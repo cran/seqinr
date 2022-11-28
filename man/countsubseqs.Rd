@@ -3,7 +3,7 @@
 \alias{css}
 \title{Number of subsequences in an ACNUC list}
 \description{
-Returns the number of subsequences in the ACNUC list of rank \code{lrank}. 
+Returns the number of subsequences in the ACNUC list of rank \code{lrank}.
 }
 \usage{
 countsubseqs(lrank, socket = autosocket())
@@ -18,7 +18,7 @@ css(lrank, socket = autosocket())
 \value{
 Numeric.
 }
-\references{ \url{http://doua.prabi.fr/databases/acnuc.html}
+\references{ \url{https://doua.prabi.fr/databases/acnuc.html}
 
 \code{citation("seqinr")}
 }

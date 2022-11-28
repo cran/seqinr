@@ -25,7 +25,7 @@ immobilized pH gradients can be predicted from their amino acid sequences.
 \emph{Electrophoresis}, \bold{14}:1023-1031.
 
 EMBOSS data were from release 5.0 and were still the same in release 6.6
-\url{http://emboss.sourceforge.net/apps/release/6.6/emboss/apps/iep.html}
+\url{https://emboss.sourceforge.net/apps/release/6.6/emboss/apps/iep.html}
 last visited 2016-06-03.
 
 Murray, R.K., Granner, D.K., Rodwell, V.W. (2006)
@@ -33,7 +33,7 @@ Murray, R.K., Granner, D.K., Rodwell, V.W. (2006)
 27th edition. Published by The McGraw-Hill Companies.
 
 Sillero, A., Maldonado, A. (2006) Isoelectric point determination of proteins
-and other macromolecules: oscillating method. 
+and other macromolecules: oscillating method.
 \emph{Comput Biol Med.}, \bold{36}:157-166.
 
 Solomon, T.W.G. (1998) \emph{Fundamentals of Organic Chemistry}, 5th edition.
@@ -53,7 +53,7 @@ nTermR <- which(LETTERS == prot[1])
 cTermR <- which(LETTERS == prot[length(seq)])
 
 computeCharge <- function(pH, compoAA, pK, nTermResidue, cTermResidue){
-  cter <- 10^(-SEQINR.UTIL$pk[cTermResidue,1]) / 
+  cter <- 10^(-SEQINR.UTIL$pk[cTermResidue,1]) /
      (10^(-SEQINR.UTIL$pk[cTermResidue,1]) + 10^(-pH))
   nter <- 10^(-pH) / (10^(-SEQINR.UTIL$pk[nTermResidue,2]) + 10^(-pH))
   carg <- as.vector(compoAA['R'] * 10^(-pH) / (10^(-pK['R']) + 10^(-pH)))

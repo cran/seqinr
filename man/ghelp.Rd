@@ -24,14 +24,14 @@ ghelp(item = c("GENERAL", "SELECT", "SPECIES", "KEYWORD"),
 A vector of string which is returned invisibly and "cated" to the console
 by default.
 }
-\references{ \url{http://doua.prabi.fr/databases/acnuc.html}
+\references{ \url{https://doua.prabi.fr/databases/acnuc.html}
 
 \code{citation("seqinr")}
 }
 \author{J.R. Lobry}
 \seealso{\code{\link{choosebank}}, \code{\link{query}} }
 \examples{
-\dontrun{ 
+\dontrun{
   ### Need internet connection
   choosebank("emblTP")
   ghelp()
