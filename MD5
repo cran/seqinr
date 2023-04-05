@@ -1,4 +1,4 @@
-9a120937b389109dc26a5963791aeb6e *DESCRIPTION
+ef594c3252b9e7c44b6daa0327adc0ae *DESCRIPTION
 6376fe6e77b9c49dbb5d6d26434834ed *NAMESPACE
 d2ff218f55f61084bf070ee2b5341928 *NEWS
 dd981a8bc19bea5e91c256f75ea8b5c9 *R/AAstat.R
@@ -138,7 +138,7 @@ a5062809357a2fe2539c70140d930245 *data/sysdata.rda
 5aabe7fba90bd06a7a8fcc9fe9e0aa31 *data/toyaa.RData
 5ae4ba427222943c2ba95ef2f0e7d38e *data/toycodon.RData
 9cb7067db766c62ff9f45016487fe033 *data/waterabs.RData
-df797f2cdf697b330d68ac8194db7a53 *inst/CITATION
+138392e59e0e20eee37bb6d5bd1215aa *inst/CITATION
 79179e6254bc1f46eb07303d85aa084e *inst/abif/1_0000206138_C01_005.fsa
 45ad0f3fea5bf2143fc74a810a519945 *inst/abif/1_FAC321_0000205983_B02_004.fsa
 831e4bb52c0b2ab78a9246dca7e67d58 *inst/abif/2_0000206138_C01_005.fsa
@@ -218,7 +218,7 @@ a0ec82b8bf480398f42b16d20466e1a4 *man/bma.Rd
 3d2cd24f2c97b24ad242903b29ec3634 *man/cai.Rd
 3337b66ab7b013ce32c1708078431d10 *man/caitab.Rd
 0b3e3b1533ec40155cce9dbde1a6a93f *man/chargaff.Rd
-5b9cd82dd8d7fe71b02a56805c9cf39e *man/choosebank.Rd
+83d5f3f6930e3df970bf56b9bb6396be *man/choosebank.Rd
 fd469bea7adfc60d7730d80af5c51db8 *man/circle.Rd
 ab61ec20db72ccfaa6cdc78e3bb04ed4 *man/closebank.Rd
 0f53f10686b0376f9e3ad527810b10fe *man/clustal.Rd
@@ -339,7 +339,7 @@ cc29467c82eefe32980cc0834f69c2e6 *man/words.pos.Rd
 258ae029f86ffa9a22776988b04a04d1 *man/zscore.Rd
 45e4c32aff3ab2954e3835005b4c38e6 *src/Makevars
 cb407d8c24b063ecc44bb3bb49ab6216 *src/Makevars.win
-979f4cc44272caf2facf7ee2333efd53 *src/alignment.c
+1f374aa04139f8e357a6a35337015a2f *src/alignment.c
 72d7cf9e818c492b578f390f794f10f7 *src/alignment.h
 320b43b2d16f79ed0b12b471bad1c13c *src/fastacc.c
 f001eff6e29fdf85842e50945fc1c0e6 *src/getzlibsock.c

@@ -1,5 +1,6 @@
 \name{choosebank}
 \alias{choosebank}
+\alias{.seqinrEnv}
 \title{To select a database structured under ACNUC and located on the web}
 \description{
   This function allows to select one of the databases structured under ACNUC and located on the web.
@@ -35,7 +36,8 @@ choosebank(bank = NA, host = "pbil.univ-lyon1.fr", port = 5558, server = FALSE,
 \details{
   When called without arguments, \code{choosebank()} returns a list of all the databases names known
   by the server, as a vector of string. When called with \code{choosebank(infobank = TRUE)}, a data.frame
-  with more information is returned.
+  with more information is returned. The environment \code{.seqinrEnv} is used to save several variables
+  such as socket and sequence list.
 }
 \value{
 When called with a regular bank name, an (invisible) list with 6 components:

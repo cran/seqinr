@@ -352,6 +352,22 @@ SEXP distance(SEXP sequences,SEXP nbseq, SEXP matNumber, SEXP seqtype, SEXP gapo
 			        ndiff[i][j]++;
 		        }
 		      }
+
+          if (gap_option == 1) {
+            if (seq[i][k] == '-'  && seq[j][k] != '-' && seq[j][k] != 'N' && seq[j][k] != 'X')
+              {
+              nbases++;
+              ndiff[j][i]++;
+              ndiff[i][j]++;
+              }
+            if (seq[j][k] == '-'  && seq[i][k] != '-' && seq[i][k] != 'N' && seq[i][k] != 'X')
+              {
+              nbases++;
+              ndiff[j][i]++;
+              ndiff[i][j]++;
+              }
+
+          }
 	      }
 	      else if(mat_number == 1 && seq_type == 0){
 		      /********************************************/

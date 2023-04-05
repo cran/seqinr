@@ -1,7 +1,7 @@
 citHeader("To cite seqinr in publications use:")
 
-citEntry(entry = "incollection",
-         author = "D. Charif, J.R. Lobry",
+bibentry(bibtype = "incollection",
+         author = c("D. Charif", "J.R. Lobry"),
          title = "Seqin{R} 1.0-2: a contributed package to the {R} project for statistical computing devoted to biological sequences retrieval and analysis.",
          booktitle = "Structural approaches to sequence evolution: Molecules, networks, populations",
          year   = "2007",
@@ -11,5 +11,5 @@ citEntry(entry = "incollection",
          address = "New York",
          publisher = "Springer Verlag",
          note = "{ISBN :} 978-3-540-35305-8",
-         
+
          textVersion = "Charif, D. and Lobry, J.R. (2007)")
