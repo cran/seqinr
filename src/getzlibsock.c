@@ -142,7 +142,7 @@ SEXP getzlibsock(SEXP sock, SEXP nmax, SEXP debug)
 	return ans ;
 	}
   if (debugon)
-  	Rprintf("Socket answer is ok %s(%d)\n",res, strlen(res));		 
+  	Rprintf("Socket answer is ok %s\n",res);		 
   nn = (n < 0) ? 1000 : n; /* initially allocate space for 1000 lines */
   nnn = (n < 0) ? INT_MAX : n;
   PROTECT(ans = allocVector(STRSXP, nn));

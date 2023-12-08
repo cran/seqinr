@@ -1,16 +1,30 @@
-Encoding: UTF-8
 Package: seqinr
-Version: 4.2-30
-Date: 2023-03-27
 Title: Biological Sequences Retrieval and Analysis
+Version: 4.2-36
+Depends: R (>= 2.10.0)
+Imports: ade4,segmented
 Authors@R: c(person("Delphine", "Charif", role = "aut"),
              person("Olivier", "Clerc", role = "ctb"),
              person("Carolin", "Frank", role = "ctb"),
-             person(c("Jean","R."), "Lobry", role = c("aut", "cph")),
+             person(c("Jean", "R."), "Lobry", role = c("aut", "cph")),
              person("Anamaria", "Necşulea", role = "ctb"),
              person("Leonor", "Palmeira", role = "ctb"),
              person("Simon", "Penel", role = "cre", email = "simon.penel@univ-lyon1.fr"),
              person("Guy", "Perrière", role = "ctb"))
+Maintainer: Simon Penel <simon.penel@univ-lyon1.fr>
+License: GPL (>= 2)
+Description: Exploratory data analysis and data visualization
+  for biological sequence (DNA and protein) data. Seqinr includes
+  utilities for sequence data management under the ACNUC system
+  described in Gouy, M. et al. (1984) Nucleic Acids Res.
+  12:121-127 <doi:10.1093/nar/12.1Part1.121>.
+URL: https://seqinr.r-forge.r-project.org/,
+        https://github.com/lbbe-software/seqinr
+BugReports: https://github.com/lbbe-software/seqinr/issues
+SystemRequirements: zlib headers and library.
+NeedsCompilation: yes
+Encoding: UTF-8
+Packaged: 2023-12-08 12:38:47 UTC; simon
 Author: Delphine Charif [aut],
   Olivier Clerc [ctb],
   Carolin Frank [ctb],
@@ -19,22 +33,5 @@ Author: Delphine Charif [aut],
   Leonor Palmeira [ctb],
   Simon Penel [cre],
   Guy Perrière [ctb]
-Maintainer: Simon Penel <simon.penel@univ-lyon1.fr>
-BugReports: https://lists.r-forge.r-project.org/cgi-bin/mailman/listinfo/seqinr-forum
-Imports: ade4,segmented
-Depends: R (>= 2.10.0)
-Description: Exploratory data analysis and data visualization
-  for biological sequence (DNA and protein) data. Seqinr includes
-  utilities for sequence data management under the ACNUC system
-  described in Gouy, M. et al. (1984) Nucleic Acids Res.
-  12:121-127 <doi:10.1093/nar/12.1Part1.121>.
-License: GPL (>= 2)
-SystemRequirements: zlib headers and library.
-URL: https://seqinr.r-forge.r-project.org/
-NeedsCompilation: yes
 Repository: CRAN
-Repository/R-Forge/Project: seqinr
-Repository/R-Forge/Revision: 2020
-Repository/R-Forge/DateTimeStamp: 2016-10-12 17:32:34
-Date/Publication: 2023-04-05 20:20:06 UTC
-Packaged: 2023-03-27 13:28:22 UTC; simon
+Date/Publication: 2023-12-08 14:20:03 UTC

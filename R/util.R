@@ -4,7 +4,7 @@
 
 c2s <- function( chars = c("m","e","r","g","e","d") )
 {
-  return( paste( chars, collapse = "" ) )
+    return( paste( chars, collapse = "" ) )
 }
 
 ###########################
@@ -13,12 +13,12 @@ c2s <- function( chars = c("m","e","r","g","e","d") )
 
 s2c <- function (string) 
 {
-  if(is.character(string) && length(string) == 1){
-    return(.Call("s2c", string, PACKAGE = "seqinr"))
-  } else {
-    warning("Wrong argument type in s2c(), NA returned")
-    return(NA)
-  }
+    if(is.character(string) && length(string) == 1){
+        return(.Call("s2c", string, PACKAGE = "seqinr"))
+    } else {
+        warning("Wrong argument type in s2c(), NA returned")
+        return(NA)
+    }
 }
 
 
@@ -30,10 +30,10 @@ s2c <- function (string)
 
 n2s <- function(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 {
-  if( base4 )
-    levels[nseq + 1]
-  else
-    levels[nseq]
+    if( base4 )
+        levels[nseq + 1]
+    else
+        levels[nseq]
 }
 
 
@@ -44,25 +44,25 @@ n2s <- function(nseq, levels = c("a", "c", "g", "t"), base4 = TRUE)
 
 aaa <- function( aa )
 {
-  aa3 <- c("Stp", "Ala", "Cys", "Asp", "Glu", "Phe", "Gly", "His", "Ile",
-           "Lys", "Leu", "Met", "Asn", "Pro", "Gln", "Arg", "Ser", "Thr",
-           "Val", "Trp", "Tyr") # One letter code order
-  if(missing(aa)) return(aa3)
-  aa1 <- a()
-
-  convert <- function( x )
-  {
-    if( all( x != aa1 ) )
-    { 
-      warning("Unknown one letter code for aminoacid")
-      return( NA )
-    }
-    else
+    aa3 <- c("Stp", "Ala", "Cys", "Asp", "Glu", "Phe", "Gly", "His", "Ile",
+             "Lys", "Leu", "Met", "Asn", "Pro", "Gln", "Arg", "Ser", "Thr",
+             "Val", "Trp", "Tyr") # One letter code order
+    if(missing(aa)) return(aa3)
+    aa1 <- a()
+    
+    convert <- function( x )
     {
-      return( aa3[which( x == aa1 )] )
+        if( all( x != aa1 ) )
+        { 
+            warning("Unknown one letter code for aminoacid")
+            return( NA )
+        }
+        else
+        {
+            return( aa3[which( x == aa1 )] )
+        }
     }
-  }
-  return( as.vector(unlist(sapply( aa, convert ) ) ) )
+    return( as.vector(unlist(sapply( aa, convert ) ) ) )
 }
 
 ##########################################
@@ -71,23 +71,23 @@ aaa <- function( aa )
 
 a <- function( aa )
 {
-  aa1 <- s2c("*ACDEFGHIKLMNPQRSTVWY")
-  if(missing(aa)) return(aa1)
-  aa3 <- aaa()
-
-  convert <- function( x )
-  {
-    if( all( x != aa3 ) )
-    { 
-      warning("Unknown 3-letters code for aminoacid")
-      return( NA )
-    }
-    else
+    aa1 <- s2c("*ACDEFGHIKLMNPQRSTVWY")
+    if(missing(aa)) return(aa1)
+    aa3 <- aaa()
+    
+    convert <- function( x )
     {
-      return( aa1[which( x == aa3 )] )
+        if( all( x != aa3 ) )
+        { 
+            warning("Unknown 3-letters code for aminoacid")
+            return( NA )
+        }
+        else
+        {
+            return( aa1[which( x == aa3 )] )
+        }
     }
-  }
-  return( as.vector(unlist(sapply( aa, convert ) ) ) )
+    return( as.vector(unlist(sapply( aa, convert ) ) ) )
 }
 
 

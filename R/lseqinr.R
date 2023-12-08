@@ -3,5 +3,5 @@
 #
 lseqinr <- function()
 {
-  ls("package:seqinr")
+    ls("package:seqinr")
 }

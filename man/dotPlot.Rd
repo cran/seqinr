@@ -10,8 +10,9 @@
   value for two windows to be considered as matched.
 }
 \usage{
-dotPlot(seq1, seq2, wsize = 1, wstep = 1, nmatch = 1, col = c("white", "black"), 
-xlab = deparse(substitute(seq1)), ylab = deparse(substitute(seq2)), ...)
+dotPlot(seq1, seq2, wsize = 1, wstep = 1, nmatch = 1, shift = 0,
+col = c("white", "black"), xlab = deparse(substitute(seq1)),
+ylab = deparse(substitute(seq2)), ...)
 }
 \arguments{
   \item{seq1}{ the first sequence (x-axis) as a vector of single chars.}
@@ -21,6 +22,7 @@ xlab = deparse(substitute(seq1)), ylab = deparse(substitute(seq2)), ...)
     Use \code{wstep == wsize} for non-overlapping windows.}
   \item{nmatch}{ if the number of match per window is greater than or equal
     to \code{nmatch} then a dot is produced.}
+  \item{shift}{ the number of chars to shift in seq2 when generating the moving window.}   
   \item{col}{ color of points passed to \code{image}.}
   \item{xlab}{ label of x-axis passed to \code{image}.}
   \item{ylab}{ label of y-axis passed to \code{image}.}

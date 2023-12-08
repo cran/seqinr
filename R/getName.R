@@ -5,10 +5,10 @@
 getName <-  function(object, ...)  UseMethod("getName")
 
 getName.default <- function(object, ...)
-  stop(paste("no getName method for objects of class:", class(object)))
+    stop(paste("no getName method for objects of class:", class(object)))
 
 getName.list <- function(object, ...)
-  sapply(seq_len(length(object)), function(i) getName(object[[i]], ...))
+    sapply(seq_len(length(object)), function(i) getName(object[[i]], ...))
 
 getName.SeqFastadna <- function(object, ...) attr(object,"name")
 getName.SeqFastaAA <- getName.SeqFastadna

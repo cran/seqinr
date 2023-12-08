@@ -36,27 +36,27 @@ test.li.recstat <- function(rec, fac = 1, length.min = 150, stop.max = 0.2, dire
             { # test if space between codons is above the threshold
                 # in each case gets the values between each stop codon for the 3 reading frames and range it in 3 vector seg
                 seg1 <- rec$li[which((vstop[i - 1] - vdep[1:seqisize1])/sizewin <= stop.max &
-                    (vstop[i] - vdep[1:seqisize1])/sizewin >= (1 - stop.max)), fac]
+                                         (vstop[i] - vdep[1:seqisize1])/sizewin >= (1 - stop.max)), fac]
                 seg2 <- rec$li[(which((vstop[i - 1] - vdep[(seqisize1 + 1):(seqisize1 + seqisize2)])/sizewin <= stop.max
-                    & (vstop[i] - vdep[(seqisize1 + 1):(seqisize1 + seqisize2)])/sizewin >= (1 - stop.max)) + seqisize1), fac]
+                                      & (vstop[i] - vdep[(seqisize1 + 1):(seqisize1 + seqisize2)])/sizewin >= (1 - stop.max)) + seqisize1), fac]
                 seg3 <- rec$li[(which((vstop[i - 1] - vdep[(seqisize1 + seqisize2 + 1):(length(vdep))])/sizewin <= stop.max
-                    & (vstop[i] - vdep[(seqisize1 + seqisize2 + 1):(length(vdep))])/sizewin >= (1 - stop.max)) + seqisize1 + seqisize2), fac]
+                                      & (vstop[i] - vdep[(seqisize1 + seqisize2 + 1):(length(vdep))])/sizewin >= (1 - stop.max)) + seqisize1 + seqisize2), fac]
                 # create a table with calculation on those vectors seg then go to next space
                 # inter-codon, each row correspond to a space inter-stop codon
                 if (frame == 1)
                 {
-                    test1 <- t.test(seg1, seg2)$p.value
-                    test2 <- t.test(seg1, seg3)$p.value
+                    test1 <- stats::t.test(seg1, seg2)$p.value
+                    test2 <- stats::t.test(seg1, seg3)$p.value
                 }
                 if (frame == 2)
                 {
-                    test1 <- t.test(seg2, seg1)$p.value
-                    test2 <- t.test(seg2, seg3)$p.value
+                    test1 <- stats::t.test(seg2, seg1)$p.value
+                    test2 <- stats::t.test(seg2, seg3)$p.value
                 }
                 if (frame == 3)
                 {
-                    test1 <- t.test(seg3, seg1)$p.value
-                    test2 <- t.test(seg3, seg2)$p.value
+                    test1 <- stats::t.test(seg3, seg1)$p.value
+                    test2 <- stats::t.test(seg3, seg2)$p.value
                 }
                 if (test1 < level & test2 < level)
                 {

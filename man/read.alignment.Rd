@@ -6,7 +6,7 @@
  These formats are used to store nucleotide or protein multiple alignments.
 }
 \usage{
-read.alignment(file, format, forceToLower = TRUE, ...)
+read.alignment(file, format, forceToLower = TRUE, oldclustal = FALSE, ...)
 }
 \arguments{
   \item{file}{the name of the file which the aligned sequences are to be read from.
@@ -17,6 +17,7 @@ read.alignment(file, format, forceToLower = TRUE, ...)
   \item{forceToLower}{a logical defaulting to TRUE stating whether the returned
     characters in the sequence should be in lower case (introduced in seqinR
     release 1.1-3).}
+  \item{oldclustal}{a logical defaulting to FALSE wether to use the old C function to read a clustal file (which is faster but stricter concerning sequence line length.) }
   \item{...}{For the \code{fasta} format, extra arguments are passed to the
     \code{\link{read.fasta}} function.}
 }
@@ -45,7 +46,7 @@ read.alignment(file, format, forceToLower = TRUE, ...)
   \item{"msf"}{ MSF is the multiple sequence alignment format of the
   GCG sequence analysis package. It begins with the line (all
   uppercase) !!NA_MULTIPLE_ALIGNMENT 1.0 for nucleic acid sequences
-  or !!AA_MULTIPLE_ALIGNMENT 1.0 for amino acid sequences. Do 
+  or !!AA_MULTIPLE_ALIGNMENT 1.0 for amino acid sequences. Do
   not edit or delete the file type if its present.(optional).
   A description line which contains informative text describing what
   is in the file. You can add this information to the top of the MSF

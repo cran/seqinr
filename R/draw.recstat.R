@@ -30,8 +30,8 @@ draw.recstat <- function(rec, fac = 1, direct = TRUE, xlim = c(1, seqsize), col 
     {
         xlim <- c(xlim[1], seqsize)
     }
-    par(mfrow = c(2, 1), mar = c(0, 4, 4, 2) + 0.1) # division of the window for a closer between plots
-    par(xaxs = "i")
+    graphics::par(mfrow = c(2, 1), mar = c(0, 4, 4, 2) + 0.1) # division of the window for a closer between plots
+    graphics::par(xaxs = "i")
     seqisize <- floor((dim(recd$li)[1])/3) # number of window by reading frame, we take the integer part
     if ((dim(recd$li)[1])%%3 == 1) # adaptation of number of window between each reading frame
     {
@@ -53,15 +53,15 @@ draw.recstat <- function(rec, fac = 1, direct = TRUE, xlim = c(1, seqsize), col 
     ##
     if (direct)
     { 
-        plot((sizewin/2) + (0:(seqisize1 - 1))*shift, recd$li[1:seqisize1, fac], type = "l", lty = 1,
-            col = col[1], xlim = xlim, ylim = c(min(recd$li[, fac]), max(recd$li[, fac])),
-            main = "Direct strand", xlab = "", ylab = "Factor scores", bty = 'l') # reading frame 1
-        lines((sizewin/2) + (0:(seqisize2 - 1))*shift + 1, recd$li[(seqisize1 + 1):(seqisize1 + seqisize2), fac],
-            lty = 2, col = col[2], ylab = "2") # reading frame 2
-        lines((sizewin/2) + (0:(seqisize - 1))*shift + 2, recd$li[(seqisize1 + seqisize2 + 1):(dim(recd$li)[1]), fac],
-            lty = 3, col = col[3], ylab = "3") # reading frame 3
-        legend("topleft", legend = c(paste("Sequence name:", seqname), paste("Sequence length:", seqsize, "bp")),
-            inset = c(-0.15, -0.2), bty = "n", xpd = TRUE)
+        graphics::plot((sizewin/2) + (0:(seqisize1 - 1))*shift, recd$li[1:seqisize1, fac], type = "l", lty = 1,
+             col = col[1], xlim = xlim, ylim = c(min(recd$li[, fac]), max(recd$li[, fac])),
+             main = "Direct strand", xlab = "", ylab = "Factor scores", bty = 'l') # reading frame 1
+        graphics::lines((sizewin/2) + (0:(seqisize2 - 1))*shift + 1, recd$li[(seqisize1 + 1):(seqisize1 + seqisize2), fac],
+              lty = 2, col = col[2], ylab = "2") # reading frame 2
+        graphics::lines((sizewin/2) + (0:(seqisize - 1))*shift + 2, recd$li[(seqisize1 + seqisize2 + 1):(dim(recd$li)[1]), fac],
+              lty = 3, col = col[3], ylab = "3") # reading frame 3
+        graphics::legend("topleft", legend = c(paste("Sequence name:", seqname), paste("Sequence length:", seqsize, "bp")),
+               inset = c(-0.15, -0.2), bty = "n", xpd = TRUE)
         vstopdindphase <- numeric()
         if (length(vstopd) > 0)
         { # test if vector is not empty because problem with modulo
@@ -106,29 +106,29 @@ draw.recstat <- function(rec, fac = 1, direct = TRUE, xlim = c(1, seqsize), col 
                 }
             })
         }
-        par(mar = c(5, 4, 3, 2) + 0.1)
-        plot(vstopd, vstopdindphase, pch = 25, cex = 0.7, xlim = xlim, ylim = c(0.25, 3), axes = TRUE,
-            ann = TRUE, tcl = -0.5, bty = 'l', yaxt = 'n', xlab = "Start/Stop positions (bp)",
-            ylab = '', xpd = FALSE) # stop codons positions
-        points(vinitd, vinitdindphase, pch = 24, bg = "slategray", cex = 0.7, col = 'slategray') # start codons positions
-        abline(h = c(3.1, 2.4, 2.1, 1.4,  1.1, 0.4), col = c(col[1], col[1], col[2], col[2], col[3], col[3]),
-            lty = c(1, 1, 2, 2, 3, 3))
-        text(x = (xlim[1]-(xlim[2]-xlim[1])*0.75/6), pos = 4, y = c(2.75, 1.75, 0.75), labels = paste("Ph. ", c(0, 1, 2)), xpd = TRUE)
+        graphics::par(mar = c(5, 4, 3, 2) + 0.1)
+        graphics::plot(vstopd, vstopdindphase, pch = 25, cex = 0.7, xlim = xlim, ylim = c(0.25, 3), axes = TRUE,
+             ann = TRUE, tcl = -0.5, bty = 'l', yaxt = 'n', xlab = "Start/Stop positions (bp)",
+             ylab = '', xpd = FALSE) # stop codons positions
+        graphics::points(vinitd, vinitdindphase, pch = 24, bg = "slategray", cex = 0.7, col = 'slategray') # start codons positions
+        graphics::abline(h = c(3.1, 2.4, 2.1, 1.4,  1.1, 0.4), col = c(col[1], col[1], col[2], col[2], col[3], col[3]),
+               lty = c(1, 1, 2, 2, 3, 3))
+        graphics::text(x = (xlim[1]-(xlim[2]-xlim[1])*0.75/6), pos = 4, y = c(2.75, 1.75, 0.75), labels = paste("Ph. ", c(0, 1, 2)), xpd = TRUE)
     }
     ##
     ##reverse strand##
     ##
     if (!direct)
     {    
-        plot((sizewin/2) + (0:(seqisize1 - 1))*shift, recr$li[1:seqisize1, fac], type = "l", lty = 1,
-            col = col[1], xlim = xlim, ylim = c(min(recr$li[, fac]), max(recr$li[, fac])),
-            main = "Reverse strand", xlab = "", ylab = "Factor scores", bty = 'l') # reading frame 1
-        lines((sizewin/2) + (0:(seqisize2-1))*shift + 1, recr$li[(seqisize1 + 1):(seqisize1 + seqisize2), fac],
-            lty = 2, col = col[2], ylab="2") # reading frame 2
-        lines((sizewin/2) + (0:(seqisize - 1))*shift + 2, recr$li[(seqisize1 + seqisize2 + 1):(dim(recr$li)[1]), fac],
-            lty = 3, col = col[3], ylab = "3") # reading frame 3
-        legend("topleft", legend = c(paste("Sequence name:", seqname), paste("Sequence length:", seqsize, "bp")),
-            inset = c(-0.15, -0.2), bty = "n", xpd = TRUE)
+        graphics::plot((sizewin/2) + (0:(seqisize1 - 1))*shift, recr$li[1:seqisize1, fac], type = "l", lty = 1,
+             col = col[1], xlim = xlim, ylim = c(min(recr$li[, fac]), max(recr$li[, fac])),
+             main = "Reverse strand", xlab = "", ylab = "Factor scores", bty = 'l') # reading frame 1
+        graphics::lines((sizewin/2) + (0:(seqisize2-1))*shift + 1, recr$li[(seqisize1 + 1):(seqisize1 + seqisize2), fac],
+              lty = 2, col = col[2], ylab="2") # reading frame 2
+        graphics::lines((sizewin/2) + (0:(seqisize - 1))*shift + 2, recr$li[(seqisize1 + seqisize2 + 1):(dim(recr$li)[1]), fac],
+              lty = 3, col = col[3], ylab = "3") # reading frame 3
+        graphics::legend("topleft", legend = c(paste("Sequence name:", seqname), paste("Sequence length:", seqsize, "bp")),
+               inset = c(-0.15, -0.2), bty = "n", xpd = TRUE)
         vstoprindphase <- numeric()
         if (length(vstopr) > 0)
         { # test if vector is not empty because problem with modulo
@@ -173,13 +173,13 @@ draw.recstat <- function(rec, fac = 1, direct = TRUE, xlim = c(1, seqsize), col 
                 }
             })
         }
-        par(mar = c(5, 4, 3, 2) + 0.1)
-        plot(vstopr, vstoprindphase, pch = 25, cex = 0.7, xlim = xlim, ylim = c(0.25, 3), axes = TRUE,
-            ann = TRUE, tcl = -0.5, bty = 'l', yaxt = 'n', xlab = "Start/Stop positions (bp)",
-            ylab = '', xpd = FALSE) # stop codons positions
-        points(vinitr, vinitrindphase, pch = 24, bg = "slategray", cex = 0.7, col = 'slategray') # start codons positions
-        abline(h = c(3.1, 2.4, 2.1, 1.4,  1.1, 0.4), col = c(col[1], col[1], col[2], col[2], col[3], col[3]),
-            lty = c(1, 1, 2, 2, 3, 3))
-        text(x = (xlim[1]-(xlim[2]-xlim[1])*0.75/6), pos = 4, y = c(2.75, 1.75, 0.75), labels = paste("Ph. ", c(0, 1, 2)), xpd = TRUE)
+        graphics::par(mar = c(5, 4, 3, 2) + 0.1)
+        graphics::plot(vstopr, vstoprindphase, pch = 25, cex = 0.7, xlim = xlim, ylim = c(0.25, 3), axes = TRUE,
+             ann = TRUE, tcl = -0.5, bty = 'l', yaxt = 'n', xlab = "Start/Stop positions (bp)",
+             ylab = '', xpd = FALSE) # stop codons positions
+        graphics::points(vinitr, vinitrindphase, pch = 24, bg = "slategray", cex = 0.7, col = 'slategray') # start codons positions
+        graphics::abline(h = c(3.1, 2.4, 2.1, 1.4,  1.1, 0.4), col = c(col[1], col[1], col[2], col[2], col[3], col[3]),
+               lty = c(1, 1, 2, 2, 3, 3))
+        graphics::text(x = (xlim[1]-(xlim[2]-xlim[1])*0.75/6), pos = 4, y = c(2.75, 1.75, 0.75), labels = paste("Ph. ", c(0, 1, 2)), xpd = TRUE)
     }
 }

@@ -7,19 +7,19 @@
 
 s2n <- function(seq, levels = s2c("acgt"), base4 = TRUE, forceToLower = TRUE)
 {
-  #
-  # Check that sequence is a vector of chars:
-  #
-  if(!is.na(seq[1])){
-    if(nchar(seq[1]) > 1) stop("sequence is not a vector of chars")
-  }
-  #
-  # Force to lower-case letters if requested:
-  #
-  if(forceToLower) seq <- tolower(seq)
-
-  if( base4 )
-    unclass(factor(seq, levels = levels ) ) - 1
-  else
-    unclass(factor(seq, levels = levels ) )
+    #
+    # Check that sequence is a vector of chars:
+    #
+    if(!is.na(seq[1])){
+        if(nchar(seq[1]) > 1) stop("sequence is not a vector of chars")
+    }
+    #
+    # Force to lower-case letters if requested:
+    #
+    if(forceToLower) seq <- tolower(seq)
+    
+    if( base4 )
+        unclass(factor(seq, levels = levels ) ) - 1
+    else
+        unclass(factor(seq, levels = levels ) )
 }

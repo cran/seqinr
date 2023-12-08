@@ -88,7 +88,7 @@ Synonymous Codon Usage Analyses with the ade4 and seqinR packages.
 
 Suzuki, H., Saito, R. Tomita, R. (2005)
 A problem in multivariate analysis of codon usage data and a possible solution.
-\emph{FEBS Lett.}, \bold{579}:6499-504. \url{https://febs.onlinelibrary.wiley.com/doi/full/10.1016/j.febslet.2005.10.032}.\cr
+\emph{FEBS Lett.}, \bold{579}:6499-504. \url{https://www.thermofisher.com/de/de/home/brands/applied-biosystems.html}.\cr
 
 Suzuki, H., Brown, C.J., Forney, L.J., Top, E. (2008)
 Comparison of Correspondence Analysis Methods for Synonymous Codon Usage in Bacteria.

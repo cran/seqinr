@@ -6,28 +6,28 @@
 
 
 residuecount <- function(lrank, socket = autosocket()){
-  #
-  # Build request:
-  #
-  request <- paste("residuecount&lrank=", lrank, sep = "")
-  writeLines(request, socket, sep = "\n")
-  answerFromServer <- readLines(socket, n = 1)
-  #
-  # Check that there is an answer from server:
-  #
-  if(length(answerFromServer) == 0){
-    warning("Empty answer from server")
-    return(NA)
-  }
-  #
-  # Build result:
-  #
-  resitem <- parser.socket(answerFromServer)
-  if(resitem[1] != "0"){
-    warning(paste("error code returned by server :", resitem[1]))
-    return(NA)
-  } else {
-    return(as.numeric(resitem[2]))
-  }
+    #
+    # Build request:
+    #
+    request <- paste("residuecount&lrank=", lrank, sep = "")
+    writeLines(request, socket, sep = "\n")
+    answerFromServer <- readLines(socket, n = 1)
+    #
+    # Check that there is an answer from server:
+    #
+    if(length(answerFromServer) == 0){
+        warning("Empty answer from server")
+        return(NA)
+    }
+    #
+    # Build result:
+    #
+    resitem <- parser.socket(answerFromServer)
+    if(resitem[1] != "0"){
+        warning(paste("error code returned by server :", resitem[1]))
+        return(NA)
+    } else {
+        return(as.numeric(resitem[2]))
+    }
 }
 

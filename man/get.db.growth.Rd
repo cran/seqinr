@@ -43,7 +43,7 @@ Moore's law is still striking over such a long period.
 
 }
 \references{
-\url{https://www.ebi.ac.uk/ena/browser}
+\url{https://www.ebi.ac.uk/ena/browser/}
 
 Lobry, J.R. (2004) Life History Traits and Genome Structure:
 Aerobiosis and G+C Content in Bacteria. \emph{Lectures Notes in Computer Sciences},

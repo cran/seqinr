@@ -37,7 +37,7 @@ zscore(sequence, simulations = NULL, modele, exact = FALSE, alphabet = s2c("acgt
   (respectively under-) represented. Note that if you want to reproduce
   Karlin's results you have to compute the statistic from the sequence 
   concatenated with its inverted complement that is with something 
-  like \code{rho(c(myseq, rev(comp(mysed))))}.
+  like \code{rho(c(myseq, rev(comp(myseq))))}.
 
   The \code{zscore} statistic, as presented in Palmeira, L., Guéguen, L.
   and Lobry JR. (2006). The statistic is the normalization of the
