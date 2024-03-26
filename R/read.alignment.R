@@ -26,7 +26,7 @@ read.alignment <- function(file, format, forceToLower = TRUE, oldclustal = FALSE
         list(length(tmp), getName(tmp), unlist(getSequence(tmp, as.string = TRUE)))
     }
 
-    testReadClustalInR <- function(file, forceToLower = TRUE, ...){
+    testReadClustalInR <- function(file, forceToLower = forceToLower, ...){
       filecontent <- readLines(file, ...)
       firstline <- filecontent[1]
       if(substr(firstline, 1, 7) != "CLUSTAL"){
