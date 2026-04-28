@@ -6,7 +6,8 @@
  These formats are used to store nucleotide or protein multiple alignments.
 }
 \usage{
-read.alignment(file, format, forceToLower = TRUE, oldclustal = FALSE, ...)
+read.alignment(file, format, forceToLower = TRUE, seqtype = c("DNA", "AA"), 
+    oldclustal = FALSE, ...)
 }
 \arguments{
   \item{file}{the name of the file which the aligned sequences are to be read from.
@@ -14,8 +15,10 @@ read.alignment(file, format, forceToLower = TRUE, oldclustal = FALSE, ...)
     to the current working directory, \code{\link{getwd}}. }
   \item{format}{a character string specifying the format of the file : \code{mase},
   \code{clustal}, \code{phylip}, \code{fasta} or \code{msf} }
+  \item{seqtype}{ the nature of the sequence: \code{DNA} or \code{AA}, defaulting
+    to \code{DNA} }
   \item{forceToLower}{a logical defaulting to TRUE stating whether the returned
-    characters in the sequence should be in lower case (introduced in seqinR
+    characters in a DNA sequence should be in lower case (introduced in seqinR
     release 1.1-3).}
   \item{oldclustal}{a logical defaulting to FALSE wether to use the old C function to read a clustal file (which is faster but stricter concerning sequence line length.) }
   \item{...}{For the \code{fasta} format, extra arguments are passed to the

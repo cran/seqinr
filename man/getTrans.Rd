@@ -14,14 +14,14 @@
 This function translates nucleic acid sequences into the corresponding peptide sequence. It can translate in any of the 3 forward or three reverse sense frames. In the case of reverse sense, the reverse-complement of the sequence is taken. It can translate using the standard (universal) genetic code and also with non-standard codes. Ambiguous bases can also be handled.
 }
 \usage{
-getTrans(object, sens = "F", NAstring = "X", ambiguous = FALSE, ...)
-\method{getTrans}{SeqAcnucWeb}(object, sens = "F", NAstring = "X", ambiguous = FALSE, ...,
- frame = "auto", numcode = "auto")
-\method{getTrans}{SeqFastadna}(object, sens = "F", NAstring = "X", ambiguous = FALSE, ...,
- frame = 0, numcode = 1)
-\method{getTrans}{SeqFrag}(object, sens = "F", NAstring = "X", ambiguous = FALSE, ...,
- frame = 0, numcode = 1)
-
+getTrans(object, sens = "F", NAstring = "X", ambiguous = FALSE, 
+         force.first.aa.to.Met = FALSE, ...)
+\method{getTrans}{SeqAcnucWeb}(object, sens = "F", NAstring = "X", ambiguous = FALSE, 
+ force.first.aa.to.Met = FALSE, ..., frame = "auto", numcode = "auto")
+\method{getTrans}{SeqFastadna}(object, sens = "F", NAstring = "X", ambiguous = FALSE,
+ force.first.aa.to.Met = FALSE, ..., frame = 0, numcode = 1)
+\method{getTrans}{SeqFrag}(object, sens = "F", NAstring = "X", ambiguous = FALSE,
+ force.first.aa.to.Met = FALSE, ..., frame = 0, numcode = 1)
 }
 \arguments{
   \item{object}{ an object of the class \code{\link{SeqAcnucWeb}}
@@ -31,6 +31,8 @@ getTrans(object, sens = "F", NAstring = "X", ambiguous = FALSE, ...)
   \item{NAstring}{ How to translate amino-acids when there are ambiguous bases in codons. }
   \item{ambiguous}{ If TRUE, ambiguous bases are taken into account so that for instance
   GGN is translated to Gly in the standard genetic code. }
+  \item{force.first.aa.to.Met}{ If TRUE, the first codon in the sequence will be translated to
+  Methionine regardless of the codon in order to treat rare start codons like TTG. }
   \item{frame}{ Frame(s) (0,1,2) to translate. By default the frame \code{0} is used. }
   \item{sens}{ Direction for translation: \code{F} for the direct strand e and \code{R} for the reverse complementary strand. }
   \item{...}{further arguments passed to or from other methods}
@@ -82,6 +84,7 @@ getTrans(object, sens = "F", NAstring = "X", ambiguous = FALSE, ...)
 #
   toycds <- s2c("tctgagcaaataaatcgg")
   getTrans(toycds) # should be c("S", "E", "Q", "I", "N", "R")
+  getTrans(toycds, force.first.aa.to.Met = TRUE) # should be c("M", "E", "Q", "I", "N", "R")
 #
 # Toy CDS example with ambiguous bases:
 #

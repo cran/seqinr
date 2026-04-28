@@ -53,10 +53,6 @@ or \code{sum( freq * EXP$A3 )}. To do the same with the \%*\%
 operator you have to explicit the recycling rule as in \code{
 drop( freq \%*\% rep(EXP$A, 16))}.
 }
-\source{
-ANALSEQ EXPFILEs for command EXP.\cr
-\url{http://pbil.univ-lyon1.fr/software/doclogi/docanals/manuel.html}
-}
 \references{
   \code{citation("seqinr")}
   \describe{

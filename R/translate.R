@@ -1,5 +1,5 @@
 translate <- function(seq, frame = 0, sens = "F", numcode = 1, NAstring = "X",
-                      ambiguous = FALSE)
+                      ambiguous = FALSE, force.first.aa.to.Met = FALSE)
 {
     
     if(any(seq%in%LETTERS)){
@@ -68,7 +68,9 @@ translate <- function(seq, frame = 0, sens = "F", numcode = 1, NAstring = "X",
             if( all(allaminoacids == allaminoacids[1])) result[i] <- allaminoacids[1]
         }
     }
-    
+    if (force.first.aa.to.Met) {
+        result[1] <- "M"
+    }
     return( result )
 }
 

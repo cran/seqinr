@@ -10,7 +10,8 @@
    be handled.
 }
 \usage{
-translate(seq, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous = FALSE)
+translate(seq, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous = FALSE,
+          force.first.aa.to.Met = FALSE)
 }
 \arguments{
   \item{seq}{ the sequence to translate as a vector of single characters in lower case letters. }
@@ -20,6 +21,9 @@ translate(seq, frame = 0, sens = "F", numcode = 1, NAstring = "X", ambiguous = F
   \item{NAstring}{ How to translate amino-acids when there are ambiguous bases in codons. }
   \item{ambiguous}{ If TRUE, ambiguous bases are taken into account so that for instance
   GGN is translated to Gly in the standard genetic code. }
+  \item{force.first.aa.to.Met}{ If TRUE, the first codon in the sequence will be translated to
+  Methionine regardless of the codon in order to treat rare start codons like TTG. }
+
 }
 \details{
  The following genetic codes are described here. The number preceding each code
@@ -76,6 +80,7 @@ Use \code{\link{aaa}} to get the three-letter code for amino-acids.}
 ##
 toycds <- s2c("tctgagcaaataaatcgg")
 translate(seq = toycds) # should be c("S", "E", "Q", "I", "N", "R")
+translate(seq = toycds, force.first.aa.to.Met = TRUE) # should be c("M", "E", "Q", "I", "N", "R")
 ##
 ## Toy CDS example with ambiguous bases:
 ##

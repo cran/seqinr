@@ -1,8 +1,13 @@
 #
 # Read files of aligned sequences in various formats
 #
-read.alignment <- function(file, format, forceToLower = TRUE, oldclustal = FALSE, ...)
+read.alignment <- function(file, format, forceToLower = TRUE,
+                           seqtype = c("DNA", "AA"), oldclustal = FALSE, ...)
 {
+    seqtype <- match.arg(seqtype) # default is DNA
+    if (seqtype == "AA") {
+      forceToLower = FALSE;
+    }
     #
     # Check if the file is an URL:
     #
@@ -22,7 +27,7 @@ read.alignment <- function(file, format, forceToLower = TRUE, oldclustal = FALSE
     if(file.access(file, mode = 4) != 0) stop(paste("File", file, "is not readable"))
 
     fasta2ali <- function(file, ...){
-        tmp <- read.fasta(file, as.string = TRUE, ...)
+        tmp <- read.fasta(file, seqtype = seqtype, forceDNAtolower = forceToLower , as.string = TRUE, ...)
         list(length(tmp), getName(tmp), unlist(getSequence(tmp, as.string = TRUE)))
     }
 
@@ -49,7 +54,6 @@ read.alignment <- function(file, format, forceToLower = TRUE, oldclustal = FALSE
       white <- characters[-length(characters)] == " "
       black <- characters[-1] != " "
       istart <- which(white & black)[1]
-
       # Get sequence names
       nam <- character()
       nseq <- 1
@@ -68,6 +72,12 @@ read.alignment <- function(file, format, forceToLower = TRUE, oldclustal = FALSE
         if(seqname %in% nam){
           nseq <- nseq - 1
           break # alredy seen
+        }
+        # this happens with short alignments because seqname is never found
+        # in mam
+        if (seqname == 'NA')  {
+          nseq <- nseq - 1
+          break
         }
         nam[nseq] <- seqname
         nseq <- nseq + 1
@@ -96,7 +106,6 @@ read.alignment <- function(file, format, forceToLower = TRUE, oldclustal = FALSE
         seq[[iseq]] <- paste0(filecontent[ii], collapse = "")
         if(forceToLower) seq[[iseq]] <- tolower(seq[[iseq]])
       }
-      #
       return(as.alignment(nb = nseq, nam = nam, seq = seq, com = NA))
     }
 
@@ -123,7 +132,10 @@ read.alignment <- function(file, format, forceToLower = TRUE, oldclustal = FALSE
     ali <- lapply(ali, as.character)
     #cleaning \r char
     ali <- lapply(ali, function (x ){gsub ('\r','',x)})
-    if(forceToLower) ali[[3]] <- lapply(ali[[3]], tolower)
+
+    #if(forceToLower) ali[[3]] <- lapply(ali[[3]], tolower)
+    if(forceToLower) ali[[3]] <- unlist(lapply(ali[[3]], tolower))
+    ali[[3]] <- as.list(ali[[3]])
     if(format == "mase"){
         ali <- list(nb = as.numeric(ali[[1]]), nam = ali[[2]], seq = ali[[3]], com = ali[[4]])
     } else {

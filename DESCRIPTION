@@ -1,6 +1,6 @@
 Package: seqinr
 Title: Biological Sequences Retrieval and Analysis
-Version: 4.2-36
+Version: 4.2-44
 Depends: R (>= 2.10.0)
 Imports: ade4,segmented
 Authors@R: c(person("Delphine", "Charif", role = "aut"),
@@ -18,13 +18,12 @@ Description: Exploratory data analysis and data visualization
   utilities for sequence data management under the ACNUC system
   described in Gouy, M. et al. (1984) Nucleic Acids Res.
   12:121-127 <doi:10.1093/nar/12.1Part1.121>.
-URL: https://seqinr.r-forge.r-project.org/,
-        https://github.com/lbbe-software/seqinr
+URL: https://github.com/lbbe-software/seqinr
 BugReports: https://github.com/lbbe-software/seqinr/issues
 SystemRequirements: zlib headers and library.
 NeedsCompilation: yes
 Encoding: UTF-8
-Packaged: 2023-12-08 12:38:47 UTC; simon
+Packaged: 2026-04-28 07:45:02 UTC; simon
 Author: Delphine Charif [aut],
   Olivier Clerc [ctb],
   Carolin Frank [ctb],
@@ -34,4 +33,4 @@ Author: Delphine Charif [aut],
   Simon Penel [cre],
   Guy Perrière [ctb]
 Repository: CRAN
-Date/Publication: 2023-12-08 14:20:03 UTC
+Date/Publication: 2026-04-28 08:30:02 UTC

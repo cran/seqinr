@@ -7,22 +7,27 @@
   or a profile from a sequence alignment.
 }
 \usage{
-consensus(matali, method = c( "majority", "threshold", "IUPAC", "profile"), 
-  threshold = 0.60, warn.non.IUPAC = FALSE, type = c("DNA", "RNA"))
-con(matali, method = c( "majority", "threshold", "IUPAC", "profile"), 
-  threshold = 0.60, warn.non.IUPAC = FALSE, type = c("DNA", "RNA"))
+consensus(matali, method = c( "majority", "threshold", "IUPAC", "profile"),
+  threshold = 0.60, warn.non.IUPAC = FALSE, threshold.IUPAC = FALSE,
+  type = c("DNA", "RNA"))
+con(matali, method = c( "majority", "threshold", "IUPAC", "profile"),
+  threshold = 0.60, warn.non.IUPAC = FALSE, threshold.IUPAC = FALSE,
+  type = c("DNA", "RNA"))
 }
 \arguments{
-  \item{matali}{an object of class \code{alignment} as returned by 
+  \item{matali}{an object of class \code{alignment} as returned by
     \code{\link{read.alignment}}, or a matrix of characters.}
   \item{method}{select the method to use, see details.}
   \item{threshold}{for the \code{threshold} method, a numeric value beteen 0 and 1
     indicating the minimum relative frequency for a character to be returned
     as the consensus character. If none, NA is returned.}
-  \item{warn.non.IUPAC}{for the \code{IUPAC} method this argument is passed 
-   to \code{\link{bma}} with a default value set to FALSE to avoid warnings due 
+  \item{warn.non.IUPAC}{for the \code{IUPAC} method this argument is passed
+   to \code{\link{bma}} with a default value set to FALSE to avoid warnings due
    to gap characters in the alignment.}
-  \item{type}{for the \code{IUPAC} method this argument is passed 
+   \item{threshold.IUPAC}{with the \code{threshold} method, if set to TRUE
+   display the IUPAC code instead NA when the frequency of the most frequent
+   character is lower than the threshold.}
+  \item{type}{for the \code{IUPAC} method this argument is passed
    to \code{\link{bma}}.}
 }
 \details{
@@ -32,7 +37,8 @@ con(matali, method = c( "majority", "threshold", "IUPAC", "profile"),
 
   \item{"threshold"}{As above but in addition the character relative frequency
   must be higher than the value controled by the \code{threshold} argument.
-  If none, NA id returned.}
+  If none, NA is returned if threshold.IUPAC is set to FALSE and the IUPAC code
+  otherwise.}
 
   \item{"IUPAC"}{Make sense only for nucleic acid sequences (DNA or RNA).
   The consensus character is defined if possible by an IUPAC symbol by
@@ -49,7 +55,7 @@ con(matali, method = c( "majority", "threshold", "IUPAC", "profile"),
   Either a vector of single characters with possible NA or a matrix with
   the method \code{profile}.
 }
-\references{ 
+\references{
 \code{citation("seqinr")}
 }
 \author{J.R. Lobry}
@@ -60,7 +66,7 @@ con(matali, method = c( "majority", "threshold", "IUPAC", "profile"),
 #
 # Read 5 aligned DNA sequences at 42 sites:
 #
-  phylip <- read.alignment(file = system.file("sequences/test.phylip", 
+  phylip <- read.alignment(file = system.file("sequences/test.phylip",
     package = "seqinr"), format = "phylip")
 #
 # Show data in a matrix form:
@@ -79,6 +85,12 @@ con(matali, method = c( "majority", "threshold", "IUPAC", "profile"),
 # stopifnot(c2s(res.thr) == "aa.c..t.gc.gtt..g..t.a.cc..ggccg.......ta.")
   stopifnot(c2s(res.thr) == "aa.cc.tggccgttcagggtaaacc.tggccgg.cagggtat")
 #
+# With a threshold and threshold.IUPAC set to TRUE:
+#
+  res.thr <- consensus(phylip, method = "threshold",threshold.IUPAC =TRUE )
+  stopifnot(c2s(res.thr) == "aavccntggccgttcagggtaaaccntggccggdcagggtat")
+#
+
 # With an IUPAC summary:
 #
   res.iup <- consensus(phylip, method = "IUPAC")
@@ -97,7 +109,7 @@ con(matali, method = c( "majority", "threshold", "IUPAC", "profile"),
   space = 0, las = 2, ylab = "Base count",
   main = "Profile of a DNA sequence alignment",
   xlab = "sequence position", xaxs = "i")
-  
+
   text(x = bxc, y = par("usr")[4],lab = res.thr, pos = 3, xpd = NA)
   text(x = bxc, y = par("usr")[1],lab = res.iup, pos = 1, xpd = NA)
 }
